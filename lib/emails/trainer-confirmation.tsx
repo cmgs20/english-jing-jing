@@ -53,7 +53,7 @@ export function trainerConfirmationHtml({
         </p>
         <p style="font-size:14px;color:#c7ccdb;line-height:1.7;margin:0 0 32px;">
           มีคำถามหรือเข้าใช้งานไม่ได้? ตอบกลับอีเมลนี้ได้เลย<br/>
-          <strong style="color:#f2f3f7;">Camille</strong>
+          <strong style="color:#f2f3f7;">ทีมงาน English jing jing</strong>
         </p>
 
         <div style="height:1px;background:rgba(255,255,255,.08);margin:0 0 32px;"></div>
