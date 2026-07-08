@@ -1,5 +1,5 @@
 -- English jing jing trainer — purchases + device-limited activation
--- Run this once in the Supabase SQL editor (same project as the rest of the site).
+-- Run this once in the SQL editor of the dedicated english-jing-jing Supabase project.
 
 create table if not exists public.trainer_purchases (
   id                 uuid default gen_random_uuid() primary key,
