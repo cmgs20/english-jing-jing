@@ -1,7 +1,7 @@
 import { NextResponse, type NextRequest } from 'next/server'
 import { createHmac, timingSafeEqual } from 'crypto'
 import { createServiceClient } from '@/lib/supabase-service'
-import { resend, FROM_EMAIL, ADMIN_EMAIL } from '@/lib/resend'
+import { getResend, FROM_EMAIL, ADMIN_EMAIL } from '@/lib/resend'
 import { trainerConfirmationHtml, trainerNotificationHtml } from '@/lib/emails/trainer-confirmation'
 
 export const runtime = 'nodejs'
@@ -70,6 +70,7 @@ export async function POST(request: NextRequest) {
       const accessUrl = `${siteUrl}/app.html?code=${purchase.id}`
 
       try {
+        const resend = getResend()
         if (customerEmail) {
           await resend.emails.send({
             from: FROM_EMAIL,
