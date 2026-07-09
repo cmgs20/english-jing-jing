@@ -170,7 +170,6 @@ p.sub{ color:var(--muted); font-size:14px; margin:0 0 16px; line-height:1.4; }
 .face.front .hint{ position:absolute; bottom:18px; font-size:12px; color:var(--faint); display:flex; align-items:center; gap:5px; }
 .face.front .hint .ic{ width:13px; height:13px; }
 .face.back .word{ font-size:28px; margin-bottom:14px; }
-.fc-pron{ color:var(--thai); font-size:15px; margin:-8px 0 10px; text-align:center; }
 .fc-btn-row{ display:flex; gap:10px; justify-content:center; }
 .fc-example-row{ display:flex; flex-direction:column; align-items:center; justify-content:center; gap:6px; }
 .fc-example{ font-size:15.5px; font-style:italic; line-height:1.5; color:var(--muted); text-align:center; padding:0 8px; min-height:20px; word-spacing:4px; }
@@ -461,10 +460,8 @@ p.sub{ color:var(--muted); font-size:14px; margin:0 0 16px; line-height:1.4; }
         <div class="face back">
           <span class="lvl" id="fc-lvl-back"></span>
           <div class="word" id="fc-back"></div>
-          <div class="fc-pron" id="fc-pron" style="display:none;"></div>
           <div class="fc-btn-row">
             <button class="spk-btn" onclick="event.stopPropagation(); speakFlashBack()" title="Listen"><svg class="ic" viewBox="0 0 24 24"><path d="M11 4.702a.705.705 0 0 0-1.203-.498L6.413 7.587A1.4 1.4 0 0 1 5.416 8H3a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h2.416a1.4 1.4 0 0 1 .997.413l3.383 3.384A.705.705 0 0 0 11 19.298z"/><path d="M16 9a5 5 0 0 1 0 6"/><path d="M19.364 18.364a9 9 0 0 0 0-12.728"/></svg></button>
-            <button class="spk-btn" id="fc-pron-btn" onclick="event.stopPropagation(); togglePron()" title="Show Thai pronunciation guide"><svg class="ic" viewBox="0 0 24 24"><path d="m5 8 6 6"/><path d="m4 14 6-6 2-3"/><path d="M2 5h12"/><path d="M7 2h1"/><path d="m22 22-5-10-5 10"/><path d="M14 18h6"/></svg></button>
           </div>
           <div class="fc-example-row">
             <div class="fc-example" id="fc-example"></div>
@@ -972,6 +969,15 @@ const VOCAB = [
 ["จัดห้อง","to tidy up","A2","Housework"],["เอาขยะไปทิ้ง","to take out the rubbish","A2","Housework"],
 ["เครื่องซักผ้า","washing machine","A1","Housework"],["เตารีด","iron","A2","Housework"],["ไม้ถูพื้น","mop","A2","Housework"],
 ["ถัง","bucket","A1","Housework"],["เครื่องดูดฝุ่น","vacuum cleaner","A2","Housework"],
+["ล้างจาน","to wash the dishes","A1","Housework"],["ถูพื้น","to mop the floor","A1","Housework"],["กดชักโครก","to flush the toilet","A1","Housework"],
+["กวาดพื้น","to sweep the floor","A1","Housework"],["เช็ดโต๊ะ","to wipe the table","A1","Housework"],["ปัดฝุ่น","to dust","A2","Housework"],
+["เช็ดจาน","to dry the dishes","A2","Housework"],["พับผ้า","to fold the laundry","A2","Housework"],["รีดผ้า","to iron the clothes","A2","Housework"],
+["ตากผ้า","to hang out the washing","A2","Housework"],["เช็ดกระจก","to clean the windows","A2","Housework"],
+["เปลี่ยนผ้าปูที่นอน","to change the sheets","B1","Housework"],["ขัดห้องน้ำ","to scrub the bathroom","B1","Housework"],
+["ฟองน้ำ","sponge","A1","Housework"],["ไม้กวาด","broom","A1","Housework"],["น้ำยาล้างจาน","dish soap","A2","Housework"],
+["ที่ตักผง","dustpan","A2","Housework"],["ตะกร้าผ้า","laundry basket","A2","Housework"],["ผงซักฟอก","laundry detergent","A2","Housework"],
+["ถุงมือยาง","rubber gloves","A2","Housework"],["เครื่องล้างจาน","dishwasher","A2","Housework"],
+["ไม้หนีบผ้า","clothes peg","B1","Housework"],["ราวตากผ้า","clothesline","B1","Housework"],
 // Shopping
 ["ร้าน","shop","A1","Shopping"],["ซุปเปอร์มาร์เก็ต","supermarket","A1","Shopping"],
 ["เงินสด","cash","A1","Shopping"],["เงินทอน","change","A2","Shopping"],["ใบเสร็จรับเงิน","receipt","A2","Shopping"],
@@ -3528,6 +3534,18 @@ const EXAMPLES = {
   "washing machine":"The washing machine is broken again.", "iron":"Be careful, the iron is very hot.",
   "mop":"Use the mop to clean the floor.", "bucket":"Fill the bucket with water.",
   "vacuum cleaner":"The vacuum cleaner is in the cupboard.",
+  "to wash the dishes":"Can you wash the dishes after dinner?", "to mop the floor":"I need to mop the floor, it's dirty.",
+  "to flush the toilet":"Don't forget to flush the toilet.", "to sweep the floor":"She swept the floor every morning.",
+  "to wipe the table":"Please wipe the table after eating.", "to dust":"I dust the shelves once a week.",
+  "to dry the dishes":"Can you dry the dishes while I wash them?", "to fold the laundry":"I hate folding the laundry.",
+  "to iron the clothes":"She irons the clothes every Sunday.", "to hang out the washing":"Can you hang out the washing? It's sunny today.",
+  "to clean the windows":"He cleans the windows once a month.",
+  "to change the sheets":"I change the sheets every week.", "to scrub the bathroom":"We scrub the bathroom every Saturday.",
+  "sponge":"Use a clean sponge to wash the dishes.", "broom":"The broom is behind the door.",
+  "dish soap":"We ran out of dish soap.", "dustpan":"Sweep the dust into the dustpan.",
+  "laundry basket":"Put your dirty clothes in the laundry basket.", "laundry detergent":"We need to buy more laundry detergent.",
+  "rubber gloves":"Wear rubber gloves when you clean the bathroom.", "dishwasher":"We just bought a new dishwasher.",
+  "clothes peg":"Use a clothes peg to hang the towel.", "clothesline":"Hang the clothes on the clothesline to dry.",
   "shop":"I bought some bread at the shop.", "supermarket":"We do our shopping at the supermarket.",
   "cash":"Do you have any cash on you?", "change":"Here is your change.",
   "receipt":"Keep the receipt in case you need a refund.", "to pay":"Can I pay by card?",
@@ -4543,162 +4561,6 @@ function renderHome(){
 }
 
 /* =========================================================
-   PRONUNCIATION HELPER
-   English word -> approximate Thai-script reading, so a Thai-speaking
-   learner can sound out an English word using familiar letters.
-   Rule-based grapheme transliteration, NOT a real IPA/phoneme engine —
-   English spelling isn't phonemic, so this is a rough visual aid meant to
-   sit alongside the real audio (speakFlashBack), not replace it.
-   Wrong-looking output for a specific word should be fixed by adding it to
-   PRON_OVERRIDES below rather than tweaking the general rules.
-   ========================================================= */
-const PRON_OVERRIDES = {
-  "i":"ไอ","you":"ยู","he":"ฮี","she":"ชี","it":"อิท","we":"วี","they":"เธ","me":"มี",
-  "him":"ฮิม","her":"เฮ่อร์","us":"อัส","them":"เธ็ม","his":"ฮิส","hers":"เฮ่อร์ส",
-  "am":"แอม","is":"อิส","are":"อาร์","was":"วอส","were":"เวอร์",
-  "be":"บี","been":"บีน","being":"บีอิ้ง",
-  "do":"ดู","does":"ดัส","did":"ดิด","done":"ดัน",
-  "have":"แฮฟ","has":"แฮส","had":"แฮด","having":"แฮฟวิ่ง",
-  "give":"กิฟ","gives":"กิฟส์","given":"กิฟเว่น","love":"ลัฟ","live":"ลิฟ","come":"คัม","some":"ซัม",
-  "will":"วิล","would":"วุด","can":"แคน","could":"คุด","cannot":"แคนนอท",
-  "shall":"แชล","should":"ชุด","may":"เม","might":"ไมท์","must":"มัสท์",
-  "not":"นอท","no":"โน","yes":"เยส",
-  "the":"เธอะ","a":"เอ่อ","an":"แอน","and":"แอนด์","or":"ออร์","but":"บัท",
-  "what":"วอท","when":"เว็น","where":"แวร์","why":"วาย","how":"ฮาว","who":"ฮู","which":"วิช","whose":"ฮูส",
-  "good":"กุด","morning":"มอร์นิ่ง","afternoon":"แอฟเทอร์นูน","night":"ไนท์","evening":"อีฟนิ่ง",
-  "please":"พลีส","thanks":"แธงค์ส","thank":"แธงค์","sorry":"ซอรี่","welcome":"เวลคัม",
-  "excuse":"เอ็กซ์คิวส์","understand":"อันเดอร์สแตนด์","know":"โนว์","knew":"นู",
-  "one":"วัน","two":"ทู","three":"ทรี","four":"ฟอร์","five":"ไฟว์","six":"ซิกส์","seven":"เซเว่น",
-  "eight":"เอท","nine":"ไนน์","ten":"เท็น","eleven":"อีเลฟเว่น","twelve":"ทเวลฟ์",
-  "twenty":"ทเวนที","thirty":"เธอร์ที","forty":"ฟอร์ที","fifty":"ฟิฟที","hundred":"ฮันเดรด","thousand":"เธาซันด์","million":"มิลเลี่ยน",
-  "people":"พีเพิล","said":"เซด","want":"วอนท์","again":"อะเกน",
-  "friend":"เฟรนด์","friends":"เฟรนดส์","of":"อ็อฟ","to":"ทู","from":"ฟรอม","with":"วิธ",
-  "there":"แธร์","here":"เฮียร์","go":"โก","goes":"โกส","going":"โกอิ้ง","eye":"อาย","eyes":"อายส์",
-  "yesterday":"เยสเทอร์เดย์","tomorrow":"ทูมอร์โรว์","today":"ทูเดย์","now":"นาว","down":"ดาวน์","town":"ทาวน์",
-  "brown":"บราวน์","cow":"คาว","flower":"ฟลาวเวอร์","shower":"ชาวเวอร์","tower":"ทาวเวอร์",
-  "monday":"มันเดย์","tuesday":"ทิวส์เดย์","wednesday":"เวนส์เดย์","thursday":"เธิร์สเดย์","friday":"ไฟรเดย์",
-  "saturday":"แซทเทอร์เดย์","sunday":"ซันเดย์","o'clock":"อะคล็อก",
-  "police":"พะลีส","office":"ออฟฟิส","practice":"แพรคทิส","notice":"โนทิส","justice":"จัสทิส","service":"เซอร์วิส",
-  "machine":"มะชีน","magazine":"แมกกะซีน","engine":"เอนจิน","medicine":"เมดิซิน","imagine":"อิแมจิน",
-  "picture":"พิคเจอร์","people's":"พีเพิลส์",
-  "orange":"ออเรนจ์","voice":"วอยซ์","since":"ซินซ์","choice":"ชอยซ์",
-  "shoe":"ชู","shoes":"ชูส","toe":"โท","toes":"โทส",
-  "don't":"โดนท์","doesn't":"ดัสเซินท์","didn't":"ดิดเดินท์","isn't":"อิสเซินท์","aren't":"อาร์นท์",
-  "wasn't":"วอสเซินท์","weren't":"เวินท์","can't":"แคนท์","won't":"โวนท์","wouldn't":"วุดเดินท์",
-  "couldn't":"คุดเดินท์","shouldn't":"ชุดเดินท์","haven't":"แฮฟเวินท์","hasn't":"แฮสเซินท์","hadn't":"แฮดเดินท์",
-  "i'm":"ไอม์","i'll":"ไอล์","i've":"ไอฟว์","i'd":"ไอด์","you're":"ยัวร์","he's":"ฮีส","she's":"ชีส",
-  "it's":"อิทส์","we're":"เวียร์","they're":"เธร์","let's":"เล็ทส์","that's":"แธทส์","who's":"ฮูส",
-};
-const PRON_DIGRAPH_ONSETS = ["th","sh","ch","ph","wh","kn","wr","ck","ng"];
-const PRON_GLIDE_CONSONANTS = ["p","b","f","v","h","m","c","k"]; // trigger a /j/-glide before long u (cute, huge, view…)
-const PRON_RULES = [
-  ["tious","เชียส"], ["cious","เชียส"], ["ious","เอียส"], ["eous","เอียส"],
-  ["tion","ชั่น"], ["sion","ชั่น"], ["ture","เจอร์"],
-  ["eigh","เอ"], ["augh","ออ"], ["aught","ออท"], ["ought","ออท"],
-  ["igh","ไอ"],
-  ["kn","น"], ["wr","ร"], ["mb$","ม"],
-  ["dge","จ"], ["tch","ช"],
-  ["qu","คว"],
-  ["ch","ช"], ["sh","ช"], ["th","ธ"], ["ph","ฟ"], ["wh","ว"], ["ck","ก"], ["ng","ง"],
-  ["air","แอร์"], ["are$","แอร์"],
-  ["ear","เอียร์"],
-  ["ar","อาร์"], ["or","ออร์"], ["er","เออร์"], ["ir","เออร์"], ["ur","เออร์"],
-  ["oo","อู"], ["ou","เอา"], ["ow","โอว"], ["oa","โอ"], ["oy","ออย"], ["oi","ออย"],
-  ["ee","อี"], ["ea","อี"], ["ay","เอ"], ["ai","เอ"],
-  ["ie","ไอ"],
-  ["ue","อู"], ["ui","อู"],
-  ["y$","อี"],
-  ["a","แอะ"], ["e","เอะ"], ["i","อิ"], ["o","ออ"], ["u","อะ"],
-  ["b","บ"], ["c","ค"], ["d","ด"], ["f","ฟ"], ["g","ก"], ["h","ฮ"], ["j","จ"],
-  ["k","ค"], ["l","ล"], ["m","ม"], ["n","น"], ["p","พ"], ["q","ค"], ["r","ร"],
-  ["s","ส"], ["t","ท"], ["v","ว"], ["w","ว"], ["x","กซ์"], ["y","ย"], ["z","ซ"],
-];
-// Scans a substring left-to-right against PRON_RULES. Used both for whole
-// simple words and for consonant-only chunks (onsets/codas), where the
-// vowel rules simply never match since there are no vowel letters present.
-function pronScan(str){
-  let s = str.replace(/c(?=[eiy])/g, "C").replace(/g(?=[eiy])/g, "G");
-  let out = "", i = 0;
-  while(i < s.length){
-    if(s[i]==="C"){ out+="ซ"; i++; continue; }
-    if(s[i]==="G"){ out+="จ"; i++; continue; }
-    let matched = false;
-    for(const [pat,rep] of PRON_RULES){
-      const isEnd = pat.endsWith("$");
-      const core = isEnd ? pat.slice(0,-1) : pat;
-      if(isEnd){
-        if(i+core.length===s.length && s.slice(i)===core){ out+=rep; i+=core.length; matched=true; break; }
-        continue;
-      }
-      if(s.slice(i, i+core.length)===core){ out+=rep; i+=core.length; matched=true; break; }
-    }
-    if(!matched){ out += s[i]; i++; }
-  }
-  return out;
-}
-// Splits a consonant-only onset into {pre, last}: `last` is the single
-// grapheme (or digraph) that a leading Thai vowel (เ/แ/โ/ไ) attaches to,
-// `pre` is whatever consonant(s) come before it, read normally.
-function pronSplitOnset(onset){
-  for(const d of PRON_DIGRAPH_ONSETS){
-    if(onset===d) return { pre:"", last:d };
-  }
-  if(onset.length===0) return { pre:"", last:"อ" }; // vowel-initial syllable needs a null-consonant carrier
-  return { pre:onset.slice(0,-1), last:onset.slice(-1) };
-}
-function transliterateWord(raw){
-  const w = raw.toLowerCase();
-  if(PRON_OVERRIDES[w]) return PRON_OVERRIDES[w];
-  if(!/^[a-z]+$/.test(w)) return null; // punctuation-only tokens etc.
-  if(w.length===0) return "";
-
-  // --- "-Cle" ending (apple, table, circle, uncle…): syllabic /əl/, not a silent-e case
-  const cleMatch = w.match(/^(.*)([bcdfgkptvz])le$/);
-  if(cleMatch && w.length>3){
-    const [, prefix, cons] = cleMatch;
-    return pronScan(prefix) + pronScan(cons) + "เอิล";
-  }
-
-  // --- Silent final e (VCe pattern): lengthens the vowel before the last consonant unit.
-  // Skip words ending in a genuine "ee"/"oe" vowel digraph (knee, free, shoe…) —
-  // those are handled correctly by the generic scan below via the "ee"/"oo" rules.
-  if(/e$/.test(w) && w.length>2 && !/ee$|oe$/.test(w)){
-    const body = w.slice(0,-1);
-    let consUnit = null, rest = null;
-    for(const d of PRON_DIGRAPH_ONSETS){
-      if(body.endsWith(d)){ consUnit = d; rest = body.slice(0,-d.length); break; }
-    }
-    if(!consUnit && /[bcdfgjklmnpqrstvxz]$/.test(body)){
-      consUnit = body.slice(-1); rest = body.slice(0,-1);
-    }
-    if(consUnit && rest!==null && /[aeiouy]$/.test(rest)){
-      const v = rest.slice(-1);
-      const onset = rest.slice(0,-1);
-      const { pre, last } = pronSplitOnset(onset);
-      // consUnit sits directly before the e we stripped, so a bare c/g here
-      // is always the soft ("ce"/"ge") reading, not the hard default.
-      const codaThai = consUnit==="c" ? "ซ" : consUnit==="g" ? "จ" : pronScan(consUnit);
-      if(v==="a") return pronScan(pre) + "เ" + pronScan(last) + codaThai;
-      if(v==="i" || v==="y") return pronScan(pre) + "ไ" + pronScan(last) + codaThai;
-      if(v==="o") return pronScan(pre) + "โ" + pronScan(last) + codaThai;
-      if(v==="e") return pronScan(pre) + pronScan(last) + "ี" + codaThai;
-      if(v==="u"){
-        const glide = PRON_GLIDE_CONSONANTS.includes(last);
-        return pronScan(pre) + pronScan(last) + (glide ? "ิว" : "ู") + codaThai;
-      }
-    }
-    // trailing e didn't fit a recognized long-vowel pattern (give, love, come…) — just drop it
-    return pronScan(body);
-  }
-
-  return pronScan(w);
-}
-// Transliterates every word in a phrase, leaving spaces/punctuation as-is.
-function pronounceEnglish(text){
-  return text.replace(/[A-Za-z']+/g, w => { const t = transliterateWord(w); return t===null ? w : t; });
-}
-
-/* =========================================================
    FLASHCARDS
    ========================================================= */
 /* Broad groups shown in the Category picker — each maps to several of the
@@ -4801,8 +4663,6 @@ function renderFlashCard(){
   const c = flashState.deck[flashState.idx];
   document.getElementById("fc-front").textContent = c.th;
   document.getElementById("fc-back").textContent = c.en;
-  document.getElementById("fc-pron").style.display = "none";
-  document.getElementById("fc-pron").textContent = "";
   document.getElementById("fc-lvl-front").textContent = c.lvl;
   document.getElementById("fc-lvl-back").textContent = c.lvl;
   document.getElementById("flash-progress").textContent = (flashState.idx+1)+" / "+flashState.deck.length;
@@ -4815,16 +4675,6 @@ function renderFlashCard(){
   }
 }
 function flipCard(){ const card=document.getElementById("flashcard"); flashState.flipped=!flashState.flipped; card.classList.toggle("flipped", flashState.flipped); }
-function togglePron(){
-  const el = document.getElementById("fc-pron");
-  if(el.style.display==="none"){
-    const c = flashState.deck[flashState.idx];
-    el.textContent = pronounceEnglish(c.en);
-    el.style.display = "block";
-  } else {
-    el.style.display = "none";
-  }
-}
 function nextCard(){ flashState.idx = (flashState.idx+1)%flashState.deck.length; renderFlashCard(); }
 function prevCard(){ flashState.idx = (flashState.idx-1+flashState.deck.length)%flashState.deck.length; renderFlashCard(); }
 function markCard(isKnown){
