@@ -75,7 +75,7 @@ export async function POST(request: NextRequest) {
           await resend.emails.send({
             from: FROM_EMAIL,
             to: customerEmail,
-            subject: `Your access link — English jing jing`,
+            subject: `ลิงก์เข้าใช้งานของคุณ — English jing jing`,
             html: trainerConfirmationHtml({ accessUrl, amount }),
           })
         }
