@@ -52,8 +52,7 @@ export function trainerConfirmationHtml({
           ไม่ต้องกดลิงก์นี้ซ้ำอีกบนอุปกรณ์เครื่องนั้น
         </p>
         <p style="font-size:14px;color:#c7ccdb;line-height:1.7;margin:0 0 32px;">
-          มีคำถามหรือเข้าใช้งานไม่ได้? ตอบกลับอีเมลนี้ได้เลย<br/>
-          <strong style="color:#f2f3f7;">ทีมงาน English jing jing</strong>
+          มีคำถามหรือเข้าใช้งานไม่ได้? ตอบกลับอีเมลนี้ได้เลย
         </p>
 
         <div style="height:1px;background:rgba(255,255,255,.08);margin:0 0 32px;"></div>
@@ -62,10 +61,14 @@ export function trainerConfirmationHtml({
         <h2 style="font-family:Georgia,serif;font-size:17px;color:#f2f3f7;margin:0 0 8px;font-weight:700;">
           You're in! Your app is unlocked.
         </h2>
-        <p style="font-family:Georgia,serif;font-size:13.5px;color:#8890a6;line-height:1.7;margin:0 0 18px;">
+        <p style="font-family:Georgia,serif;font-size:13.5px;color:#8890a6;line-height:1.7;margin:0 0 24px;">
           Thanks for your purchase (${amount} THB). Tap the button above on the device you want to learn on.
           This link works on up to 2 devices — once opened, add the page to your home screen so it's always
           one tap away. Questions or lost access? Just reply to this email.
+        </p>
+
+        <p style="font-size:14px;color:#c7ccdb;line-height:1.7;margin:0 0 18px;">
+          <strong style="color:#f2f3f7;">ทีมงาน English jing jing</strong>
         </p>
       </div>
 
