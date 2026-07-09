@@ -22,8 +22,8 @@ export function trainerConfirmationHtml({
 
       <!-- HEADER -->
       <div style="background:radial-gradient(circle at 50% -20%, rgba(91,141,239,.35), transparent 60%), #0d1024; padding:36px 40px 28px; text-align:center;">
-        <img src="${logoUrl}" width="125" height="125" alt="English jing jing"
-          style="width:125px;height:125px;border-radius:31px;display:inline-block;margin-bottom:14px;" />
+        <img src="${logoUrl}" width="144" height="144" alt="English jing jing"
+          style="width:144px;height:144px;border-radius:36px;display:inline-block;margin-bottom:14px;" />
         <p style="margin:0;font-size:20px;font-weight:700;color:#f2f3f7;letter-spacing:-.2px;">
           English <span style="color:#7aa8ff;">jing jing</span>
         </p>

@@ -632,15 +632,15 @@ p.sub{ color:var(--muted); font-size:14px; margin:0 0 16px; line-height:1.4; }
 
   <!-- PAYWALL -->
   <section class="screen" id="screen-paywall">
-    <div class="topbar"><button class="back-btn" onclick="go('home')"><svg class="ic" viewBox="0 0 24 24"><path d="m15 18-6-6 6-6"/></svg></button><h1>Full Access</h1><div style="width:36px"></div></div>
+    <div class="topbar"><button class="back-btn" onclick="go('home')"><svg class="ic" viewBox="0 0 24 24"><path d="m15 18-6-6 6-6"/></svg></button><h1>เข้าถึงเต็มรูปแบบ</h1><div style="width:36px"></div></div>
     <div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:18px;padding:0 8px;">
       <div style="width:64px;height:64px;border-radius:20px;background:linear-gradient(160deg,var(--blue-2),var(--violet));display:flex;align-items:center;justify-content:center;color:#fff;">
         <svg class="ic" viewBox="0 0 24 24" style="width:30px;height:30px;"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
       </div>
-      <h2 style="font-size:19px;margin:0;">Unlock the full app</h2>
-      <p class="sub" style="margin:0;max-width:320px;">Conjugation Drill, Verb Dictionary and Grammar lessons are part of the full version. Flashcards stay free, always.</p>
+      <h2 style="font-size:19px;margin:0;">ปลดล็อกแอปเต็มรูปแบบ</h2>
+      <p class="sub" style="margin:0;max-width:320px;">แบบฝึกผันกริยา พจนานุกรมคำกริยา และบทเรียนไวยากรณ์ อยู่ในเวอร์ชันเต็ม ส่วนแฟลชการ์ดใช้ได้ฟรีตลอดไป</p>
       <button class="big-btn" style="justify-content:center;" onclick="startTrainerCheckout()" id="paywall-buy-btn">
-        <div><div class="label" id="paywall-price-label">Unlock for 249 THB</div><div class="desc">One-time payment, lifetime access</div></div>
+        <div><div class="label" id="paywall-price-label">ปลดล็อกในราคา 249 บาท</div><div class="desc">ชำระเงินครั้งเดียว ใช้งานได้ตลอดชีพ</div></div>
       </button>
       <p class="sub" id="paywall-error" style="color:var(--bad-fg);margin:0;"></p>
     </div>
@@ -8925,7 +8925,7 @@ async function startTrainerCheckout(){
     if(!res.ok || !data.url) throw new Error(data.error || "checkout_failed");
     window.location.href = data.url;
   }catch(e){
-    errEl.textContent = "Something went wrong. Please try again in a moment.";
+    errEl.textContent = "เกิดข้อผิดพลาด กรุณาลองใหม่อีกครั้งในอีกสักครู่";
     btn.disabled = false;
   }
 }
@@ -8934,7 +8934,7 @@ async function loadTrainerPrice(){
     const res = await fetch("/api/trainer-price");
     const data = await res.json();
     const label = document.getElementById("paywall-price-label");
-    if(label && data.priceThb) label.textContent = "Unlock for " + data.priceThb + " THB";
+    if(label && data.priceThb) label.textContent = "ปลดล็อกในราคา " + data.priceThb + " บาท";
   }catch(e){ /* keep the default label */ }
 }
 async function tryActivateFromUrl(){
