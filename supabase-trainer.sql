@@ -22,3 +22,48 @@ create table if not exists public.trainer_activations (
 );
 alter table public.trainer_activations enable row level security;
 -- Same as above — service-role only, no public policies.
+
+-- Atomically checks and enforces the per-purchase device limit. Locks the
+-- purchase row for the duration of the call so two near-simultaneous
+-- activation requests for the same purchase can't both slip past the
+-- count check before either insert commits (a check-then-act race).
+-- Safe to re-run — `create or replace` overwrites the previous version.
+create or replace function public.activate_trainer_device(p_purchase_id uuid, p_device_id text)
+returns jsonb
+language plpgsql
+security definer
+set search_path = public
+as $$
+declare
+  v_max_devices int;
+  v_count int;
+begin
+  select max_devices into v_max_devices
+  from trainer_purchases
+  where id = p_purchase_id
+  for update;
+
+  if v_max_devices is null then
+    return jsonb_build_object('ok', false, 'reason', 'invalid');
+  end if;
+
+  if exists (
+    select 1 from trainer_activations
+    where purchase_id = p_purchase_id and device_id = p_device_id
+  ) then
+    return jsonb_build_object('ok', true);
+  end if;
+
+  select count(*) into v_count
+  from trainer_activations
+  where purchase_id = p_purchase_id;
+
+  if v_count >= v_max_devices then
+    return jsonb_build_object('ok', false, 'reason', 'device_limit');
+  end if;
+
+  insert into trainer_activations (purchase_id, device_id) values (p_purchase_id, p_device_id);
+
+  return jsonb_build_object('ok', true);
+end;
+$$;

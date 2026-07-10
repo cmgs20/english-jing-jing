@@ -422,7 +422,7 @@ p.sub{ color:var(--muted); font-size:14px; margin:0 0 16px; line-height:1.4; }
 
 @keyframes gj-shake{ 0%,100%{transform:translateX(0)} 20%{transform:translateX(-5px)} 40%{transform:translateX(5px)} 60%{transform:translateX(-4px)} 80%{transform:translateX(4px)} }
 
-.storage-warn-banner{ position:fixed; left:14px; right:14px; bottom:calc(env(safe-area-inset-bottom,0px) + 98px); z-index:40; background:var(--bad-bg); color:var(--bad-fg); border:1px solid var(--red); border-radius:14px; padding:12px 14px; font-size:13px; font-weight:600; display:flex; align-items:center; gap:10px; box-shadow:0 8px 24px rgba(0,0,0,.35); max-width:444px; margin:0 auto; }
+.storage-warn-banner{ position:fixed; left:14px; right:14px; bottom:calc(env(safe-area-inset-bottom,0px) + 98px); z-index:40; background:var(--bad-bg); color:var(--bad-fg); border:1px solid var(--red); border-radius:14px; padding:12px 14px; font-size:13px; font-weight:600; display:flex; align-items:center; gap:10px; box-shadow:0 8px 24px rgba(0,0,0,.35); max-width:444px; margin:0 auto; transition:bottom .2s ease; }
 .storage-warn-banner button{ margin-left:auto; background:none; border:none; color:inherit; font-weight:800; font-size:16px; line-height:1; padding:4px; cursor:pointer; }
 </style>
 </head>
@@ -4521,11 +4521,21 @@ function explainForm(v, slot){
 /* =========================================================
    STATE / STORAGE
    ========================================================= */
+function restackBanners(){
+  const base = "calc(env(safe-area-inset-bottom,0px) + 98px)";
+  const gap = 8;
+  let offset = 0;
+  document.querySelectorAll(".storage-warn-banner").forEach(b => {
+    b.style.bottom = `calc(${base} + ${offset}px)`;
+    offset += b.offsetHeight + gap;
+  });
+}
 function showBanner(message){
   const div = document.createElement("div");
   div.className = "storage-warn-banner";
-  div.innerHTML = `<span>${icon('circle_help')} ${message}</span><button aria-label="Dismiss" onclick="this.parentElement.remove()">&times;</button>`;
+  div.innerHTML = `<span>${icon('circle_help')} ${message}</span><button aria-label="Dismiss" onclick="this.parentElement.remove(); restackBanners();">&times;</button>`;
   document.body.appendChild(div);
+  restackBanners();
 }
 let storageWarnShown = false;
 function warnStorageFailure(){
@@ -8994,6 +9004,8 @@ async function tryActivateFromUrl(){
       showBanner("Full access unlocked on this device. Enjoy!");
     } else if(data.reason === "device_limit"){
       showBanner("This access link has already been used on the maximum number of devices. Reply to your confirmation email if this is a mistake.");
+    } else if(data.reason === "server_error" || data.reason === "network_error"){
+      showBanner("Something went wrong on our end. Please try opening the link again in a moment.");
     } else {
       showBanner("This access link isn't valid. Please check the link in your confirmation email.");
     }
