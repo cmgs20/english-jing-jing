@@ -4554,10 +4554,11 @@ function saveDrillMistakes(){ LS.set("et_drill_mistakes", drillMistakes); }
 /* =========================================================
    NAVIGATION
    ========================================================= */
-const LOCKED_SCREENS = new Set(["drill-setup","verbs","grammar","pron-setup"]);
-function isUnlocked(){ return LS.get("et_unlocked", false) === true; }
+const FREE_SCREENS = new Set(["home","flash-setup","flash-play","tracker","settings","paywall"]);
+let unlockVerified = false;
+function isUnlocked(){ return unlockVerified === true; }
 function go(name){
-  if(LOCKED_SCREENS.has(name) && !isUnlocked()) name = "paywall";
+  if(!FREE_SCREENS.has(name) && !isUnlocked()) name = "paywall";
   document.querySelectorAll(".screen").forEach(s=>s.classList.remove("active"));
   document.getElementById("screen-"+name).classList.add("active");
   document.querySelectorAll(".nav-btn").forEach(b=>b.classList.toggle("active", b.dataset.nav===name));
@@ -8890,6 +8891,23 @@ function getDeviceId(){
   if(!id){ id = crypto.randomUUID(); LS.set("et_device_id", id); }
   return id;
 }
+async function verifyAccess(){
+  const code = LS.get("et_access_code", null);
+  if(!code){ unlockVerified = false; return { ok:false, reason:"no_code" }; }
+  try{
+    const res = await fetch("/api/trainer-activate", {
+      method:"POST",
+      headers:{ "Content-Type":"application/json" },
+      body: JSON.stringify({ code, deviceId: getDeviceId() }),
+    });
+    const data = await res.json();
+    unlockVerified = !!data.ok;
+    return data;
+  }catch(e){
+    unlockVerified = false; // network error — fail closed, they can retry
+    return { ok:false, reason:"network_error" };
+  }
+}
 async function startTrainerCheckout(){
   const btn = document.getElementById("paywall-buy-btn");
   const errEl = document.getElementById("paywall-error");
@@ -8918,26 +8936,21 @@ async function tryActivateFromUrl(){
   const code = params.get("code");
   const purchased = params.get("purchased");
   if(code){
-    try{
-      const res = await fetch("/api/trainer-activate", {
-        method:"POST",
-        headers:{ "Content-Type":"application/json" },
-        body: JSON.stringify({ code, deviceId: getDeviceId() }),
-      });
-      const data = await res.json();
-      if(data.ok){
-        LS.set("et_unlocked", true);
-        showBanner("Full access unlocked on this device. Enjoy!");
-      } else if(data.reason === "device_limit"){
-        showBanner("This access link has already been used on the maximum number of devices. Reply to your confirmation email if this is a mistake.");
-      } else {
-        showBanner("This access link isn't valid. Please check the link in your confirmation email.");
-      }
-    }catch(e){ /* network error — leave locked, they can reopen the link to retry */ }
+    LS.set("et_access_code", code);
+    const data = await verifyAccess();
+    if(data.ok){
+      showBanner("Full access unlocked on this device. Enjoy!");
+    } else if(data.reason === "device_limit"){
+      showBanner("This access link has already been used on the maximum number of devices. Reply to your confirmation email if this is a mistake.");
+    } else {
+      showBanner("This access link isn't valid. Please check the link in your confirmation email.");
+    }
     window.history.replaceState({}, "", window.location.pathname);
   } else if(purchased){
     showBanner("Thanks for your purchase! Check your email for your access link.");
     window.history.replaceState({}, "", window.location.pathname);
+  } else {
+    await verifyAccess();
   }
 }
 

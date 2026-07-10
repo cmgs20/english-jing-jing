@@ -37,8 +37,15 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: 'Invalid JSON' }, { status: 400 })
   }
 
-  if (event.type === 'checkout.session.completed') {
+  if (event.type === 'checkout.session.completed' || event.type === 'checkout.session.async_payment_succeeded') {
     const session = event.data.object
+
+    // PromptPay is a delayed payment method — checkout.session.completed can fire
+    // with payment_status "unpaid". Wait for async_payment_succeeded before granting access.
+    if (session.payment_status !== 'paid') {
+      return NextResponse.json({ received: true })
+    }
+
     const supabase = createServiceClient()
     const customerEmail: string = session.customer_details?.email ?? ''
     const amount = session.amount_total ? session.amount_total / 100 : 0
