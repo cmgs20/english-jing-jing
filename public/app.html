@@ -8886,9 +8886,25 @@ function gjScrollToPractice(i){
 /* =========================================================
    PURCHASE / ACCESS CONTROL
    ========================================================= */
+let deviceIdCache = null;
 function getDeviceId(){
+  if(deviceIdCache) return deviceIdCache;
   let id = LS.get("et_device_id", null);
-  if(!id){ id = crypto.randomUUID(); LS.set("et_device_id", id); }
+  if(!id){
+    // localStorage may not persist here (private browsing, blocked storage) —
+    // sessionStorage usually still works and at least survives reloads of this tab.
+    try{ id = sessionStorage.getItem("et_device_id_fallback"); }catch(e){ id = null; }
+  }
+  if(!id){
+    id = crypto.randomUUID();
+    LS.set("et_device_id", id);
+    try{
+      sessionStorage.setItem("et_device_id_fallback", id);
+    }catch(e){
+      showBanner("This browser is blocking storage, so your unlock won't be remembered between visits. Try a normal (non-private) browser window.");
+    }
+  }
+  deviceIdCache = id;
   return id;
 }
 async function verifyAccess(){
@@ -8931,10 +8947,46 @@ async function loadTrainerPrice(){
     if(label && data.priceThb) label.textContent = "ปลดล็อกในราคา " + data.priceThb + " บาท";
   }catch(e){ /* keep the default label */ }
 }
+function sleep(ms){ return new Promise(r => setTimeout(r, ms)); }
+async function lookupPurchaseBySession(sessionId){
+  try{
+    const res = await fetch("/api/trainer-session-lookup", {
+      method:"POST",
+      headers:{ "Content-Type":"application/json" },
+      body: JSON.stringify({ sessionId }),
+    });
+    return await res.json();
+  }catch(e){
+    return { ok:false, reason:"network_error" };
+  }
+}
+// Runs in the background after the success page has already rendered —
+// recovers and unlocks access from the Stripe session id even if the
+// confirmation email never arrives. The webhook can lag a second or two
+// behind the redirect, so this retries briefly before giving up.
+async function unlockFromSessionId(sessionId){
+  let code = null;
+  for(let i=0; i<5 && !code; i++){
+    if(i>0) await sleep(1500);
+    const lookup = await lookupPurchaseBySession(sessionId);
+    if(lookup.ok && lookup.code) code = lookup.code;
+  }
+  if(!code){
+    showBanner("We're still confirming your payment. Check your email for your access link in a moment.");
+    return;
+  }
+  LS.set("et_access_code", code);
+  const data = await verifyAccess();
+  if(data.ok){
+    showBanner("Full access unlocked on this device. Enjoy!");
+    renderHome();
+  }
+}
 async function tryActivateFromUrl(){
   const params = new URLSearchParams(window.location.search);
   const code = params.get("code");
   const purchased = params.get("purchased");
+  const sessionId = params.get("session_id");
   if(code){
     LS.set("et_access_code", code);
     const data = await verifyAccess();
@@ -8947,8 +8999,13 @@ async function tryActivateFromUrl(){
     }
     window.history.replaceState({}, "", window.location.pathname);
   } else if(purchased){
-    showBanner("Thanks for your purchase! Check your email for your access link.");
     window.history.replaceState({}, "", window.location.pathname);
+    if(sessionId){
+      showBanner("Thanks for your purchase! Finishing setup...");
+      unlockFromSessionId(sessionId); // not awaited — runs in the background, updates the UI itself
+    } else {
+      showBanner("Thanks for your purchase! Check your email for your access link.");
+    }
   } else {
     await verifyAccess();
   }

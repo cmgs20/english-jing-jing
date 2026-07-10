@@ -36,7 +36,7 @@ export async function POST() {
       'line_items[0][price_data][product_data][description]': 'One-time purchase, lifetime access to the full app',
       'line_items[0][quantity]': '1',
       'metadata[type]': 'trainer',
-      'success_url': `${siteUrl}/app.html?purchased=1`,
+      'success_url': `${siteUrl}/app.html?purchased=1&session_id={CHECKOUT_SESSION_ID}`,
       'cancel_url': `${siteUrl}/app.html?cancelled=1`,
     })
 
