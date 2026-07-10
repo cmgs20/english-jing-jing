@@ -64,6 +64,16 @@ p.sub{ color:var(--muted); font-size:14px; margin:0 0 16px; line-height:1.4; }
 .streak-chip{ display:flex; align-items:center; gap:6px; padding:8px 12px; border-radius:999px; cursor:pointer; flex-shrink:0;
   background:linear-gradient(180deg,rgba(242,166,90,.22),rgba(242,166,90,.08)); border:1px solid rgba(242,166,90,.35); color:var(--orange-2); font-weight:800; font-size:15px; }
 .streak-chip .ic{ width:17px; height:17px; }
+.gear-btn{ width:38px; height:38px; border-radius:999px; background:var(--card2); border:1px solid rgba(255,255,255,.08); color:var(--faint); display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+.gear-btn .ic{ width:18px; height:18px; }
+.gear-btn:active{ transform:scale(.94); }
+
+.rate-card{ background:var(--card); border:1px solid rgba(255,255,255,.08); border-radius:22px; padding:18px 18px 20px; }
+.rate-card .rate-head{ display:flex; justify-content:space-between; align-items:baseline; margin-bottom:10px; }
+.rate-card .rate-head b{ font-size:15px; }
+.rate-card .rate-head span{ font-size:18px; font-weight:800; color:var(--blue-2); }
+.rate-slider{ width:100%; accent-color:var(--blue-2); height:6px; }
+.rate-scale{ display:flex; justify-content:space-between; font-size:11px; color:var(--faint); margin-top:6px; }
 
 .big-btn{
   position:relative; overflow:hidden; background:var(--card); border:1px solid rgba(255,255,255,.08); border-radius:22px;
@@ -93,6 +103,9 @@ p.sub{ color:var(--muted); font-size:14px; margin:0 0 16px; line-height:1.4; }
 .big-btn:nth-of-type(4){ background:linear-gradient(100deg,rgba(76,175,125,.26),rgba(76,175,125,.05)); }
 .big-btn:nth-of-type(4) .emoji{ background:linear-gradient(150deg,var(--green-2),var(--green)); }
 .big-btn:nth-of-type(4) .mini .ic{ color:var(--green); }
+.big-btn:nth-of-type(5){ background:linear-gradient(100deg,rgba(224,97,107,.26),rgba(224,97,107,.05)); }
+.big-btn:nth-of-type(5) .emoji{ background:linear-gradient(150deg,var(--red-2),var(--red)); }
+.big-btn:nth-of-type(5) .mini .ic{ color:var(--red); }
 
 .home-tracker{
   border-radius:24px; padding:16px 18px; margin-top:auto; position:relative; overflow:hidden;
@@ -216,6 +229,43 @@ p.sub{ color:var(--muted); font-size:14px; margin:0 0 16px; line-height:1.4; }
 .btn-reveal{ background:linear-gradient(180deg,var(--blue-2),var(--blue)); color:#fff; box-shadow:0 10px 24px -10px rgba(91,141,239,.7); }
 .btn-next{ background:var(--card2); color:var(--text); }
 .drill-stats{ text-align:center; color:var(--muted); font-size:12.5px; margin-top:10px; }
+
+/* Pronunciation */
+.pron-tip{ background:rgba(122,168,255,.1); border:1px solid rgba(122,168,255,.25); font-size:13px; line-height:1.5; border-radius:14px; padding:12px 14px; margin-bottom:14px; }
+.pron-tip .th{ color:var(--thai); }
+.bilingual-en{ color:var(--blue-2); margin-top:6px; }
+#screen-pron-setup .sub .th{ color:var(--thai); }
+#screen-pron-setup .sub .bilingual-en{ color:var(--muted); }
+.pron-syll-row{ display:flex; flex-wrap:wrap; gap:8px; justify-content:center; margin-bottom:6px; }
+.syll-chip{ background:var(--inset); border:none; color:var(--muted); font-family:inherit; font-size:16px; font-weight:700; padding:7px 12px; border-radius:12px; }
+.syll-chip.stressed{ background:linear-gradient(150deg,var(--blue-2),var(--blue)); color:#fff; font-size:18px; }
+.syll-chip:active{ transform:scale(.95); }
+.pron-group-label{ text-align:center; font-size:12px; font-weight:800; text-transform:uppercase; letter-spacing:.05em; color:var(--orange-2); margin:14px 0 8px; }
+.pron-group-label:first-child{ margin-top:0; }
+.pron-play-center{ display:flex; justify-content:center; margin:16px 0 4px; }
+.play-icon-btn{ width:52px; height:52px; border-radius:18px; flex-shrink:0; background:linear-gradient(150deg,var(--blue-2),var(--blue)); border:none; color:#fff; display:flex; align-items:center; justify-content:center; }
+.play-icon-btn .ic{ width:22px; height:22px; }
+.play-icon-btn:active{ transform:scale(.94); }
+.pron-pair-row{ display:flex; align-items:center; justify-content:center; gap:12px; margin-bottom:10px; }
+.pron-pair-vs{ width:34px; height:34px; border-radius:50%; background:var(--inset); border:none; color:var(--muted); display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+.pron-pair-vs .ic{ width:15px; height:15px; }
+.pron-why{ font-size:12.5px; line-height:1.5; margin:16px 0 8px; }
+.pron-why:first-child{ margin-top:0; }
+.pron-why .th{ color:var(--thai); }
+.pron-why .bilingual-en{ color:var(--muted); margin-top:2px; }
+.pron-stress-row{ display:flex; align-items:center; justify-content:space-between; gap:10px; padding:10px 0; border-bottom:1px solid rgba(255,255,255,.06); }
+.pron-stress-row:last-child{ border-bottom:none; }
+.pron-stress-row .pron-syll-row{ justify-content:flex-start; margin-bottom:0; flex:1; }
+.pron-silent-row{ display:block; width:100%; text-align:left; background:none; border:none; border-bottom:1px solid rgba(255,255,255,.06); color:var(--text); font-family:inherit; font-size:19px; font-weight:700; padding:12px 4px; }
+.pron-silent-row:last-child{ border-bottom:none; }
+.pron-silent-letter{ opacity:.35; text-decoration:line-through; }
+.rec-row{ display:flex; align-items:center; gap:12px; }
+.rec-btn{ width:52px; height:52px; border-radius:18px; flex-shrink:0; background:linear-gradient(150deg,var(--red-2),var(--red)); border:none; color:#fff; display:flex; align-items:center; justify-content:center; }
+.rec-btn .ic{ width:22px; height:22px; }
+.rec-btn.recording{ animation:recPulse 1.1s ease-in-out infinite; }
+@keyframes recPulse{ 0%,100%{ box-shadow:0 0 0 0 rgba(224,97,107,.55);} 50%{ box-shadow:0 0 0 10px rgba(224,97,107,0);} }
+.rec-status{ flex:1; font-size:12.5px; color:var(--muted); line-height:1.4; }
+.ghost-btn.small{ padding:10px 14px; font-size:13px; margin-top:0; flex-shrink:0; }
 
 /* Tracker screen */
 .big-timer{ text-align:center; margin:8px 0 4px; }
@@ -386,7 +436,10 @@ p.sub{ color:var(--muted); font-size:14px; margin:0 0 16px; line-height:1.4; }
         <div class="home-hi">ยินดีต้อนรับ</div>
         <div class="home-wordmark">English <span class="jj">jing jing</span></div>
       </div>
-      <div class="streak-chip" onclick="go('tracker')"><svg class="ic" viewBox="0 0 24 24"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/></svg> <span id="home-streak">0</span></div>
+      <div style="display:flex;align-items:center;gap:8px;">
+        <div class="streak-chip" onclick="go('tracker')"><svg class="ic" viewBox="0 0 24 24"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/></svg> <span id="home-streak">0</span></div>
+        <button class="gear-btn" onclick="go('settings')" title="Settings"><svg class="ic" viewBox="0 0 24 24"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/></svg></button>
+      </div>
     </div>
 
     <button class="big-btn" onclick="go('flash-setup')">
@@ -398,6 +451,12 @@ p.sub{ color:var(--muted); font-size:14px; margin:0 0 16px; line-height:1.4; }
     <button class="big-btn" onclick="go('drill-setup')">
       <div class="emoji"><svg class="ic" viewBox="0 0 24 24"><path d="M12 20h9"/><path d="M16.376 3.622a1 1 0 0 1 3.002 3.002L7.368 18.635a2 2 0 0 1-.855.506l-2.872.838a.5.5 0 0 1-.62-.62l.838-2.872a2 2 0 0 1 .506-.854z"/></svg></div>
       <div><div class="label">Conjugation Drill <span class="lock-badge" id="lock-drill-setup" style="display:none;"></span></div><div class="desc">Tenses, verbs, questions, modals…</div></div>
+      <div class="chev"><svg class="ic" viewBox="0 0 24 24"><path d="m9 18 6-6-6-6"/></svg></div>
+    </button>
+
+    <button class="big-btn" onclick="go('pron-setup')">
+      <div class="emoji"><svg class="ic" viewBox="0 0 24 24"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" x2="12" y1="19" y2="22"/></svg></div>
+      <div><div class="label">Pronunciation <span class="lock-badge" id="lock-pron-setup" style="display:none;"></span></div><div class="desc">Sounds that are tricky for Thai speakers</div></div>
       <div class="chev"><svg class="ic" viewBox="0 0 24 24"><path d="m9 18 6-6-6-6"/></svg></div>
     </button>
 
@@ -573,6 +632,36 @@ p.sub{ color:var(--muted); font-size:14px; margin:0 0 16px; line-height:1.4; }
     <div id="grammar-detail-body" style="flex:1;overflow-y:auto;"></div>
   </section>
 
+  <!-- PRONUNCIATION: CATEGORY LIST -->
+  <section class="screen" id="screen-pron-setup">
+    <div class="topbar"><button class="back-btn" onclick="go('home')"><svg class="ic" viewBox="0 0 24 24"><path d="m15 18-6-6 6-6"/></svg></button><h1>Pronunciation</h1><div style="width:36px"></div></div>
+    <div class="sub"><div class="th">ฝึกออกเสียงและพยางค์ที่ออกเสียงยากสำหรับคนไทย ส่วนคำศัพท์เต็มคำและประโยคมีอยู่แล้วใน Flashcards ตรงนี้เน้นที่ตัวเสียงล้วนๆ</div><div class="bilingual-en">Train the sounds and syllables that are tricky for Thai speakers. Flashcards already cover full words and sentences, this is just about the sound itself.</div></div>
+    <div id="pron-cat-list" style="flex:1;overflow-y:auto;margin-top:10px;"></div>
+  </section>
+
+  <!-- PRONUNCIATION: PRACTICE -->
+  <section class="screen" id="screen-pron-practice">
+    <div class="topbar"><button class="back-btn" onclick="go('pron-setup')"><svg class="ic" viewBox="0 0 24 24"><path d="m15 18-6-6 6-6"/></svg></button><h1 id="pron-practice-title">Pronunciation</h1><div style="width:36px"></div></div>
+    <div class="card-counter" id="pron-progress"></div>
+    <div class="pron-tip" id="pron-tip"></div>
+
+    <div class="drill-card" id="pron-body"></div>
+
+    <div class="drill-card">
+      <div class="section-label" style="margin-top:0;">Say it yourself</div>
+      <div class="rec-row">
+        <button class="rec-btn" id="pron-rec-btn" onclick="togglePronRecording()"><svg class="ic" viewBox="0 0 24 24"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" x2="12" y1="19" y2="22"/></svg></button>
+        <div class="rec-status" id="pron-rec-status">Tap to record yourself, then compare</div>
+        <button class="ghost-btn small" id="pron-rec-playback" style="display:none;" onclick="playPronRecording()">▶ Play mine</button>
+      </div>
+    </div>
+
+    <div class="fc-nav">
+      <button onclick="prevPronCard()">← previous</button>
+      <button onclick="nextPronCard()">next →</button>
+    </div>
+  </section>
+
   <!-- TRACKER -->
   <section class="screen" id="screen-tracker">
     <div class="topbar"><h1><svg class="ic" viewBox="0 0 24 24" style="width:18px;height:18px;vertical-align:-2px;"><path d="M3 3v16a2 2 0 0 0 2 2h16"/><path d="M18 17V9"/><path d="M13 17V5"/><path d="M8 17v-3"/></svg> Your Progress</h1><div style="width:36px"></div></div>
@@ -625,6 +714,19 @@ p.sub{ color:var(--muted); font-size:14px; margin:0 0 16px; line-height:1.4; }
     <div id="drill-mistake-list"></div>
 
     <p class="sub" style="text-align:center;margin-top:24px;">Time is tracked automatically while the app is open and active (Flashcards or Drill).</p>
+  </section>
+
+  <!-- SETTINGS -->
+  <section class="screen" id="screen-settings">
+    <div class="topbar"><button class="back-btn" onclick="go('home')"><svg class="ic" viewBox="0 0 24 24"><path d="m15 18-6-6 6-6"/></svg></button><h1>Settings</h1><div style="width:36px"></div></div>
+    <div class="section-label">Speech</div>
+    <div class="rate-card">
+      <div class="rate-head"><b>Playback speed</b><span id="settings-rate-label">0.55×</span></div>
+      <input type="range" class="rate-slider" id="settings-rate-slider" min="0.35" max="1" step="0.05" value="0.55" oninput="setSpeechRate(this.value)">
+      <div class="rate-scale"><span>Slower</span><span>Normal</span></div>
+      <button class="ghost-btn" style="margin:16px 0 0;display:flex;align-items:center;justify-content:center;gap:8px;" onclick="speak('This is how a sentence sounds at this speed.','en-US')"><svg class="ic" viewBox="0 0 24 24"><path d="M11 4.702a.705.705 0 0 0-1.203-.498L6.413 7.587A1.4 1.4 0 0 1 5.416 8H3a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h2.416a1.4 1.4 0 0 1 .997.413l3.383 3.384A.705.705 0 0 0 11 19.298z"/><path d="M16 9a5 5 0 0 1 0 6"/><path d="M19.364 18.364a9 9 0 0 0 0-12.728"/></svg> Test this speed</button>
+    </div>
+    <p class="sub" style="margin-top:14px;">This speed applies everywhere the app reads English aloud: Flashcards, the Drill, and Pronunciation practice.</p>
   </section>
 
   <!-- PAYWALL -->
@@ -715,21 +817,28 @@ function pickSoftVoice(lang){
   }
   return voices.find(v=>v.lang===lang) || voices.find(v=>v.lang && v.lang.startsWith(lang.split("-")[0])) || null;
 }
+let speechRate = 0.55;
+function setSpeechRate(r){
+  speechRate = Math.round(r*100)/100;
+  LS.set("et_speech_rate", speechRate);
+  const label = document.getElementById("settings-rate-label");
+  if(label) label.textContent = speechRate.toFixed(2)+"×";
+}
 function speak(text, lang, rate){
   if(!("speechSynthesis" in window) || !text) return;
   speechSynthesis.cancel();
   const utter = new SpeechSynthesisUtterance(text);
   utter.lang = lang;
-  utter.rate = rate || (lang==="en-US" ? 0.55 : 0.95);
+  utter.rate = rate || (lang==="en-US" ? speechRate : 0.95);
   utter.pitch = 1.0;
   const voice = pickSoftVoice(lang);
   if(voice) utter.voice = voice;
   speechSynthesis.speak(utter);
 }
 function speakFlashBack(){ speak(document.getElementById("fc-back").textContent, "en-US"); }
-function speakFlashExample(){ speak(document.getElementById("fc-example").textContent, "en-US", 0.55); }
+function speakFlashExample(){ speak(document.getElementById("fc-example").textContent, "en-US"); }
 function speakDrillVerb(){ const it=drillState.current; if(it) speak(it.verb.b, "en-US"); }
-function speakDrillSentence(){ if(drillState.lastFullSentence) speak(drillState.lastFullSentence, "en-US", 0.55); }
+function speakDrillSentence(){ if(drillState.lastFullSentence) speak(drillState.lastFullSentence, "en-US"); }
 
 /* =========================================================
    DATA — VOCABULARY (thai front / english back)
@@ -4433,6 +4542,7 @@ function todayKey(){ return dateKey(new Date()); }
 
 let known = LS.get("et_known", {});
 function saveKnown(){ LS.set("et_known", known); }
+speechRate = LS.get("et_speech_rate", 0.55);
 
 let flashState = { level:"all", cat:"all", mode:"all", sessionSize:"all", deck:[], idx:0, flipped:false, sessionKnown:0, sessionUnknown:0 };
 let drillState = { tenses:{}, types:{aff:true,neg:true,q:true}, verbType:"all", level:"all", sessionSize:15, sessionGoal:15, sessionIndex:0, sessionCorrect:0, pool:[], current:null, revealed:false };
@@ -4444,7 +4554,7 @@ function saveDrillMistakes(){ LS.set("et_drill_mistakes", drillMistakes); }
 /* =========================================================
    NAVIGATION
    ========================================================= */
-const LOCKED_SCREENS = new Set(["drill-setup","verbs","grammar"]);
+const LOCKED_SCREENS = new Set(["drill-setup","verbs","grammar","pron-setup"]);
 function isUnlocked(){ return LS.get("et_unlocked", false) === true; }
 function go(name){
   if(LOCKED_SCREENS.has(name) && !isUnlocked()) name = "paywall";
@@ -4458,6 +4568,12 @@ function go(name){
   if(name==="verbs") renderVerbList();
   if(name==="irregular-ref") renderIrregularRef();
   if(name==="grammar") renderGrammarList();
+  if(name==="settings") renderSettings();
+  if(name==="pron-setup") renderPronCategoryList();
+}
+function renderSettings(){
+  document.getElementById("settings-rate-slider").value = speechRate;
+  document.getElementById("settings-rate-label").textContent = speechRate.toFixed(2)+"×";
 }
 
 /* =========================================================
@@ -4555,7 +4671,7 @@ setInterval(()=>{
 function renderHome(){
   updateTrackerUI();
   const locked = !isUnlocked();
-  ["lock-drill-setup","lock-verbs","lock-grammar"].forEach(id=>{
+  ["lock-drill-setup","lock-verbs","lock-grammar","lock-pron-setup"].forEach(id=>{
     const el = document.getElementById(id);
     if(!el) return;
     el.style.display = locked ? "inline-flex" : "none";
@@ -8564,7 +8680,14 @@ function gjErrorsHtml(pIdx, ex, solved){
   const progressHtml = solved
     ? `<div class="gj-err-progress" style="color:var(--good-fg);">${icon('circle_check_big')} Found all ${total} mistakes!</div>`
     : `<div class="gj-err-progress">Tap the words that are wrong — ${foundList.length} / ${total} found.</div>`;
-  return `<div class="gj-err-text">${textHtml}</div>${notesHtml}${progressHtml}`;
+  const listenBtn = `<button class="spk-btn-inline" onclick="speakGjErrorsText(${pIdx})" title="Listen">${icon('volume_2')}</button>`;
+  return `<div class="gj-err-text">${listenBtn} ${textHtml}</div>${notesHtml}${progressHtml}`;
+}
+function speakGjErrorsText(pIdx){
+  const l = GJ_LESSONS[gjLessonIdx];
+  const ex = l.practice[pIdx];
+  const text = ex.tokens.map(t=> (t&&t.err) ? t.word : t).join(" ");
+  speak(text, "en-US");
 }
 function gjErrorsTap(pIdx, tokenIdx){
   const l = GJ_LESSONS[gjLessonIdx];
@@ -8816,6 +8939,305 @@ async function tryActivateFromUrl(){
     showBanner("Thanks for your purchase! Check your email for your access link.");
     window.history.replaceState({}, "", window.location.pathname);
   }
+}
+
+/* =========================================================
+   PRONUNCIATION PRACTICE
+   ========================================================= */
+const PRON_CARDS = [
+  { key:"b_p", mode:"pairs", section:"Consonants", label:"B vs P", hint:"voiced vs voiceless",
+    tip:"For B, your voice buzzes as your lips open. For P, there's no buzz, just a puff of air.",
+    tipTh:"เสียง B ให้เสียงสั่นตอนริมฝีปากเปิดออก ส่วนเสียง P ไม่มีเสียงสั่น มีแต่ลมพุ่งออกมา",
+    pairs:[{a:"bat",b:"pat"},{a:"cab",b:"cap"},{a:"robe",b:"rope"}] },
+  { key:"d_t", mode:"pairs", section:"Consonants", label:"D vs T", hint:"voiced vs voiceless",
+    tip:"For D, your voice buzzes as your tongue releases. For T, there's no buzz, just a puff of air.",
+    tipTh:"เสียง D ให้เสียงสั่นตอนลิ้นปล่อยออก ส่วนเสียง T ไม่มีเสียงสั่น มีแต่ลมพุ่งออกมา",
+    pairs:[{a:"dime",b:"time"},{a:"made",b:"mate"},{a:"bad",b:"bat"}] },
+  { key:"g_k", mode:"pairs", section:"Consonants", label:"G vs K", hint:"voiced vs voiceless",
+    tip:"For G, your voice buzzes as the back of your tongue releases. For K, there's no buzz, just a puff of air.",
+    tipTh:"เสียง G ให้เสียงสั่นตอนโคนลิ้นปล่อยออก ส่วนเสียง K ไม่มีเสียงสั่น มีแต่ลมพุ่งออกมา",
+    pairs:[{a:"game",b:"came"},{a:"bag",b:"back"},{a:"goat",b:"coat"}] },
+  { key:"f_v", mode:"pairs", section:"Consonants", label:"F vs V", hint:"voiceless vs voiced",
+    tip:"Both use your top teeth on your bottom lip. V buzzes, F doesn't.",
+    tipTh:"ทั้งสองเสียงใช้ฟันบนแตะริมฝีปากล่างเหมือนกัน แต่ V มีเสียงสั่น ส่วน F ไม่มี",
+    pairs:[{a:"leaf",b:"leave"},{a:"safe",b:"save"},{a:"half",b:"halve"}] },
+  { key:"s_z", mode:"pairs", section:"Consonants", label:"S vs Z", hint:"voiceless vs voiced",
+    tip:"Both hiss with the tip of your tongue near your top teeth. Z buzzes, S doesn't.",
+    tipTh:"ทั้งสองเสียงใช้ปลายลิ้นใกล้ฟันบนเหมือนกัน แต่ Z มีเสียงสั่น ส่วน S ไม่มี",
+    pairs:[{a:"rice",b:"rise"},{a:"price",b:"prize"},{a:"bus",b:"buzz"}] },
+  { key:"th", mode:"sound", section:"Consonants", label:"TH", hint:"voiced vs unvoiced",
+    tip:"For unvoiced TH (think), just blow air, no buzz. For voiced TH (this), same tongue position, but your voice buzzes. Compare think and this to feel the difference.",
+    tipTh:"เสียง TH ไม่ก้อง (think) แค่เป่าลมออกมาเฉยๆ ไม่มีเสียงสั่น ส่วนเสียง TH ก้อง (this) ทำท่าลิ้นแบบเดียวกันแต่ให้เสียงสั่นด้วย ลองเทียบ think กับ this เพื่อรู้สึกถึงความแตกต่าง",
+    groups:[{label:"unvoiced (think)", words:["think","three","path","mouth","author"]},{label:"voiced (this)", words:["this","that","mother","breathe","smooth"]}] },
+  { key:"sh", mode:"sound", section:"Consonants", label:"SH", hint:"as in shop",
+    tip:"Round your lips and push air out in one smooth stream, no /s/ before it.",
+    tipTh:"ห่อปากให้กลมแล้วดันลมออกเป็นเสียงเดียวลื่นๆ อย่ามีเสียง /s/ นำหน้า",
+    groups:[{words:["shop","wash","fish","sure","ocean"]}] },
+  { key:"ch", mode:"sound", section:"Consonants", label:"CH", hint:"as in chair",
+    tip:"Start like /t/, then release into /sh/, a small burst of air.",
+    tipTh:"เริ่มเหมือนเสียง /t/ แล้วปล่อยต่อเป็นเสียง /sh/ มีลมพุ่งออกมาเล็กน้อย",
+    groups:[{words:["chair","teach","watch","much","picture"]}] },
+  { key:"shchj", mode:"pairs", section:"Consonants", label:"SH vs CH vs J", hint:"three related sounds",
+    tip:"SH is one smooth sound, no burst of air. CH starts like /t/ then bursts into SH. J is the same burst as CH, but with your voice buzzing.",
+    tipTh:"SH เป็นเสียงเดียวลื่นๆ ไม่มีลมพุ่ง ส่วน CH เริ่มเหมือน /t/ แล้วพุ่งต่อเป็น SH และ J ก็พุ่งแบบเดียวกับ CH แต่มีเสียงสั่นด้วย",
+    pairs:[{a:"share",b:"chair"},{a:"cheap",b:"jeep"},{a:"watch",b:"wash"}] },
+  { key:"vw", mode:"sound", section:"Consonants", label:"V vs W", hint:"two very different mouths",
+    tip:"For V, your top teeth touch your bottom lip and buzz. For W, round your lips like blowing out a candle, no teeth at all.",
+    tipTh:"เสียง V ให้ฟันบนแตะริมฝีปากล่างแล้วสั่นเสียง ส่วนเสียง W ให้ห่อปากกลมเหมือนเป่าเทียน ไม่ใช้ฟันเลย",
+    groups:[{label:"V", words:["vine","very","van","move","seven"]},{label:"W", words:["wine","west","wet","wow","away"]}] },
+  { key:"rl", mode:"sound", section:"Consonants", label:"R vs L", hint:"two tongue positions",
+    tip:"For R, curl your tongue back without touching anywhere. For L, touch the tip of your tongue right behind your top teeth.",
+    tipTh:"เสียง R ให้ม้วนลิ้นไปด้านหลังโดยไม่แตะที่ไหนเลย ส่วนเสียง L ให้ปลายลิ้นแตะเหงือกหลังฟันบน",
+    groups:[{label:"R", words:["right","road","rock","fry","very"]},{label:"L", words:["light","load","lock","fly","silly"]}] },
+  { key:"aspiration", mode:"sound", section:"Consonants", label:"Aspirated T/P/K", hint:"a strong puff of air",
+    tip:"Hold a strip of paper in front of your mouth. At the start of a word, T, P and K need a strong puff of air, the paper should move.",
+    tipTh:"ลองถือกระดาษบางๆ ไว้หน้าปาก เวลาพูดคำที่ขึ้นต้นด้วย T, P, K ต้องมีลมพุ่งแรงจนกระดาษสะบัด",
+    groups:[{words:["top","pop","kite","tape","cake"]}] },
+  { key:"finals", mode:"pairs", section:"Consonants", label:"Final Consonants", hint:"one sound, a different word",
+    tip:"Changing or dropping the very last sound gives you a completely different word. Push every final consonant all the way through, don't stop early.",
+    tipTh:"การเปลี่ยนหรือตัดเสียงสุดท้ายทิ้งทำให้กลายเป็นคนละคำไปเลย ออกเสียงพยัญชนะตัวสุดท้ายให้ครบทุกครั้ง อย่าหยุดก่อน",
+    pairs:[
+      {a:"life", b:"light"},
+      {a:"cat", b:"cap"},
+      {a:"big", b:"bid"},
+      {a:"back", b:"bat"},
+      {a:"seat", b:"seal"},
+      {a:"map", b:"mat"}
+    ] },
+  { key:"clusters", mode:"sound", section:"Consonants", label:"Consonant Clusters", hint:"say every consonant",
+    tip:"English often stacks several consonants together. Say every consonant in the group, don't skip any.",
+    tipTh:"ภาษาอังกฤษมักซ้อนพยัญชนะหลายตัวติดกัน ให้ออกเสียงพยัญชนะทุกตัวในกลุ่ม อย่าข้ามตัวใดตัวหนึ่ง",
+    groups:[{words:["street","spring","black","twelve","asked","world"]}] },
+  { key:"ae_aa", mode:"pairs", section:"Vowels", label:"Short A vs Broad A", hint:"cat vs cart",
+    tip:"Short A is quick with your jaw slightly open. Broad A is longer with your mouth open wide.",
+    tipTh:"เสียงสระสั้น A ออกเสียงเร็วโดยอ้าขากรรไกรเล็กน้อย ส่วนเสียงสระยาว A ลากเสียงยาวกว่าโดยอ้าปากกว้าง",
+    pairs:[{a:"cat",b:"cart"},{a:"bad",b:"bard"},{a:"hat",b:"heart"}] },
+  { key:"ee_i", mode:"sound", section:"Vowels", label:"EE vs I", hint:"long vs short vowel",
+    tip:"EE is long, stretch your lips wide and hold it. I is short and relaxed, don't stretch.",
+    tipTh:"เสียง EE ยาว ให้ยิ้มยืดริมฝีปากกว้างแล้วลากเสียงยาว ส่วนเสียง I สั้นและผ่อนคลาย ไม่ต้องยืดปาก",
+    groups:[{label:"EE (long)", words:["sheep","seat","feel","each"]},{label:"I (short)", words:["ship","sit","fill","itch"]}] },
+  { key:"oo_len", mode:"sound", section:"Vowels", label:"OO vs OO", hint:"long vs short, same letters",
+    tip:"Both spelled 'oo', but one is long and round-lipped, the other short and relaxed.",
+    tipTh:"ตัวสะกดเป็น 'oo' เหมือนกัน แต่เสียงหนึ่งยาวและห่อปากกลม อีกเสียงสั้นและผ่อนคลาย",
+    groups:[{label:"OO (long)", words:["fool","moon","food","school"]},{label:"OO (short)", words:["full","book","look","good"]}] },
+  { key:"ai_ay", mode:"sound", section:"Vowels", label:"AI / AY", hint:"long a, as in day",
+    tip:"Glide from 'eh' to 'ee', don't hold it flat.",
+    tipTh:"ลากเสียงจาก 'เอ' ไปยัง 'อี' อย่าออกเสียงแบนเรียบเสียงเดียว",
+    groups:[{words:["day","rain","play","train","say"]}] },
+  { key:"oa_ow", mode:"sound", section:"Vowels", label:"OA / OW", hint:"long o, as in go",
+    tip:"Round your lips and glide from 'oh' to 'oo'.",
+    tipTh:"ห่อปากแล้วลากเสียงจาก 'โอ' ไปยัง 'อู'",
+    groups:[{words:["go","boat","snow","road","know"]}] },
+  { key:"oi_oy", mode:"sound", section:"Vowels", label:"OI / OY", hint:"as in boy",
+    tip:"Glide from 'oh' to 'ee' in one syllable, don't split it in two.",
+    tipTh:"ลากเสียงจาก 'โอ' ไปยัง 'อี' ในพยางค์เดียว อย่าแยกเป็นสองพยางค์",
+    groups:[{words:["boy","coin","toy","noise","voice"]}] },
+  { key:"ow_ou", mode:"sound", section:"Vowels", label:"OW / OU", hint:"as in cow",
+    tip:"Glide from 'ah' to 'oo', open your mouth wide then round your lips.",
+    tipTh:"ลากเสียงจาก 'อา' ไปยัง 'อู' อ้าปากกว้างก่อนแล้วค่อยห่อปากกลม",
+    groups:[{words:["cow","house","out","town","sound"]}] },
+  { key:"r_controlled", mode:"sound", section:"Vowels", label:"AR / OR / ER", hint:"vowel + r sounds",
+    tip:"The vowel almost disappears, most of the sound is the r-colouring. Three spellings, the same idea.",
+    tipTh:"เสียงสระแทบจะหายไป ส่วนใหญ่เป็นเสียง r สะกดต่างกันสามแบบแต่หลักการเดียวกัน",
+    groups:[{label:"AR", words:["car","star","park"]},{label:"OR", words:["for","more","door"]},{label:"ER/IR/UR", words:["her","bird","nurse"]}] },
+  { key:"stress", mode:"stress", section:"Word patterns", label:"Word Stress", hint:"one strong syllable per word",
+    tip:"English stresses one syllable and shrinks the others. Thai uses tones instead of stress, so this takes extra practice.",
+    tipTh:"ภาษาอังกฤษเน้นเสียงหนักที่พยางค์เดียวแล้วลดพยางค์อื่นให้เบาลง ภาษาไทยใช้วรรณยุกต์แทนการเน้นเสียงหนัก จึงต้องฝึกเพิ่มเป็นพิเศษ",
+    words:[
+      {word:"photograph", syll:[["pho",1],["to",0],["graph",0]]},
+      {word:"photography", syll:[["pho",0],["tog",1],["ra",0],["phy",0]]},
+      {word:"important", syll:[["im",0],["por",1],["tant",0]]},
+      {word:"comfortable", syll:[["com",1],["for",0],["ta",0],["ble",0]]},
+      {word:"banana", syll:[["ba",0],["na",1],["na",0]]},
+      {word:"computer", syll:[["com",0],["pu",1],["ter",0]]}
+    ] },
+  { key:"silent", mode:"silent", section:"Word patterns", label:"Silent Letters", hint:"written but never said",
+    tip:"These letters are written but never pronounced. They follow patterns, grouped below, skip them completely when you speak.",
+    tipTh:"ตัวอักษรเหล่านี้เขียนไว้แต่ไม่ออกเสียง แต่ละกลุ่มด้านล่างมีรูปแบบของมัน ให้ข้ามไปเลยตอนพูด",
+    groups:[
+      { why:"Starts with 'kn': the k is always silent.", whyTh:"ขึ้นต้นด้วย 'kn': ตัว k จะไม่ออกเสียงเสมอ",
+        words:[{word:"knife",silent:[0]},{word:"knee",silent:[0]},{word:"know",silent:[0]},{word:"knock",silent:[0]}] },
+      { why:"Starts with 'wr': the w is always silent.", whyTh:"ขึ้นต้นด้วย 'wr': ตัว w จะไม่ออกเสียงเสมอ",
+        words:[{word:"write",silent:[0]},{word:"wrong",silent:[0]},{word:"wrist",silent:[0]}] },
+      { why:"Ends with 'mb': only the m is pronounced.", whyTh:"ลงท้ายด้วย 'mb': ออกเสียงแค่ตัว m เท่านั้น",
+        words:[{word:"climb",silent:[4]},{word:"comb",silent:[3]},{word:"thumb",silent:[4]},{word:"lamb",silent:[3]}] },
+      { why:"'gh' after a vowel is usually silent.", whyTh:"'gh' หลังสระมักไม่ออกเสียง",
+        words:[{word:"night",silent:[2,3]},{word:"light",silent:[2,3]},{word:"though",silent:[4,5]},{word:"daughter",silent:[3,4]}] },
+      { why:"A few words from French never pronounce the initial h.", whyTh:"บางคำที่มาจากภาษาฝรั่งเศสไม่ออกเสียง h ตัวหน้า",
+        words:[{word:"hour",silent:[0]},{word:"honest",silent:[0]},{word:"honor",silent:[0]}] },
+      { why:"A silent s shows up in a small set of words.", whyTh:"มีบางคำที่ตัว s ไม่ออกเสียง",
+        words:[{word:"island",silent:[1]},{word:"aisle",silent:[2]}] },
+      { why:"A t between certain consonant sounds often disappears.", whyTh:"ตัว t ที่อยู่ระหว่างเสียงพยัญชนะบางแบบมักไม่ออกเสียง",
+        words:[{word:"listen",silent:[3]},{word:"castle",silent:[3]},{word:"often",silent:[2]},{word:"fasten",silent:[3]}] },
+      { why:"This one is just irregular, said differently from how it's spelled.", whyTh:"คำนี้เป็นข้อยกเว้น ออกเสียงต่างจากที่สะกดไว้",
+        words:[{word:"wednesday",silent:[2]}] }
+    ] }
+];
+
+let pronState = { idx:0 };
+let pronRecorder = null, pronChunks = [], pronBlobUrl = null, pronAudioEl = null;
+
+function renderPronCategoryList(){
+  const el = document.getElementById("pron-cat-list");
+  let lastSection = null;
+  el.innerHTML = PRON_CARDS.map(c=>{
+    const sectionHtml = c.section!==lastSection
+      ? `<div class="section-label" style="${lastSection===null?'margin-top:0;':''}">${c.section}</div>`
+      : "";
+    lastSection = c.section;
+    return `${sectionHtml}
+    <button class="verb-row" style="width:100%;border:none;font-family:inherit;text-align:left;" onclick="openPronCard('${c.key}')">
+      <div class="row-icon" style="background:linear-gradient(150deg,var(--blue-2),var(--blue));"><svg class="ic" viewBox="0 0 24 24"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" x2="12" y1="19" y2="22"/></svg></div>
+      <div class="info">
+        <div class="en">${c.label}</div>
+        <div class="th" style="color:var(--muted);">${c.hint}</div>
+      </div>
+    </button>`;
+  }).join("");
+}
+
+function openPronCard(key){
+  pronState.idx = PRON_CARDS.findIndex(c=>c.key===key);
+  if(pronState.idx<0) pronState.idx = 0;
+  go("pron-practice");
+  renderPronCard();
+}
+
+function currentPronCard(){ return PRON_CARDS[pronState.idx]; }
+
+function bilingualHtml(en, th){
+  return `${th?`<div class="th">${th}</div>`:""}<div class="bilingual-en">${en}</div>`;
+}
+
+function pronGroupHtml(g){
+  return `
+    ${g.label ? `<div class="pron-group-label">${g.label}</div>` : ""}
+    <div class="pron-syll-row">${g.words.map(w=>`<button class="syll-chip" onclick="speak('${w}','en-US')">${w}</button>`).join("")}</div>`;
+}
+
+function pronPlayCenterHtml(){
+  return `<div class="pron-play-center"><button class="play-icon-btn" onclick="playPronAll()" title="Listen">${icon('volume_2')}</button></div>`;
+}
+
+function renderPronCard(){
+  const c = currentPronCard();
+  if(!c) return;
+  resetPronRecording();
+
+  document.getElementById("pron-practice-title").textContent = c.label;
+  document.getElementById("pron-progress").textContent = `${pronState.idx+1} of ${PRON_CARDS.length} · ${c.hint}`;
+  document.getElementById("pron-tip").innerHTML = bilingualHtml(c.tip, c.tipTh);
+
+  const body = document.getElementById("pron-body");
+  if(c.mode==="sound"){
+    const groupsHtml = c.groups.map(pronGroupHtml).join("");
+    const compareBtn = c.groups.length===2
+      ? `<button class="ghost-btn" style="display:flex;align-items:center;justify-content:center;gap:7px;" onclick="playPronCompare()">${icon('volume_2')} Compare ${c.groups[0].words[0]} / ${c.groups[1].words[0]}</button>`
+      : "";
+    body.innerHTML = `${groupsHtml}${pronPlayCenterHtml()}${compareBtn}`;
+  } else if(c.mode==="pairs"){
+    body.innerHTML = `${c.pairs.map(p=>`
+      <div class="pron-pair-row">
+        <button class="syll-chip" onclick="speak('${p.a}','en-US')">${p.a}</button>
+        <button class="pron-pair-vs" onclick="speakChain(['${p.a}','${p.b}'])" title="Compare">${icon('volume_2')}</button>
+        <button class="syll-chip" onclick="speak('${p.b}','en-US')">${p.b}</button>
+      </div>`).join("")}${pronPlayCenterHtml()}`;
+  } else if(c.mode==="stress"){
+    body.innerHTML = `${c.words.map(w=>`
+      <div class="pron-stress-row">
+        <div class="pron-syll-row">${w.syll.map(([t,st])=>`<button class="syll-chip ${st?'stressed':''}" onclick="speak('${t}','en-US',0.4)">${t}</button>`).join("")}</div>
+        <button class="ghost-btn small" onclick="speak('${w.word}','en-US')">▶ ${w.word}</button>
+      </div>`).join("")}${pronPlayCenterHtml()}`;
+  } else if(c.mode==="silent"){
+    body.innerHTML = `${c.groups.map(g=>`
+      <div class="pron-why">${bilingualHtml(g.why, g.whyTh)}</div>
+      ${g.words.map(w=>{
+        const marked = w.word.split("").map((ch,i)=> w.silent.includes(i) ? `<span class="pron-silent-letter">${ch}</span>` : ch).join("");
+        return `<button class="pron-silent-row" onclick="speak('${w.word}','en-US')">${marked}</button>`;
+      }).join("")}`).join("")}${pronPlayCenterHtml()}`;
+  }
+}
+
+function playPronAll(){
+  const c = currentPronCard();
+  if(!c) return;
+  if(c.mode==="sound") speakChain(c.groups.flatMap(g=>g.words));
+  else if(c.mode==="pairs") speakChain(c.pairs.flatMap(p=>[p.a,p.b]));
+  else if(c.mode==="stress") speakChain(c.words.map(w=>w.word));
+  else if(c.mode==="silent") speakChain(c.groups.flatMap(g=>g.words.map(w=>w.word)));
+}
+function playPronCompare(){
+  const c = currentPronCard();
+  if(!c || c.mode!=="sound" || c.groups.length!==2) return;
+  speakChain([c.groups[0].words[0], c.groups[1].words[0]]);
+}
+function speakChain(words){
+  if(!("speechSynthesis" in window) || !words.length) return;
+  speechSynthesis.cancel();
+  const voice = pickSoftVoice("en-US");
+  let i = 0;
+  function next(){
+    if(i>=words.length) return;
+    const u = new SpeechSynthesisUtterance(words[i]);
+    u.lang = "en-US"; u.rate = speechRate; u.pitch = 1.0;
+    if(voice) u.voice = voice;
+    u.onend = ()=>{ i++; next(); };
+    speechSynthesis.speak(u);
+  }
+  next();
+}
+
+function nextPronCard(){ pronState.idx=(pronState.idx+1)%PRON_CARDS.length; renderPronCard(); }
+function prevPronCard(){ pronState.idx=(pronState.idx-1+PRON_CARDS.length)%PRON_CARDS.length; renderPronCard(); }
+
+/* Recording stays on-device only (object URL in memory) so the learner can compare
+   their own voice to the native audio; nothing is uploaded or persisted. */
+function resetPronRecording(){
+  if(pronRecorder && pronRecorder.state==="recording") pronRecorder.stop();
+  if(pronBlobUrl) URL.revokeObjectURL(pronBlobUrl);
+  pronBlobUrl = null;
+  pronChunks = [];
+  document.getElementById("pron-rec-btn").classList.remove("recording");
+  document.getElementById("pron-rec-status").textContent = "Tap to record yourself, then compare";
+  document.getElementById("pron-rec-playback").style.display = "none";
+}
+
+async function togglePronRecording(){
+  if(pronRecorder && pronRecorder.state==="recording"){
+    pronRecorder.stop();
+    return;
+  }
+  if(!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia){
+    document.getElementById("pron-rec-status").textContent = "Recording isn't supported on this browser.";
+    return;
+  }
+  try{
+    const stream = await navigator.mediaDevices.getUserMedia({audio:true});
+    pronChunks = [];
+    pronRecorder = new MediaRecorder(stream);
+    pronRecorder.ondataavailable = e=>{ if(e.data.size>0) pronChunks.push(e.data); };
+    pronRecorder.onstop = ()=>{
+      stream.getTracks().forEach(t=>t.stop());
+      if(pronBlobUrl) URL.revokeObjectURL(pronBlobUrl);
+      const blob = new Blob(pronChunks, {type:"audio/webm"});
+      pronBlobUrl = URL.createObjectURL(blob);
+      document.getElementById("pron-rec-btn").classList.remove("recording");
+      document.getElementById("pron-rec-status").textContent = "Recorded! Listen back and compare.";
+      document.getElementById("pron-rec-playback").style.display = "inline-flex";
+    };
+    pronRecorder.start();
+    document.getElementById("pron-rec-btn").classList.add("recording");
+    document.getElementById("pron-rec-status").textContent = "Recording… tap again to stop.";
+  }catch(e){
+    document.getElementById("pron-rec-status").textContent = "Microphone access was denied.";
+  }
+}
+
+function playPronRecording(){
+  if(!pronBlobUrl) return;
+  if(!pronAudioEl) pronAudioEl = new Audio();
+  pronAudioEl.src = pronBlobUrl;
+  pronAudioEl.play();
 }
 
 /* init */
