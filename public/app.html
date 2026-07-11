@@ -9301,7 +9301,7 @@ async function togglePronRecording(){
     pronRecorder.onstop = ()=>{
       stream.getTracks().forEach(t=>t.stop());
       if(pronBlobUrl) URL.revokeObjectURL(pronBlobUrl);
-      const blob = new Blob(pronChunks, {type:"audio/webm"});
+      const blob = new Blob(pronChunks, {type: pronRecorder.mimeType || "audio/webm"});
       pronBlobUrl = URL.createObjectURL(blob);
       document.getElementById("pron-rec-btn").classList.remove("recording");
       document.getElementById("pron-rec-status").textContent = "Recorded! Listen back and compare.";
@@ -9319,7 +9319,9 @@ function playPronRecording(){
   if(!pronBlobUrl) return;
   if(!pronAudioEl) pronAudioEl = new Audio();
   pronAudioEl.src = pronBlobUrl;
-  pronAudioEl.play();
+  pronAudioEl.play().catch(()=>{
+    document.getElementById("pron-rec-status").textContent = "Couldn't play back the recording on this device.";
+  });
 }
 
 /* init */
