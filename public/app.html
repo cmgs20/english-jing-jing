@@ -23,9 +23,10 @@
   --thai:var(--orange-2); --radius:20px;
 }
 *{box-sizing:border-box; -webkit-tap-highlight-color:transparent;}
-html,body{height:100%;}
+html,body{height:100%; overflow-x:hidden;}
 body{
   margin:0;
+  width:100%;
   background:
     radial-gradient(1200px 700px at 20% -5%, #1a2140 0%, transparent 55%),
     radial-gradient(1000px 600px at 90% 8%, #241a3a 0%, transparent 50%),
@@ -46,7 +47,7 @@ body{
 .screen.active{ display:flex; }
 @keyframes fade{ from{opacity:0; transform:translateY(6px);} to{opacity:1; transform:none;} }
 
-.topbar{ display:flex; align-items:center; gap:12px; padding:2px 4px 16px; }
+.topbar{ display:flex; align-items:center; gap:12px; padding:2px 18px 16px; margin:0 -18px; position:sticky; top:env(safe-area-inset-top,0px); z-index:9; background:rgba(10,12,22,.92); backdrop-filter:blur(10px); -webkit-backdrop-filter:blur(10px); }
 .topbar h1{ font-size:19px; margin:0; font-weight:800; letter-spacing:-.2px; flex:1; }
 .back-btn{ background:var(--card2); border:1px solid rgba(255,255,255,.1); color:var(--text); width:40px;height:40px; border-radius:14px; font-size:18px; display:flex; align-items:center; justify-content:center; transition:transform .15s; flex-shrink:0; }
 .back-btn:active{ transform:scale(.94); }
@@ -56,7 +57,7 @@ body{
 h2{ font-size:22px; margin:6px 0 4px; }
 p.sub{ color:var(--muted); font-size:14px; margin:0 0 16px; line-height:1.4; }
 
-.home-hdr{ display:flex; justify-content:space-between; align-items:flex-start; padding:2px 2px 0; margin-bottom:60px; }
+.home-hdr{ display:flex; justify-content:space-between; align-items:flex-start; padding:2px 2px 0; margin-bottom:16px; }
 .home-hi{ font-size:14px; color:var(--faint); font-weight:600; }
 .home-hi b{ color:var(--text); }
 .home-wordmark{ font-size:23px; font-weight:800; letter-spacing:-.4px; margin-top:3px; }
@@ -403,7 +404,7 @@ p.sub{ color:var(--muted); font-size:14px; margin:0 0 16px; line-height:1.4; }
 .gj-replay-btn{ appearance:none; cursor:pointer; background:transparent; border:1px solid rgba(255,255,255,.08); color:var(--muted); font-family:inherit; font-weight:700; font-size:12px; padding:5px 12px; border-radius:999px; display:inline-flex; align-items:center; gap:4px; }
 .gj-replay-btn .ic{ width:12px; height:12px; }
 
-.gj-sticky-hdr{ position:sticky; top:0; z-index:8; background:rgba(15,18,32,.86); backdrop-filter:blur(10px); -webkit-backdrop-filter:blur(10px); padding:10px 18px 12px; border-bottom:1px solid rgba(255,255,255,.06); margin:0 -18px; }
+.gj-sticky-hdr{ position:sticky; top:calc(env(safe-area-inset-top,0px) + 58px); z-index:8; background:rgba(15,18,32,.86); backdrop-filter:blur(10px); -webkit-backdrop-filter:blur(10px); padding:10px 18px 12px; border-bottom:1px solid rgba(255,255,255,.06); margin:0 -18px; }
 
 .gj-step-hdr{ display:flex; align-items:center; gap:10px; margin-bottom:13px; }
 .gj-step-hdr > div:last-child{ display:flex; align-items:baseline; gap:8px; }
@@ -413,7 +414,7 @@ p.sub{ color:var(--muted); font-size:14px; margin:0 0 16px; line-height:1.4; }
 .gj-step-label{ font-size:13px; font-weight:800; letter-spacing:.4px; color:var(--text); }
 .gj-step-th{ font-size:12px; color:var(--thai); font-weight:600; }
 
-.gj-practice-carousel{ display:flex; overflow-x:auto; scroll-snap-type:x mandatory; scrollbar-width:none; -webkit-overflow-scrolling:touch; margin:0 -18px; }
+.gj-practice-carousel{ display:flex; align-items:flex-start; overflow-x:auto; overflow-y:hidden; scroll-snap-type:x mandatory; scrollbar-width:none; -webkit-overflow-scrolling:touch; margin:0 -18px; transition:height .2s ease; }
 .gj-practice-carousel::-webkit-scrollbar{ display:none; }
 .gj-practice-slide{ flex:0 0 100%; scroll-snap-align:center; box-sizing:border-box; padding:0 18px; }
 .gj-practice-dots{ display:flex; justify-content:center; gap:6px; margin:14px 0 2px; }
@@ -421,6 +422,17 @@ p.sub{ color:var(--muted); font-size:14px; margin:0 0 16px; line-height:1.4; }
 .gj-practice-dot.active{ background:var(--blue); width:16px; border-radius:3px; }
 
 @keyframes gj-shake{ 0%,100%{transform:translateX(0)} 20%{transform:translateX(-5px)} 40%{transform:translateX(5px)} 60%{transform:translateX(-4px)} 80%{transform:translateX(4px)} }
+
+.gj-review-sentence{ font-size:14.5px; line-height:1.95; color:var(--text); font-weight:600; }
+.gj-review-th{ font-size:13.5px; color:var(--thai); margin-top:14px; padding-top:14px; border-top:1px solid rgba(255,255,255,.06); font-weight:600; line-height:1.6; }
+.gj-word-btn{ color:var(--blue-2); background:rgba(91,141,239,.14); border:none; border-bottom:2px dotted var(--blue-2); border-radius:6px 6px 0 0; padding:1px 4px; font:inherit; font-weight:800; cursor:pointer; }
+.gj-word-btn:active, .gj-word-btn.active{ background:rgba(91,141,239,.32); }
+.gj-word-popover-catcher{ position:fixed; inset:0; z-index:64; background:transparent; opacity:0; pointer-events:none; }
+.gj-word-popover-catcher.open{ pointer-events:auto; opacity:1; }
+.gj-word-popover{ position:fixed; z-index:65; width:270px; max-width:calc(100vw - 32px); background:var(--card2); border:1px solid rgba(255,255,255,.12); border-radius:16px; padding:14px 16px; box-shadow:0 16px 40px rgba(0,0,0,.5); opacity:0; transform:translateY(4px) scale(.97); transition:opacity .14s ease, transform .14s ease; pointer-events:none; }
+.gj-word-popover.open{ opacity:1; transform:translateY(0) scale(1); pointer-events:auto; }
+.gj-word-popover .gj-word-popover-word{ font-size:15px; font-weight:800; color:var(--blue-2); margin-bottom:6px; }
+.gj-word-popover .gj-word-popover-note{ font-size:13.5px; color:var(--thai); line-height:1.6; font-weight:600; }
 
 .storage-warn-banner{ position:fixed; left:14px; right:14px; bottom:calc(env(safe-area-inset-bottom,0px) + 98px); z-index:40; background:var(--bad-bg); color:var(--bad-fg); border:1px solid var(--red); border-radius:14px; padding:12px 14px; font-size:13px; font-weight:600; display:flex; align-items:center; gap:10px; box-shadow:0 8px 24px rgba(0,0,0,.35); max-width:444px; margin:0 auto; transition:bottom .2s ease; }
 .storage-warn-banner button{ margin-left:auto; background:none; border:none; color:inherit; font-weight:800; font-size:16px; line-height:1; padding:4px; cursor:pointer; }
@@ -602,20 +614,20 @@ p.sub{ color:var(--muted); font-size:14px; margin:0 0 16px; line-height:1.4; }
       <input id="verbdict-search" type="text" placeholder="Search a verb (English or Thai)…" autocapitalize="off" autocomplete="off" autocorrect="off" spellcheck="false" oninput="renderVerbList()">
     </div>
     <button class="ghost-btn" style="margin-top:0;margin-bottom:14px;display:flex;align-items:center;justify-content:center;gap:8px;" onclick="go('irregular-ref')"><svg class="ic" viewBox="0 0 24 24"><path d="M3 12h.01"/><path d="M3 18h.01"/><path d="M3 6h.01"/><path d="M8 12h13"/><path d="M8 18h13"/><path d="M8 6h13"/></svg> Irregular verbs reference</button>
-    <div id="verbdict-list" style="flex:1;overflow-y:auto;"></div>
+    <div id="verbdict-list" style="flex:1;"></div>
   </section>
 
   <!-- VERB DETAIL -->
   <section class="screen" id="screen-verb-detail">
     <div class="topbar"><button class="back-btn" onclick="go('verbs')"><svg class="ic" viewBox="0 0 24 24"><path d="m15 18-6-6 6-6"/></svg></button><h1 id="verb-detail-title">Verb</h1><div style="width:36px"></div></div>
-    <div id="verb-detail-body" style="flex:1;overflow-y:auto;"></div>
+    <div id="verb-detail-body" style="flex:1;"></div>
   </section>
 
   <!-- IRREGULAR VERBS REFERENCE -->
   <section class="screen" id="screen-irregular-ref">
     <div class="topbar"><button class="back-btn" onclick="go('verbs')"><svg class="ic" viewBox="0 0 24 24"><path d="m15 18-6-6 6-6"/></svg></button><h1>Irregular Verbs</h1><div style="width:36px"></div></div>
     <p class="sub">Base — Past — Past Participle — Thai</p>
-    <div id="irregular-ref-list" style="flex:1;overflow-y:auto;"></div>
+    <div id="irregular-ref-list" style="flex:1;"></div>
   </section>
 
   <!-- GRAMMAR TOPIC LIST -->
@@ -623,20 +635,20 @@ p.sub{ color:var(--muted); font-size:14px; margin:0 0 16px; line-height:1.4; }
     <div class="topbar"><button class="back-btn" onclick="go('home')"><svg class="ic" viewBox="0 0 24 24"><path d="m15 18-6-6 6-6"/></svg></button><h1>Grammar</h1><div style="width:36px"></div></div>
     <p class="sub">Build sentences with your hands. Spot the pattern, then see how Thai flips it.</p>
     <div class="pill-row" id="grammar-level-pills"></div>
-    <div id="grammar-list" style="flex:1;overflow-y:auto;margin-top:10px;"></div>
+    <div id="grammar-list" style="flex:1;margin-top:10px;"></div>
   </section>
 
   <!-- GRAMMAR TOPIC DETAIL -->
   <section class="screen" id="screen-grammar-detail">
     <div class="topbar"><button class="back-btn" onclick="go('grammar')"><svg class="ic" viewBox="0 0 24 24"><path d="m15 18-6-6 6-6"/></svg></button><h1 id="grammar-detail-title">Grammar</h1><div style="width:36px"></div></div>
-    <div id="grammar-detail-body" style="flex:1;overflow-y:auto;"></div>
+    <div id="grammar-detail-body" style="flex:1;"></div>
   </section>
 
   <!-- PRONUNCIATION: CATEGORY LIST -->
   <section class="screen" id="screen-pron-setup">
     <div class="topbar"><button class="back-btn" onclick="go('home')"><svg class="ic" viewBox="0 0 24 24"><path d="m15 18-6-6 6-6"/></svg></button><h1>Pronunciation</h1><div style="width:36px"></div></div>
     <div class="sub"><div class="th">ฝึกออกเสียงและพยางค์ที่ออกเสียงยากสำหรับคนไทย ส่วนคำศัพท์เต็มคำและประโยคมีอยู่แล้วใน Flashcards ตรงนี้เน้นที่ตัวเสียงล้วนๆ</div><div class="bilingual-en">Train the sounds and syllables that are tricky for Thai speakers. Flashcards already cover full words and sentences, this is just about the sound itself.</div></div>
-    <div id="pron-cat-list" style="flex:1;overflow-y:auto;margin-top:10px;"></div>
+    <div id="pron-cat-list" style="flex:1;margin-top:10px;"></div>
   </section>
 
   <!-- PRONUNCIATION: PRACTICE -->
@@ -4568,6 +4580,7 @@ const FREE_SCREENS = new Set(["home","flash-setup","flash-play","tracker","setti
 let unlockVerified = false;
 function isUnlocked(){ return unlockVerified === true; }
 function go(name){
+  gjCloseWordNote();
   if(!FREE_SCREENS.has(name) && !isUnlocked()) name = "paywall";
   document.querySelectorAll(".screen").forEach(s=>s.classList.remove("active"));
   document.getElementById("screen-"+name).classList.add("active");
@@ -5285,6 +5298,34 @@ const GRAMMAR_CURRIC = [
         { kind:'pick', label:'Fact', prompt:'Fish ___ in water.', options:['live','are living'], answer:0 },
       ],
     },
+    {
+      id:'ps-review', type:'review', title:'Review: Present Simple', titleTh:'ทบทวนบทเรียน: Present Simple',
+      intro:'Read the text below. Tap the highlighted words to see the grammar reason in Thai.',
+      introTh:'อ่านข้อความด้านล่าง แล้วแตะคำที่ไฮไลต์เพื่อดูเหตุผลทางไวยากรณ์เป็นภาษาไทย',
+      practice:[{}],
+      textTh:'พี่สาวของฉันชื่อมายาเป็นพยาบาล เธอทำงานที่โรงพยาบาลใหญ่แห่งหนึ่งในกรุงเทพฯ และเลิกงานตอนหกโมงทุกวัน เธอไม่ทำงานวันอาทิตย์ เธอจึงมักจะได้พักผ่อน วันนี้ฉันถามเธอว่าว่างไหมวันอาทิตย์นี้ เธอตอบว่าว่าง เราวางแผนจะไปเยี่ยมพ่อแม่ด้วยกัน มายาชอบใช้เวลากับครอบครัวมากจริงๆ',
+      text:[
+        {t:'My'},{t:'sister'},{t:'Maya'},
+        {t:'is', note:'she คือประธานเอกพจน์บุรุษที่ 3 (he/she/it) กริยา be ในปัจจุบันจึงต้องเป็น is ไม่ใช่ am หรือ are'},
+        {t:'a'},{t:'nurse.'},
+        {t:'She'},
+        {t:'works', note:'ประธาน she/he/it + กริยาทั่วไปในปัจจุบันกาลธรรมดา ต้องเติม -s ท้ายกริยาเสมอ (work → works)'},
+        {t:'at'},{t:'a'},{t:'big'},{t:'hospital'},{t:'in'},{t:'Bangkok'},{t:'and'},
+        {t:'finishes', note:'กริยาที่ลงท้ายด้วยเสียง -sh, -ch, -ss, -x, -o ให้เติม -es แทน -s เฉยๆ (finish → finishes)'},
+        {t:'at'},{t:'six'},
+        {t:'every day', note:'คำบอกความถี่ (signal word) ที่บอกว่าเป็นกิจวัตร จึงใช้คู่กับปัจจุบันกาลธรรมดา (works ไม่ใช่ is working)'},
+        {t:'.'},
+        {t:'She'},
+        {t:'doesn’t', note:'รูปย่อของ does not ใช้กับประธาน he/she/it เพื่อทำประโยคปฏิเสธ แทนที่จะพูดว่า does not work เต็มๆ'},
+        {t:'work'},{t:'on'},{t:'Sundays,'},{t:'so'},{t:'she'},{t:'usually'},{t:'rests.'},
+        {t:'Today'},{t:'I'},{t:'ask'},{t:'her:'},{t:'Are'},{t:'you'},{t:'free'},{t:'this'},{t:'Sunday?'},
+        {t:'Yes,'},{t:'I'},
+        {t:'am', note:'คำตอบสั้นตอบด้วยกริยาช่วยเท่านั้น (am) ไม่ต้องพูดประโยคเต็มซ้ำว่า Yes, I am free'},
+        {t:'!'},
+        {t:'We'},{t:'plan'},{t:'to'},{t:'visit'},{t:'our'},{t:'parents'},{t:'together.'},
+        {t:'Maya'},{t:'really'},{t:'enjoys'},{t:'spending'},{t:'time'},{t:'with'},{t:'family.'},
+      ],
+    },
   ],
 },
 {
@@ -5411,6 +5452,35 @@ const GRAMMAR_CURRIC = [
         { kind:'pick', label:'Now', prompt:'Listen, she ___ the guitar.', options:['is playing','plays'], answer:0 },
       ],
     },
+    {
+      id:'pc-review', type:'review', title:'Review: Present Continuous', titleTh:'ทบทวนบทเรียน: Present Continuous',
+      intro:'Read the text below. Tap the highlighted words to see the grammar reason in Thai.',
+      introTh:'อ่านข้อความด้านล่าง แล้วแตะคำที่ไฮไลต์เพื่อดูเหตุผลทางไวยากรณ์เป็นภาษาไทย',
+      practice:[{}],
+      textTh:'เพื่อนของฉันชื่อนกมาเยี่ยมฉันสุดสัปดาห์นี้ ตอนนี้เธอกำลังช่วยฉันทำงานในครัว เธอกำลังคนซุปอยู่บนเตา ปกตินกไม่ค่อยทำอาหาร แต่วันนี้เธอกำลังลองสูตรใหม่ เธอรู้เรื่องอาหารไทยเยอะมาก ดูสิ ข้าวกำลังเดือด! บ่ายนี้เราไม่ได้ดูทีวีกัน เรากำลังทำอาหารด้วยกันและสนุกกันมาก',
+      text:[
+        {t:'My'},{t:'friend'},{t:'Nok'},{t:'is'},{t:'visiting'},{t:'me'},{t:'this'},{t:'weekend.'},
+        {t:'Right'},{t:'now,'},{t:'she'},
+        {t:'is', note:'ใช้ am/is/are + verb-ing สำหรับสิ่งที่กำลังเกิดขึ้นตอนนี้ (she + is + กริยาเติม -ing)'},
+        {t:'helping'},{t:'me'},{t:'in'},{t:'the'},{t:'kitchen.'},
+        {t:'She’s', note:'รูปย่อของ she is ตัดสระ i ออกแล้วใส่ ’s ต่อท้ายประธาน (she is → she’s)'},
+        {t:'stirring', note:'กริยาพยางค์เดียวที่ลงท้ายด้วยพยัญชนะตัวเดียวหลังสระเสียงสั้น ต้องซ้ำตัวสะกดก่อนเติม -ing (stir → stirring)'},
+        {t:'the'},{t:'soup'},{t:'on'},{t:'the'},{t:'stove.'},
+        {t:'Nok'},{t:'rarely'},
+        {t:'cooks', note:'นิสัยหรือกิจวัตรที่ทำเป็นประจำ (rarely เป็นคำบอกความถี่) ใช้ปัจจุบันกาลธรรมดา (cooks) ไม่ใช่ปัจจุบันต่อเนื่อง'},
+        {t:','},
+        {t:'but'},{t:'today'},{t:'she'},{t:'is'},{t:'trying'},{t:'a'},{t:'new'},{t:'recipe.'},
+        {t:'She'},
+        {t:'knows', note:'กริยาบอกสภาวะ (stative verb) เช่น know ไม่ใช้รูป -ing แม้พูดถึงสิ่งที่เป็นจริงตอนนี้ ต้องใช้ knows ไม่ใช่ is knowing'},
+        {t:'a'},{t:'lot'},{t:'about'},{t:'Thai'},{t:'food.'},
+        {t:'Look,'},{t:'the'},{t:'rice'},{t:'is'},
+        {t:'boiling', note:'ใช้ปัจจุบันต่อเนื่องกับเหตุการณ์ที่กำลังเกิดขึ้นตอนนี้ คำว่า Look! เป็นสัญญาณบอกว่าเป็นสิ่งที่เห็นอยู่ตรงหน้า'},
+        {t:'!'},
+        {t:'We'},
+        {t:'aren’t', note:'รูปย่อของ are not ใช้ทำประโยคปฏิเสธกับประธานพหูพจน์ (we/they) แทนการพูดเต็มว่า are not watching'},
+        {t:'watching'},{t:'TV'},{t:'this'},{t:'afternoon,'},{t:'we'},{t:'are'},{t:'cooking'},{t:'together'},{t:'and'},{t:'having'},{t:'fun.'},
+      ],
+    },
   ],
 },
 {
@@ -5518,6 +5588,35 @@ const GRAMMAR_CURRIC = [
         { kind:'pick', label:'Evidence', prompt:'Look at the clouds! It ___ rain.', options:['is going to','will'], answer:0 },
         { kind:'pick', label:'Plan', prompt:'I already booked the tickets, we ___ go to Phuket.', options:['are going to','will'], answer:0 },
         { kind:'pick', label:'Decision', prompt:'Someone’s at the door, I ___ open it.', options:['’ll','am going to'], answer:0 },
+      ],
+    },
+    {
+      id:'wg-review', type:'review', title:'Review: Will & Going To', titleTh:'ทบทวนบทเรียน: Will & Going To',
+      intro:'Read the text below. Tap the highlighted words to see the grammar reason in Thai.',
+      introTh:'อ่านข้อความด้านล่าง แล้วแตะคำที่ไฮไลต์เพื่อดูเหตุผลทางไวยากรณ์เป็นภาษาไทย',
+      practice:[{}],
+      textTh:'พี่ชายของฉันชื่อเบนโทรมาหาฉันเมื่อเช้านี้ เขาซื้อตั๋วรถไฟไว้แล้ว เขาจึงจะไปเที่ยวเชียงใหม่เดือนหน้า ฉันคิดว่ามันจะเป็นทริปที่ยอดเยี่ยมสำหรับเขา เพื่อนๆ ของเบนจะมาช่วยเขาทาสีอพาร์ตเมนต์ใหม่สุดสัปดาห์นี้ จู่ๆ โทรศัพท์ก็ดังขึ้นอีกครั้ง เบนพูดว่าเดี๋ยวเขารับเอง หลังวางสาย เขามองออกไปข้างนอกแล้วบอกว่าฝนกำลังจะตก ฉันยังไม่มีแผนอะไร แต่ฉันคงจะไม่ไปกับเขาครั้งนี้ บางทีปีหน้าเราอาจจะไปเที่ยวด้วยกัน',
+      text:[
+        {t:'My'},{t:'brother'},{t:'Ben'},{t:'called'},{t:'me'},{t:'this'},{t:'morning.'},
+        {t:'He'},{t:'already'},{t:'bought'},{t:'a'},{t:'train'},{t:'ticket,'},{t:'so'},{t:'he'},
+        {t:'is going to visit', note:'สูตร is/am/are + going to + กริยาช่องหนึ่ง ใช้กับแผนหรือความตั้งใจที่ตัดสินใจไว้ก่อนแล้ว (เขาซื้อตั๋วไว้แล้ว จึงไม่ใช้ will)'},
+        {t:'Chiang'},{t:'Mai'},{t:'next'},{t:'month.'},
+        {t:'I'},{t:'think'},{t:'it'},
+        {t:'will be', note:'สูตร will + กริยาช่องหนึ่ง ใช้ will ทำนายอนาคตจากความคิดเห็นของผู้พูด (I think... it will be)'},
+        {t:'a'},{t:'wonderful'},{t:'trip'},{t:'for'},{t:'him.'},
+        {t:'His'},{t:'friends'},
+        {t:'are going to help', note:'สูตร am/is/are + going to + กริยาช่องหนึ่ง ประธานพหูพจน์ (friends) ต้องใช้ are'},
+        {t:'him'},{t:'paint'},{t:'his'},{t:'new'},{t:'apartment'},{t:'this'},{t:'weekend.'},
+        {t:'Suddenly,'},{t:'the'},{t:'phone'},{t:'rang'},{t:'again,'},{t:'and'},{t:'Ben'},{t:'said:'},
+        {t:'I’ll answer', note:'สูตร will + กริยาช่องหนึ่ง (I’ll = I will) ใช้สำหรับการตัดสินใจทันทีตอนที่กำลังพูด (โทรศัพท์ดังตอนนั้นพอดี จึงตัดสินใจทันที)'},
+        {t:'it.'},
+        {t:'After'},{t:'the'},{t:'call,'},{t:'he'},{t:'looked'},{t:'outside'},{t:'and'},{t:'said'},{t:'the'},{t:'sky'},{t:'is going to'},{t:'rain'},{t:'soon.'},
+        {t:'I'},{t:'don’t'},{t:'have'},{t:'a'},{t:'plan'},{t:'yet,'},{t:'but'},{t:'I'},
+        {t:'won’t go', note:'สูตร will/won’t + กริยาช่องหนึ่ง (won’t เป็นรูปย่อของ will not) ใช้เหมือนกันทุกประธาน ไม่เปลี่ยนรูปตามประธาน'},
+        {t:'with'},{t:'him'},{t:'this'},{t:'time.'},
+        {t:'Maybe'},{t:'next'},{t:'year'},{t:'we'},
+        {t:'will travel', note:'สูตร will + กริยาช่องหนึ่ง ยังไม่ได้วางแผนไว้ก่อน เป็นเพียงความคิดตอนพูดถึงอนาคต จึงใช้ will ไม่ใช่ going to ซึ่งใช้กับแผนที่ตัดสินใจไว้ก่อนแล้ว'},
+        {t:'together.'},
       ],
     },
   ],
@@ -5631,6 +5730,34 @@ const GRAMMAR_CURRIC = [
         ] },
       ],
     },
+    {
+      id:'ps2-review', type:'review', title:'Review: Past Simple', titleTh:'ทบทวนบทเรียน: Past Simple',
+      intro:'Read the text below. Tap the highlighted words to see the grammar reason in Thai.',
+      introTh:'อ่านข้อความด้านล่าง แล้วแตะคำที่ไฮไลต์เพื่อดูเหตุผลทางไวยากรณ์เป็นภาษาไทย',
+      practice:[{}],
+      textTh:'สุดสัปดาห์ที่แล้ว ฉันไปเยี่ยมคุณยายที่เชียงราย เธอดีใจมากที่ได้เจอฉัน ลูกพี่ลูกน้องของฉันก็อยู่ที่นั่นด้วย เราทานอาหารกลางวันมื้อใหญ่ด้วยกัน ตอนเช้าเราเดินไปวัดใกล้บ้านคุณยาย ระหว่างทางฝนเริ่มตกกะทันหัน เราจึงหยุดหลบใต้ต้นไม้ คุณยายไม่ได้ทำอาหารเย็นคืนนั้นเพราะเธอรู้สึกเหนื่อย เราเลยสั่งอาหารมากินแทน เป็นวันที่ยอดเยี่ยมมากวันหนึ่ง',
+      text:[
+        {t:'Last weekend', note:'ระบุเวลาที่แน่นอนในอดีต (Last weekend) จึงใช้อดีตกาลธรรมดา (past simple)'},
+        {t:','},
+        {t:'I'},{t:'visited'},{t:'my'},{t:'grandmother'},{t:'in'},{t:'Chiang'},{t:'Rai.'},
+        {t:'She'},
+        {t:'was', note:'was ใช้กับ I/he/she/it ในอดีต (she was)'},
+        {t:'very'},{t:'happy'},{t:'to'},{t:'see'},{t:'me.'},
+        {t:'My'},{t:'cousins'},{t:'were'},{t:'there'},{t:'too,'},{t:'and'},{t:'we'},{t:'all'},
+        {t:'had', note:'have เป็นกริยาผิดปกติ (irregular) อดีตของ have คือ had ไม่ใช่ haved'},
+        {t:'a'},{t:'big'},{t:'lunch'},{t:'together.'},
+        {t:'In'},{t:'the'},{t:'morning,'},{t:'we'},
+        {t:'walked', note:'กริยาปกติ (regular verb) เติม -ed สำหรับอดีตกาล (walk → walked)'},
+        {t:'to'},{t:'the'},{t:'temple'},{t:'near'},{t:'her'},{t:'house.'},
+        {t:'On'},{t:'the'},{t:'way,'},{t:'it'},{t:'suddenly'},{t:'started'},{t:'to'},{t:'rain,'},{t:'so'},{t:'we'},
+        {t:'stopped', note:'กริยาพยางค์เดียวลงท้ายพยัญชนะตัวเดียวหลังสระเสียงสั้น ต้องซ้ำตัวสะกดก่อนเติม -ed (stop → stopped)'},
+        {t:'under'},{t:'a'},{t:'tree.'},
+        {t:'My'},{t:'grandmother'},
+        {t:'didn’t', note:'ปฏิเสธอดีตกาลธรรมดาใช้ didn’t + กริยาช่องหนึ่งเสมอ (didn’t cook ไม่ใช่ didn’t cooked)'},
+        {t:'cook'},{t:'dinner'},{t:'that'},{t:'night'},{t:'because'},{t:'she'},{t:'felt'},{t:'tired,'},{t:'so'},{t:'we'},{t:'ordered'},{t:'food'},{t:'instead.'},
+        {t:'It'},{t:'was'},{t:'a'},{t:'wonderful'},{t:'day.'},
+      ],
+    },
   ],
 },
 {
@@ -5668,6 +5795,29 @@ const GRAMMAR_CURRIC = [
         { kind:'pick', label:'to +', prompt:'They decided ___.', options:['to leave','leaving'], answer:0 },
         { kind:'pick', label:'-ing', prompt:'I don’t mind ___.', options:['waiting','to wait'], answer:0 },
         { kind:'pick', label:'to +', prompt:'We hope ___ soon.', options:['to arrive','arriving'], answer:0 },
+      ],
+    },
+    {
+      id:'vp-review', type:'review', title:'Review: Verb Patterns', titleTh:'ทบทวนบทเรียน: Verb Patterns',
+      intro:'Read the text below. Tap the highlighted words to see the grammar reason in Thai.',
+      introTh:'อ่านข้อความด้านล่าง แล้วแตะคำที่ไฮไลต์เพื่อดูเหตุผลทางไวยากรณ์เป็นภาษาไทย',
+      practice:[{}],
+      textTh:'เพื่อนของฉันชื่อทอมชอบทำอาหารในวันหยุดสุดสัปดาห์ เมื่อวานเขาโทรมาหาฉันและบอกว่า มาบ้านฉันสิ ทำพิซซ่ากันเถอะ ฉันบอกเขาว่าฉันชอบทำขนมปัง แต่ฉันไม่รู้วิธีทำพิซซ่า ทอมบอกว่าไม่ต้องกังวล เขาอยากสอนฉันทุกอย่าง พอฉันไปถึง เขาบอกฉันว่า ล้างมือก่อน แล้วค่อยหั่นผัก เราสนุกกันมาก และตอนนี้ฉันอยากทำอาหารกับเขาอีกครั้งในเร็วๆ นี้',
+      text:[
+        {t:'My'},{t:'friend'},{t:'Tom'},{t:'loves'},{t:'cooking'},{t:'on'},{t:'weekends.'},
+        {t:'Yesterday,'},{t:'he'},{t:'called'},{t:'me'},{t:'and'},{t:'said:'},{t:'Come'},{t:'over,'},
+        {t:'let’s', note:'Let’s + กริยาช่องหนึ่ง ใช้ชักชวนให้ทำอะไรร่วมกัน (Let’s make = ทำกันเถอะ)'},
+        {t:'make'},{t:'pizza'},{t:'together.'},
+        {t:'I'},{t:'told'},{t:'him'},{t:'I'},{t:'enjoy'},
+        {t:'baking', note:'กริยาบางคำตามด้วย verb-ing (enjoy + doing) เช่น enjoy baking ไม่ใช่ enjoy to bake'},
+        {t:'bread,'},{t:'but'},{t:'I'},{t:'don’t'},{t:'know'},{t:'how'},{t:'to'},{t:'make'},{t:'pizza.'},
+        {t:'Tom'},{t:'said'},{t:'don’t'},{t:'worry,'},{t:'he'},{t:'wanted'},
+        {t:'to teach', note:'กริยาบางคำตามด้วย to + กริยา (want to do) เช่น wanted to teach ไม่ใช่ wanted teaching'},
+        {t:'me'},{t:'everything.'},
+        {t:'When'},{t:'I'},{t:'arrived,'},{t:'he'},{t:'told'},{t:'me:'},
+        {t:'Wash', note:'ประโยคคำสั่ง (imperative) ใช้กริยาช่องหนึ่งเดี่ยวๆ ขึ้นต้นประโยคโดยไม่มีประธาน เช่น Wash your hands'},
+        {t:'your'},{t:'hands'},{t:'first,'},{t:'then'},{t:'cut'},{t:'the'},{t:'vegetables.'},
+        {t:'We'},{t:'had'},{t:'a'},{t:'lot'},{t:'of'},{t:'fun,'},{t:'and'},{t:'now'},{t:'I'},{t:'want'},{t:'to'},{t:'cook'},{t:'with'},{t:'him'},{t:'again'},{t:'soon.'},
       ],
     },
   ],
@@ -5789,6 +5939,33 @@ const GRAMMAR_CURRIC = [
         { kind:'pick', label:'Plural owner', prompt:'“the toys of the children” = ___', options:['the children’s toys','the childrens toys'], answer:0 },
       ],
     },
+    {
+      id:'n-review', type:'review', title:'Review: Nouns', titleTh:'ทบทวนบทเรียน: Nouns',
+      intro:'Read the text below. Tap the highlighted words to see the grammar reason in Thai.',
+      introTh:'อ่านข้อความด้านล่าง แล้วแตะคำที่ไฮไลต์เพื่อดูเหตุผลทางไวยากรณ์เป็นภาษาไทย',
+      practice:[{}],
+      textTh:'เพื่อนบ้านของฉันชื่อพลอยเป็นครู และพี่ชายของเธอเป็นวิศวกร เมื่อวานฉันไปบ้านพลอยเพื่อทานอาหารเย็น เธอทำข้าวกับไก่สองตัวให้ทั้งครอบครัว บนโต๊ะมีน้ำอยู่บ้างและน้ำตาลนิดหน่อยสำหรับชา ลูกๆ ของพลอยช่วยจัดโต๊ะ พวกเขาช่วยยกจานและส้อม เรามีค่ำคืนที่ยอดเยี่ยมด้วยกัน',
+      text:[
+        {t:'My'},{t:'neighbor'},{t:'Ploy'},{t:'is'},
+        {t:'a', note:'ใช้ a/an บอกว่าเป็นอาชีพอะไร (She/He is a/an + อาชีพ) เช่น is a teacher'},
+        {t:'teacher,'},{t:'and'},{t:'her'},{t:'brother'},{t:'is'},
+        {t:'an', note:'ใช้ an หน้าเสียงสระ (engineer ขึ้นต้นด้วยเสียงสระ) ต่างจาก a ที่ใช้หน้าเสียงพยัญชนะ'},
+        {t:'engineer.'},
+        {t:'Yesterday,'},{t:'I'},{t:'went'},{t:'to'},
+        {t:'Ploy’s', note:'เติม ’s ที่เจ้าของ วางไว้หน้าสิ่งของ (Ploy’s house = บ้านของพลอย)'},
+        {t:'house'},{t:'for'},{t:'dinner.'},
+        {t:'She'},{t:'cooked'},{t:'rice'},{t:'with'},{t:'two'},
+        {t:'chickens', note:'คำนามนับได้ พหูพจน์เติม -s ท้ายคำ (chicken → chickens)'},
+        {t:'for'},{t:'the'},{t:'family.'},
+        {t:'On'},{t:'the'},{t:'table,'},{t:'there'},{t:'was'},{t:'some'},
+        {t:'water', note:'คำนามนับไม่ได้ (uncountable) ไม่มีรูปพหูพจน์และไม่ใช้กับ a/an เช่น water'},
+        {t:'and'},
+        {t:'a little', note:'ใช้ some / a lot of / a little กับคำนามนับไม่ได้ (a little sugar = น้ำตาลนิดหน่อย)'},
+        {t:'sugar'},{t:'for'},{t:'the'},{t:'tea.'},
+        {t:'Ploy’s'},{t:'children'},{t:'helped'},{t:'set'},{t:'the'},{t:'table,'},{t:'they'},{t:'carried'},{t:'the'},{t:'plates'},{t:'and'},{t:'forks.'},
+        {t:'We'},{t:'had'},{t:'a'},{t:'wonderful'},{t:'evening'},{t:'together.'},
+      ],
+    },
   ],
 },
 {
@@ -5872,6 +6049,33 @@ const GRAMMAR_CURRIC = [
         { kind:'pick', label:'Countable', prompt:'She has ___ books.', options:['a lot of','much'], answer:0 },
         { kind:'build', label:'Word order', prompt:'Build:', target:'a lot of friends',
           slots:[{role:'num'},{role:'noun'}], answer:['a lot of','friends'], distractors:['much','friend'] },
+      ],
+    },
+    {
+      id:'d-review', type:'review', title:'Review: Determiners', titleTh:'ทบทวนบทเรียน: Determiners',
+      intro:'Read the text below. Tap the highlighted words to see the grammar reason in Thai.',
+      introTh:'อ่านข้อความด้านล่าง แล้วแตะคำที่ไฮไลต์เพื่อดูเหตุผลทางไวยากรณ์เป็นภาษาไทย',
+      practice:[{}],
+      textTh:'สุดสัปดาห์นี้ แม่ของฉันกำลังเตรียมงานปาร์ตี้ที่บ้าน เธอมองดูผักแล้วพูดว่า ฉันชอบมะเขือเทศลูกนี้ แต่ไม่ชอบหัวหอมพวกนั้นตรงโน้น ที่ตลาด เธอถามคนขายว่ามีปลาสดบ้างไหมวันนี้ คนขายยิ้มแล้วบอกว่ามีปลาเหลืออยู่บ้าง แม่ของฉันไม่ค่อยมีเวลาก่อนงานปาร์ตี้ เธอจึงรีบซื้อแอปเปิลสองสามลูกและน้ำตาลนิดหน่อยสำหรับทำเค้ก เธอยังต้องการข้าวเยอะมากสำหรับแขกทุกคน',
+      text:[
+        {t:'This'},{t:'weekend,'},{t:'my'},{t:'mother'},{t:'is'},{t:'preparing'},{t:'a'},{t:'party'},{t:'at'},{t:'home.'},
+        {t:'She'},{t:'looked'},{t:'at'},{t:'the'},{t:'vegetables'},{t:'and'},{t:'said:'},{t:'I'},{t:'like'},
+        {t:'this', note:'this/these ใช้กับสิ่งที่อยู่ใกล้ตัวผู้พูด (this tomato = มะเขือเทศลูกนี้ที่อยู่ใกล้)'},
+        {t:'tomato,'},{t:'but'},{t:'not'},{t:'those'},{t:'onions'},{t:'over'},{t:'there.'},
+        {t:'At'},{t:'the'},{t:'market,'},{t:'she'},{t:'asked'},{t:'the'},{t:'seller'},{t:'if'},{t:'there'},{t:'were'},
+        {t:'any', note:'ใช้ any ในประโยคคำถามและปฏิเสธ (Are there any...? ต่างจาก some ที่ใช้ในประโยคบอกเล่า)'},
+        {t:'fresh'},{t:'fish'},{t:'today.'},
+        {t:'He'},{t:'smiled'},{t:'and'},{t:'said'},{t:'there'},{t:'was'},{t:'some'},{t:'fish'},{t:'left.'},
+        {t:'My'},{t:'mother'},{t:'doesn’t'},{t:'have'},
+        {t:'much', note:'much + นามนับไม่ได้ ใช้บ่อยในประโยคคำถามและปฏิเสธ (doesn’t have much time)'},
+        {t:'time'},{t:'before'},{t:'the'},{t:'party,'},{t:'so'},{t:'she'},{t:'bought'},
+        {t:'a few', note:'a few + นามนับได้ (a few apples = แอปเปิลสองสามลูก)'},
+        {t:'apples'},{t:'and'},
+        {t:'a little', note:'a little + นามนับไม่ได้ (a little sugar = น้ำตาลนิดหน่อย)'},
+        {t:'sugar'},{t:'for'},{t:'the'},{t:'cake'},{t:'quickly.'},
+        {t:'She'},{t:'also'},{t:'needs'},
+        {t:'a lot of', note:'a lot of ใช้ได้ทั้งนามนับได้และนับไม่ได้ในประโยคบอกเล่า (a lot of rice)'},
+        {t:'rice'},{t:'for'},{t:'all'},{t:'the'},{t:'guests.'},
       ],
     },
   ],
@@ -5980,6 +6184,32 @@ const GRAMMAR_CURRIC = [
         { kind:'pick', label:'Distance', prompt:'___ is far from here.', options:['It','There'], answer:0 },
         { kind:'pick', label:'Weather', prompt:'___ is very hot today.', options:['It','This'], answer:0 },
         { kind:'pick', label:'Time', prompt:'“What time is it?” “___’s six.”', options:['It','This'], answer:0 },
+      ],
+    },
+    {
+      id:'pr-review', type:'review', title:'Review: Pronouns', titleTh:'ทบทวนบทเรียน: Pronouns',
+      intro:'Read the text below. Tap the highlighted words to see the grammar reason in Thai.',
+      introTh:'อ่านข้อความด้านล่าง แล้วแตะคำที่ไฮไลต์เพื่อดูเหตุผลทางไวยากรณ์เป็นภาษาไทย',
+      practice:[{}],
+      textTh:'ปีที่แล้ว เพื่อนของฉันชื่ออาโออิไปเที่ยวญี่ปุ่นและเล่าเรื่องทริปของเธอให้ฉันฟังทั้งหมด ฉันชอบฟังเธอเล่ามาก เธอมีสมุดบันทึกการเดินทางที่สวยงาม แต่อัลบั้มรูปนี้เป็นของฉัน ที่ญี่ปุ่น ทุกคนต้องถอดรองเท้าก่อนเข้าบ้าน มีวัดมากมายในเกียวโต และมีสวนที่มีชื่อเสียงแห่งหนึ่งใกล้โรงแรมของเธอด้วย วันแรกฝนตก เธอจึงอยู่แต่ในบ้านและอ่านหนังสือ อาโออิหวังว่าจะได้ไปญี่ปุ่นอีกครั้งกับฉันปีหน้า',
+      text:[
+        {t:'Last'},{t:'year,'},{t:'my'},{t:'friend'},{t:'Aoi'},{t:'visited'},{t:'Japan'},{t:'and'},{t:'told'},{t:'me'},{t:'all'},{t:'about'},
+        {t:'her', note:'my/her/their ฯลฯ (possessive determiner) วางหน้าคำนามเสมอ (her trip = ทริปของเธอ)'},
+        {t:'trip.'},
+        {t:'I'},{t:'really'},{t:'enjoyed'},{t:'listening'},{t:'to'},
+        {t:'her', note:'ผู้ถูกกระทำ (object pronoun) ใช้ her ไม่ใช่ she เช่น listening to her'},
+        {t:','},
+        {t:'she'},{t:'has'},{t:'a'},{t:'wonderful'},{t:'travel'},{t:'notebook,'},{t:'but'},{t:'this'},{t:'photo'},{t:'album'},{t:'is'},
+        {t:'mine', note:'mine/yours/his/hers/ours/theirs (possessive pronoun) ใช้เดี่ยวๆ ไม่มีคำนามตามหลัง เช่น is mine'},
+        {t:'.'},
+        {t:'In'},{t:'Japan,'},
+        {t:'you', note:'You ในที่นี้หมายถึงคนทั่วไป ไม่ใช่ผู้ฟังคนเดียว (you must take off your shoes = ทุกคนต้องถอดรองเท้า)'},
+        {t:'must'},{t:'take'},{t:'off'},{t:'your'},{t:'shoes'},{t:'before'},{t:'entering'},{t:'a'},{t:'house.'},
+        {t:'There are', note:'There is + เอกพจน์ · There are + พหูพจน์ ใช้บอกว่ามีบางสิ่งอยู่ (There are many temples)'},
+        {t:'many'},{t:'temples'},{t:'in'},{t:'Kyoto,'},{t:'and'},{t:'there'},{t:'is'},{t:'also'},{t:'a'},{t:'famous'},{t:'garden'},{t:'near'},{t:'her'},{t:'hotel.'},
+        {t:'It', note:'ใช้ It เป็นประธานหลอกกับสภาพอากาศ เวลา และระยะทาง เช่น It was raining (ฝนกำลังตก)'},
+        {t:'was'},{t:'raining'},{t:'on'},{t:'her'},{t:'first'},{t:'day,'},{t:'so'},{t:'she'},{t:'stayed'},{t:'inside'},{t:'and'},{t:'read'},{t:'a'},{t:'book.'},
+        {t:'Aoi'},{t:'hopes'},{t:'to'},{t:'visit'},{t:'Japan'},{t:'again'},{t:'with'},{t:'me'},{t:'next'},{t:'year.'},
       ],
     },
   ],
@@ -6115,6 +6345,39 @@ const GRAMMAR_CURRIC = [
         { kind:'pick', label:'depend', prompt:'depend ___ the weather', options:['on','at'], answer:0 },
       ],
     },
+    {
+      id:'p-review', type:'review', title:'Review: Prepositions', titleTh:'ทบทวนบทเรียน: Prepositions',
+      intro:'Read the text below. Tap the highlighted words to see the grammar reason in Thai.',
+      introTh:'อ่านข้อความด้านล่าง แล้วแตะคำที่ไฮไลต์เพื่อดูเหตุผลทางไวยากรณ์เป็นภาษาไทย',
+      practice:[{}],
+      textTh:'เพื่อนร่วมงานของฉันชื่อแนนทำงานที่บริษัทเล็กๆ แห่งหนึ่งในกรุงเทพฯ เธอเริ่มงานตอนเก้าโมงและเลิกงานตอนหกโมงเย็น ออฟฟิศของเธอเปิดตั้งแต่วันจันทร์ถึงวันศุกร์ แนนมักจะเช็คอีเมลก่อนกินอาหารเช้าเสมอ เอกสารของเธอเก็บอยู่ในแฟ้มบนโต๊ะทำงาน หลังเลิกงาน เธอชอบกลับบ้านไปพักผ่อนกับครอบครัว ทุกเช้าเธอเดินไปป้ายรถเมล์ใกล้บ้าน แนนเก่งภาษาอังกฤษ และเธอมักฟังพอดแคสต์บนรถเมล์บ่อยๆ',
+      text:[
+        {t:'My'},{t:'colleague'},{t:'Nan'},{t:'works'},{t:'at'},{t:'a'},{t:'small'},{t:'company'},{t:'in'},{t:'Bangkok.'},
+        {t:'She'},{t:'starts'},{t:'work'},
+        {t:'at', note:'at + เวลาที่เจาะจง (at 9 o’clock) ส่วน on ใช้กับวัน และ in ใช้กับเดือนหรือปี'},
+        {t:'9'},{t:'o’clock'},{t:'and'},{t:'finishes'},{t:'at'},{t:'6'},{t:'in'},{t:'the'},{t:'evening.'},
+        {t:'Her'},{t:'office'},{t:'is'},{t:'open'},
+        {t:'from', note:'from ... to ใช้บอกช่วงเวลา (from Monday to Friday) ส่วน until บอกจนถึงเวลาหนึ่ง'},
+        {t:'Monday'},{t:'to'},{t:'Friday.'},
+        {t:'Nan'},{t:'always'},{t:'checks'},{t:'her'},{t:'email'},
+        {t:'before', note:'before = ก่อน (เวลาที่เร็วกว่า) ส่วน after = หลัง (เวลาที่ช้ากว่า)'},
+        {t:'breakfast.'},
+        {t:'Her'},{t:'documents'},{t:'stay'},{t:'in'},{t:'a'},{t:'folder'},
+        {t:'on', note:'on ใช้กับพื้นผิว (on the desk) ต่างจาก in ที่ใช้กับพื้นที่ปิด เช่น in the folder'},
+        {t:'her'},{t:'desk.'},
+        {t:'After'},{t:'work,'},{t:'she'},{t:'likes'},{t:'to'},{t:'go'},
+        {t:'home', note:'ไม่ใส่บุพบทหลัง go ตรงๆ (go home ไม่ใช่ go to home) ต่างจาก at home ที่ใช้บอกตำแหน่ง'},
+        {t:'and'},{t:'relax'},{t:'with'},{t:'her'},{t:'family.'},
+        {t:'Every'},{t:'morning,'},{t:'she'},{t:'walks'},
+        {t:'to', note:'ใช้ to บอกทิศทางหลังกริยาการเคลื่อนที่ เช่น walk to, go to, drive to'},
+        {t:'the'},{t:'bus'},{t:'stop'},{t:'near'},{t:'her'},{t:'house.'},
+        {t:'Nan'},{t:'is'},{t:'good'},
+        {t:'at', note:'คำคุณศัพท์บางคำมีบุพบทประจำตายตัว เช่น good at, interested in, afraid of'},
+        {t:'English,'},{t:'and'},{t:'she'},{t:'often'},{t:'listens'},
+        {t:'to', note:'คำกริยาบางคำมีบุพบทประจำตายตัว เช่น listen to, wait for, look at'},
+        {t:'podcasts'},{t:'on'},{t:'the'},{t:'bus.'},
+      ],
+    },
   ],
 },
 {
@@ -6231,6 +6494,35 @@ const GRAMMAR_CURRIC = [
         { kind:'pick', label:'Would like', prompt:'I ___ like some water, please.', options:['would','will'], answer:0 },
         { kind:'build', label:'Word order', prompt:'Build:', target:'I would like a coffee.',
           slots:[{role:'subject'},{role:'aux'},{role:'object'}], answer:['I','would like','a coffee'], distractors:['want','coffees'] },
+      ],
+    },
+    {
+      id:'m-review', type:'review', title:'Review: Modal Verbs', titleTh:'ทบทวนบทเรียน: Modal Verbs',
+      intro:'Read the text below. Tap the highlighted words to see the grammar reason in Thai.',
+      introTh:'อ่านข้อความด้านล่าง แล้วแตะคำที่ไฮไลต์เพื่อดูเหตุผลทางไวยากรณ์เป็นภาษาไทย',
+      practice:[{}],
+      textTh:'เมื่อวานคุณปู่เล่าเรื่องที่น่าสนใจให้ฉันฟัง ตอนที่ท่านยังหนุ่ม ท่านเคยว่ายน้ำข้ามแม่น้ำทั้งสายได้โดยไม่หยุดเลย ตอนนี้ท่านแก่แล้ว แต่ก็ยังขี่จักรยานได้ทุกเช้า บ่ายนี้เราไปคาเฟ่เล็กๆ ด้วยกัน และพนักงานเสิร์ฟถามว่าเราอยากดื่มอะไรไหม คุณปู่ยิ้มแล้วบอกว่า ขอชาหนึ่งแก้วนะ จากนั้นท่านหันมาถามฉันว่า ช่วยส่งน้ำตาลให้หน่อยได้ไหม ก่อนที่เราจะกลับ ฉันถามพนักงานเสิร์ฟอย่างสุภาพว่า ขอบิลหน่อยได้ไหมคะ พนักงานพยักหน้าแล้วบอกว่า ได้เลยครับ จ่ายเงินที่เคาน์เตอร์ได้เลย',
+      text:[
+        {t:'Yesterday,'},{t:'my'},{t:'grandfather'},{t:'told'},{t:'me'},{t:'an'},{t:'interesting'},{t:'story.'},
+        {t:'When'},{t:'he'},{t:'was'},{t:'young,'},{t:'he'},
+        {t:'could swim', note:'สูตร modal + กริยาช่องหนึ่งเสมอ ไม่เปลี่ยนรูปและไม่ต้องมี “to” (could swim ไม่ใช่ could to swim) ใช้ could บอกความสามารถในอดีต (past ability)'},
+        {t:'across'},{t:'the'},{t:'whole'},{t:'river'},{t:'without'},{t:'stopping.'},
+        {t:'Now'},{t:'he'},{t:'is'},{t:'older,'},{t:'but'},{t:'he'},
+        {t:'can still ride', note:'สูตร modal + กริยาช่องหนึ่ง (can ride ไม่ใช่ can to ride) ใช้ can บอกความสามารถในปัจจุบัน (present ability)'},
+        {t:'a'},{t:'bicycle'},{t:'every'},{t:'morning.'},
+        {t:'This'},{t:'afternoon,'},{t:'we'},{t:'went'},{t:'to'},{t:'a'},{t:'small'},{t:'café,'},{t:'and'},{t:'the'},{t:'waiter'},{t:'asked'},{t:'if'},{t:'we'},{t:'wanted'},{t:'something'},{t:'to'},{t:'drink.'},
+        {t:'My'},{t:'grandfather'},{t:'smiled'},{t:'and'},{t:'said:'},{t:'I'},
+        {t:'would like', note:'“would like” = อยากได้ แบบสุภาพ (polite want) เช่น I would like a cup of tea'},
+        {t:'a'},{t:'cup'},{t:'of'},{t:'tea,'},{t:'please.'},
+        {t:'Then'},{t:'he'},{t:'turned'},{t:'to'},{t:'me'},{t:'and'},{t:'asked:'},
+        {t:'Can you pass', note:'“Can you…?” ใช้ขอร้องให้ใครทำบางอย่าง (request) เช่น Can you pass me the sugar?'},
+        {t:'me'},{t:'the'},{t:'sugar?'},
+        {t:'Before'},{t:'we'},{t:'left,'},{t:'I'},{t:'asked'},{t:'the'},{t:'waiter'},{t:'politely:'},
+        {t:'Could you bring', note:'“Could you…?” สุภาพกว่า “Can you…?” เช่น Could you bring the bill, please?'},
+        {t:'the'},{t:'bill,'},{t:'please?'},
+        {t:'He'},{t:'nodded'},{t:'and'},{t:'said:'},{t:'Of'},{t:'course,'},{t:'you'},
+        {t:'can pay', note:'“can” ใช้ขอหรือให้อนุญาต (permission) เช่น you can pay at the counter'},
+        {t:'at'},{t:'the'},{t:'counter.'},
       ],
     },
   ],
@@ -6362,6 +6654,38 @@ const GRAMMAR_CURRIC = [
         { kind:'pick', label:'Degree', prompt:'The soup is ___ hot to eat now.', options:['too','quite too'], answer:0 },
       ],
     },
+    {
+      id:'aa-review', type:'review', title:'Review: Adjectives & Adverbs', titleTh:'ทบทวนบทเรียน: Adjectives & Adverbs',
+      intro:'Read the text below. Tap the highlighted words to see the grammar reason in Thai.',
+      introTh:'อ่านข้อความด้านล่าง แล้วแตะคำที่ไฮไลต์เพื่อดูเหตุผลทางไวยากรณ์เป็นภาษาไทย',
+      practice:[{}],
+      textTh:'น้องสาวของฉันชื่อมิ้นท์เป็นคนทำอาหารเก่งมาก เธอเป็นคนทำอาหารที่ระมัดระวัง และเธอหั่นผักอย่างระมัดระวังทุกครั้งก่อนทำอาหาร เธอยิ้มอย่างมีความสุขขณะทำงานในครัว ทุกคนบอกว่ามิ้นท์ทำอาหารเก่งมาก และอาหารของเธออร่อยเสมอ เธอมักจะทำอาหารเย็นมื้อใหญ่ในเย็นวันเสาร์ แต่เธอไม่เคยพักจนกว่าทุกอย่างจะพร้อม บางครั้งซุปเผ็ดเกินไปสำหรับฉัน แต่ฉันก็ยังกินมันเพราะมันอร่อยมาก',
+      text:[
+        {t:'My'},{t:'sister'},{t:'Mint'},{t:'is'},{t:'a'},
+        {t:'wonderful', note:'คำคุณศัพท์ (adjective) ขยายคำนามและวางไว้หน้าคำนามเสมอ เช่น a wonderful cook'},
+        {t:'cook.'},
+        {t:'She'},{t:'is'},{t:'a'},
+        {t:'careful', note:'careful (คำคุณศัพท์) ขยายคำนาม “cook” ต่างจาก carefully (คำวิเศษณ์) ที่ขยายกริยา'},
+        {t:'cook,'},{t:'and'},{t:'she'},{t:'always'},{t:'cuts'},{t:'the'},{t:'vegetables'},
+        {t:'carefully', note:'carefully (คำวิเศษณ์) ขยายกริยา “cuts” ต่างจาก careful (คำคุณศัพท์) ที่ขยายคำนาม'},
+        {t:'before'},{t:'cooking.'},
+        {t:'She'},{t:'smiles'},
+        {t:'happily', note:'คำวิเศษณ์บอกลักษณะ (adverb of manner) มักมาจากคำคุณศัพท์ + -ly เช่น happy → happily'},
+        {t:'while'},{t:'she'},{t:'works'},{t:'in'},{t:'the'},{t:'kitchen.'},
+        {t:'Everyone'},{t:'says'},{t:'Mint'},{t:'cooks'},{t:'very'},
+        {t:'well', note:'well เป็นคำวิเศษณ์ (adverb) ขยายกริยา เช่น cooks well ต่างจาก good ซึ่งเป็นคำคุณศัพท์'},
+        {t:','},
+        {t:'and'},{t:'her'},{t:'food'},{t:'always'},{t:'tastes'},
+        {t:'good', note:'good เป็นคำคุณศัพท์ (adjective) เช่น tastes good ต่างจาก well ซึ่งเป็นคำวิเศษณ์'},
+        {t:'.'},
+        {t:'She'},
+        {t:'usually', note:'คำวิเศษณ์บอกความถี่ (always, usually, often, never) วางไว้หน้ากริยาหลักเสมอ เช่น usually cooks'},
+        {t:'cooks'},{t:'a'},{t:'big'},{t:'dinner'},{t:'on'},{t:'Saturday'},{t:'evenings,'},{t:'but'},{t:'she'},{t:'never'},{t:'rests'},{t:'until'},{t:'everything'},{t:'is'},{t:'ready.'},
+        {t:'Sometimes'},{t:'the'},{t:'soup'},{t:'is'},
+        {t:'too', note:'very, quite, too, really (คำวิเศษณ์บอกระดับ) ปรับความเข้มของคำคุณศัพท์ เช่น too spicy'},
+        {t:'spicy'},{t:'for'},{t:'me,'},{t:'but'},{t:'I'},{t:'eat'},{t:'it'},{t:'anyway'},{t:'because'},{t:'it'},{t:'is'},{t:'so'},{t:'tasty.'},
+      ],
+    },
   ],
 },
 {
@@ -6431,6 +6755,33 @@ const GRAMMAR_CURRIC = [
         { kind:'pick', label:'Permanent', prompt:'Water ___ at 100°.', options:['boils','is boiling'], answer:0 },
       ],
     },
+    {
+      id:'a2-ps-pc-review', type:'review', title:'Review: Present simple & continuous', titleTh:'ทบทวนบทเรียน: Present simple & continuous',
+      intro:'Read the text below. Tap the highlighted words to see the grammar reason in Thai.',
+      introTh:'อ่านข้อความด้านล่าง แล้วแตะคำที่ไฮไลต์เพื่อดูเหตุผลทางไวยากรณ์เป็นภาษาไทย',
+      practice:[{}],
+      textTh:'เพื่อนของฉันชื่อนกปกติอยู่ที่เชียงใหม่ แต่เดือนนี้เธอไปพักอยู่กับลูกพี่ลูกน้องที่กรุงเทพฯ เธอรู้จักเมืองนี้ดีมากเพราะเติบโตที่นี่ ปกตินกนั่งรถเมล์ไปทำงาน แต่ช่วงนี้เธอทำงานที่ตลาดเล็กๆ ใกล้แม่น้ำ เธอชอบงานใหม่นี้มากและชอบแผงขายของที่มีสีสันและเสียงดัง พรุ่งนี้เธอนัดเจอเพื่อนสมัยเรียนที่ท่าเรือตอนมื้อเที่ยง เรือไปท่านั้นออกเวลาสิบเอ็ดโมงครึ่ง พวกเขาจึงวางแผนไปถึงแต่เนิ่นๆ หลังมื้อเที่ยง นกอยากพาเพื่อนไปร้านกาแฟเงียบๆ ริมน้ำ เดือนหน้าเธอจะกลับไปเชียงใหม่ แต่ตอนนี้เธอกำลังสนุกกับทุกวันในเมืองนี้',
+      text:[
+        {t:'My'},{t:'friend'},{t:'Nok'},{t:'usually'},{t:'lives'},{t:'in'},{t:'Chiang'},{t:'Mai,'},{t:'but'},{t:'this'},{t:'month'},{t:'she'},{t:'is'},
+        {t:'staying', note:'ใช้ปัจจุบันต่อเนื่องกับสถานการณ์ชั่วคราวช่วงนี้ (this month she is staying) ไม่ใช่ที่อยู่ถาวร'},
+        {t:'with'},{t:'her'},{t:'cousin'},{t:'in'},{t:'Bangkok.'},
+        {t:'She'},
+        {t:'knows', note:'know เป็นกริยาบอกสภาวะ (stative verb) บอกสภาพ ไม่ใช่การกระทำ จึงไม่ใช้ -ing (knows ไม่ใช่ is knowing)'},
+        {t:'the'},{t:'city'},{t:'very'},{t:'well'},{t:'because'},{t:'she'},{t:'grew'},{t:'up'},{t:'here.'},
+        {t:'Normally'},{t:'she'},
+        {t:'takes', note:'Normally บอกนิสัยที่ทำเป็นประจำ จึงใช้ปัจจุบันธรรมดา (takes) ต่างจาก is working ที่เป็นสถานการณ์ชั่วคราว'},
+        {t:'the'},{t:'bus'},{t:'to'},{t:'work,'},{t:'but'},{t:'these'},{t:'days'},{t:'she'},{t:'is'},{t:'working'},{t:'at'},{t:'a'},{t:'small'},{t:'market'},{t:'near'},{t:'the'},{t:'river.'},
+        {t:'She'},{t:'really'},{t:'enjoys'},{t:'the'},{t:'new'},{t:'job'},{t:'and'},{t:'the'},{t:'noisy,'},{t:'colorful'},{t:'stalls.'},
+        {t:'Tomorrow'},{t:'she'},{t:'is'},
+        {t:'meeting', note:'ใช้ปัจจุบันต่อเนื่องกับนัดหมายที่แน่นอนในอนาคต (Tomorrow she is meeting…) เหมือน I’m meeting Anna tomorrow'},
+        {t:'an'},{t:'old'},{t:'school'},{t:'friend'},{t:'for'},{t:'lunch'},{t:'near'},{t:'the'},{t:'pier.'},
+        {t:'The'},{t:'boat'},{t:'to'},{t:'that'},{t:'pier'},
+        {t:'leaves', note:'ใช้ปัจจุบันธรรมดากับตารางเวลาที่แน่นอน (The boat leaves at 11:30) ไม่ใช่ปัจจุบันต่อเนื่อง'},
+        {t:'at'},{t:'eleven'},{t:'thirty,'},{t:'so'},{t:'they'},{t:'plan'},{t:'to'},{t:'arrive'},{t:'early.'},
+        {t:'After'},{t:'lunch,'},{t:'Nok'},{t:'wants'},{t:'to'},{t:'show'},{t:'her'},{t:'friend'},{t:'a'},{t:'quiet'},{t:'coffee'},{t:'shop'},{t:'by'},{t:'the'},{t:'water.'},
+        {t:'Next'},{t:'month'},{t:'she'},{t:'is'},{t:'going'},{t:'back'},{t:'to'},{t:'Chiang'},{t:'Mai,'},{t:'but'},{t:'for'},{t:'now'},{t:'she'},{t:'is'},{t:'enjoying'},{t:'every'},{t:'day'},{t:'in'},{t:'the'},{t:'city.'},
+      ],
+    },
   ],
 },
 {
@@ -6477,6 +6828,30 @@ const GRAMMAR_CURRIC = [
         { kind:'pick', label:'Offer', prompt:'You look tired, I ___ drive.', options:['’ll','am going to'], answer:0 },
       ],
     },
+    {
+      id:'a2-will-gt-review', type:'review', title:'Review: Will & Going to', titleTh:'ทบทวนบทเรียน: Will & Going to',
+      intro:'Read the text below. Tap the highlighted words to see the grammar reason in Thai.',
+      introTh:'อ่านข้อความด้านล่าง แล้วแตะคำที่ไฮไลต์เพื่อดูเหตุผลทางไวยากรณ์เป็นภาษาไทย',
+      practice:[{}],
+      textTh:'ฉันกับเพื่อนชื่อพลอยกำลังวางแผนปิกนิกที่สวนสาธารณะสุดสัปดาห์นี้ เราคุยกันไว้ตั้งแต่เมื่อคืน เลยรู้ว่าจะเป็นกลุ่มใหญ่ที่มีเพื่อนร่วมชั้นมาด้วย ดูเมฆดำนั่นสิ ฝนกำลังจะตกก่อนที่เราจะออกจากบ้านด้วยซ้ำ พลอยบอกว่าไม่เป็นไรถ้าฝนตก เธอจะเอาร่มคันใหญ่มาเผื่อไว้ ฉันสัญญาว่าจะไม่ลืมแซนด์วิชครั้งนี้ เพราะปกติฉันมักลืมอะไรสักอย่างเสมอ จู่ๆ โทรศัพท์ของฉันก็ดังขึ้น พลอยพูดว่าเดี๋ยวเธอรับเอง รอสักครู่นะ ถ้าอากาศแย่ลงกว่านี้ ฉันจะโทรบอกทุกคนแล้วเปลี่ยนแผนทันที เราจองโต๊ะใต้ต้นไม้ไว้แล้ว ส่วนนั้นจะเกิดขึ้นแน่นอนไม่ว่าอะไรจะเกิดขึ้น พูดตามตรง ฉันคิดว่ามันจะเป็นวันที่ดีไม่ว่าจะเกิดอะไรขึ้น',
+      text:[
+        {t:'My'},{t:'friend'},{t:'Ploy'},{t:'and'},{t:'I'},{t:'are'},{t:'planning'},{t:'a'},{t:'picnic'},{t:'in'},{t:'the'},{t:'park'},{t:'this'},{t:'weekend.'},
+        {t:'We'},{t:'already'},{t:'talked'},{t:'about'},{t:'it'},{t:'last'},{t:'night,'},{t:'so'},{t:'it'},{t:'is'},{t:'going to'},{t:'be'},{t:'a'},{t:'big'},{t:'group'},{t:'with'},{t:'all'},{t:'our'},{t:'classmates.'},
+        {t:'Look'},{t:'at'},{t:'those'},{t:'dark'},{t:'clouds,'},{t:'it'},
+        {t:'is going to rain', note:'สูตร is/am/are + going to + กริยาช่องหนึ่ง ใช้ going to ทำนายจากหลักฐานที่เห็นตอนนี้ (เมฆดำที่เห็นอยู่ตรงหน้า) ไม่ใช่ will'},
+        {t:'before'},{t:'we'},{t:'even'},{t:'leave'},{t:'the'},{t:'house!'},
+        {t:'Ploy'},{t:'says'},{t:'she'},{t:'does'},{t:'not'},{t:'mind'},{t:'the'},{t:'rain,'},{t:'she'},{t:'is'},{t:'going to'},{t:'bring'},{t:'a'},{t:'big'},{t:'umbrella'},{t:'just'},{t:'in'},{t:'case.'},
+        {t:'I'},{t:'promise'},{t:'I'},
+        {t:'will not forget', note:'สูตร will + กริยาช่องหนึ่ง ใช้ will สำหรับสัญญาว่าจะทำหรือไม่ทำ (I will not forget = ฉันสัญญาว่าจะไม่ลืม)'},
+        {t:'the'},{t:'sandwiches'},{t:'this'},{t:'time,'},{t:'because'},{t:'I'},{t:'always'},{t:'forget'},{t:'something.'},
+        {t:'Suddenly'},{t:'my'},{t:'phone'},{t:'rang'},{t:'and'},{t:'Ploy'},{t:'said:'},{t:'I’ll'},{t:'answer'},{t:'it,'},{t:'wait'},{t:'a'},{t:'second.'},
+        {t:'If'},{t:'the'},{t:'weather'},{t:'gets'},{t:'worse,'},{t:'I'},
+        {t:'will call', note:'สูตร will + กริยาช่องหนึ่ง ตัดสินใจตอนที่กำลังพูด (คิดขึ้นได้ตอนนั้นเพราะอากาศเปลี่ยน) จึงใช้ will ไม่ใช่ going to ซึ่งใช้กับแผนที่ตัดสินใจไว้ก่อนแล้ว'},
+        {t:'everyone'},{t:'and'},{t:'change'},{t:'our'},{t:'plan'},{t:'quickly.'},
+        {t:'We'},{t:'already'},{t:'booked'},{t:'a'},{t:'table'},{t:'under'},{t:'the'},{t:'trees,'},{t:'so'},{t:'that'},{t:'part'},{t:'is'},{t:'going to'},{t:'happen'},{t:'no'},{t:'matter'},{t:'what.'},
+        {t:'Honestly,'},{t:'I'},{t:'think'},{t:'it'},{t:'will'},{t:'be'},{t:'a'},{t:'wonderful'},{t:'day'},{t:'either'},{t:'way.'},
+      ],
+    },
   ],
 },
 {
@@ -6497,6 +6872,33 @@ const GRAMMAR_CURRIC = [
         { kind:'pick', label:'make', prompt:'She ___ a cake.', options:['made','maked'], answer:0 },
         { kind:'pick', label:'take', prompt:'We ___ a photo.', options:['took','taked'], answer:0 },
         { kind:'pick', label:'see', prompt:'They ___ the show last night.', options:['saw','seed'], answer:0 },
+      ],
+    },
+    {
+      id:'a2-past-review', type:'review', title:'Review: Past Simple', titleTh:'ทบทวนบทเรียน: Past Simple',
+      intro:'Read the text below. Tap the highlighted words to see the grammar reason in Thai.',
+      introTh:'อ่านข้อความด้านล่าง แล้วแตะคำที่ไฮไลต์เพื่อดูเหตุผลทางไวยากรณ์เป็นภาษาไทย',
+      practice:[{}],
+      textTh:'เสาร์ที่แล้วน้องสาวของฉันมาหาฉันทั้งวัน ตอนเช้าเราไปตลาดด้วยกันและฉันซื้อมะม่วงสดมา ต่อมาเรานั่งแท็กซี่ไปแกลเลอรีศิลปะเล็กๆ ใจกลางเมือง เราเห็นภาพวาดสวยๆ จากศิลปินไทยคนหนึ่ง หลังจากนั้นน้องสาวทำอาหารกลางวันง่ายๆ ให้เรากินที่อพาร์ตเมนต์ของฉัน เราคุยกันหลายชั่วโมงเรื่องวัยเด็กและเพื่อนเก่า ตอนเย็นเธอนั่งรถเมล์เที่ยวสุดท้ายกลับบ้าน เป็นวันที่พิเศษมากจริงๆ และฉันหวังว่าเธอจะมาหาอีกเร็วๆ นี้',
+      text:[
+        {t:'Last'},{t:'Saturday'},{t:'my'},{t:'sister'},
+        {t:'came', note:'come เป็นกริยาผิดปกติ (irregular) อดีตคือ came ไม่ใช่ comed'},
+        {t:'to'},{t:'visit'},{t:'me'},{t:'for'},{t:'the'},{t:'whole'},{t:'day.'},
+        {t:'In'},{t:'the'},{t:'morning'},{t:'we'},{t:'went'},{t:'to'},{t:'the'},{t:'market'},{t:'together'},{t:'and'},{t:'I'},
+        {t:'bought', note:'buy เป็นกริยาผิดปกติ อดีตคือ bought ไม่ใช่ buyed'},
+        {t:'some'},{t:'fresh'},{t:'mangoes.'},
+        {t:'Later'},{t:'we'},
+        {t:'took', note:'take เป็นกริยาผิดปกติ อดีตคือ took ไม่ใช่ taked'},
+        {t:'a'},{t:'taxi'},{t:'to'},{t:'a'},{t:'small'},{t:'art'},{t:'gallery'},{t:'downtown.'},
+        {t:'We'},
+        {t:'saw', note:'see เป็นกริยาผิดปกติ อดีตคือ saw ไม่ใช่ seed'},
+        {t:'some'},{t:'really'},{t:'beautiful'},{t:'paintings'},{t:'from'},{t:'a'},{t:'young'},{t:'Thai'},{t:'artist.'},
+        {t:'After'},{t:'that,'},{t:'my'},{t:'sister'},
+        {t:'made', note:'make เป็นกริยาผิดปกติ อดีตคือ made ไม่ใช่ maked'},
+        {t:'a'},{t:'simple'},{t:'lunch'},{t:'for'},{t:'both'},{t:'of'},{t:'us'},{t:'at'},{t:'my'},{t:'apartment.'},
+        {t:'We'},{t:'talked'},{t:'for'},{t:'hours'},{t:'about'},{t:'our'},{t:'childhood'},{t:'and'},{t:'old'},{t:'friends.'},
+        {t:'In'},{t:'the'},{t:'evening'},{t:'she'},{t:'took'},{t:'the'},{t:'last'},{t:'bus'},{t:'back'},{t:'to'},{t:'her'},{t:'town.'},
+        {t:'It'},{t:'was'},{t:'a'},{t:'really'},{t:'special'},{t:'day,'},{t:'and'},{t:'I'},{t:'hope'},{t:'she'},{t:'comes'},{t:'again'},{t:'soon.'},
       ],
     },
   ],
@@ -6595,6 +6997,37 @@ const GRAMMAR_CURRIC = [
         { kind:'pick', label:'Finished time', prompt:'She ___ in 2019.', options:['graduated','has graduated'], answer:0 },
       ],
     },
+    {
+      id:'a2-present-perfect-review', type:'review', title:'Review: Present Perfect', titleTh:'ทบทวนบทเรียน: Present Perfect',
+      intro:'Read the text below. Tap the highlighted words to see the grammar reason in Thai.',
+      introTh:'อ่านข้อความด้านล่าง แล้วแตะคำที่ไฮไลต์เพื่อดูเหตุผลทางไวยากรณ์เป็นภาษาไทย',
+      practice:[{}],
+      textTh:'เพื่อนร่วมงานของฉันชื่อฟ้าทำงานที่บริษัทนี้มาห้าปีแล้วตอนนี้ เธอทำโปรเจกต์ใหญ่ที่เราเริ่มเมื่อเดือนก่อนเสร็จไปแล้ว ฟ้าเคยเดินทางไปหลายประเทศ เธอเคยไปญี่ปุ่น เวียดนาม และอิตาลี (แล้วก็กลับมา) เธอไม่เคยกินหอยทากเลย ถึงแม้จะเคยไปฝรั่งเศสสองครั้งแล้วก็ตาม เมื่อวานเธอบินไปสิงคโปร์เพื่อทำธุระทางธุรกิจสั้นๆ และจะกลับมาวันศุกร์ ตอนนี้เธอไปสิงคโปร์แล้ว (ยังไม่กลับมา) โต๊ะทำงานของเธอเลยว่างจนกว่าเธอจะกลับมา เคยทำงานกับคนที่เป็นระเบียบขนาดนี้ไหม พูดตรงๆ ฉันไม่เคยเจอใครแบบเธอมาก่อนเลย ปี 2019 เธอไปเรียนต่างประเทศหนึ่งปี และประสบการณ์นั้นเปลี่ยนวิธีทำงานของเธอไปเลย ตอนนี้เธอวางแผนทุกส่วนของโปรเจกต์ใหม่อย่างละเอียด ฉันเลยรู้สึกมั่นใจกับมันมาก',
+      text:[
+        {t:'My'},{t:'colleague'},{t:'Fah'},
+        {t:'has worked', note:'สูตรปัจจุบันสมบูรณ์: have/has + กริยาช่อง 3 (has worked) ใช้ has กับประธานเอกพจน์บุรุษที่ 3 (she/he/it)'},
+        {t:'at'},{t:'this'},{t:'company'},{t:'for'},{t:'five'},{t:'years'},{t:'now.'},
+        {t:'She'},{t:'has'},{t:'already'},{t:'finished'},{t:'the'},{t:'big'},{t:'project'},{t:'we'},{t:'started'},{t:'last'},{t:'month.'},
+        {t:'Fah'},{t:'has'},{t:'traveled'},{t:'to'},{t:'many'},{t:'countries,'},{t:'she'},
+        {t:'has been', note:'“has been” = ไปแล้วและกลับมาแล้ว (she has been to Japan = เคยไปญี่ปุ่นและกลับมาแล้ว)'},
+        {t:'to'},{t:'Japan,'},{t:'Vietnam'},{t:'and'},{t:'Italy.'},
+        {t:'She'},
+        {t:'has never eaten', note:'สูตรประสบการณ์ที่ไม่เคยทำ: has + never + กริยาช่อง 3 (eaten เป็น participle ผิดปกติของ eat: eat → ate → eaten)'},
+        {t:'snails,'},{t:'even'},{t:'though'},{t:'she'},{t:'has'},{t:'visited'},{t:'France'},{t:'twice.'},
+        {t:'Yesterday'},{t:'she'},
+        {t:'flew', note:'yesterday บอกเวลาที่จบไปแล้วในอดีต จึงใช้อดีตกาลธรรมดา (flew) ไม่ใช่ปัจจุบันสมบูรณ์'},
+        {t:'to'},{t:'Singapore'},{t:'for'},{t:'a'},{t:'short'},{t:'business'},{t:'trip,'},{t:'and'},{t:'she'},{t:'will'},{t:'come'},{t:'back'},{t:'on'},{t:'Friday.'},
+        {t:'Actually,'},{t:'she'},
+        {t:'has gone', note:'“has gone” = ไปแล้วยังอยู่ที่นั่น ยังไม่กลับมา (she has gone to Singapore = ตอนนี้ยังอยู่สิงคโปร์)'},
+        {t:'to'},{t:'Singapore,'},{t:'so'},{t:'her'},{t:'desk'},{t:'is'},{t:'empty'},{t:'until'},{t:'she'},{t:'returns.'},
+        {t:'Have you ever worked', note:'สูตรคำถามปัจจุบันสมบูรณ์: Have/Has + ประธาน + ever + กริยาช่อง 3 (Have you ever worked…? = เคย...ไหม) ใช้ ever ในคำถาม คู่กับ never ในประโยคปฏิเสธ'},
+        {t:'with'},{t:'someone'},{t:'so'},{t:'organized,'},{t:'honestly'},{t:'I'},{t:'have'},{t:'not'},{t:'met'},{t:'anyone'},{t:'like'},{t:'her.'},
+        {t:'In'},{t:'2019,'},{t:'she'},{t:'studied'},{t:'abroad'},{t:'for'},{t:'a'},{t:'year,'},{t:'and'},{t:'that'},{t:'experience'},{t:'changed'},{t:'the'},{t:'way'},{t:'she'},{t:'works.'},
+        {t:'Right'},{t:'now,'},{t:'she'},
+        {t:'has planned', note:'กริยาปกติเติม -ed/-ned สำหรับกริยาช่อง 3 เหมือนอดีต ใช้กฎสะกดเดียวกัน (plan → planned ซ้ำตัวสะกด)'},
+        {t:'every'},{t:'part'},{t:'of'},{t:'the'},{t:'new'},{t:'project'},{t:'carefully,'},{t:'so'},{t:'I'},{t:'feel'},{t:'confident'},{t:'about'},{t:'it.'},
+      ],
+    },
   ],
 },
 {
@@ -6630,6 +7063,27 @@ const GRAMMAR_CURRIC = [
         { kind:'pick', label:'Verb + to', prompt:'They hope ___ soon.', options:['to arrive','arriving'], answer:0 },
         { kind:'pick', label:'Purpose', prompt:'I called ___ you.', options:['to help','helping'], answer:0 },
         { kind:'pick', label:'to or -ing?', prompt:'He promised ___ back.', options:['to come','coming'], answer:0 },
+      ],
+    },
+    {
+      id:'a2-verb-patterns-review', type:'review', title:'Review: Verb Patterns', titleTh:'ทบทวนบทเรียน: Verb Patterns',
+      intro:'Read the text below. Tap the highlighted words to see the grammar reason in Thai.',
+      introTh:'อ่านข้อความด้านล่าง แล้วแตะคำที่ไฮไลต์เพื่อดูเหตุผลทางไวยากรณ์เป็นภาษาไทย',
+      practice:[{}],
+      textTh:'เพื่อนบ้านของฉันชื่อทูชอบทำอาหารเผ็ดให้เพื่อนๆ กินทุกสุดสัปดาห์ เขาหลีกเลี่ยงการใช้น้ำมันเยอะเพราะอยากมีสุขภาพดี เมื่อวานเขาชวนลองสูตรใหม่จากรายการทำอาหารที่เขาดู เขาตัดสินใจทำต้มยำหม้อใหญ่ให้ทุกคน ทูใช้เวลาตอนเย็นส่วนใหญ่ดูวิดีโอทำอาหารทางออนไลน์ เขาหวังว่าสักวันจะเปิดร้านอาหารเล็กๆ ถึงแม้ตอนนี้จะรู้สึกว่ายังห่างไกลอยู่ ก่อนมื้อเย็นจะเริ่ม เขาไปซื้อสมุนไพรและผักสดเสมอ เพื่อนๆ ของเขาสัญญาว่าจะเอาเครื่องดื่มและของหวานมาครั้งนี้ มื้อนี้เลยจะเป็นความร่วมมือของทุกคน',
+      text:[
+        {t:'My'},{t:'neighbor'},{t:'Two'},{t:'really'},{t:'enjoys'},
+        {t:'cooking', note:'enjoy ตามด้วยรูป -ing (gerund) เสมอ: enjoy cooking ไม่ใช่ enjoy to cook'},
+        {t:'spicy'},{t:'food'},{t:'for'},{t:'his'},{t:'friends'},{t:'every'},{t:'weekend.'},
+        {t:'He'},{t:'avoids'},{t:'using'},{t:'too'},{t:'much'},{t:'oil'},{t:'because'},{t:'he'},{t:'wants'},{t:'to'},{t:'stay'},{t:'healthy.'},
+        {t:'Yesterday'},{t:'he'},{t:'suggested'},{t:'trying'},{t:'a'},{t:'new'},{t:'recipe'},{t:'from'},{t:'a'},{t:'cooking'},{t:'show'},{t:'he'},{t:'watched.'},
+        {t:'He'},{t:'decided'},
+        {t:'to make', note:'decide ตามด้วย to + กริยา (infinitive) เช่น decided to make ไม่ใช่ decided making'},
+        {t:'a'},{t:'big'},{t:'pot'},{t:'of'},{t:'tom'},{t:'yum'},{t:'soup'},{t:'for'},{t:'everyone.'},
+        {t:'Two'},{t:'spends'},{t:'most'},{t:'evenings'},{t:'watching'},{t:'cooking'},{t:'videos'},{t:'online.'},
+        {t:'He'},{t:'hopes'},{t:'to'},{t:'open'},{t:'a'},{t:'small'},{t:'restaurant'},{t:'one'},{t:'day,'},{t:'even'},{t:'though'},{t:'it'},{t:'feels'},{t:'far'},{t:'away'},{t:'right'},{t:'now.'},
+        {t:'Before'},{t:'dinner'},{t:'starts,'},{t:'he'},{t:'always'},{t:'goes'},{t:'shopping'},{t:'to'},{t:'buy'},{t:'fresh'},{t:'herbs'},{t:'and'},{t:'vegetables.'},
+        {t:'His'},{t:'friends'},{t:'promised'},{t:'to'},{t:'bring'},{t:'drinks'},{t:'and'},{t:'dessert'},{t:'this'},{t:'time,'},{t:'so'},{t:'the'},{t:'whole'},{t:'meal'},{t:'will'},{t:'be'},{t:'a'},{t:'team'},{t:'effort.'},
       ],
     },
   ],
@@ -6692,6 +7146,33 @@ const GRAMMAR_CURRIC = [
         { kind:'pick', label:'No article', prompt:'She works in ___ Vietnam.', options:['(none)','the'], answer:0 },
       ],
     },
+    {
+      id:'a2-nouns-review', type:'review', title:'Review: Nouns', titleTh:'ทบทวนบทเรียน: Nouns',
+      intro:'Read the text below. Tap the highlighted words to see the grammar reason in Thai.',
+      introTh:'อ่านข้อความด้านล่าง แล้วแตะคำที่ไฮไลต์เพื่อดูเหตุผลทางไวยากรณ์เป็นภาษาไทย',
+      practice:[{}],
+      textTh:'อาทิตย์ที่แล้วฉันซื้อจักรยานคันหนึ่งจากร้านเล็กๆ ใกล้บ้าน จักรยานคันนั้นสีแดงสดและฉันชอบมันทันที โดยทั่วไปจักรยานเป็นวิธีเดินทางที่ถูกและดีต่อสุขภาพในเมืองที่วุ่นวาย เพื่อนของฉันชื่อน้ำอยู่ที่เวียดนาม และเดือนก่อนเธอไปเที่ยวฟิลิปปินส์สั้นๆ เธอบอกว่าชายหาดที่นั่นสวยมาก แต่การจราจรในตัวเมืองแย่มาก เมื่อวานขณะที่ฉันขี่จักรยานคันใหม่ ฉันเห็นสุนัขตัวหนึ่งเดินตามชายชราคนหนึ่งใกล้ตลาด สุนัขดูหิว ชายใจดีคนนั้นเลยให้อาหารมันจากกระเป๋า พอฉันกลับถึงบ้านตอนเย็น ฉันล็อกประตูหน้าแล้ววางจักรยานเก็บไว้ ฉันรักสัตว์มากโดยทั่วไป ช่วงเวลาเล็กๆ นั้นเลยทำให้วันของฉันดีขึ้นทั้งวัน',
+      text:[
+        {t:'Last'},{t:'week'},{t:'I'},{t:'bought'},
+        {t:'a', note:'ใช้ “a” กับสิ่งที่พูดถึงครั้งแรกหรือไม่รู้ว่าตัวไหน (a bicycle = จักรยานคันหนึ่ง ยังไม่เคยพูดถึงมาก่อน)'},
+        {t:'bicycle'},{t:'from'},{t:'a'},{t:'small'},{t:'shop'},{t:'near'},{t:'my'},{t:'house.'},
+        {t:'The', note:'เปลี่ยนเป็น “The” เพราะพูดถึงจักรยานคันนี้ไปแล้วในประโยคก่อน (both people know which one)'},
+        {t:'bicycle'},{t:'was'},{t:'bright'},{t:'red,'},{t:'and'},{t:'I'},{t:'loved'},{t:'it'},{t:'immediately.'},
+        {t:'In'},{t:'general,'},
+        {t:'bicycles', note:'ไม่ใช้คำนำหน้ากับพหูพจน์เมื่อพูดถึงสิ่งนั้นโดยทั่วไป ไม่ใช่คันใดคันหนึ่งเจาะจง'},
+        {t:'are'},{t:'a'},{t:'cheap'},{t:'and'},{t:'healthy'},{t:'way'},{t:'to'},{t:'move'},{t:'around'},{t:'a'},{t:'busy'},{t:'city.'},
+        {t:'My'},{t:'friend'},{t:'Nam'},{t:'lives'},{t:'in'},{t:'Vietnam,'},{t:'and'},{t:'last'},{t:'month'},{t:'she'},{t:'visited'},
+        {t:'the Philippines', note:'ชื่อประเทศที่เป็นพหูพจน์ต้องมี “the” (the Philippines) ต่างจาก Vietnam ที่ไม่ใช้คำนำหน้า'},
+        {t:'for'},{t:'a'},{t:'short'},{t:'holiday.'},
+        {t:'She'},{t:'said'},{t:'the'},{t:'beaches'},{t:'there'},{t:'were'},{t:'lovely,'},{t:'but'},{t:'the'},{t:'traffic'},{t:'in'},{t:'the'},{t:'city'},{t:'center'},{t:'was'},{t:'terrible.'},
+        {t:'Yesterday,'},{t:'while'},{t:'I'},{t:'was'},{t:'riding'},{t:'my'},{t:'new'},{t:'bicycle,'},{t:'I'},{t:'saw'},{t:'a'},{t:'dog'},{t:'following'},{t:'an'},{t:'old'},{t:'man'},{t:'near'},{t:'the'},{t:'market.'},
+        {t:'The'},{t:'dog'},{t:'looked'},{t:'hungry,'},{t:'so'},{t:'the'},{t:'kind'},{t:'man'},{t:'gave'},{t:'it'},{t:'some'},{t:'food'},{t:'from'},{t:'his'},{t:'bag.'},
+        {t:'When'},{t:'I'},{t:'finally'},{t:'got'},{t:'home'},{t:'that'},{t:'evening,'},{t:'I'},{t:'locked'},
+        {t:'the', note:'ใช้ “the” เพราะทั้งสองฝ่ายรู้ว่าหมายถึงประตูหน้าบานเดียวของบ้าน แม้ไม่เคยพูดถึงมาก่อนในบทนี้'},
+        {t:'front'},{t:'door'},{t:'and'},{t:'put'},{t:'my'},{t:'bicycle'},{t:'away.'},
+        {t:'I'},{t:'really'},{t:'love'},{t:'animals'},{t:'in'},{t:'general,'},{t:'so'},{t:'that'},{t:'small'},{t:'moment'},{t:'made'},{t:'my'},{t:'whole'},{t:'day'},{t:'feel'},{t:'better.'},
+      ],
+    },
   ],
 },
 {
@@ -6742,6 +7223,31 @@ const GRAMMAR_CURRIC = [
       practice:[
         { kind:'pick', label:'Each', prompt:'___ of us has a key.', options:['Each','All'], answer:0 },
         { kind:'pick', label:'All + plural', prompt:'___ the shops close at 6.', options:['All','Every'], answer:0 },
+      ],
+    },
+    {
+      id:'a2-determiners-review', type:'review', title:'Review: Determiners', titleTh:'ทบทวนบทเรียน: Determiners',
+      intro:'Read the text below. Tap the highlighted words to see the grammar reason in Thai.',
+      introTh:'อ่านข้อความด้านล่าง แล้วแตะคำที่ไฮไลต์เพื่อดูเหตุผลทางไวยากรณ์เป็นภาษาไทย',
+      practice:[{}],
+      textTh:'เมื่อวานครูของเราจัดทริปเล็กๆ ให้ทั้งห้อง เพื่อนบางคนของฉันตื่นเต้นมาก แต่บางคนก็รู้สึกกังวลเรื่องการนั่งรถบัสนาน นักเรียนทุกคนต้องเตรียมข้าวกล่องและน้ำมาเอง แต่ละคนในพวกเรายังเตรียมของขวัญเล็กๆ มาด้วยสำหรับเกมที่เล่นกันทีหลัง น่าเสียดายที่ฉันไม่มีเงินเหลือซื้อขนมที่จุดพักรถเลย เพื่อนของฉันชื่อพลอยบอกว่าเธอก็ไม่มีเหมือนกัน เราเลยแบ่งมันฝรั่งทอดถุงหนึ่งกินด้วยกัน นักเรียนทุกคนไปถึงน้ำตกอย่างปลอดภัย และส่วนใหญ่ของพวกเรากระโดดลงน้ำทันที พอถึงช่วงท้ายวัน ไม่มีใครอยากกลับบ้านเลย มันเป็นทริปที่ยอดเยี่ยมมาก',
+      text:[
+        {t:'Yesterday'},{t:'our'},{t:'teacher'},{t:'organized'},{t:'a'},{t:'small'},{t:'trip'},{t:'for'},{t:'the'},{t:'whole'},{t:'class.'},
+        {t:'Some of', note:'เติม “of” หน้ากลุ่มที่เจาะจง (some of my classmates) ถ้าไม่มี “of” จะหมายถึงทั่วไป'},
+        {t:'my'},{t:'classmates'},{t:'were'},{t:'really'},{t:'excited,'},{t:'but'},{t:'a'},{t:'few'},{t:'of'},{t:'them'},{t:'felt'},{t:'nervous'},{t:'about'},{t:'the'},{t:'long'},{t:'bus'},{t:'ride.'},
+        {t:'Every', note:'“every” พูดถึงสมาชิกแต่ละคนในกลุ่ม ใช้กับกริยาเอกพจน์ (Every student had)'},
+        {t:'student'},{t:'had'},{t:'to'},{t:'bring'},{t:'a'},{t:'packed'},{t:'lunch'},{t:'and'},{t:'a'},{t:'bottle'},{t:'of'},{t:'water.'},
+        {t:'Each', note:'“each” พูดถึงสมาชิกแต่ละคนในกลุ่มเหมือน every แต่ใช้กับ “of us/them” ได้และเน้นทีละคน'},
+        {t:'of'},{t:'us'},{t:'also'},{t:'brought'},{t:'a'},{t:'small'},{t:'gift'},{t:'for'},{t:'a'},{t:'game'},{t:'we'},{t:'played'},{t:'later.'},
+        {t:'Sadly,'},{t:'I'},{t:'didn’t'},{t:'have'},
+        {t:'any', note:'“not any” หน้าคำนาม หมายถึงศูนย์ (didn’t have any money = ไม่มีเงินเลย)'},
+        {t:'money'},{t:'left'},{t:'for'},{t:'snacks'},{t:'at'},{t:'the'},{t:'rest'},{t:'stop.'},
+        {t:'My'},{t:'friend'},{t:'Ploy'},{t:'said'},{t:'she'},{t:'had'},
+        {t:'none', note:'“none” ใช้เดี่ยวๆ ไม่มีคำนามตามหลัง (had none = ไม่มีเลยสักนิด) ต่างจาก “no money” ที่ต้องมีคำนาม'},
+        {t:'either,'},{t:'so'},{t:'we'},{t:'shared'},{t:'a'},{t:'bag'},{t:'of'},{t:'chips'},{t:'together.'},
+        {t:'All', note:'“all” พูดถึงทั้งกลุ่มรวมกัน ใช้กับกริยาพหูพจน์ (All the students arrived) ต่างจาก every/each ที่ใช้เอกพจน์'},
+        {t:'the'},{t:'students'},{t:'arrived'},{t:'at'},{t:'the'},{t:'waterfall'},{t:'safely,'},{t:'and'},{t:'most'},{t:'of'},{t:'us'},{t:'jumped'},{t:'straight'},{t:'into'},{t:'the'},{t:'water.'},
+        {t:'By'},{t:'the'},{t:'end'},{t:'of'},{t:'the'},{t:'day,'},{t:'nobody'},{t:'wanted'},{t:'to'},{t:'go'},{t:'home,'},{t:'it'},{t:'was'},{t:'such'},{t:'a'},{t:'wonderful'},{t:'trip.'},
       ],
     },
   ],
@@ -6804,6 +7310,35 @@ const GRAMMAR_CURRIC = [
       practice:[
         { kind:'pick', label:'Everything', prompt:'___ is ready.', options:['Everything','Nothing'], answer:0 },
         { kind:'pick', label:'Nowhere', prompt:'There’s ___ to sit.', options:['nowhere','everywhere'], answer:0 },
+      ],
+    },
+    {
+      id:'a2-pronouns-review', type:'review', title:'Review: Pronouns', titleTh:'ทบทวนบทเรียน: Pronouns',
+      intro:'Read the text below. Tap the highlighted words to see the grammar reason in Thai.',
+      introTh:'อ่านข้อความด้านล่าง แล้วแตะคำที่ไฮไลต์เพื่อดูเหตุผลทางไวยากรณ์เป็นภาษาไทย',
+      practice:[{}],
+      textTh:'สุดสัปดาห์ที่แล้วฉันไปช้อปปิ้งกับเพื่อนคนหนึ่งของฉันจากมหาวิทยาลัย เราดูรองเท้าหลายคู่ แต่ฉันอยากได้คู่สีดำมากกว่าคู่สีน้ำตาล เพื่อนของฉันถามพนักงานขายว่ามีอะไรที่ถูกกว่านี้ลดราคาไหม พนักงานบอกว่าวันนั้นไม่มีอะไรต่ำกว่าพันบาทเลย พูดตรงๆ ทุกอย่างในร้านนั้นดูแพงเกินไปสำหรับเรา เราเลยเดินไปอีกร้านใกล้ๆ หวังว่าจะเจอแต่ของดีราคาถูกครั้งนี้ สุดท้ายทุกคนในร้านดูแปลกใจตอนที่ฉันเจอรองเท้าคู่สวยลดครึ่งราคา เพื่อนของฉันแซวว่าไม่มีใครเจอของดีราคาถูกขนาดนั้นได้หรอก แต่ฉันก็เจอวันนั้นจริงๆ',
+      text:[
+        {t:'Last'},{t:'weekend'},{t:'I'},{t:'went'},{t:'shopping'},{t:'with'},{t:'a'},{t:'friend'},{t:'of'},
+        {t:'mine', note:'“a friend of mine” แปลว่าเพื่อนคนหนึ่งของฉัน (หนึ่งในหลายคน) ใช้แทน “my friend”'},
+        {t:'from'},{t:'university.'},
+        {t:'We'},{t:'looked'},{t:'at'},{t:'a'},{t:'lot'},{t:'of'},{t:'shoes,'},{t:'but'},{t:'I'},{t:'wanted'},{t:'the'},{t:'black'},
+        {t:'ones', note:'“ones” ใช้แทนคำนามพหูพจน์ที่พูดไปแล้ว (shoes) เพื่อไม่ต้องพูดซ้ำว่า black shoes'},
+        {t:'instead'},{t:'of'},{t:'the'},{t:'brown'},{t:'ones.'},
+        {t:'My'},{t:'friend'},{t:'asked'},{t:'the'},{t:'shop'},{t:'assistant'},{t:'if'},{t:'there'},{t:'was'},
+        {t:'something', note:'ใช้คำขึ้นต้น some- ในประโยคบอกเล่า (there was something cheaper)'},
+        {t:'cheaper'},{t:'on'},{t:'sale.'},
+        {t:'The'},{t:'assistant'},{t:'said'},{t:'there'},{t:'wasn’t'},
+        {t:'anything', note:'ใช้คำขึ้นต้น any- ในประโยคปฏิเสธ (wasn’t anything) แทนที่จะใช้ something'},
+        {t:'under'},{t:'a'},{t:'thousand'},{t:'baht'},{t:'that'},{t:'day.'},
+        {t:'Honestly,'},
+        {t:'everything', note:'“everything” หมายถึง 100% ของสิ่งของทั้งหมด ใช้กริยาเอกพจน์ (everything felt)'},
+        {t:'in'},{t:'that'},{t:'shop'},{t:'felt'},{t:'too'},{t:'expensive'},{t:'for'},{t:'us.'},
+        {t:'We'},{t:'walked'},{t:'to'},{t:'another'},{t:'store'},{t:'nearby,'},{t:'hoping'},{t:'to'},{t:'find'},{t:'nothing'},{t:'but'},{t:'good'},{t:'deals'},{t:'this'},{t:'time.'},
+        {t:'In'},{t:'the'},{t:'end,'},{t:'everybody'},{t:'in'},{t:'the'},{t:'shop'},{t:'seemed'},{t:'surprised'},{t:'when'},{t:'I'},{t:'found'},{t:'a'},{t:'lovely'},{t:'pair'},{t:'for'},{t:'half'},{t:'price.'},
+        {t:'My'},{t:'friend'},{t:'joked'},{t:'that'},
+        {t:'nobody', note:'“nobody” หมายถึง 0% ไม่มีใครเลย ใช้กริยาเอกพจน์ (nobody finds)'},
+        {t:'ever'},{t:'finds'},{t:'a'},{t:'bargain'},{t:'that'},{t:'good,'},{t:'but'},{t:'I'},{t:'did'},{t:'that'},{t:'day.'},
       ],
     },
   ],
@@ -6879,6 +7414,40 @@ const GRAMMAR_CURRIC = [
       quiz:{ q:'“a relationship ___ my sister”', qTh:'“a relationship ___ my sister”', options:['with','of'], answer:0 },
       practice:[
         { kind:'pick', label:'need', prompt:'a need ___ change', options:['for','of'], answer:0 },
+      ],
+    },
+    {
+      id:'a2-prepositions-review', type:'review', title:'Review: Prepositions', titleTh:'ทบทวนบทเรียน: Prepositions',
+      intro:'Read the text below. Tap the highlighted words to see the grammar reason in Thai.',
+      introTh:'อ่านข้อความด้านล่าง แล้วแตะคำที่ไฮไลต์เพื่อดูเหตุผลทางไวยากรณ์เป็นภาษาไทย',
+      practice:[{}],
+      textTh:'เพื่อนร่วมงานของฉันชื่อแอนทำงานที่ออฟฟิศนี้มาตั้งแต่ปี 2021 เธอภูมิใจในโปรเจกต์การตลาดใหม่ที่เธอเป็นหัวหน้าเดือนนี้ แอนพึ่งพาทีมเล็กๆ ของเธอให้ทำทุกอย่างเสร็จทันเวลา เธอขอโทษที่พลาดประชุมสั้นๆ เมื่อวานเพราะรู้สึกไม่สบาย หัวหน้าของเราบอกว่ารายงานต้องเสร็จภายในเช้าวันศุกร์ ไม่ช้ากว่านั้นแม้แต่นาทีเดียว แอนวางแผนจะอยู่ที่ออฟฟิศต่อเนื่องจนถึงสองทุ่มคืนนี้เพื่อทำหน้าสุดท้ายให้เสร็จ ระหว่างการประชุม เธออธิบายเหตุผลของความล่าช้าอย่างชัดเจนให้ทุกคนฟัง ขณะที่เธอกำลังพูดอยู่ ฉันสังเกตว่าเธอดูเหนื่อยมาก ฉันมั่นใจว่าเธอจะได้พักผ่อนเต็มที่เมื่อโปรเจกต์ทั้งหมดเสร็จสมบูรณ์ในที่สุด',
+      text:[
+        {t:'My'},{t:'colleague'},{t:'Ann'},{t:'has'},{t:'worked'},{t:'at'},{t:'this'},{t:'office'},
+        {t:'since', note:'“since” + จุดเริ่มต้นของเวลา (since 2021 = ตั้งแต่ปี 2021)'},
+        {t:'2021.'},
+        {t:'She'},{t:'is'},{t:'proud'},
+        {t:'of', note:'คำคุณศัพท์ proud ตามด้วยบุพบท “of” เสมอ (proud of)'},
+        {t:'the'},{t:'new'},{t:'marketing'},{t:'project'},{t:'she'},{t:'is'},{t:'leading'},{t:'this'},{t:'month.'},
+        {t:'Ann'},{t:'depends'},
+        {t:'on', note:'คำกริยา depend ตามด้วยบุพบท “on” เสมอ (depend on)'},
+        {t:'her'},{t:'small'},{t:'team'},{t:'to'},{t:'finish'},{t:'everything'},{t:'on'},{t:'time.'},
+        {t:'She'},{t:'apologized'},
+        {t:'for', note:'คำกริยา apologise/apologize ตามด้วยบุพบท “for” เสมอ (apologize for)'},
+        {t:'missing'},{t:'yesterday’s'},{t:'short'},{t:'meeting'},{t:'because'},{t:'she'},{t:'felt'},{t:'sick.'},
+        {t:'Our'},{t:'boss'},{t:'said'},{t:'the'},{t:'report'},{t:'must'},{t:'be'},{t:'ready'},
+        {t:'by', note:'“by” = ภายในหรือก่อนเวลานั้น (deadline) (by Friday morning = ภายในเช้าวันศุกร์)'},
+        {t:'Friday'},{t:'morning,'},{t:'not'},{t:'a'},{t:'minute'},{t:'later.'},
+        {t:'Ann'},{t:'plans'},{t:'to'},{t:'stay'},{t:'at'},{t:'the'},{t:'office'},
+        {t:'until', note:'“until” = ต่อเนื่องไปจนถึงเวลานั้น (until eight tonight = อยู่ต่อเนื่องจนถึงสองทุ่ม)'},
+        {t:'eight'},{t:'tonight'},{t:'to'},{t:'finish'},{t:'the'},{t:'last'},{t:'few'},{t:'pages.'},
+        {t:'During', note:'“during” + คำนาม (during the meeting) บอกว่าเกิดขึ้นในช่วงเวลานั้น'},
+        {t:'the'},{t:'meeting,'},{t:'she'},{t:'explained'},{t:'the'},{t:'reason'},
+        {t:'for', note:'คำนาม reason ตามด้วยบุพบท “for” เสมอ (the reason for the delay)'},
+        {t:'the'},{t:'delay'},{t:'clearly'},{t:'to'},{t:'everyone.'},
+        {t:'While', note:'“while” + อนุประโยคที่มีประธานและกริยา (While she was talking) ต่างจาก during ที่ตามด้วยคำนาม'},
+        {t:'she'},{t:'was'},{t:'talking,'},{t:'I'},{t:'noticed'},{t:'she'},{t:'looked'},{t:'really'},{t:'tired.'},
+        {t:'I’m'},{t:'sure'},{t:'she’ll'},{t:'relax'},{t:'completely'},{t:'once'},{t:'the'},{t:'whole'},{t:'project'},{t:'is'},{t:'finally'},{t:'done.'},
       ],
     },
   ],
@@ -6960,6 +7529,37 @@ const GRAMMAR_CURRIC = [
       quiz:{ q:'Advice:', qTh:'คำแนะนำ:', options:['You should drink more water','You must drink more water'], answer:0 },
       practice:[
         { kind:'pick', label:'Advice', prompt:'You ___ study more.', options:['should','must'], answer:0 },
+      ],
+    },
+    {
+      id:'a2-modals-review', type:'review', title:'Review: Modal Verbs', titleTh:'ทบทวนบทเรียน: Modal Verbs',
+      intro:'Read the text below. Tap the highlighted words to see the grammar reason in Thai.',
+      introTh:'อ่านข้อความด้านล่าง แล้วแตะคำที่ไฮไลต์เพื่อดูเหตุผลทางไวยากรณ์เป็นภาษาไทย',
+      practice:[{}],
+      textTh:'ฉันกับเพื่อนชื่อบีมคุยกันว่าจะทำอะไรถ้าถูกลอตเตอรี่ เธอบอกว่าถ้าเธอมีเงินล้านบาท เธอจะเดินทางรอบโลกหนึ่งปี พรุ่งนี้ที่ทำงาน เราต้องทำรายงานประจำไตรมาสให้เสร็จก่อนหัวหน้าจะมาถึง มันเป็นกฎที่เข้มงวด ห้ามมาสายประชุมเช้าวันจันทร์เด็ดขาด โชคดีที่เราไม่ต้องทำงานสุดสัปดาห์นี้ เราเลยได้พักผ่อนกันจริงๆ บีมอาจจะไปเรียนโยคะเดือนหน้า แต่เธอยังไม่แน่ใจ ไปดื่มกาแฟกันก่อนเริ่มงานไหม วันนี้ฉันอยากได้กาแฟจริงๆ พูดตรงๆ ฉันคิดว่าเธอควรนอนให้เร็วขึ้น เธอดูเหนื่อยมากตอนเช้าตลอดเลย บีมเห็นด้วยและบอกว่าเธอควรจะวางแผนตอนเย็นให้ดีกว่านี้ตั้งแต่ตอนนี้เป็นต้นไป',
+      text:[
+        {t:'My'},{t:'friend'},{t:'Beam'},{t:'and'},{t:'I'},{t:'were'},{t:'talking'},{t:'about'},{t:'what'},{t:'we'},{t:'would'},{t:'do'},{t:'if'},{t:'we'},{t:'won'},{t:'the'},{t:'lottery.'},
+        {t:'She'},{t:'said'},{t:'if'},{t:'she'},{t:'had'},{t:'a'},{t:'million'},{t:'baht,'},{t:'she'},
+        {t:'would travel', note:'สูตร would + กริยาช่องหนึ่ง จินตนาการสถานการณ์ที่ต่างจากความจริง (if she had… she would travel)'},
+        {t:'around'},{t:'the'},{t:'world'},{t:'for'},{t:'a'},{t:'year.'},
+        {t:'At'},{t:'work'},{t:'tomorrow,'},{t:'we'},
+        {t:'have got to finish', note:'สูตร have got to + กริยาช่องหนึ่ง แสดงข้อบังคับที่หนักแน่นเหมือน must แต่ใช้บ่อยกว่าในการพูด'},
+        {t:'the'},{t:'quarterly'},{t:'report'},{t:'before'},{t:'the'},{t:'boss'},{t:'arrives.'},
+        {t:'It’s'},{t:'a'},{t:'strict'},{t:'rule,'},{t:'you'},
+        {t:'mustn’t be late', note:'สูตร mustn’t + กริยาช่องหนึ่ง = ห้ามทำเด็ดขาด (mustn’t be late = ห้ามมาสาย)'},
+        {t:'for'},{t:'the'},{t:'Monday'},{t:'morning'},{t:'meeting.'},
+        {t:'Luckily,'},{t:'we'},
+        {t:'don’t have to work', note:'สูตร don’t have to + กริยาช่องหนึ่ง = ไม่จำเป็นต้องทำ แต่ทำก็ได้ถ้าอยากทำ ต่างจาก mustn’t ที่ห้ามทำ'},
+        {t:'this'},{t:'weekend,'},{t:'so'},{t:'we'},{t:'can'},{t:'finally'},{t:'rest.'},
+        {t:'Beam'},
+        {t:'might join', note:'สูตร might + กริยาช่องหนึ่ง ใช้เมื่อเป็นไปได้แต่ไม่แน่นอน (might join = อาจจะเข้าร่วมก็ได้)'},
+        {t:'a'},{t:'yoga'},{t:'class'},{t:'next'},{t:'month,'},{t:'but'},{t:'she'},{t:'isn’t'},{t:'sure'},{t:'yet.'},
+        {t:'Shall we', note:'สูตร Shall we + กริยาช่องหนึ่ง? ใช้ชวนกันทำอะไรบางอย่างด้วยกัน'},
+        {t:'get'},{t:'some'},{t:'coffee'},{t:'before'},{t:'we'},{t:'start'},{t:'working,'},{t:'I'},{t:'really'},{t:'need'},{t:'one'},{t:'today.'},
+        {t:'Honestly,'},{t:'I'},{t:'think'},{t:'you'},
+        {t:'should sleep', note:'สูตร should + กริยาช่องหนึ่ง ใช้ให้คำแนะนำ (you should sleep earlier)'},
+        {t:'earlier,'},{t:'you'},{t:'always'},{t:'look'},{t:'so'},{t:'tired'},{t:'in'},{t:'the'},{t:'morning.'},
+        {t:'Beam'},{t:'agreed'},{t:'and'},{t:'said'},{t:'she'},{t:'should'},{t:'probably'},{t:'plan'},{t:'her'},{t:'evenings'},{t:'better'},{t:'from'},{t:'now'},{t:'on.'},
       ],
     },
   ],
@@ -7132,6 +7732,53 @@ const GRAMMAR_CURRIC = [
         { kind:'pick', label:'Cause', prompt:'The match was ___.', options:['exciting','excited'], answer:0 },
       ],
     },
+    {
+      id:'a2-adjectives-review', type:'review', title:'Review: Adjectives', titleTh:'ทบทวนบทเรียน: Adjectives',
+      intro:'Read the text below. Tap the highlighted words to see the grammar reason in Thai.',
+      introTh:'อ่านข้อความด้านล่าง แล้วแตะคำที่ไฮไลต์เพื่อดูเหตุผลทางไวยากรณ์เป็นภาษาไทย',
+      practice:[{}],
+      textTh:'ฉันดีใจที่จะได้เริ่มหาอพาร์ตเมนต์ใหม่เดือนนี้ในที่สุด ห้องแรกที่ฉันดูมีขนาดเล็กแต่ราคาถูกกว่าห้องที่สอง ห้องที่สองราคาแพงกว่า มีครัวที่ใหญ่กว่าและวิวที่สวยกว่า น่าเสียดายที่ทำเลของตึกนั้นแย่กว่าสำหรับการเดินทางสาธารณะเมื่อเทียบกับห้องแรก ค่าเช่าที่นั่นก็สูงกว่าที่ฉันอยากจ่ายมากเลย เพื่อนสนิทที่สุดของฉันมาช่วยตัดสินใจเลือกระหว่างสองห้องนี้ เธอบอกว่าถนนแรกไม่เงียบเท่ากับถนนที่สอง เพราะมีตลาดที่พลุกพล่านอยู่ใกล้ๆ สุดท้ายเราเห็นตรงกันว่าห้องที่สองสะดวกที่สุดสำหรับชีวิตประจำวันของฉัน มันยังเงียบที่สุดในบรรดาสถานที่ทั้งหมดที่เราไปดูสัปดาห์นั้นด้วย พูดตรงๆ การเปรียบเทียบรูปถ่ายออนไลน์นานหลายชั่วโมงเริ่มรู้สึกน่าเบื่อมากจริงๆ เพื่อนของฉันแซวว่าฉันดูเบื่อมากตอนใกล้จบการค้นหา ในที่สุดฉันก็เซ็นสัญญาห้องที่สอง และฉันมีความสุขที่สุดแล้วตอนนี้',
+      text:[
+        {t:'I’m'},{t:'happy'},
+        {t:'to start', note:'คำคุณศัพท์ happy ตามด้วย “to + infinitive” เพื่ออธิบายความรู้สึก (happy to start = ยินดีที่จะเริ่ม)'},
+        {t:'looking'},{t:'for'},{t:'a'},{t:'new'},{t:'apartment'},{t:'this'},{t:'month.'},
+        {t:'The'},{t:'first'},{t:'place'},{t:'I'},{t:'saw'},{t:'was'},{t:'small,'},{t:'but'},{t:'it'},{t:'was'},
+        {t:'cheaper', note:'คำคุณศัพท์สั้นเติม -er + than เพื่อเปรียบเทียบสองสิ่ง (cheap → cheaper than)'},
+        {t:'than'},{t:'the'},{t:'second'},{t:'one.'},
+        {t:'The'},{t:'second'},{t:'apartment'},{t:'was'},
+        {t:'more expensive', note:'คำคุณศัพท์ยาวใช้ “more … than” ไม่เติม -er (more expensive ไม่ใช่ expensiver)'},
+        {t:','},
+        {t:'with'},{t:'a'},
+        {t:'bigger', note:'คำคุณศัพท์พยางค์เดียวที่มีสระตัวเดียว+พยัญชนะท้ายตัวเดียว ต้องซ้ำตัวสะกดก่อนเติม -er (big → bigger)'},
+        {t:'kitchen'},{t:'and'},{t:'a'},{t:'nicer'},{t:'view.'},
+        {t:'Sadly,'},{t:'that'},{t:'building’s'},{t:'location'},{t:'was'},
+        {t:'worse', note:'ขั้นกว่าผิดปกติ: bad → worse ไม่ใช่ badder'},
+        {t:'for'},{t:'public'},{t:'transport'},{t:'than'},{t:'the'},{t:'first'},{t:'one.'},
+        {t:'The'},{t:'rent'},{t:'there'},{t:'was'},{t:'also'},
+        {t:'a lot higher', note:'เติม “a lot” หน้าขั้นกว่าเพื่อบอกว่าความต่างมาก (a lot higher = สูงกว่ามาก)'},
+        {t:'than'},{t:'I'},{t:'really'},{t:'wanted'},{t:'to'},{t:'pay.'},
+        {t:'My'},
+        {t:'best', note:'ตัดคำว่า “the” ได้หลังคำแสดงเจ้าของ (my best friend ไม่ใช่ my the best friend)'},
+        {t:'friend'},{t:'came'},{t:'with'},{t:'me'},{t:'to'},{t:'help'},{t:'me'},{t:'decide'},{t:'between'},{t:'the'},{t:'two.'},
+        {t:'She'},{t:'said'},{t:'the'},{t:'first'},{t:'street'},{t:'wasn’t'},
+        {t:'as quiet as', note:'“not as … as” บอกว่าไม่เท่ากัน (wasn’t as quiet as = ไม่เงียบเท่ากับ)'},
+        {t:'the'},{t:'second,'},{t:'because'},{t:'of'},{t:'the'},{t:'busy'},{t:'market'},{t:'nearby.'},
+        {t:'In'},{t:'the'},{t:'end,'},{t:'we'},{t:'agreed'},{t:'the'},{t:'second'},{t:'apartment'},{t:'felt'},{t:'like'},
+        {t:'the most convenient', note:'คำคุณศัพท์ยาวขั้นสูงสุดใช้ “the most”: the most convenient ไม่ใช่ convenientest'},
+        {t:'option'},{t:'for'},{t:'my'},{t:'daily'},{t:'life.'},
+        {t:'It'},{t:'was'},{t:'also'},
+        {t:'the quietest', note:'คำคุณศัพท์สั้นขั้นสูงสุดใช้ “the” + -est เสมอ: the quietest (quiet → quietest)'},
+        {t:'of', note:'ใช้ “of” หน้ากลุ่มคน/สิ่งของ ในขั้นสูงสุด: the quietest of all the places'},
+        {t:'all'},{t:'the'},{t:'places'},{t:'we'},{t:'visited'},{t:'that'},{t:'week.'},
+        {t:'Honestly,'},{t:'comparing'},{t:'photos'},{t:'online'},{t:'for'},{t:'hours'},{t:'had'},{t:'started'},{t:'to'},{t:'feel'},{t:'really'},
+        {t:'boring', note:'รูป -ing บรรยายสิ่งที่ทำให้เกิดความรู้สึก (the search was boring = การค้นหาทำให้รู้สึกน่าเบื่อ)'},
+        {t:'.'},
+        {t:'My'},{t:'friend'},{t:'joked'},{t:'that'},{t:'I'},{t:'looked'},{t:'completely'},
+        {t:'bored', note:'รูป -ed บรรยายความรู้สึกของคน (I looked bored = ฉันดูเบื่อ) ต่างจาก boring ที่บรรยายสิ่งที่ทำให้เบื่อ'},
+        {t:'by'},{t:'the'},{t:'end'},{t:'of'},{t:'the'},{t:'search.'},
+        {t:'I'},{t:'finally'},{t:'signed'},{t:'the'},{t:'contract'},{t:'for'},{t:'the'},{t:'second'},{t:'apartment,'},{t:'and'},{t:'I'},{t:'couldn’t'},{t:'be'},{t:'happier.'},
+      ],
+    },
   ],
 },
 {
@@ -7190,6 +7837,34 @@ const GRAMMAR_CURRIC = [
         { kind:'pick', label:'Order', prompt:'He worked ___.', options:['hard in the office today','today hard in the office'], answer:0 },
         { kind:'build', label:'Word order', prompt:'Build:', target:'She sang beautifully.',
           slots:[{role:'subject'},{role:'verb'},{role:'adv'}], answer:['She','sang','beautifully'], distractors:['sings','beautiful'] },
+      ],
+    },
+    {
+      id:'a2-adverbs-review', type:'review', title:'Review: Adverbs', titleTh:'ทบทวนบทเรียน: Adverbs',
+      intro:'Read the text below. Tap the highlighted words to see the grammar reason in Thai.',
+      introTh:'อ่านข้อความด้านล่าง แล้วแตะคำที่ไฮไลต์เพื่อดูเหตุผลทางไวยากรณ์เป็นภาษาไทย',
+      practice:[{}],
+      textTh:'เพื่อนร่วมห้องของฉันชื่อฝนตื่นก่อนหกโมงเช้าทุกวันเสมอ ปกติเธอชงกาแฟเบาๆ ในครัวเพื่อไม่ให้ฉันตื่น ก่อนอื่นเธอต้มน้ำ จากนั้นใส่กาแฟและปล่อยให้แช่ไว้สองสามนาที ส่วนตัวฉันคิดว่ากาแฟของเธออร่อยที่สุดในตึกนี้เลย เช้านี้เธออารมณ์ดีแน่นอน ร้องเพลงอย่างมีความสุขคนเดียว ดูเหมือนเธอได้ข่าวดีเรื่องงานใหม่เมื่อวาน สุดท้ายเรานั่งกินอาหารเช้าด้วยกันอย่างเนิบช้าที่ระเบียงเล็กๆ เธอพูดจาร่าเริงตอนเช้าเสมอ แม้ตอนที่เหนื่อยก็ตาม เมื่อวานเธอทำงานหนักที่ออฟฟิศทั้งวัน ตอนนี้เธอคงสมควรได้พักผ่อนดีๆ บ้างแล้ว',
+      text:[
+        {t:'My'},{t:'roommate'},{t:'Fon'},
+        {t:'always', note:'คำวิเศษณ์บอกความถี่อยู่ตำแหน่งกลาง หน้ากริยาหลัก (Fon always wakes up)'},
+        {t:'wakes'},{t:'up'},{t:'before'},{t:'six'},{t:'every'},{t:'morning.'},
+        {t:'She'},{t:'usually'},{t:'makes'},{t:'coffee'},{t:'quietly'},{t:'in'},{t:'the'},{t:'kitchen'},{t:'so'},{t:'she'},{t:'doesn’t'},{t:'wake'},{t:'me'},{t:'up.'},
+        {t:'First', note:'คำวิเศษณ์บอกลำดับ (First, then, finally) อยู่ต้นประโยคเพื่อบอกลำดับขั้นตอน'},
+        {t:','},
+        {t:'she'},{t:'boils'},{t:'the'},{t:'water,'},{t:'then'},{t:'she'},{t:'adds'},{t:'the'},{t:'coffee'},{t:'and'},{t:'lets'},{t:'it'},{t:'sit'},{t:'for'},{t:'a'},{t:'few'},{t:'minutes.'},
+        {t:'Personally', note:'คำวิเศษณ์บอกมุมมอง (Personally, apparently) แสดงว่าเป็นความเห็นของผู้พูด มักอยู่ต้นประโยค'},
+        {t:','},
+        {t:'I'},{t:'think'},{t:'her'},{t:'coffee'},{t:'is'},{t:'the'},{t:'best'},{t:'in'},{t:'our'},{t:'whole'},{t:'building.'},
+        {t:'This'},{t:'morning'},{t:'she'},{t:'was'},
+        {t:'definitely', note:'คำวิเศษณ์บอกความมั่นใจอยู่ตำแหน่งกลาง หลัง “be” (she was definitely in a good mood)'},
+        {t:'in'},{t:'a'},{t:'good'},{t:'mood,'},{t:'singing'},{t:'happily'},{t:'to'},{t:'herself.'},
+        {t:'Apparently,'},{t:'she'},{t:'got'},{t:'some'},{t:'good'},{t:'news'},{t:'about'},{t:'her'},{t:'new'},{t:'job'},{t:'yesterday.'},
+        {t:'Finally,'},{t:'we'},{t:'sat'},{t:'down'},{t:'together'},{t:'and'},{t:'ate'},{t:'breakfast'},{t:'slowly'},{t:'on'},{t:'the'},{t:'small'},{t:'balcony.'},
+        {t:'She'},{t:'always'},{t:'speaks'},{t:'cheerfully'},{t:'in'},{t:'the'},{t:'mornings,'},{t:'even'},{t:'when'},{t:'she'},{t:'is'},{t:'tired.'},
+        {t:'She'},{t:'worked'},
+        {t:'hard', note:'ลำดับคำวิเศษณ์ท้ายประโยค: ลักษณะ (hard) ก่อน สถานที่ (at the office) แล้วจึงเวลา (all day yesterday)'},
+        {t:'at'},{t:'the'},{t:'office'},{t:'all'},{t:'day'},{t:'yesterday,'},{t:'and'},{t:'now'},{t:'she'},{t:'probably'},{t:'deserves'},{t:'a'},{t:'good'},{t:'rest.'},
       ],
     },
   ],
@@ -7265,6 +7940,38 @@ const GRAMMAR_CURRIC = [
         { kind:'pick', label:'Order', prompt:'She entered and ___ down.', options:['sat','was sitting'], answer:0 },
       ],
     },
+    {
+      id:'b1-s1-review', type:'review', title:'Review: Simple & Continuous', titleTh:'ทบทวนบทเรียน: Simple & Continuous',
+      intro:'Read the text below. Tap the highlighted words to see the grammar reason in Thai.',
+      introTh:'อ่านข้อความด้านล่าง แล้วแตะคำที่ไฮไลต์เพื่อดูเหตุผลทางไวยากรณ์เป็นภาษาไทย',
+      practice:[{}],
+      textTh:'เพื่อนร่วมห้องของฉันชื่อพลอยเป็นคนที่น่ารักมาก แต่เธอมีนิสัยเล็กๆ อย่างหนึ่งที่ทำให้ฉันหงุดหงิด เธอชอบทิ้งรองเท้าไว้ที่ทางเดินอยู่เรื่อยๆ และฉันก็สะดุดมันบ่อยๆ เมื่อวานตอนเช้าฉันตื่น แต่งตัว แล้วออกไปทำงานแต่เช้าตรู่ รู้สึกภูมิใจในตัวเอง พอกลับถึงบ้านตอนเย็น กลับมีรองเท้าเกลื่อนอีกแล้ว ฉันคิดจริงๆ ว่าเธอไม่ได้ตั้งใจร้าย เธอแค่ขี้ลืม เมื่อก่อนฉันเคยอยู่คนเดียวก่อนที่พลอยจะย้ายเข้ามา และห้องของฉันก็เคยเป็นระเบียบกว่านี้มาก ถึงอย่างนั้นฉันก็ยังชอบที่มีเธออยู่ด้วยจริงๆ เมื่อคืนฉันบอกเธออย่างใจเย็นว่า ฉันอยากให้เธอเก็บรองเท้าให้เรียบร้อยหน่อย เธอหัวเราะแล้วสัญญาว่าจะพยายามมากขึ้น อันที่จริงฉันก็อยากมีความอดทนมากกว่านี้เหมือนกัน เพราะฉันเองก็ไม่ได้สมบูรณ์แบบเหมือนกัน เช้านี้เธอตื่น ชงกาแฟ แล้วก็เก็บทางเดินให้เรียบร้อยก่อนที่ฉันจะตื่นด้วยซ้ำ ฉันซาบซึ้งกับการเปลี่ยนแปลงแบบนี้จริงๆ',
+      text:[
+        {t:'My'},{t:'flatmate'},{t:'Ploy'},{t:'is'},{t:'a'},{t:'wonderful'},{t:'person,'},{t:'but'},{t:'she'},{t:'has'},{t:'one'},{t:'small'},{t:'habit'},{t:'that'},{t:'drives'},{t:'me'},{t:'crazy.'},
+        {t:'She’s always leaving', note:'ปัจจุบันต่อเนื่อง + always บอกนิสัยที่ทำซ้ำ ๆ น่ารำคาญ ไม่ใช่ present continuous ธรรมดาที่บอกแค่กำลังทำอยู่'},
+        {t:'her'},{t:'shoes'},{t:'in'},{t:'the'},{t:'hallway,'},{t:'and'},{t:'I'},{t:'keep'},{t:'tripping'},{t:'over'},{t:'them.'},
+        {t:'Yesterday'},{t:'morning'},{t:'I'},
+        {t:'woke up, got dressed and left', note:'กริยาอดีตธรรมดาหลายตัวเรียงกัน แสดงเหตุการณ์ที่เกิดต่อเนื่องตามลำดับ'},
+        {t:'for'},{t:'work'},{t:'early,'},{t:'feeling'},{t:'proud'},{t:'of'},{t:'myself.'},
+        {t:'When'},{t:'I'},{t:'got'},{t:'home'},{t:'in'},{t:'the'},{t:'evening,'},{t:'though,'},{t:'there'},{t:'were'},{t:'shoes'},{t:'everywhere'},{t:'again.'},
+        {t:'I'},
+        {t:'do think', note:'ใส่ do หน้ากริยาช่องหนึ่งเพื่อเน้นว่าเป็นจริง แทนที่จะพูดเฉย ๆ ว่า I think'},
+        {t:'she'},{t:'means'},{t:'well,'},{t:'she'},{t:'is'},{t:'just'},{t:'forgetful.'},
+        {t:'I'},
+        {t:'used to live', note:'used to + กริยาช่องหนึ่ง = นิสัยหรือสภาพในอดีตที่เลิกแล้ว ตอนนี้ไม่ได้อยู่คนเดียวแล้ว'},
+        {t:'alone'},{t:'before'},{t:'Ploy'},{t:'moved'},{t:'in,'},{t:'and'},{t:'my'},{t:'flat'},{t:'used'},{t:'to'},{t:'be'},{t:'much'},{t:'tidier.'},
+        {t:'Still,'},{t:'I'},{t:'really'},{t:'like'},{t:'having'},{t:'her'},{t:'around.'},
+        {t:'Last'},{t:'night'},{t:'I'},{t:'told'},{t:'her:'},{t:'I'},
+        {t:'wish you would put', note:'wish + would บอกความรำคาญ อยากให้อีกฝ่ายเปลี่ยนพฤติกรรม'},
+        {t:'your'},{t:'shoes'},{t:'away.'},
+        {t:'She'},{t:'laughed'},{t:'and'},{t:'promised'},{t:'to'},{t:'try'},{t:'harder.'},
+        {t:'Actually,'},{t:'I'},
+        {t:'wish I had', note:'wish + อดีต บอกความอยากให้ปัจจุบันต่างไปจากที่เป็นอยู่จริง'},
+        {t:'more'},{t:'patience'},{t:'myself,'},{t:'because'},{t:'I'},{t:'am'},{t:'not'},{t:'perfect'},{t:'either.'},
+        {t:'This'},{t:'morning'},{t:'she'},{t:'woke'},{t:'up,'},{t:'made'},{t:'coffee'},{t:'and'},{t:'tidied'},{t:'the'},{t:'hallway'},{t:'before'},{t:'I'},{t:'even'},{t:'got'},{t:'up.'},
+        {t:'I'},{t:'do'},{t:'appreciate'},{t:'that'},{t:'kind'},{t:'of'},{t:'change.'},
+      ],
+    },
   ],
 },
 {
@@ -7313,6 +8020,42 @@ const GRAMMAR_CURRIC = [
       practice:[
         { kind:'pick', label:'Unfinished', prompt:'I ___ never been to Japan.', options:['have','did'], answer:0 },
         { kind:'pick', label:'Finished time', prompt:'We ___ in 2010.', options:['met','have met'], answer:0 },
+      ],
+    },
+    {
+      id:'b1-s2-review', type:'review', title:'Review: Present Perfect', titleTh:'ทบทวนบทเรียน: Present Perfect',
+      intro:'Read the text below. Tap the highlighted words to see the grammar reason in Thai.',
+      introTh:'อ่านข้อความด้านล่าง แล้วแตะคำที่ไฮไลต์เพื่อดูเหตุผลทางไวยากรณ์เป็นภาษาไทย',
+      practice:[{}],
+      textTh:'เนทเป็นเชฟมาแปดปีแล้ว และเขาอาศัยอยู่ในเมืองนี้ตั้งแต่ปี 2018 ปีที่แล้วเขาเปิดร้านอาหารเล็กๆ ของตัวเองใกล้แม่น้ำ และทุกคนบอกว่ามันเป็นความเสี่ยงที่ใหญ่มาก แต่จนถึงตอนนี้ทุกอย่างก็ไปได้ดี เนทเพิ่งทำอาหารเสร็จให้นักวิจารณ์อาหารที่มาเยี่ยมชมเมื่อเช้านี้ เขายังไม่ได้อ่านรีวิวเลย แต่เพื่อนคนหนึ่งอ่านไปแล้วและชอบมันมาก ฉันเห็นเขาเมื่อวานตอนบ่าย เขาดูเหนื่อยแต่ก็ภูมิใจ ย้อนไปปี 2020 เขาฝึกงานกับเชฟชื่อดังคนหนึ่งในฝรั่งเศสเป็นเวลาหกเดือน และประสบการณ์นั้นเปลี่ยนวิธีทำอาหารของเขาไปโดยสิ้นเชิง เขาไม่เคยลืมบทเรียนเหล่านั้นเลย คุณเคยไปกินที่ร้านของเขาไหม ถ้ายัง คุณควรไปสุดสัปดาห์นี้ เพราะโต๊ะกำลังเต็มอย่างรวดเร็ว พ่อแม่ของเขาไปเยี่ยมเมื่อเดือนที่แล้วและประหลาดใจมากที่เห็นว่าเขามาไกลแค่ไหนแล้ว เนทเชื่อว่าในที่สุดเขาก็พบความสำเร็จที่แท้จริง หลังจากทำงานหนักมาหลายปี',
+      text:[
+        {t:'Nate'},{t:'has'},{t:'worked'},{t:'as'},{t:'a'},{t:'chef'},
+        {t:'for', note:'for + ระยะเวลา บอกว่านานแค่ไหนจนถึงตอนนี้ (present perfect + for)'},
+        {t:'eight'},{t:'years,'},{t:'and'},{t:'he'},{t:'has'},{t:'lived'},{t:'in'},{t:'this'},{t:'city'},
+        {t:'since', note:'since + จุดเริ่มต้น บอกว่าเริ่มเมื่อไหร่จนถึงตอนนี้ (present perfect + since)'},
+        {t:'2018.'},
+        {t:'Last'},{t:'year'},{t:'he'},{t:'opened'},{t:'his'},{t:'own'},{t:'small'},{t:'restaurant'},{t:'near'},{t:'the'},{t:'river,'},{t:'and'},{t:'everyone'},{t:'said'},{t:'it'},{t:'was'},{t:'a'},{t:'huge'},{t:'risk.'},
+        {t:'So'},{t:'far,'},{t:'though,'},{t:'everything'},{t:'has'},{t:'gone'},{t:'well.'},
+        {t:'Nate'},{t:'has'},
+        {t:'just', note:'just = เมื่อกี้นี้เอง บอกว่าเพิ่งเกิดขึ้นไม่นาน มักใช้คู่กับ present perfect'},
+        {t:'finished'},{t:'cooking'},{t:'for'},{t:'a'},{t:'food'},{t:'critic'},{t:'who'},{t:'visited'},{t:'this'},{t:'morning.'},
+        {t:'He'},{t:'hasn’t'},{t:'checked'},{t:'the'},{t:'review'},
+        {t:'yet', note:'yet ใช้ในประโยคคำถามและปฏิเสธ วางไว้ท้ายประโยค'},
+        {t:','},{t:'but'},{t:'a'},{t:'friend'},{t:'has'},
+        {t:'already', note:'already = เร็วกว่าที่คาดไว้ บอกว่าเกิดขึ้นแล้วก่อนที่คิด'},
+        {t:'read'},{t:'it'},{t:'and'},{t:'loved'},{t:'it.'},
+        {t:'I'},
+        {t:'saw', note:'อดีตธรรมดา เพราะมีคำบอกเวลาที่จบแล้ว (yesterday) จึงใช้ saw ไม่ใช่ have seen'},
+        {t:'him'},{t:'yesterday'},{t:'afternoon,'},{t:'and'},{t:'he'},{t:'looked'},{t:'exhausted'},{t:'but'},{t:'proud.'},
+        {t:'Back'},{t:'in'},{t:'2020,'},{t:'he'},{t:'trained'},{t:'under'},{t:'a'},{t:'famous'},{t:'chef'},{t:'in'},{t:'France'},{t:'for'},{t:'six'},{t:'months,'},{t:'and'},{t:'that'},{t:'experience'},{t:'changed'},{t:'the'},{t:'way'},{t:'he'},{t:'cooks'},{t:'completely.'},
+        {t:'He'},
+        {t:'has never forgotten', note:'ปัจจุบันสมบูรณ์: has + กริยาช่อง 3 ไม่มีคำบอกเวลาที่จบแล้ว จึงใช้ present perfect ได้ เพราะผลยังอยู่ถึงตอนนี้'},
+        {t:'those'},{t:'lessons.'},
+        {t:'Have you ever eaten', note:'คำถาม present perfect: Have + ประธาน + กริยาช่อง 3, ใช้ ever ถามประสบการณ์ที่ผ่านมาโดยไม่ระบุเวลาที่จบแล้ว'},
+        {t:'at'},{t:'his'},{t:'restaurant?'},
+        {t:'If'},{t:'not,'},{t:'you'},{t:'should'},{t:'go'},{t:'this'},{t:'weekend,'},{t:'because'},{t:'tables'},{t:'are'},{t:'filling'},{t:'up'},{t:'fast.'},
+        {t:'His'},{t:'parents'},{t:'visited'},{t:'last'},{t:'month'},{t:'and'},{t:'were'},{t:'amazed'},{t:'by'},{t:'how'},{t:'far'},{t:'he'},{t:'has'},{t:'come.'},
+        {t:'Nate'},{t:'believes'},{t:'he'},{t:'has'},{t:'finally'},{t:'found'},{t:'real'},{t:'success,'},{t:'after'},{t:'so'},{t:'many'},{t:'years'},{t:'of'},{t:'hard'},{t:'work.'},
       ],
     },
   ],
@@ -7371,6 +8114,34 @@ const GRAMMAR_CURRIC = [
       quiz:{ q:'“We ___ going to leave.”', qTh:'“We ___ going to leave.”', options:['were','are'], answer:0 },
       practice:[
         { kind:'pick', label:'Past plan', prompt:'He ___ going to help, but forgot.', options:['was','is'], answer:0 },
+      ],
+    },
+    {
+      id:'b1-s3-review', type:'review', title:'Review: Past Continuous & Future in the Past', titleTh:'ทบทวนบทเรียน: Past Continuous & Future in the Past',
+      intro:'Read the text below. Tap the highlighted words to see the grammar reason in Thai.',
+      introTh:'อ่านข้อความด้านล่าง แล้วแตะคำที่ไฮไลต์เพื่อดูเหตุผลทางไวยากรณ์เป็นภาษาไทย',
+      practice:[{}],
+      textTh:'สุดสัปดาห์ที่แล้ว เพื่อนของฉันสมชายกับฉันไปเดินป่าที่ภูเขา ตอนหกโมงเช้าเรากำลังเดินอยู่บนเส้นทางที่เงียบสงบ เพลิดเพลินกับอากาศสดชื่นยามเช้า ทันใดนั้น ขณะที่เรากำลังข้ามลำธารเล็กๆ ก้อนเมฆดำก็ปรากฏขึ้นมาโดยไม่ทันตั้งตัว สมชายมักจะเช็คพยากรณ์อากาศอยู่เสมอก่อนออกทริป ฉันจึงแปลกใจที่เขาพลาดคำเตือนเรื่องพายุครั้งนี้ เราตั้งใจจะไปถึงยอดเขาก่อนมื้อเที่ยง แต่ฝนบังคับให้เราต้องหันกลับก่อนกำหนด ขณะที่เรากำลังเดินลงเขา เสียงฟ้าร้องดังลั่นทำให้เราสะดุ้งทั้งคู่ โชคดีที่มีกระท่อมเจ้าหน้าที่ป่าไม้เก่าๆ ปรากฏขึ้นข้างหน้าพอดี เราจึงวิ่งเข้าไปหลบพายุ ขณะที่เรากำลังรออยู่ที่นั่น สมชายบอกฉันว่าเขาตั้งใจจะซื้อเสื้อกันฝนตัวใหม่ที่ดีกว่าเดือนหน้า เขาพูดพร้อมหัวเราะ ยอมรับว่าตัวเก่าของเขาใช้การไม่ได้เลย พอฝนหยุด เราทั้งคู่เปียกโชกแต่ก็หัวเราะกับการผจญภัยครั้งนี้ เราวางแผนไว้ว่าจะเป็นวันพักผ่อนสบายๆ แต่กลับได้เรื่องราวที่ไม่มีวันลืมแทน',
+      text:[
+        {t:'Last'},{t:'weekend'},{t:'my'},{t:'friend'},{t:'Somchai'},{t:'and'},{t:'I'},{t:'went'},{t:'hiking'},{t:'in'},{t:'the'},{t:'mountains.'},
+        {t:'At'},{t:'six'},{t:'o’clock'},{t:'we'},
+        {t:'were walking', note:'อดีตต่อเนื่อง: was/were + กริยา-ing บอกเหตุการณ์ที่กำลังดำเนินอยู่ในอดีต'},
+        {t:'along'},{t:'a'},{t:'quiet'},{t:'trail,'},{t:'enjoying'},{t:'the'},{t:'fresh'},{t:'morning'},{t:'air.'},
+        {t:'Suddenly,'},{t:'while'},{t:'we'},
+        {t:'were crossing', note:'อดีตต่อเนื่อง = เหตุการณ์พื้นหลังที่ยาว ถูกขัดจังหวะด้วยเหตุการณ์สั้นกว่า (appeared) ที่เป็นอดีตธรรมดา'},
+        {t:'a'},{t:'small'},{t:'stream,'},{t:'dark'},{t:'clouds'},{t:'appeared'},{t:'out'},{t:'of'},{t:'nowhere.'},
+        {t:'Somchai'},
+        {t:'was always checking', note:'อดีตต่อเนื่อง + always บอกนิสัยในอดีตที่ทำซ้ำ ๆ เป็นประจำ'},
+        {t:'the'},{t:'weather'},{t:'forecast'},{t:'before'},{t:'our'},{t:'trips,'},{t:'so'},{t:'I'},{t:'was'},{t:'surprised'},{t:'he'},{t:'had'},{t:'missed'},{t:'the'},{t:'storm'},{t:'warning'},{t:'this'},{t:'time.'},
+        {t:'We'},
+        {t:'were going to reach', note:'อนาคตในอดีต: was/were going to + กริยา บอกแผนที่มองจากอดีต ซึ่งสุดท้ายไม่ได้เกิดขึ้นจริง'},
+        {t:'the'},{t:'summit'},{t:'before'},{t:'lunch,'},{t:'but'},{t:'the'},{t:'rain'},{t:'forced'},{t:'us'},{t:'to'},{t:'turn'},{t:'back'},{t:'early.'},
+        {t:'As'},{t:'we'},{t:'were'},{t:'walking'},{t:'down,'},{t:'a'},{t:'loud'},{t:'crack'},{t:'of'},{t:'thunder'},{t:'made'},{t:'us'},{t:'both'},{t:'jump.'},
+        {t:'Luckily,'},{t:'an'},{t:'old'},{t:'ranger'},{t:'station'},{t:'appeared'},{t:'just'},{t:'ahead,'},{t:'and'},{t:'we'},{t:'ran'},{t:'inside'},{t:'to'},{t:'shelter'},{t:'from'},{t:'the'},{t:'storm.'},
+        {t:'While'},{t:'we'},{t:'were'},{t:'waiting'},{t:'there,'},{t:'Somchai'},{t:'told'},{t:'me'},{t:'he'},{t:'was'},{t:'going'},{t:'to'},{t:'buy'},{t:'a'},{t:'better'},{t:'rain'},{t:'jacket'},{t:'next'},{t:'month.'},
+        {t:'He'},{t:'said'},{t:'it'},{t:'with'},{t:'a'},{t:'laugh,'},{t:'admitting'},{t:'his'},{t:'old'},{t:'one'},{t:'was'},{t:'clearly'},{t:'useless.'},
+        {t:'By'},{t:'the'},{t:'time'},{t:'the'},{t:'rain'},{t:'stopped,'},{t:'we'},{t:'were'},{t:'both'},{t:'soaked'},{t:'but'},{t:'laughing'},{t:'about'},{t:'the'},{t:'whole'},{t:'adventure.'},
+        {t:'We'},{t:'had'},{t:'planned'},{t:'a'},{t:'relaxing'},{t:'day,'},{t:'but'},{t:'instead'},{t:'we'},{t:'got'},{t:'an'},{t:'unforgettable'},{t:'story'},{t:'to'},{t:'tell.'},
       ],
     },
   ],
@@ -7440,6 +8211,33 @@ const GRAMMAR_CURRIC = [
         { kind:'pick', label:'Up to then', prompt:'They ___ known each other since school.', options:['had','have'], answer:0 },
       ],
     },
+    {
+      id:'b1-s4-review', type:'review', title:'Review: Future Continuous · Perfect Continuous · Past Perfect', titleTh:'ทบทวนบทเรียน: Future Continuous · Perfect Continuous · Past Perfect',
+      intro:'Read the text below. Tap the highlighted words to see the grammar reason in Thai.',
+      introTh:'อ่านข้อความด้านล่าง แล้วแตะคำที่ไฮไลต์เพื่อดูเหตุผลทางไวยากรณ์เป็นภาษาไทย',
+      practice:[{}],
+      textTh:'พรุ่งนี้ตอนสิบโมงตรง อ่อมจะยืนอยู่บนเวทีที่ใหญ่ที่สุดในอาชีพของเธอ กล่าวสุนทรพจน์ให้ผู้ฟังกว่าห้าร้อยคน เธอเตรียมตัวสำหรับช่วงเวลานี้มาหกเดือนแล้ว ฝึกซ้อมทุกเย็นหลังเลิกงาน ตอนที่คำเชิญมาถึงครั้งแรก เธอเคยพูดในงานเล็กๆ ที่คล้ายกันมาก่อนแล้ว เธอจึงรู้สึกพร้อมอยู่บ้าง อย่างไรก็ตาม ก่อนที่เธอจะรับโอกาสใหญ่ครั้งนี้ เธอไม่เคยพูดต่อหน้าคนมากกว่าห้าสิบคนมาก่อนเลย เธอทำงานที่บริษัทการตลาดเดิมมาสามปีแล้ว ตอนที่ผู้จัดการของเธอแนะนำให้เธอลองพูดในที่สาธารณะเป็นครั้งแรก ในปีแรกที่บริษัท เธออ่านหนังสือเกี่ยวกับการพูดในที่สาธารณะทุกเล่มที่หาได้ และเข้าร่วมชมรมโต้วาทีในท้องถิ่น พรุ่งนี้ ขณะที่ผู้ชมกำลังจะหาที่นั่งกันตอนเก้าโมง อ่อมจะกำลังรอคอยอย่างประหม่าอยู่หลังเวที ถึงตอนนั้น พ่อแม่ของเธอจะเดินทางมาสองชั่วโมงเพื่อมาให้กำลังใจเธอ เธอปรารถนาโอกาสนี้มานานแล้ว ตั้งแต่ที่เธอเคยดูนักพูดคนหนึ่งทางโทรทัศน์ตอนยังเป็นวัยรุ่น ไม่ว่าจะเกิดอะไรขึ้น เธอก็รู้ว่าพรุ่งนี้จะเป็นวันที่เธอจะจดจำไปตลอดชีวิต',
+      text:[
+        {t:'Tomorrow'},{t:'at'},{t:'exactly'},{t:'ten'},{t:'o’clock,'},{t:'Aom'},
+        {t:'will be standing', note:'อนาคตต่อเนื่อง: will be + กริยา-ing บอกเหตุการณ์ที่กำลังดำเนินอยู่ ณ จุดหนึ่งในอนาคต'},
+        {t:'on'},{t:'the'},{t:'biggest'},{t:'stage'},{t:'of'},{t:'her'},{t:'career,'},{t:'giving'},{t:'a'},{t:'speech'},{t:'to'},{t:'over'},{t:'five'},{t:'hundred'},{t:'people.'},
+        {t:'She'},
+        {t:'has been preparing', note:'ปัจจุบันสมบูรณ์ต่อเนื่อง: have/has been + กริยา-ing เน้นระยะเวลาของกิจกรรมที่ต่อเนื่องจนถึงตอนนี้'},
+        {t:'for'},{t:'this'},{t:'moment'},{t:'for'},{t:'the'},{t:'past'},{t:'six'},{t:'months,'},{t:'practicing'},{t:'every'},{t:'single'},{t:'evening'},{t:'after'},{t:'work.'},
+        {t:'When'},{t:'the'},{t:'invitation'},{t:'first'},{t:'arrived,'},{t:'she'},
+        {t:'had already given', note:'อดีตสมบูรณ์: had + กริยาช่อง 3 บอกเหตุการณ์ที่จบก่อนอีกจุดในอดีต (ก่อนได้รับคำเชิญครั้งนี้)'},
+        {t:'a'},{t:'similar'},{t:'talk'},{t:'at'},{t:'a'},{t:'smaller'},{t:'event,'},{t:'so'},{t:'she'},{t:'felt'},{t:'somewhat'},{t:'ready.'},
+        {t:'However,'},{t:'before'},{t:'she'},{t:'accepted'},{t:'this'},{t:'bigger'},{t:'opportunity,'},{t:'she'},{t:'had'},{t:'never'},{t:'spoken'},{t:'in'},{t:'front'},{t:'of'},{t:'more'},{t:'than'},{t:'fifty'},{t:'people.'},
+        {t:'She'},
+        {t:'had worked', note:'อดีตสมบูรณ์ + for บอกว่าเหตุการณ์ดำเนินมานานแค่ไหนจนถึงจุดหนึ่งในอดีต (ทำงานมาสามปีก่อนผู้จัดการจะแนะนำ)'},
+        {t:'at'},{t:'the'},{t:'same'},{t:'marketing'},{t:'company'},{t:'for'},{t:'three'},{t:'years'},{t:'when'},{t:'her'},{t:'manager'},{t:'first'},{t:'suggested'},{t:'she'},{t:'try'},{t:'public'},{t:'speaking.'},
+        {t:'In'},{t:'her'},{t:'first'},{t:'year'},{t:'at'},{t:'the'},{t:'company,'},{t:'she'},{t:'read'},{t:'every'},{t:'public'},{t:'speaking'},{t:'book'},{t:'she'},{t:'could'},{t:'find'},{t:'and'},{t:'joined'},{t:'a'},{t:'local'},{t:'debate'},{t:'club.'},
+        {t:'Tomorrow,'},{t:'while'},{t:'the'},{t:'audience'},{t:'will'},{t:'be'},{t:'finding'},{t:'their'},{t:'seats'},{t:'at'},{t:'nine'},{t:'o’clock,'},{t:'Aom'},{t:'will'},{t:'be'},{t:'waiting'},{t:'nervously'},{t:'backstage.'},
+        {t:'By'},{t:'then,'},{t:'her'},{t:'parents'},{t:'will'},{t:'have'},{t:'travelled'},{t:'two'},{t:'hours'},{t:'just'},{t:'to'},{t:'support'},{t:'her.'},
+        {t:'She'},{t:'had'},{t:'wanted'},{t:'this'},{t:'chance'},{t:'for'},{t:'so'},{t:'long,'},{t:'ever'},{t:'since'},{t:'she'},{t:'had'},{t:'watched'},{t:'a'},{t:'similar'},{t:'speaker'},{t:'on'},{t:'television'},{t:'as'},{t:'a'},{t:'teenager.'},
+        {t:'Whatever'},{t:'happens,'},{t:'she'},{t:'knows'},{t:'that'},{t:'tomorrow'},{t:'will'},{t:'be'},{t:'a'},{t:'day'},{t:'she'},{t:'remembers'},{t:'for'},{t:'the'},{t:'rest'},{t:'of'},{t:'her'},{t:'life.'},
+      ],
+    },
   ],
 },
 {
@@ -7487,6 +8285,38 @@ const GRAMMAR_CURRIC = [
         { kind:'pick', label:'Negative', prompt:'“I can’t swim.” “___ can I.”', options:['Neither','So'], answer:0 },
       ],
     },
+    {
+      id:'b1-s5-review', type:'review', title:'Review: Questions & Short Answers', titleTh:'ทบทวนบทเรียน: Questions & Short Answers',
+      intro:'Read the text below. Tap the highlighted words to see the grammar reason in Thai.',
+      introTh:'อ่านข้อความด้านล่าง แล้วแตะคำที่ไฮไลต์เพื่อดูเหตุผลทางไวยากรณ์เป็นภาษาไทย',
+      practice:[{}],
+      textTh:'บีและฟ้านัดเจอกันดื่มกาแฟหลังจากไม่ได้เจอกันมาหลายเดือน ฟ้าเริ่มบทสนทนาด้วยคำถามว่า ใครเป็นคนจัดปาร์ตี้เซอร์ไพรส์เมื่อสัปดาห์ที่แล้ว บีอธิบายว่าเพื่อนร่วมของทั้งคู่ชื่อหนิดทำทุกอย่างคนเดียว จากนั้นฟ้าถามคำถามอีกแบบหนึ่งว่า เธอเชิญใครไปงานปาร์ตี้บ้างในที่สุด บียอมรับว่าเธอเชิญแค่เพื่อนสนิทเพราะห้องเล็กเกินไป นึกถึงบทสนทนาเก่าๆ ฟ้าถามเธอว่า เธอไปญี่ปุ่นเดือนมีนาคมใช่ไหม บีพยักหน้าและเล่าเรื่องทริปด้วยความตื่นเต้น พร้อมโชว์รูปวัดและดอกซากุระ เธอบอกว่าอาหารที่นั่นอร่อยมากและเธออยากกลับไปอีกสักวัน ฉันก็เหมือนกัน ฟ้าตอบทันที ยิ้มนึกถึงความทรงจำทริปของตัวเองเมื่อหลายปีก่อน จากนั้นบียอมรับว่าเธอยังไม่เคยลองกินนัตโตะ อาหารถั่วเหลืองหมักชื่อดัง ฉันก็ไม่เคยเหมือนกัน ฟ้าหัวเราะ และคิดว่าคงจะไม่มีวันลองด้วย อากาศดีตลอดทริปเลยใช่ไหม บีเสริม มองย้อนกลับไปด้วยความรู้สึกดีๆ ฟ้าเห็นด้วยอย่างเต็มที่ และทั้งคู่ใช้เวลาที่เหลือของบ่ายวันนั้นวางแผนการผจญภัยครั้งต่อไปด้วยกัน',
+      text:[
+        {t:'Bee'},{t:'and'},{t:'Fah'},{t:'met'},{t:'for'},{t:'coffee'},{t:'after'},{t:'not'},{t:'seeing'},{t:'each'},{t:'other'},{t:'for'},{t:'months.'},
+        {t:'Fah'},{t:'started'},{t:'the'},{t:'conversation'},{t:'with'},{t:'a'},{t:'question:'},
+        {t:'Who organized', note:'คำถามประธาน (subject question) ไม่ต้องมีกริยาช่วย เพราะ Who ทำหน้าที่เป็นประธานเอง'},
+        {t:'the'},{t:'surprise'},{t:'party'},{t:'last'},{t:'week?'},
+        {t:'Bee'},{t:'explained'},{t:'that'},{t:'their'},{t:'mutual'},{t:'friend'},{t:'Nid'},{t:'had'},{t:'done'},{t:'everything'},{t:'alone.'},
+        {t:'Then'},{t:'Fah'},{t:'asked'},{t:'a'},{t:'different'},{t:'kind'},{t:'of'},{t:'question:'},
+        {t:'Who did you invite', note:'คำถามกรรม (object question) ต้องมีกริยาช่วย did เพราะ Who ในที่นี้เป็นกรรม ไม่ใช่ประธาน'},
+        {t:'to'},{t:'the'},{t:'party'},{t:'in'},{t:'the'},{t:'end?'},
+        {t:'Bee'},{t:'admitted'},{t:'she'},{t:'had'},{t:'only'},{t:'invited'},{t:'close'},{t:'friends'},{t:'because'},{t:'the'},{t:'flat'},{t:'was'},{t:'small.'},
+        {t:'Remembering'},{t:'an'},{t:'old'},{t:'conversation,'},{t:'Fah'},{t:'asked'},{t:'her:'},{t:'You'},{t:'went'},{t:'to'},{t:'Japan'},{t:'in'},{t:'March,'},
+        {t:'didn’t you', note:'สร้อยคำถาม (question tag): ประโยคบอกเล่าบวก → tag ปฏิเสธ เพื่อยืนยันสิ่งที่พูด'},
+        {t:'?'},
+        {t:'Bee'},{t:'nodded'},{t:'and'},{t:'described'},{t:'the'},{t:'trip'},{t:'enthusiastically,'},{t:'showing'},{t:'photos'},{t:'of'},{t:'temples'},{t:'and'},{t:'cherry'},{t:'blossoms.'},
+        {t:'She'},{t:'said'},{t:'the'},{t:'food'},{t:'had'},{t:'been'},{t:'amazing'},{t:'and'},{t:'she'},{t:'really'},{t:'wanted'},{t:'to'},{t:'go'},{t:'back'},{t:'one'},{t:'day.'},
+        {t:'So do I', note:'ตอบเห็นด้วยกับประโยคบอกเล่า: so + กริยาช่วย + ประธาน แทนการพูดซ้ำว่า I want to go back too'},
+        {t:','},{t:'Fah'},{t:'replied'},{t:'immediately,'},{t:'grinning'},{t:'at'},{t:'the'},{t:'memory'},{t:'of'},{t:'her'},{t:'own'},{t:'trip'},{t:'years'},{t:'ago.'},
+        {t:'Bee'},{t:'then'},{t:'admitted'},{t:'she'},{t:'hadn’t'},{t:'tried'},{t:'natto,'},{t:'the'},{t:'famous'},{t:'fermented'},{t:'soybean'},{t:'dish.'},
+        {t:'Neither have I', note:'ตอบเห็นด้วยกับประโยคปฏิเสธ: neither + กริยาช่วย + ประธาน แทนการพูดซ้ำว่า I haven’t tried it either'},
+        {t:','},{t:'laughed'},{t:'Fah,'},{t:'and'},{t:'I'},{t:'don’t'},{t:'think'},{t:'I'},{t:'ever'},{t:'will.'},
+        {t:'The'},{t:'weather'},{t:'was'},{t:'perfect'},{t:'the'},{t:'whole'},{t:'time,'},
+        {t:'wasn’t it', note:'สร้อยคำถาม (question tag): ประโยคบอกเล่าบวก → tag ปฏิเสธ เพื่อชวนให้อีกฝ่ายเห็นด้วย'},
+        {t:'?'},{t:'Bee'},{t:'added,'},{t:'looking'},{t:'back'},{t:'fondly.'},
+        {t:'Fah'},{t:'agreed'},{t:'completely,'},{t:'and'},{t:'they'},{t:'spent'},{t:'the'},{t:'rest'},{t:'of'},{t:'the'},{t:'afternoon'},{t:'planning'},{t:'their'},{t:'next'},{t:'adventure'},{t:'together.'},
+      ],
+    },
   ],
 },
 {
@@ -7531,6 +8361,39 @@ const GRAMMAR_CURRIC = [
       quiz:{ q:'“Send ___.”', qTh:'“Send ___.”', options:['me the file','the file me'], answer:0 },
       practice:[
         { kind:'pick', label:'to + person', prompt:'He offered the job ___ me.', options:['to','for'], answer:0 },
+      ],
+    },
+    {
+      id:'b1-s6-review', type:'review', title:'Review: Verb Patterns', titleTh:'ทบทวนบทเรียน: Verb Patterns',
+      intro:'Read the text below. Tap the highlighted words to see the grammar reason in Thai.',
+      introTh:'อ่านข้อความด้านล่าง แล้วแตะคำที่ไฮไลต์เพื่อดูเหตุผลทางไวยากรณ์เป็นภาษาไทย',
+      practice:[{}],
+      textTh:'คริตเป็นผู้จัดการโปรเจกต์ที่สตูดิโอออกแบบเล็กๆ แห่งหนึ่ง และเขาขึ้นชื่อเรื่องการลงมือทำเองอย่างจริงจัง เมื่อวันจันทร์ที่ผ่านมา ลูกค้าส่งอีเมลมาด้วยคำขอเร่งด่วน และมันทำให้ทุกคนตื่นตระหนกกันเล็กน้อย คริตพูดอย่างใจเย็นบอกให้ทีมสงบสติอารมณ์และคิดให้รอบคอบ เขาขอให้มิ้นท์เตรียมโลโก้สามแบบให้เสร็จภายในวันศุกร์ เพราะเธอเป็นดีไซเนอร์คนใหม่ล่าสุดในทีม ตอนแรกมิ้นท์รู้สึกประหม่า แต่คริตปล่อยให้เธอเลือกสีเอง โดยเชื่อมั่นในสัญชาตญาณด้านความคิดสร้างสรรค์ของเธออย่างเต็มที่ ต่อมาในวันเดียวกัน คริตให้ข้อมูลความคืบหน้ากับลูกค้าอย่างรวดเร็ว อธิบายกำหนดการใหม่ เขายังส่งแบบร่างที่เสร็จแล้วให้ลูกค้าก่อนพักเที่ยง เพื่อจะได้ไม่ต้องรีบเร่งในนาทีสุดท้าย กำหนดส่งงานที่เข้มงวดของลูกค้าทำให้ทั้งทีมต้องทำงานหนักกว่าปกติ แต่ก็ไม่มีใครบ่นสักคำ วันพฤหัสบดี คริตให้ข้อเสนอแนะที่เป็นประโยชน์กับมิ้นท์ ชี้ให้เห็นรายละเอียดเล็กๆ ที่เธอสามารถปรับปรุงได้ เขาแนะนำให้เธอทำแบบหนึ่งให้เรียบง่ายขึ้น โดยบอกว่ายิ่งน้อยยิ่งได้ผลดีกว่า มิ้นท์ตั้งใจฟังและปรับแก้ตามนั้น รู้สึกภูมิใจกับผลลัพธ์สุดท้าย พอถึงบ่ายวันศุกร์ ลูกค้าชอบทุกตัวเลือกมากจนตัดสินใจไม่ได้ว่าจะเลือกอันไหน ซึ่งคริตมองว่าเป็นผลลัพธ์ที่ดีที่สุดเท่าที่จะเป็นไปได้',
+      text:[
+        {t:'Krit'},{t:'is'},{t:'the'},{t:'project'},{t:'manager'},{t:'at'},{t:'a'},{t:'small'},{t:'design'},{t:'studio,'},{t:'and'},{t:'he'},{t:'has'},{t:'a'},{t:'reputation'},{t:'for'},{t:'being'},{t:'very'},{t:'hands-on.'},
+        {t:'Last'},{t:'Monday,'},{t:'a'},{t:'client'},{t:'emailed'},{t:'with'},{t:'an'},{t:'urgent'},{t:'request,'},{t:'and'},{t:'it'},
+        {t:'made everyone panic', note:'make + กรรม + กริยาช่องหนึ่ง (ไม่มี to) บอกว่ากรรมถูกบังคับหรือถูกทำให้เป็นแบบนั้น'},
+        {t:'a'},{t:'little.'},
+        {t:'Krit'},{t:'calmly'},{t:'told'},{t:'the'},{t:'team'},{t:'to'},{t:'stay'},{t:'calm'},{t:'and'},{t:'think'},{t:'clearly.'},
+        {t:'He'},
+        {t:'asked Mint to prepare', note:'กริยา + กรรม + to + กริยา: ask someone to do something'},
+        {t:'three'},{t:'logo'},{t:'concepts'},{t:'by'},{t:'Friday,'},{t:'since'},{t:'she'},{t:'was'},{t:'the'},{t:'newest'},{t:'designer'},{t:'on'},{t:'the'},{t:'team.'},
+        {t:'At'},{t:'first,'},{t:'Mint'},{t:'felt'},{t:'nervous,'},{t:'but'},{t:'Krit'},
+        {t:'let her choose', note:'let + กรรม + กริยาช่องหนึ่ง (ไม่มี to) เช่นเดียวกับ make'},
+        {t:'the'},{t:'colours'},{t:'herself,'},{t:'trusting'},{t:'her'},{t:'creative'},{t:'instincts'},{t:'completely.'},
+        {t:'Later'},{t:'that'},{t:'day,'},{t:'Krit'},
+        {t:'gave the client a quick progress update', note:'กริยาที่มีสองกรรม: คน (the client) วางก่อนของ (a quick progress update) โดยไม่มี to/for'},
+        {t:','},{t:'explaining'},{t:'the'},{t:'new'},{t:'timeline.'},
+        {t:'He'},{t:'also'},
+        {t:'sent the finished mockups to the client', note:'อีกแบบหนึ่งของกริยาสองกรรม: ของ + to + คน เมื่อใส่ to หน้าคนต้องสลับลำดับ'},
+        {t:'before'},{t:'lunch,'},{t:'so'},{t:'there'},{t:'would'},{t:'be'},{t:'no'},{t:'last-minute'},{t:'rush.'},
+        {t:'The'},{t:'client’s'},{t:'strict'},{t:'deadline'},{t:'made'},{t:'the'},{t:'whole'},{t:'team'},{t:'work'},{t:'harder'},{t:'than'},{t:'usual,'},{t:'but'},{t:'nobody'},{t:'complained.'},
+        {t:'On'},{t:'Thursday,'},{t:'Krit'},{t:'offered'},{t:'Mint'},{t:'some'},{t:'helpful'},{t:'feedback,'},{t:'pointing'},{t:'out'},{t:'small'},{t:'details'},{t:'she'},{t:'could'},{t:'improve.'},
+        {t:'He'},
+        {t:'advised her to simplify', note:'กริยา + กรรม + to + กริยา: advise someone to do something'},
+        {t:'one'},{t:'design,'},{t:'saying'},{t:'less'},{t:'would'},{t:'be'},{t:'more'},{t:'effective.'},
+        {t:'Mint'},{t:'listened'},{t:'carefully'},{t:'and'},{t:'made'},{t:'the'},{t:'changes,'},{t:'feeling'},{t:'proud'},{t:'of'},{t:'the'},{t:'final'},{t:'result.'},
+        {t:'By'},{t:'Friday'},{t:'afternoon,'},{t:'the'},{t:'client'},{t:'loved'},{t:'every'},{t:'option'},{t:'and'},{t:'couldn’t'},{t:'decide'},{t:'between'},{t:'them,'},{t:'which'},{t:'Krit'},{t:'considered'},{t:'the'},{t:'best'},{t:'possible'},{t:'outcome.'},
       ],
     },
   ],
@@ -7601,6 +8464,42 @@ const GRAMMAR_CURRIC = [
         { kind:'pick', label:'Specific', prompt:'___ history of Rome', options:['The','(none)'], answer:0 },
       ],
     },
+    {
+      id:'b1-s7-review', type:'review', title:'Review: Nouns', titleTh:'ทบทวนบทเรียน: Nouns',
+      intro:'Read the text below. Tap the highlighted words to see the grammar reason in Thai.',
+      introTh:'อ่านข้อความด้านล่าง แล้วแตะคำที่ไฮไลต์เพื่อดูเหตุผลทางไวยากรณ์เป็นภาษาไทย',
+      practice:[{}],
+      textTh:'ฤดูร้อนที่แล้ว ครอบครัวของฉันไปเดินป่าที่เทือกเขาแอลป์ และมันกลายเป็นหนึ่งในทริปที่น่าจดจำที่สุดในชีวิตของฉัน ก่อนออกเดินทาง ฉันหาแว่นตาไม่เจอเลย เราจึงต้องแวะร้านเพื่อซื้อแว่นตาใหม่หนึ่งอัน พ่อของฉันซึ่งปกติใจเย็นมาก แปลกใจมากที่มันแพงขนาดนั้น พอเราเริ่มเดิน ทั้งทีมของเราเดินช้าในตอนแรก แต่พอถึงวันที่สาม ทีมก็ทำงานร่วมกันได้อย่างสมบูรณ์แบบ ราวกับเป็นหน่วยเดียวกัน ชีวิตมันแปลกแบบนั้นแหละ เช้าที่เครียดๆ กลับกลายเป็นความทรงจำที่แสนวิเศษได้เสมอ วันที่สอง เราไปเที่ยวเมืองเล็กๆ ใกล้ชายแดน แม้ว่าเราจะไม่ได้ข้ามไปฝรั่งเศส เพราะเราอยู่ฝั่งสวิตเซอร์แลนด์ กางเกงยีนส์ของแม่เปียกโชกตอนข้ามลำธาร เธอจึงต้องเปลี่ยนไปใส่กางเกงตัวสำรองทันที เย็นวันนั้น เราคุยกันเรื่องประวัติศาสตร์ของภูมิภาคนี้ระหว่างมื้อค่ำ เทียบกับสิ่งที่เราอ่านมาจากคู่มือท่องเที่ยว อีกช่วงเวลาที่น่าประหลาดใจเกิดขึ้นเมื่อชาวไร่ท้องถิ่นคนหนึ่งยื่นชีสสดให้เราฟรีๆ ไม่ยอมรับเงินเลย นักเดินป่าคนอื่นๆ ที่เราเจอตามเส้นทางก็ดูเป็นมิตรไม่แพ้กัน พร้อมแบ่งปันน้ำหรือคำแนะนำเสมอ พอถึงปลายสัปดาห์ พ่อของฉันยอมรับว่าการผจญภัยแบบนี้ทำให้เขานึกได้ว่าทำไมเขาถึงรักการเดินทางมากขนาดนี้ เราตกลงกันว่าปีหน้าจะวางแผนไปทริปอีกครั้งด้วยกัน อาจจะไปที่ที่ไกลกว่านี้อีก',
+      text:[
+        {t:'Last'},{t:'summer,'},{t:'my'},{t:'family'},{t:'took'},{t:'a'},{t:'hiking'},{t:'trip'},{t:'through'},
+        {t:'the Alps', note:'the + ชื่อเทือกเขา/กลุ่มสถานที่ ต้องใช้ the (the Alps) ต่างจากชื่อประเทศเดี่ยว ๆ ที่ไม่มี the'},
+        {t:','},{t:'and'},{t:'it'},{t:'turned'},{t:'out'},{t:'to'},{t:'be'},{t:'one'},{t:'of'},{t:'the'},{t:'most'},{t:'memorable'},{t:'trips'},{t:'of'},{t:'my'},{t:'life.'},
+        {t:'Before'},{t:'we'},{t:'left,'},{t:'I'},{t:'couldn’t'},{t:'find'},{t:'my'},{t:'glasses'},{t:'anywhere,'},{t:'so'},{t:'we'},{t:'had'},{t:'to'},{t:'stop'},{t:'at'},{t:'a'},{t:'shop'},{t:'to'},{t:'buy'},{t:'a'},{t:'new'},
+        {t:'pair of glasses', note:'ใช้ “a pair of” เพื่อนับคำนามที่เป็นพหูพจน์เสมอเหล่านี้ เพราะนับเป็นคู่/อัน ไม่นับคำนามตรง ๆ'},
+        {t:'.'},
+        {t:'My'},{t:'father,'},{t:'who'},{t:'is'},{t:'usually'},{t:'calm,'},{t:'was'},{t:'surprised'},{t:'at'},{t:'how'},{t:'expensive'},{t:'they'},{t:'were.'},
+        {t:'Once'},{t:'we'},{t:'started'},{t:'walking,'},{t:'the'},{t:'whole'},{t:'team'},{t:'of'},{t:'us'},{t:'moved'},{t:'slowly'},{t:'at'},{t:'first,'},{t:'but'},{t:'by'},{t:'the'},{t:'third'},{t:'day,'},{t:'the'},
+        {t:'team was', note:'collective noun (team) ใช้กริยาเอกพจน์ was ได้เมื่อมองทีมเป็นหน่วยเดียวกัน'},
+        {t:'working'},{t:'together'},{t:'perfectly,'},{t:'like'},{t:'one'},{t:'single'},{t:'unit.'},
+        {t:'Life', note:'นามธรรมทั่วไป (Life) ไม่ใช้ the เมื่อพูดถึงสิ่งนั้นในภาพรวม ไม่เจาะจง'},
+        {t:'is'},{t:'strange'},{t:'like'},{t:'that:'},{t:'a'},{t:'stressful'},{t:'morning'},{t:'always'},{t:'turns'},{t:'into'},{t:'a'},{t:'wonderful'},{t:'memory'},{t:'somehow.'},
+        {t:'On'},{t:'the'},{t:'second'},{t:'day,'},{t:'we'},{t:'visited'},{t:'a'},{t:'small'},{t:'town'},{t:'near'},{t:'the'},{t:'border,'},{t:'though'},{t:'we'},{t:'didn’t'},{t:'cross'},{t:'into'},{t:'France'},{t:'itself,'},{t:'since'},{t:'we'},{t:'stayed'},{t:'on'},{t:'the'},{t:'Swiss'},{t:'side.'},
+        {t:'My'},{t:'mother’s'},
+        {t:'jeans', note:'jeans เป็นคำนามพหูพจน์เสมอ ไม่มีรูปเอกพจน์ ต้องใช้กริยาพหูพจน์เสมอ เช่น are/were ไม่ใช่ is/was'},
+        {t:'got'},{t:'completely'},{t:'soaked'},{t:'crossing'},{t:'a'},{t:'stream,'},{t:'and'},{t:'she'},{t:'had'},{t:'to'},{t:'change'},{t:'into'},{t:'spare'},{t:'trousers'},{t:'immediately.'},
+        {t:'That'},{t:'evening,'},{t:'we'},{t:'talked'},{t:'about'},
+        {t:'the history', note:'นามธรรมที่เจาะจง (the history of the region) ต้องใช้ the ต่างจากการพูดถึงภาพรวมแบบ Life is strange'},
+        {t:'of'},{t:'the'},{t:'region'},{t:'over'},{t:'dinner,'},{t:'comparing'},{t:'it'},{t:'with'},{t:'what'},{t:'we'},{t:'had'},{t:'read'},{t:'in'},{t:'guidebooks.'},
+        {t:'Another', note:'another + นามเอกพจน์ = อีกหนึ่ง (ช่วงเวลาที่น่าประหลาดใจอีกครั้ง)'},
+        {t:'surprising'},{t:'moment'},{t:'came'},{t:'when'},{t:'a'},{t:'local'},{t:'farmer'},{t:'offered'},{t:'us'},{t:'fresh'},{t:'cheese'},{t:'for'},{t:'free,'},{t:'refusing'},{t:'any'},{t:'payment'},{t:'at'},{t:'all.'},
+        {t:'Other', note:'other + นามพหูพจน์ (Other hikers) ต่างจาก another ที่ใช้กับนามเอกพจน์'},
+        {t:'hikers'},{t:'we'},{t:'met'},{t:'along'},{t:'the'},{t:'trail'},{t:'seemed'},{t:'just'},{t:'as'},{t:'friendly,'},{t:'always'},{t:'ready'},{t:'to'},{t:'share'},{t:'water'},{t:'or'},{t:'advice.'},
+        {t:'By'},{t:'the'},{t:'end'},{t:'of'},{t:'the'},{t:'week,'},{t:'my'},{t:'father'},{t:'admitted'},{t:'that'},{t:'such'},{t:'adventures'},{t:'reminded'},{t:'him'},{t:'why'},{t:'he'},{t:'loved'},{t:'travelling'},{t:'so'},{t:'much.'},
+        {t:'We'},{t:'agreed'},{t:'that'},{t:'next'},{t:'year,'},{t:'we'},{t:'would'},{t:'plan'},
+        {t:'another', note:'another + นามเอกพจน์ (a trip) = ทริปอีกครั้งหนึ่งเพิ่มเติม'},
+        {t:'trip'},{t:'together,'},{t:'maybe'},{t:'somewhere'},{t:'even'},{t:'further'},{t:'from'},{t:'home.'},
+      ],
+    },
   ],
 },
 {
@@ -7642,6 +8541,34 @@ const GRAMMAR_CURRIC = [
       quiz:{ q:'“Both cats ___ black.”', qTh:'“Both cats ___ black.”', options:['are','is'], answer:0 },
       practice:[
         { kind:'pick', label:'Plural', prompt:'Both books ___ good.', options:['are','is'], answer:0 },
+      ],
+    },
+    {
+      id:'b1-s8-review', type:'review', title:'Review: Determiners', titleTh:'ทบทวนบทเรียน: Determiners',
+      intro:'Read the text below. Tap the highlighted words to see the grammar reason in Thai.',
+      introTh:'อ่านข้อความด้านล่าง แล้วแตะคำที่ไฮไลต์เพื่อดูเหตุผลทางไวยากรณ์เป็นภาษาไทย',
+      practice:[{}],
+      textTh:'ตอนที่ต้องเลือกร้านอาหารสำหรับมื้อเย็นของทีม อนงค์กับเบ็นตกลงกันไม่ได้เลยในตอนแรก อนงค์อยากได้ร้านหรูๆ บอกว่าไม่เคยเห็นเมนูที่สวยขนาดนั้นมาก่อนเลย เหมือนที่ร้านฝรั่งเศสร้านใหม่ใจกลางเมือง เบ็นหัวเราะและยอมรับว่าไม่เคยกินพาสต้าที่อร่อยขนาดนั้นมาก่อนเลย เหมือนจานที่เขาลองกินที่นั่นเมื่อเดือนที่แล้ว ถึงอย่างนั้น ทั้งราคาและระยะทางก็ทำให้เขากังวลอยู่บ้าง มีตัวเลือกดีๆ อยู่สองที่ใกล้ๆ กัน คือบิสโทรอิตาเลียนบรรยากาศอบอุ่นและร้านอาหารไทยที่คึกคัก ร้านไหนก็ได้ในสองร้านนี้ เบ็นเสนอ พยายามทำให้เรื่องง่ายขึ้น อนงค์ไม่เห็นด้วยในตอนแรก ยืนกรานว่าทั้งอาหารและบรรยากาศสำคัญมากสำหรับโอกาสสำคัญขนาดนี้ ในที่สุดทั้งคู่ก็รู้ว่าทั้งอนงค์และเบ็นชอบอาหารรสจัดเหมือนกัน ทำให้การตัดสินใจง่ายขึ้นมาก สุดท้าย ร้านไหนก็ทำให้ทั้งทีมพอใจได้ แต่พวกเขาเลือกร้านอาหารไทยเพราะบรรยากาศคึกคักกว่า ทั้งผู้จัดการและพนักงานต้อนรับพวกเขาอย่างอบอุ่นตอนที่พวกเขามาถึงในเย็นวันนั้น สุดท้ายมันกลายเป็นค่ำคืนที่น่าจดจำมากจนพวกเขาตัดสินใจทำให้เป็นธรรมเนียมประจำเดือน',
+      text:[
+        {t:'When'},{t:'it'},{t:'came'},{t:'to'},{t:'choosing'},{t:'a'},{t:'restaurant'},{t:'for'},{t:'the'},{t:'team'},{t:'dinner,'},{t:'Anong'},{t:'and'},{t:'Ben'},{t:'couldn’t'},{t:'agree'},{t:'on'},{t:'anything'},{t:'at'},{t:'first.'},
+        {t:'Anong'},{t:'wanted'},{t:'something'},{t:'fancy,'},{t:'saying'},{t:'she'},{t:'had'},{t:'never'},{t:'seen'},
+        {t:'such a beautiful menu', note:'such a + นามเอกพจน์ (such a beautiful menu)'},
+        {t:'as'},{t:'the'},{t:'one'},{t:'at'},{t:'the'},{t:'new'},{t:'French'},{t:'place'},{t:'downtown.'},
+        {t:'Ben'},{t:'laughed'},{t:'and'},{t:'admitted'},{t:'he'},{t:'had'},{t:'never'},{t:'eaten'},
+        {t:'such delicious pasta', note:'such + นามนับไม่ได้/พหูพจน์ (such delicious pasta) ไม่มี a'},
+        {t:'as'},{t:'the'},{t:'dish'},{t:'he'},{t:'tried'},{t:'there'},{t:'last'},{t:'month.'},
+        {t:'Still,'},
+        {t:'both the price and the distance', note:'both … and เชื่อมสองสิ่งเข้าด้วยกัน ใช้กับกริยาพหูพจน์'},
+        {t:'worried'},{t:'him'},{t:'a'},{t:'little.'},
+        {t:'There'},{t:'were'},{t:'two'},{t:'good'},{t:'options'},{t:'nearby:'},{t:'a'},{t:'cozy'},{t:'Italian'},{t:'bistro'},{t:'and'},{t:'a'},{t:'lively'},{t:'Thai'},{t:'restaurant.'},
+        {t:'Either restaurant would work', note:'either + นามเอกพจน์ + กริยาเอกพจน์ = อย่างใดอย่างหนึ่งจากสองก็ได้'},
+        {t:'perfectly'},{t:'for'},{t:'their'},{t:'small'},{t:'team,'},{t:'Ben'},{t:'suggested,'},{t:'trying'},{t:'to'},{t:'keep'},{t:'things'},{t:'simple.'},
+        {t:'Anong'},{t:'disagreed'},{t:'at'},{t:'first,'},{t:'insisting'},{t:'that'},{t:'both'},{t:'the'},{t:'food'},{t:'and'},{t:'the'},{t:'atmosphere'},{t:'mattered'},{t:'enormously'},{t:'for'},{t:'such'},{t:'an'},{t:'important'},{t:'occasion.'},
+        {t:'Eventually,'},{t:'they'},{t:'realized'},{t:'that'},{t:'both'},{t:'Anong'},{t:'and'},{t:'Ben'},{t:'actually'},{t:'loved'},{t:'spicy'},{t:'food,'},{t:'so'},{t:'the'},{t:'choice'},{t:'became'},{t:'much'},{t:'easier.'},
+        {t:'In'},{t:'the'},{t:'end,'},{t:'either'},{t:'place'},{t:'would'},{t:'have'},{t:'satisfied'},{t:'the'},{t:'whole'},{t:'team,'},{t:'but'},{t:'they'},{t:'chose'},{t:'the'},{t:'Thai'},{t:'restaurant'},{t:'for'},{t:'its'},{t:'lively'},{t:'energy.'},
+        {t:'Both the manager and the staff', note:'both … and ใช้กับกริยาพหูพจน์ เชื่อมสองสิ่งเข้าด้วยกัน'},
+        {t:'welcomed'},{t:'them'},{t:'warmly'},{t:'when'},{t:'they'},{t:'arrived'},{t:'that'},{t:'evening.'},
+        {t:'It'},{t:'turned'},{t:'out'},{t:'to'},{t:'be'},{t:'such'},{t:'a'},{t:'memorable'},{t:'night'},{t:'that'},{t:'they'},{t:'decided'},{t:'to'},{t:'make'},{t:'it'},{t:'a'},{t:'monthly'},{t:'tradition.'},
       ],
     },
   ],
@@ -7694,6 +8621,37 @@ const GRAMMAR_CURRIC = [
       quiz:{ q:'“It needs to ___ cleaned.”', qTh:'“It needs to ___ cleaned.”', options:['be','being'], answer:0 },
       practice:[
         { kind:'pick', label:'be + pp', prompt:'This is going to ___ repaired.', options:['be','been'], answer:0 },
+      ],
+    },
+    {
+      id:'b1-s9-review', type:'review', title:'Review: The Passive', titleTh:'ทบทวนบทเรียน: The Passive',
+      intro:'Read the text below. Tap the highlighted words to see the grammar reason in Thai.',
+      introTh:'อ่านข้อความด้านล่าง แล้วแตะคำที่ไฮไลต์เพื่อดูเหตุผลทางไวยากรณ์เป็นภาษาไทย',
+      practice:[{}],
+      textTh:'คฤหาสน์เก่าบนเนินเขาแห่งนั้นว่างเปล่ามานานหลายสิบปีแล้ว แต่คนในเมืองก็ยังคงพูดถึงมันอยู่เสมอ ตามตำนานท้องถิ่นเล่าว่า บ้านหลังนี้ถูกสร้างขึ้นในปี 1890 โดยพ่อค้าผู้มั่งคั่งที่อยากมีบ้านที่ใหญ่โตที่สุดในภูมิภาคนี้ น่าเสียดายที่คฤหาสน์ถูกทิ้งร้างหลังจากไฟไหม้สร้างความเสียหายให้ปีกตะวันตกอย่างหนัก หลายปีที่ผ่านมาไม่มีการซ่อมแซมใดๆ เลย และสวนก็รกไปด้วยวัชพืชเต็มไปหมด ปีที่แล้ว ทรัพย์สินนี้ถูกซื้อโดยคู่รักหนุ่มสาวคู่หนึ่งที่หลงใหลในอาคารเก่าแก่ พวกเขาประกาศว่าจะซ่อมหลังคาก่อนเป็นอันดับแรก ก่อนงานอื่นๆ จะเริ่มขึ้น ทุกห้องกำลังถูกปรับปรุงทีละห้องอย่างช้าๆ เพื่อรักษารายละเอียดดั้งเดิมให้ได้มากที่สุด เฟอร์นิเจอร์โบราณภายในถูกบูรณะโดยผู้เชี่ยวชาญคนหนึ่งจากเมืองหลวง ผู้ใช้เวลาหลายเดือนกับแต่ละชิ้น อีกไม่นาน บ้านทั้งหลังจะต้องถูกทาสีใหม่ เพราะสีเก่าซีดจางไปมากตลอดหลายปีที่ผ่านมา ตามแผนงาน สวนจะถูกปลูกใหม่ในฤดูใบไม้ผลิหน้าด้วยดอกไม้ที่เคยเป็นที่นิยมในยุคดั้งเดิม เมื่องานเสร็จสมบูรณ์ คฤหาสน์แห่งนี้จะถูกเปิดให้สาธารณชนเข้าชมในฐานะพิพิธภัณฑ์เล็กๆ คนในท้องถิ่นหลายคนบอกว่าบ้านเก่าลึกลับหลังนี้ในที่สุดก็ได้รับชีวิตใหม่',
+      text:[
+        {t:'The'},{t:'old'},{t:'mansion'},{t:'on'},{t:'the'},{t:'hill'},{t:'has'},{t:'stood'},{t:'empty'},{t:'for'},{t:'decades,'},{t:'but'},{t:'everyone'},{t:'in'},{t:'town'},{t:'still'},{t:'talks'},{t:'about'},{t:'it.'},
+        {t:'According'},{t:'to'},{t:'local'},{t:'legend,'},{t:'the'},{t:'house'},{t:'was'},{t:'built'},{t:'in'},{t:'1890'},{t:'by'},{t:'a'},{t:'wealthy'},{t:'merchant'},{t:'who'},{t:'wanted'},{t:'the'},{t:'grandest'},{t:'home'},{t:'in'},{t:'the'},{t:'region.'},
+        {t:'Sadly,'},{t:'the'},{t:'mansion'},
+        {t:'was abandoned', note:'passive = be ตามกาล + กริยาช่อง 3 กรรมของเหตุการณ์ (the mansion) กลายเป็นประธานของประโยค'},
+        {t:'after'},{t:'a'},{t:'fire'},{t:'damaged'},{t:'the'},{t:'west'},{t:'wing'},{t:'badly.'},
+        {t:'For'},{t:'years,'},{t:'nothing'},{t:'was'},{t:'done'},{t:'to'},{t:'repair'},{t:'it,'},{t:'and'},{t:'the'},{t:'garden'},{t:'was'},{t:'completely'},{t:'overgrown.'},
+        {t:'Last'},{t:'year,'},{t:'however,'},{t:'the'},{t:'property'},{t:'was'},{t:'bought'},{t:'by'},{t:'a'},{t:'young'},{t:'couple'},{t:'with'},{t:'a'},{t:'passion'},{t:'for'},{t:'old'},{t:'buildings.'},
+        {t:'They'},{t:'announced'},{t:'that'},{t:'the'},{t:'roof'},{t:'would'},{t:'be'},{t:'repaired'},{t:'first,'},{t:'before'},{t:'any'},{t:'other'},{t:'work'},{t:'began.'},
+        {t:'Every'},{t:'room'},
+        {t:'is being renovated', note:'passive ต่อเนื่อง: is/are being + กริยาช่อง 3 บอกว่ากำลังถูกกระทำอยู่ตอนนี้'},
+        {t:'slowly,'},{t:'one'},{t:'at'},{t:'a'},{t:'time,'},{t:'to'},{t:'preserve'},{t:'as'},{t:'much'},{t:'original'},{t:'detail'},{t:'as'},{t:'possible.'},
+        {t:'The'},{t:'antique'},{t:'furniture'},{t:'inside'},
+        {t:'was restored by a specialist', note:'ใส่ “by …” เมื่อผู้กระทำสำคัญ บอกว่าใครเป็นคนทำ มักละไว้ถ้าไม่สำคัญ'},
+        {t:'from'},{t:'the'},{t:'capital,'},{t:'who'},{t:'spent'},{t:'months'},{t:'on'},{t:'each'},{t:'piece.'},
+        {t:'Soon,'},{t:'the'},{t:'whole'},{t:'house'},
+        {t:'has to be repainted', note:'หลัง have to ใช้ “be + กริยาช่อง 3” (passive infinitive)'},
+        {t:','},{t:'since'},{t:'the'},{t:'old'},{t:'colours'},{t:'have'},{t:'faded'},{t:'badly'},{t:'over'},{t:'the'},{t:'years.'},
+        {t:'According'},{t:'to'},{t:'the'},{t:'plan,'},{t:'the'},{t:'gardens'},
+        {t:'are going to be replanted', note:'หลัง going to ใช้ “be + กริยาช่อง 3” เช่นกัน (passive infinitive)'},
+        {t:'next'},{t:'spring'},{t:'with'},{t:'flowers'},{t:'that'},{t:'were'},{t:'popular'},{t:'in'},{t:'the'},{t:'original'},{t:'era.'},
+        {t:'Once'},{t:'the'},{t:'work'},{t:'is'},{t:'finished,'},{t:'the'},{t:'mansion'},{t:'will'},{t:'be'},{t:'opened'},{t:'to'},{t:'the'},{t:'public'},{t:'as'},{t:'a'},{t:'small'},{t:'museum.'},
+        {t:'Many'},{t:'locals'},{t:'say'},{t:'the'},{t:'mysterious'},{t:'old'},{t:'house'},{t:'was'},{t:'finally'},{t:'given'},{t:'a'},{t:'new'},{t:'life.'},
       ],
     },
   ],
@@ -7771,6 +8729,43 @@ const GRAMMAR_CURRIC = [
       quiz:{ q:'“now” becomes:', qTh:'“now” เปลี่ยนเป็น:', options:['then','soon'], answer:0 },
       practice:[
         { kind:'pick', label:'today', prompt:'“today” →', options:['that day','this day'], answer:0 },
+      ],
+    },
+    {
+      id:'b1-s10-review', type:'review', title:'Review: Reported Speech', titleTh:'ทบทวนบทเรียน: Reported Speech',
+      intro:'Read the text below. Tap the highlighted words to see the grammar reason in Thai.',
+      introTh:'อ่านข้อความด้านล่าง แล้วแตะคำที่ไฮไลต์เพื่อดูเหตุผลทางไวยากรณ์เป็นภาษาไทย',
+      practice:[{}],
+      textTh:'เมื่อวานฉันในที่สุดก็ได้คุยโทรศัพท์กับดาวหลังจากที่เธอพลาดนัดประชุมของเราเมื่อวันก่อน เธอบอกฉันว่าเธอเสียใจมากจริงๆ และอธิบายว่าเธอติดอยู่ในรถติดที่แย่มาก เธอบอกว่าเธอพยายามโทรมาแล้ว แต่แบตโทรศัพท์ของเธอหมดในจังหวะที่แย่ที่สุด ฉันถามเธอว่าเธอว่างวันถัดไปไหม เพราะเรายังต้องทำโปรเจกต์ให้เสร็จด้วยกัน เธอบอกว่าว่าง และเราตกลงกันว่าจะไปเจอกันที่ร้านกาแฟเดิม จากนั้นฉันถามเธอว่าจะมาถึงกี่โมง เธอสัญญาว่าจะมาถึงก่อนสิบโมง ดาวยังบอกให้ฉันเอาแฟ้มที่มีโน้ตทั้งหมดของเรามาด้วย เพราะเธอลืมสำเนาของตัวเองไว้ที่ออฟฟิศ ฉันบอกว่าจะเอามาแน่นอน และบอกเธอว่าไม่ต้องกังวลเรื่องความเข้าใจผิดก่อนหน้านี้ เธอยอมรับว่าเธอรู้สึกผิดที่พลาดนัดของเราวันนั้น เพราะมันเป็นนัดที่สำคัญมาก พอเราคุยกันอีกครั้งเช้านี้ เธอบอกว่าทุกอย่างเป็นไปด้วยดี และแฟ้มก็มีสิ่งที่เราต้องการพอดี มองย้อนกลับไป ฉันดีใจที่ทุกอย่างจบลงด้วยดี ถึงแม้ว่าตอนนั้นจะรู้สึกเครียดก็ตาม',
+      text:[
+        {t:'Yesterday'},{t:'I'},{t:'finally'},{t:'spoke'},{t:'to'},{t:'Dao'},{t:'on'},{t:'the'},{t:'phone'},{t:'after'},{t:'she'},{t:'missed'},{t:'our'},{t:'meeting'},{t:'the'},{t:'day'},{t:'before.'},
+        {t:'She'},
+        {t:'told me', note:'tell ต้องมีคนตามหลัง (tell me) ต่างจาก say ที่ไม่ต้องมี'},
+        {t:'she'},
+        {t:'was really sorry', note:'กาลถอยหลังหนึ่งขั้นเมื่อเล่าคำพูด: “I am sorry” (ตรง) กลายเป็น “was sorry” (เล่าต่อ)'},
+        {t:'and'},{t:'explained'},{t:'that'},{t:'she'},
+        {t:'had been stuck', note:'กาลถอยหลังหนึ่งขั้น: “I have been stuck” (ตรง) กลายเป็น “had been stuck” (เล่าต่อ)'},
+        {t:'in'},{t:'terrible'},{t:'traffic.'},
+        {t:'She'},
+        {t:'said', note:'say ไม่ต้องมีคนตามหลัง ต่างจาก tell'},
+        {t:'she'},{t:'had'},{t:'tried'},{t:'to'},{t:'call,'},{t:'but'},{t:'her'},{t:'phone'},{t:'battery'},{t:'had'},{t:'died'},{t:'at'},{t:'the'},{t:'worst'},{t:'possible'},{t:'moment.'},
+        {t:'I'},
+        {t:'asked her if she was free', note:'คำถามที่เล่าต่อแบบ yes/no ใช้ if + เรียงคำแบบประโยคบอกเล่า ไม่ใช่แบบคำถาม'},
+        {t:'the next day', note:'tomorrow → the next day: คำบอกเวลาต้องเปลี่ยนตามเมื่อเล่าคำพูดในเวลาถัดมา'},
+        {t:','},{t:'since'},{t:'we'},{t:'still'},{t:'needed'},{t:'to'},{t:'finish'},{t:'the'},{t:'project'},{t:'together.'},
+        {t:'She'},{t:'said'},{t:'she'},{t:'was,'},{t:'and'},{t:'we'},{t:'agreed'},{t:'to'},{t:'meet'},{t:'at'},{t:'the'},{t:'same'},{t:'cafe.'},
+        {t:'Then'},{t:'I'},
+        {t:'asked her what time she could arrive', note:'คำถามที่เล่าต่อแบบ wh-question ใช้เรียงคำแบบประโยคบอกเล่า ไม่มี “?” และไม่ต้องมี do/did ช่วย'},
+        {t:','},{t:'and'},{t:'she'},{t:'promised'},{t:'to'},{t:'be'},{t:'there'},{t:'by'},{t:'ten.'},
+        {t:'Dao'},{t:'also'},
+        {t:'told me to bring', note:'เล่าคำขอ/คำสั่งด้วย tell + กรรม + to + กริยา'},
+        {t:'the'},{t:'folder'},{t:'with'},{t:'all'},{t:'our'},{t:'notes,'},{t:'because'},{t:'she'},{t:'had'},{t:'left'},{t:'her'},{t:'own'},{t:'copy'},{t:'at'},{t:'the'},{t:'office.'},
+        {t:'I'},{t:'said'},{t:'I'},{t:'would,'},{t:'and'},{t:'I'},{t:'told'},{t:'her'},{t:'not'},{t:'to'},{t:'worry'},{t:'about'},{t:'the'},{t:'earlier'},{t:'mix-up.'},
+        {t:'She'},{t:'admitted'},{t:'that'},{t:'she'},{t:'felt'},{t:'guilty'},{t:'about'},{t:'missing'},{t:'our'},{t:'meeting'},
+        {t:'that day', note:'today → that day: คำบอกเวลาต้องเปลี่ยนตามเมื่อเล่าคำพูดถึงเหตุการณ์ในอดีต'},
+        {t:','},{t:'since'},{t:'it'},{t:'was'},{t:'an'},{t:'important'},{t:'one.'},
+        {t:'When'},{t:'we'},{t:'talked'},{t:'again'},{t:'this'},{t:'morning,'},{t:'she'},{t:'said'},{t:'everything'},{t:'had'},{t:'gone'},{t:'perfectly,'},{t:'and'},{t:'the'},{t:'folder'},{t:'had'},{t:'been'},{t:'exactly'},{t:'what'},{t:'we'},{t:'needed.'},
+        {t:'Looking'},{t:'back,'},{t:'I’m'},{t:'glad'},{t:'the'},{t:'whole'},{t:'thing'},{t:'turned'},{t:'out'},{t:'fine,'},{t:'even'},{t:'though'},{t:'it'},{t:'felt'},{t:'stressful'},{t:'at'},{t:'the'},{t:'time.'},
       ],
     },
   ],
@@ -7859,6 +8854,50 @@ const GRAMMAR_CURRIC = [
         { kind:'pick', label:'Polite', prompt:'___ I have the bill?', options:['May','Will'], answer:0 },
       ],
     },
+    {
+      id:'b1-s11-review', type:'review', title:'Review: Modal Verbs', titleTh:'ทบทวนบทเรียน: Modal Verbs',
+      intro:'Read the text below. Tap the highlighted words to see the grammar reason in Thai.',
+      introTh:'อ่านข้อความด้านล่าง แล้วแตะคำที่ไฮไลต์เพื่อดูเหตุผลทางไวยากรณ์เป็นภาษาไทย',
+      practice:[{}],
+      textTh:'พิมเพิ่งย้ายเข้าอพาร์ตเมนต์ใหม่ และเธอยังคงเรียนรู้กฎต่างๆ อยู่ ไฟห้องเพื่อนบ้านของเธอเปิดอยู่จนถึงตีสามเมื่อคืนที่ผ่านมา พิมจึงคิดว่าเขาต้องเป็นคนนอนดึกมากแน่ๆ หรือไม่ก็อาจทำงานกะกลางคืน อันที่จริงมันคงไม่ใช่แบบนั้นหรอก เธอคิดใหม่ เพราะเธอเห็นเขาออกไปทำงานปกติแบบเก้าโมงถึงห้าโมงเย็นในเช้าวันเดียวกันนั้นเอง บางทีเขาอาจแค่ชอบนั่งอ่านหนังสือดึกๆ ก่อนนอนก็ได้ ผู้จัดการอาคารบอกเธอว่าเธอควรแนะนำตัวกับเพื่อนบ้านเมื่อมีโอกาส เพราะบรรยากาศที่เป็นมิตรควรทำให้ทุกคนรู้สึกสบายใจขึ้น พิมมีกำหนดต้องเข้าร่วมประชุมต้อนรับผู้อยู่อาศัยใหม่ในเย็นวันศุกร์นี้ ซึ่งจะมีการอธิบายกฎของอาคารอย่างละเอียด เธออ่านคู่มือกฎไปแล้ว ผู้อยู่อาศัยไม่ควรทิ้งจักรยานไว้ที่ทางเดิน และช่วงเวลาเงียบเริ่มตั้งแต่สี่ทุ่มทุกคืน ตอนแรกพิมรู้สึกว่ากฎที่เข้มงวดน่ารำคาญนิดหน่อย แต่เธอก็ค่อยๆ ชินกับการอยู่ในที่ที่เป็นระเบียบขนาดนี้ เมื่อก่อนเธอเคยอยู่หอพักที่มีเสียงดังตอนเรียนมหาวิทยาลัย ดังนั้นอาคารที่เงียบสงบแบบนี้จึงรู้สึกเหมือนเป็นการพักผ่อนสำหรับเธอ เมื่อวาน เธอต้องการความช่วยเหลือในการยกกล่องหนักขึ้นชั้นบน เธอจึงเคาะประตูห้องเพื่อนบ้านและถามอย่างสุภาพว่า ช่วยฉันหน่อยได้ไหมคะ เขาตกลงทันทีและถึงกับเสนอตัวยกกล่องให้เอง ก่อนจะจากไป เขาเสริมว่า ขอเบอร์ของผมไว้ได้ไหม เผื่อคุณต้องการอะไรก็ติดต่อได้ พิมยิ้มและตอบตกลงด้วยความยินดี รู้สึกว่าบ้านใหม่ของเธออาจจะดีกว่าที่เธอคาดไว้ก็ได้',
+      text:[
+        {t:'Pim'},{t:'just'},{t:'moved'},{t:'into'},{t:'a'},{t:'new'},{t:'apartment'},{t:'building,'},{t:'and'},{t:'she'},{t:'is'},{t:'still'},{t:'learning'},{t:'all'},{t:'the'},{t:'rules.'},
+        {t:'Her'},{t:'neighbor’s'},{t:'light'},{t:'was'},{t:'on'},{t:'until'},{t:'3am'},{t:'last'},{t:'night,'},{t:'so'},{t:'Pim'},{t:'thought'},{t:'he'},
+        {t:'must be a very heavy sleeper', note:'must = มั่นใจว่าจริง ใช้เดาอย่างมีเหตุผลจากหลักฐานที่เห็น (ไฟติดดึกมาก)'},
+        {t:','},{t:'or'},{t:'maybe'},{t:'he'},{t:'works'},{t:'night'},{t:'shifts.'},
+        {t:'Actually,'},{t:'that'},
+        {t:'can’t be right', note:'can’t = มั่นใจว่าไม่จริง ใช้เดาในทางตรงข้ามกับ must'},
+        {t:','},{t:'she'},{t:'realized,'},{t:'because'},{t:'she'},{t:'saw'},{t:'him'},{t:'leaving'},{t:'for'},{t:'a'},{t:'normal'},{t:'nine-to-five'},{t:'job'},{t:'that'},{t:'same'},{t:'morning.'},
+        {t:'Perhaps'},{t:'he'},
+        {t:'might just enjoy', note:'might = เป็นไปได้ แต่ไม่แน่ใจ ไม่มั่นใจเท่า must'},
+        {t:'staying'},{t:'up'},{t:'late'},{t:'reading'},{t:'before'},{t:'bed.'},
+        {t:'The'},{t:'building'},{t:'manager'},{t:'told'},{t:'her'},{t:'she'},
+        {t:'should introduce', note:'should ให้คำแนะนำ: ควรทำสิ่งนี้'},
+        {t:'herself'},{t:'to'},{t:'the'},{t:'neighbors'},{t:'when'},{t:'she'},{t:'gets'},{t:'a'},{t:'chance,'},{t:'since'},{t:'a'},{t:'friendly'},{t:'atmosphere'},
+        {t:'ought to make', note:'ought to ให้คำแนะนำเช่นเดียวกับ should'},
+        {t:'everyone'},{t:'feel'},{t:'more'},{t:'comfortable.'},
+        {t:'Pim'},
+        {t:'is supposed to attend', note:'be supposed to = ควรจะ/ถูกคาดหวังให้ทำ'},
+        {t:'a'},{t:'welcome'},{t:'meeting'},{t:'for'},{t:'new'},{t:'residents'},{t:'this'},{t:'Friday'},{t:'evening,'},{t:'where'},{t:'the'},{t:'building'},{t:'rules'},{t:'will'},{t:'be'},{t:'explained'},{t:'properly.'},
+        {t:'She'},{t:'has'},{t:'read'},{t:'the'},{t:'rulebook'},{t:'already:'},{t:'residents'},
+        {t:'are not supposed to leave', note:'be supposed to รูปปฏิเสธ: ไม่ควรจะ/ไม่ถูกคาดหวังให้ทำ'},
+        {t:'bicycles'},{t:'in'},{t:'the'},{t:'hallway,'},{t:'and'},{t:'quiet'},{t:'hours'},{t:'start'},{t:'at'},{t:'ten'},{t:'every'},{t:'night.'},
+        {t:'At'},{t:'first,'},{t:'Pim'},{t:'found'},{t:'the'},{t:'strict'},{t:'rules'},{t:'a'},{t:'little'},{t:'annoying,'},{t:'but'},{t:'she'},
+        {t:'is slowly getting used to living', note:'get used to + -ing = กำลังคุ้นเคย (ต่างจาก be used to ที่คุ้นเคยแล้ว)'},
+        {t:'somewhere'},{t:'so'},{t:'organized.'},
+        {t:'She'},
+        {t:'used to live', note:'“used to + กริยาช่องหนึ่ง” = นิสัยในอดีตที่เลิกแล้ว ต่างจาก “be/get used to + -ing” ที่แปลว่าคุ้นเคย'},
+        {t:'in'},{t:'a'},{t:'noisy'},{t:'dormitory'},{t:'during'},{t:'university,'},{t:'so'},{t:'this'},{t:'calm'},{t:'building'},{t:'actually'},{t:'feels'},{t:'like'},{t:'a'},{t:'relief'},{t:'now.'},
+        {t:'Yesterday,'},{t:'she'},{t:'needed'},{t:'help'},{t:'carrying'},{t:'a'},{t:'heavy'},{t:'box'},{t:'upstairs,'},{t:'so'},{t:'she'},{t:'knocked'},{t:'on'},{t:'her'},{t:'neighbor’s'},{t:'door'},{t:'and'},{t:'asked'},{t:'politely:'},
+        {t:'Could you help me', note:'could สุภาพกว่า can ในการขอความช่วยเหลือ'},
+        {t:'for'},{t:'a'},{t:'moment?'},
+        {t:'He'},{t:'agreed'},{t:'immediately'},{t:'and'},{t:'even'},{t:'offered'},{t:'to'},{t:'carry'},{t:'the'},{t:'box'},{t:'himself.'},
+        {t:'Before'},{t:'leaving,'},{t:'he'},{t:'added:'},
+        {t:'May I give you', note:'may สุภาพในการขออนุญาตหรือเสนอบางสิ่ง'},
+        {t:'my'},{t:'number,'},{t:'in'},{t:'case'},{t:'you'},{t:'ever'},{t:'need'},{t:'anything?'},
+        {t:'Pim'},{t:'smiled'},{t:'and'},{t:'happily'},{t:'agreed,'},{t:'feeling'},{t:'that'},{t:'her'},{t:'new'},{t:'home'},{t:'might'},{t:'turn'},{t:'out'},{t:'better'},{t:'than'},{t:'she'},{t:'expected.'},
+      ],
+    },
   ],
 },
 {
@@ -7938,6 +8977,47 @@ const GRAMMAR_CURRIC = [
         { kind:'pick', label:'Place', prompt:'the house ___ I grew up', options:['where','when'], answer:0 },
       ],
     },
+    {
+      id:'b1-s12-review', type:'review', title:'Review: Relative Clauses', titleTh:'ทบทวนบทเรียน: Relative Clauses',
+      intro:'Read the text below. Tap the highlighted words to see the grammar reason in Thai.',
+      introTh:'อ่านข้อความด้านล่าง แล้วแตะคำที่ไฮไลต์เพื่อดูเหตุผลทางไวยากรณ์เป็นภาษาไทย',
+      practice:[{}],
+      textTh:'เดือนที่แล้ว ในที่สุดฉันก็เก็บกวาดห้องใต้หลังคาของยายเสร็จ ที่ที่ยายเก็บทุกอย่างไว้ตั้งแต่ปี 1960 ท่ามกลางกล่องต่างๆ ฉันพบมัดจดหมายที่เป็นของน้องสาวยาย ผู้หญิงคนหนึ่งที่ย้ายไปอยู่แคนาดาตอนอายุยี่สิบกว่า จดหมายเหล่านั้น ซึ่งเขียนขึ้นส่วนใหญ่ในช่วงทศวรรษ 1970 บรรยายถึงโลกที่ต่างไปจากที่ฉันรู้จักทุกวันนี้โดยสิ้นเชิง จดหมายฉบับหนึ่งจากเพื่อนคนหนึ่งที่ลายมือแทบอ่านไม่ออกเลย พูดถึงฟาร์มเล็กๆ ใกล้เชียงใหม่ จดหมายยังพูดถึงญาติห่างๆ คนหนึ่งที่ไม่มีใครในพวกเราเคยเจอเลย ฉันยังพบรูปถ่ายของคนที่ยายมักพูดถึงเสมอว่าเป็นเพื่อนสนิทที่สุดของเธอ นั่นคือเพื่อนบ้านคนเดียวกับที่เธอเคยไปเยี่ยมทุกวันอาทิตย์ เธอมักเล่าถึงปีที่เธอมาถึงแคนาดาเป็นครั้งแรก เต็มไปด้วยความหวังสำหรับชีวิตใหม่ บ้านที่พวกเขาเคยอยู่ไม่มีอยู่แล้วในตอนนี้ แต่ฉันยังจำจุดที่มันเคยตั้งอยู่ได้แม่นยำ ฉันเอาจดหมายที่ฉันเจอไปให้แม่ดู แม่จำลายมือนั้นได้ทันที นี่คือป้าที่ทุกคนพูดถึงกันไง แม่พูด ประหลาดใจที่กระดาษยังอยู่รอดมาได้นานขนาดนี้ ยายของฉัน ผู้ซึ่งเสียชีวิตไปเมื่อห้าปีก่อน ไม่เคยพูดถึงจดหมายเหล่านี้กับใครเลย ตอนนี้ฉันสงสัยว่ายังมีความลับอื่นๆ ในห้องใต้หลังคานั้นที่ฉันยังไม่ได้ค้นพบอีกหรือเปล่า ไม่ว่าคำตอบจะเป็นอะไร บ่ายวันนั้นในห้องใต้หลังคาก็เป็นความทรงจำที่ฉันจะหวงแหนไปตลอดชีวิต',
+      text:[
+        {t:'Last'},{t:'month,'},{t:'I'},{t:'finally'},{t:'cleaned'},{t:'out'},{t:'my'},{t:'grandmother’s'},{t:'attic,'},{t:'the'},{t:'place'},
+        {t:'where', note:'where ใช้ขยายสถานที่ (the place where she kept everything)'},
+        {t:'she'},{t:'kept'},{t:'everything'},{t:'since'},{t:'1960.'},
+        {t:'Among'},{t:'the'},{t:'boxes,'},{t:'I'},{t:'found'},{t:'a'},{t:'bundle'},{t:'of'},{t:'letters'},
+        {t:'that', note:'that ใช้แทนได้ทั้งคนและสิ่งของในประโยคขยายจำเพาะ (ที่นี่แทนสิ่งของ: letters)'},
+        {t:'belonged'},{t:'to'},{t:'her'},{t:'sister,'},{t:'a'},{t:'woman'},
+        {t:'who', note:'who ใช้ขยายคน (a woman who had emigrated)'},
+        {t:'had'},{t:'emigrated'},{t:'to'},{t:'Canada'},{t:'in'},{t:'her'},{t:'twenties.'},
+        {t:'The'},{t:'letters,'},
+        {t:'which', note:'ประโยคขยายเพิ่มเติม (มีคอมมาคั่น) ใช้ which ไม่ใช้ that'},
+        {t:'were'},{t:'written'},{t:'mostly'},{t:'in'},{t:'the'},{t:'1970s,'},{t:'described'},{t:'a'},{t:'totally'},{t:'different'},{t:'world'},{t:'from'},{t:'the'},{t:'one'},{t:'I'},{t:'know'},{t:'today.'},
+        {t:'One'},{t:'letter,'},{t:'from'},{t:'a'},{t:'friend'},
+        {t:'whose', note:'whose แสดงความเป็นเจ้าของในประโยคขยาย (whose handwriting = ลายมือของใคร)'},
+        {t:'handwriting'},{t:'was'},{t:'almost'},{t:'impossible'},{t:'to'},{t:'read,'},{t:'mentioned'},{t:'a'},{t:'small'},{t:'farm'},{t:'near'},{t:'Chiang'},{t:'Mai.'},
+        {t:'The'},{t:'letters'},{t:'also'},{t:'mentioned'},{t:'a'},{t:'distant'},{t:'cousin,'},
+        {t:'whom', note:'whom = กรรมในประโยคขยาย ใช้แบบทางการแทน who (the cousin whom none of us met)'},
+        {t:'none'},{t:'of'},{t:'us'},{t:'had'},{t:'ever'},{t:'met.'},
+        {t:'I'},{t:'also'},{t:'found'},{t:'a'},{t:'photograph'},{t:'of'},{t:'the'},{t:'person'},{t:'my'},{t:'grandmother'},{t:'had'},{t:'always'},{t:'described'},{t:'as'},{t:'her'},{t:'closest'},{t:'friend.'},
+        {t:'That'},{t:'was'},{t:'the'},{t:'same'},{t:'neighbor'},{t:'she'},{t:'used'},{t:'to'},{t:'visit'},{t:'every'},{t:'Sunday.'},
+        {t:'She'},{t:'always'},{t:'talked'},{t:'about'},{t:'the'},{t:'year'},
+        {t:'when', note:'when ใช้ขยายเวลา (the year when she first arrived)'},
+        {t:'she'},{t:'first'},{t:'arrived'},{t:'in'},{t:'Canada,'},{t:'full'},{t:'of'},{t:'hope'},{t:'for'},{t:'a'},{t:'new'},{t:'life.'},
+        {t:'The'},{t:'house'},{t:'they'},{t:'lived'},{t:'in'},{t:'no'},{t:'longer'},{t:'exists,'},{t:'but'},{t:'I'},{t:'remember'},{t:'the'},{t:'exact'},{t:'spot'},{t:'where'},{t:'it'},{t:'used'},{t:'to'},{t:'stand.'},
+        {t:'I'},{t:'showed'},{t:'my'},{t:'mother'},
+        {t:'the letter I had found', note:'ในประโยคขยายจำเพาะ ละ that/which ได้เมื่อเป็นกรรม (the letter (that) I had found)'},
+        {t:','},{t:'and'},{t:'she'},{t:'immediately'},{t:'recognized'},{t:'the'},{t:'handwriting.'},
+        {t:'This'},{t:'is'},{t:'the'},{t:'aunt'},{t:'everyone'},{t:'talked'},{t:'about,'},{t:'she'},{t:'said,'},{t:'surprised'},{t:'that'},{t:'the'},{t:'paper'},{t:'had'},{t:'survived'},{t:'so'},{t:'long.'},
+        {t:'My'},{t:'grandmother,'},
+        {t:'who passed away five years ago', note:'ประโยคขยายเพิ่มเติม (มีคอมมาคั่น) ใช้ who ได้เช่นกันเมื่อขยายคน ไม่ใช้ that'},
+        {t:','},{t:'never'},{t:'mentioned'},{t:'these'},{t:'letters'},{t:'to'},{t:'anyone.'},
+        {t:'I'},{t:'wonder'},{t:'now'},{t:'whether'},{t:'there'},{t:'are'},{t:'other'},{t:'secrets'},{t:'in'},{t:'that'},{t:'attic'},{t:'I'},{t:'haven’t'},{t:'discovered'},{t:'yet.'},
+        {t:'Whatever'},{t:'the'},{t:'answer,'},{t:'that'},{t:'afternoon'},{t:'in'},{t:'the'},{t:'attic'},{t:'is'},{t:'a'},{t:'memory'},{t:'I'},{t:'will'},{t:'treasure'},{t:'for'},{t:'the'},{t:'rest'},{t:'of'},{t:'my'},{t:'life.'},
+      ],
+    },
   ],
 },
 {
@@ -7978,6 +9058,39 @@ const GRAMMAR_CURRIC = [
       quiz:{ q:'“I travelled ___.” (alone)', qTh:'“I travelled ___.” (ลำพัง)', options:['by myself','myself'], answer:0 },
       practice:[
         { kind:'pick', label:'Alone', prompt:'He fixed it ___.', options:['by himself','himself'], answer:0 },
+      ],
+    },
+    {
+      id:'b1-s13-review', type:'review', title:'Review: Pronouns', titleTh:'ทบทวนบทเรียน: Pronouns',
+      intro:'Read the text below. Tap the highlighted words to see the grammar reason in Thai.',
+      introTh:'อ่านข้อความด้านล่าง แล้วแตะคำที่ไฮไลต์เพื่อดูเหตุผลทางไวยากรณ์เป็นภาษาไทย',
+      practice:[{}],
+      textTh:'หนานและนิดเป็นฝาแฝดที่สนิทกันมาตลอด แม้ว่าทั้งคู่จะเป็นคนที่พึ่งพาตัวเองสูงมากก็ตาม ตอนเด็กๆ พวกเธอมักล้อกันไปมาเรื่องเล็กๆ น้อยๆ แต่ก็ไม่เคยปล่อยให้การทะเลาะกันยืดเยื้อ สุดสัปดาห์ที่แล้ว หนานตัดสินใจทำอาหารมื้อใหญ่คนเดียวล้วนๆ โดยไม่ขอความช่วยเหลือจากนิดเลย เธออยากพิสูจน์ว่าตัวเองจัดการครัวทั้งหมดคนเดียวได้ ตั้งแต่ซื้อของจนถึงเก็บล้างหลังทำเสร็จ ระหว่างหั่นผัก เธอบังเอิญบาดมือตัวเอง จึงต้องหยุดพักไปหาพลาสเตอร์ปิดแผล ในขณะเดียวกัน นิดอยู่ที่อพาร์ตเมนต์ของตัวเอง พยายามซ่อมชั้นวางที่พังคนเดียวเหมือนกัน เพราะเธอไม่ยอมเรียกช่าง สองพี่น้องมักแข่งกันแบบนี้อยู่เสมอ แอบผลักดันให้กันและกันลองทำสิ่งใหม่ๆ พอหนานทำอาหารเสร็จในที่สุด เธอมองไปที่ครัวที่รกไปหมดแล้วก็หัวเราะเยาะตัวเองที่ทำให้มันยุ่งเหยิงขนาดนั้น เธอโทรหานิดเพื่อส่งรูปอาหารให้ดู แล้วทั้งคู่ก็เริ่มล้อกันไปมาเรื่องนิสัยชอบแข่งขันของตัวเองทันที พูดตรงๆ นะ เราน่าจะช่วยกันมากกว่านี้ แทนที่จะทำทุกอย่างคนเดียวแบบนี้ นิดยอมรับพร้อมหัวเราะ หนานเห็นด้วยอย่างเต็มที่ ตระหนักว่าตัวเองเหนื่อยล้าไปโดยไม่มีเหตุผลอะไรเลย ตั้งแต่นั้นมา ทั้งคู่สัญญากันว่าจะทำอาหารด้วยกันทุกสุดสัปดาห์ แบ่งกันทั้งงานและความสนุก',
+      text:[
+        {t:'Nan'},{t:'and'},{t:'Nid'},{t:'are'},{t:'twin'},{t:'sisters'},{t:'who'},{t:'have'},{t:'always'},{t:'been'},{t:'close,'},{t:'though'},{t:'they'},{t:'are'},{t:'also'},{t:'fiercely'},{t:'independent.'},
+        {t:'Growing'},{t:'up,'},{t:'they'},{t:'often'},
+        {t:'teased each other', note:'each other แสดงการกระทำสองทางระหว่างคน (ล้อกันไปมา)'},
+        {t:'about'},{t:'small'},{t:'things,'},{t:'but'},{t:'they'},{t:'never'},{t:'let'},{t:'arguments'},{t:'last'},{t:'long.'},
+        {t:'Last'},{t:'weekend,'},{t:'Nan'},{t:'decided'},{t:'to'},{t:'cook'},{t:'a'},{t:'big'},{t:'dinner'},{t:'completely'},
+        {t:'by herself', note:'by + สรรพนามสะท้อน = ลำพัง ไม่มีใครช่วย'},
+        {t:','},{t:'without'},{t:'asking'},{t:'Nid'},{t:'for'},{t:'any'},{t:'help'},{t:'at'},{t:'all.'},
+        {t:'She'},{t:'wanted'},{t:'to'},{t:'prove'},{t:'that'},{t:'she'},{t:'could'},{t:'manage'},{t:'the'},{t:'whole'},{t:'kitchen'},{t:'alone,'},{t:'from'},{t:'shopping'},{t:'to'},{t:'cleaning'},{t:'up'},{t:'afterward.'},
+        {t:'While'},{t:'chopping'},{t:'vegetables,'},{t:'she'},{t:'accidentally'},
+        {t:'cut herself', note:'reflexive pronoun ใช้เมื่อประธานและกรรมเป็นคนเดียวกัน (เธอบาดตัวเอง)'},
+        {t:','},{t:'so'},{t:'she'},{t:'had'},{t:'to'},{t:'pause'},{t:'and'},{t:'find'},{t:'a'},{t:'bandage.'},
+        {t:'Meanwhile,'},{t:'Nid'},{t:'was'},{t:'in'},{t:'her'},{t:'own'},{t:'apartment,'},{t:'trying'},{t:'to'},{t:'fix'},{t:'a'},{t:'broken'},{t:'shelf'},{t:'by'},{t:'herself'},{t:'as'},{t:'well,'},{t:'since'},{t:'she'},{t:'refused'},{t:'to'},{t:'call'},{t:'a'},{t:'repairman.'},
+        {t:'The'},{t:'two'},{t:'sisters'},{t:'often'},{t:'compete'},{t:'like'},{t:'this,'},{t:'quietly'},{t:'pushing'},{t:'each'},{t:'other'},{t:'to'},{t:'try'},{t:'new'},{t:'things.'},
+        {t:'When'},{t:'Nan'},{t:'finally'},{t:'finished'},{t:'cooking,'},{t:'she'},{t:'looked'},{t:'at'},{t:'the'},{t:'messy'},{t:'kitchen'},{t:'and'},
+        {t:'laughed at herself', note:'reflexive pronoun: หัวเราะเยาะตัวเอง (ประธานและกรรมเป็นคนเดียวกัน)'},
+        {t:'for'},{t:'making'},{t:'such'},{t:'a'},{t:'disaster.'},
+        {t:'She'},{t:'called'},{t:'Nid'},{t:'to'},{t:'share'},{t:'photos'},{t:'of'},{t:'the'},{t:'meal,'},{t:'and'},{t:'they'},{t:'immediately'},{t:'started'},{t:'teasing'},{t:'each'},{t:'other'},{t:'about'},{t:'their'},{t:'competitive'},{t:'personalities.'},
+        {t:'Honestly,'},{t:'we'},{t:'should'},{t:'just'},
+        {t:'help each other', note:'each other: ช่วยเหลือกันและกัน (การกระทำสองทาง)'},
+        {t:'more'},{t:'often'},{t:'instead'},{t:'of'},{t:'doing'},{t:'everything'},
+        {t:'by ourselves', note:'by + สรรพนามสะท้อนพหูพจน์ = ทำกันเองลำพัง ไม่มีใครช่วย'},
+        {t:','},{t:'Nid'},{t:'admitted'},{t:'with'},{t:'a'},{t:'laugh.'},
+        {t:'Nan'},{t:'agreed'},{t:'completely,'},{t:'realizing'},{t:'that'},{t:'she'},{t:'had'},{t:'exhausted'},{t:'herself'},{t:'for'},{t:'no'},{t:'real'},{t:'reason.'},
+        {t:'From'},{t:'then'},{t:'on,'},{t:'they'},{t:'promised'},{t:'each'},{t:'other'},{t:'they'},{t:'would'},{t:'cook'},{t:'together'},{t:'every'},{t:'weekend,'},{t:'sharing'},{t:'both'},{t:'the'},{t:'work'},{t:'and'},{t:'the'},{t:'fun.'},
       ],
     },
   ],
@@ -8068,6 +9181,41 @@ const GRAMMAR_CURRIC = [
         { kind:'pick', label:'Refers back', prompt:'Coming? ___, let me know.', options:['If so','If were'], answer:0 },
       ],
     },
+    {
+      id:'b1-s14-review', type:'review', title:'Review: Conditionals', titleTh:'ทบทวนบทเรียน: Conditionals',
+      intro:'Read the text below. Tap the highlighted words to see the grammar reason in Thai.',
+      introTh:'อ่านข้อความด้านล่าง แล้วแตะคำที่ไฮไลต์เพื่อดูเหตุผลทางไวยากรณ์เป็นภาษาไทย',
+      practice:[{}],
+      textTh:'การทำงานที่ร้านกาแฟมาห้าปีสอนอะไรพลอยเกี่ยวกับผู้คนไว้มากมาย ถ้าลูกค้าต้องรอนานเกินไป พวกเขามักจะหงุดหงิดเสมอ ไม่ว่าพนักงานจะสุภาพแค่ไหนก็ตาม เมื่อวาน ลูกค้าประจำคนหนึ่งชื่อดีสั่งนั่งลงและเล่าถึงการตัดสินใจครั้งใหญ่ เขาเพิ่งได้รับข้อเสนอตำแหน่งผู้จัดการที่อีกเมืองหนึ่ง ถ้าเขารับงานนี้ เขาจะต้องย้ายออกจากเพื่อนๆ ทั้งหมดที่นี่ ถ้าเขาไม่ตัดสินใจเร็วๆ บริษัทก็อาจจะเสนอตำแหน่งนี้ให้คนอื่นแทน พลอยตั้งใจฟังแล้วพูดว่า ถ้าฉันเป็นคุณ ฉันจะคิดถึงสิ่งที่ทำให้คุณมีความสุขจริงๆ ไม่ใช่แค่เงินเดือน ดีสั่งยอมรับว่าถ้าเขามีความกล้ามากกว่านี้ เขาก็คงจะเสี่ยงมากขึ้นในชีวิตโดยทั่วไป เขาสงสัยออกมาดังๆ ว่าจะเกิดอะไรขึ้นถ้าเขาปฏิเสธทุกโอกาสเพราะความกลัว พลอยยิ้มและบอกว่าถ้าเธอถูกลอตเตอรี่พรุ่งนี้ เธอจะเปิดร้านเบเกอรี่ของตัวเองทันที โดยไม่ลังเลเลยแม้แต่น้อย คุณกำลังคิดจะสมัครงานที่อื่นด้วยหรือเปล่า ดีสั่งถาม ถ้าใช่ เธอยอมรับ เธอก็คงต้องมีแผนธุรกิจที่มั่นคงก่อน ถ้าไม่ใช่ เธอบอกว่า เธอก็คงจะอยู่ที่นี่ต่อไป เพราะเธอรักลูกค้าประจำของเธอจริงๆ ในที่สุด ดีสั่งตัดสินใจว่าถ้าไม่มีอะไรเปลี่ยนแปลงอย่างรุนแรง เขาจะรับงานใหม่และไปเยี่ยมเพื่อนเก่าบ่อยๆ แทน',
+      text:[
+        {t:'Working'},{t:'at'},{t:'a'},{t:'coffee'},{t:'shop'},{t:'for'},{t:'five'},{t:'years'},{t:'has'},{t:'taught'},{t:'Ploy'},{t:'a'},{t:'lot'},{t:'about'},{t:'people.'},
+        {t:'If'},{t:'customers'},{t:'wait'},{t:'too'},{t:'long,'},{t:'they'},{t:'usually'},
+        {t:'get impatient', note:'เงื่อนไขแบบศูนย์: if + ปัจจุบัน, ปัจจุบัน ใช้กับความจริงที่เกิดขึ้นเสมอ'},
+        {t:','},{t:'no'},{t:'matter'},{t:'how'},{t:'polite'},{t:'the'},{t:'staff'},{t:'are.'},
+        {t:'Yesterday,'},{t:'a'},{t:'regular'},{t:'customer'},{t:'named'},{t:'Dtee'},{t:'sat'},{t:'down'},{t:'and'},{t:'mentioned'},{t:'a'},{t:'big'},{t:'decision:'},{t:'he'},{t:'had'},{t:'just'},{t:'been'},{t:'offered'},{t:'a'},{t:'management'},{t:'position'},{t:'in'},{t:'another'},{t:'city.'},
+        {t:'If'},{t:'he'},{t:'takes'},{t:'the'},{t:'job,'},{t:'he'},
+        {t:'will have to move', note:'เงื่อนไขแบบที่ 1: if + ปัจจุบัน, will + กริยา สำหรับความเป็นไปได้ในอนาคตที่เป็นจริง'},
+        {t:'away'},{t:'from'},{t:'all'},{t:'his'},{t:'friends'},{t:'here.'},
+        {t:'Unless', note:'unless แปลว่า “ถ้าไม่” (= if not)'},
+        {t:'he'},{t:'decides'},{t:'quickly,'},{t:'though,'},{t:'the'},{t:'company'},{t:'might'},{t:'offer'},{t:'the'},{t:'position'},{t:'to'},{t:'somebody'},{t:'else'},{t:'instead.'},
+        {t:'Ploy'},{t:'listened'},{t:'carefully'},{t:'and'},{t:'said:'},{t:'If'},{t:'I'},
+        {t:'were', note:'ในเงื่อนไขแบบที่ 2 ใช้ “were” กับทุกประธานเป็นมาตรฐาน แม้แต่ I/he/she'},
+        {t:'you,'},{t:'I'},
+        {t:'would think', note:'เงื่อนไขแบบที่ 2: if + อดีต, would + กริยา สำหรับสถานการณ์สมมติ'},
+        {t:'about'},{t:'what'},{t:'really'},{t:'makes'},{t:'you'},{t:'happy,'},{t:'not'},{t:'just'},{t:'the'},{t:'salary.'},
+        {t:'Dtee'},{t:'admitted'},{t:'that'},{t:'if'},{t:'he'},{t:'had'},{t:'more'},{t:'courage,'},{t:'he'},
+        {t:'would probably take', note:'เงื่อนไขแบบที่ 2: if + อดีต (had), would + กริยา สถานการณ์สมมติที่ไม่เป็นจริงตอนนี้'},
+        {t:'a'},{t:'bigger'},{t:'risk'},{t:'in'},{t:'life'},{t:'generally.'},
+        {t:'He'},{t:'wondered'},{t:'aloud'},{t:'what'},{t:'would'},{t:'happen'},{t:'if'},{t:'he'},{t:'refused'},{t:'every'},{t:'opportunity'},{t:'out'},{t:'of'},{t:'fear.'},
+        {t:'Ploy'},{t:'smiled'},{t:'and'},{t:'said'},{t:'that'},{t:'if'},{t:'she'},{t:'won'},{t:'the'},{t:'lottery'},{t:'tomorrow,'},{t:'she'},{t:'would'},{t:'open'},{t:'her'},{t:'own'},{t:'bakery'},{t:'immediately,'},{t:'without'},{t:'a'},{t:'moment'},{t:'of'},{t:'hesitation.'},
+        {t:'Are'},{t:'you'},{t:'thinking'},{t:'about'},{t:'applying'},{t:'for'},{t:'other'},{t:'jobs'},{t:'too?'},{t:'asked'},{t:'Dtee.'},
+        {t:'If so', note:'if so = ถ้าเป็นเช่นนั้น อ้างถึงสิ่งที่พูดไปก่อนหน้า'},
+        {t:','},{t:'she'},{t:'admitted,'},{t:'she'},{t:'would'},{t:'definitely'},{t:'need'},{t:'a'},{t:'solid'},{t:'business'},{t:'plan'},{t:'first.'},
+        {t:'If not', note:'if not = ถ้าไม่เป็นเช่นนั้น อ้างถึงสิ่งที่พูดไปก่อนหน้า'},
+        {t:','},{t:'she'},{t:'said,'},{t:'she'},{t:'would'},{t:'probably'},{t:'stay'},{t:'right'},{t:'here,'},{t:'since'},{t:'she'},{t:'genuinely'},{t:'loved'},{t:'her'},{t:'regular'},{t:'customers.'},
+        {t:'In'},{t:'the'},{t:'end,'},{t:'Dtee'},{t:'decided'},{t:'that'},{t:'unless'},{t:'something'},{t:'changed'},{t:'drastically,'},{t:'he'},{t:'would'},{t:'take'},{t:'the'},{t:'new'},{t:'job'},{t:'and'},{t:'simply'},{t:'visit'},{t:'his'},{t:'old'},{t:'friends'},{t:'often.'},
+      ],
+    },
   ],
 },
 {
@@ -8144,6 +9292,42 @@ const GRAMMAR_CURRIC = [
       quiz:{ q:'Compound adjective:', qTh:'คำคุณศัพท์ประสม:', options:['a two-hour film','a two hours film'], answer:0 },
       practice:[
         { kind:'pick', label:'Hyphen', prompt:'a ___ boy', options:['six-year-old','six-years-old'], answer:0 },
+      ],
+    },
+    {
+      id:'b1-s15-review', type:'review', title:'Review: Adjectives', titleTh:'ทบทวนบทเรียน: Adjectives',
+      intro:'Read the text below. Tap the highlighted words to see the grammar reason in Thai.',
+      introTh:'อ่านข้อความด้านล่าง แล้วแตะคำที่ไฮไลต์เพื่อดูเหตุผลทางไวยากรณ์เป็นภาษาไทย',
+      practice:[{}],
+      textTh:'เก็ตใช้เวลาเช้าวันเสาร์เดินเล่นอยู่ที่ตลาดของเก่า มองหาของขวัญวันเกิดที่ใช่ที่สุดให้ยายของเขา ในที่สุดเขาก็สังเกตเห็นกล่องไม้ทรงกลมใบเล็กที่น่ารักมากวางอยู่บนชั้นเก่าๆ ที่มีฝุ่นเกาะ และบางอย่างเกี่ยวกับมันก็ดึงดูดความสนใจของเขาทันที มันเล็กกว่าที่เขาคาดไว้ และดูบอบบางกว่าที่คำบรรยายบอกไว้มากด้วย คนขายเล่าข้อมูลที่น่าสนใจว่า จริงๆ แล้วกล่องใบนี้มีค่ามากกว่าที่ลูกค้าส่วนใหญ่คิดตอนแรกเห็น เก็ตอธิบายเบาๆ ว่ายายของเขาสะสมกล่องแปลกๆ และตอนนี้ยายคงยังหลับอยู่ตอนที่เขากลับถึงบ้านเช้านั้น เพราะยายมักจะนอนตื่นสายในวันหยุดเสมอ เขานึกได้ว่ายายมักจะกลัวเสียงดังบ่อยๆ ของขวัญเงียบๆ แบบนี้จึงเหมาะสมที่สุด ใกล้ๆ กัน พ่อค้าอีกคนกำลังขายนาฬิกาอายุสิบปีที่สวยงามซึ่งเพิ่งได้รับการบูรณะ พร้อมกับกระเป๋าหนังที่ทำมาอย่างดีอีกหลายใบ เก็ตยอมรับว่าราคาที่ตลาดนี้ดีขึ้นเรื่อยๆ ทุกปี เพราะพ่อค้ามากขึ้นแข่งกันดึงลูกค้า เขาตัดสินใจว่ากล่องไม้ใบนี้เป็นของขวัญที่ดีที่สุดเท่าที่เขาเคยซื้อให้ใครในครอบครัวมาเลยจริงๆ หลังจากจ่ายเงิน เก็ตรู้สึกมีความสุขมากกว่าที่คิดไว้ ภูมิใจที่หาของขวัญที่ใส่ใจแบบนี้ได้ เดินกลับบ้านพร้อมกล่องที่ห่ออย่างพิถีพิถัน เขายิ้ม พร้อมจินตนาการถึงสีหน้าดีใจของยายในเช้าวันถัดไปแล้ว',
+      text:[
+        {t:'Get'},{t:'spent'},{t:'his'},{t:'Saturday'},{t:'morning'},{t:'wandering'},{t:'through'},{t:'the'},{t:'old'},{t:'antique'},{t:'market,'},{t:'searching'},{t:'for'},{t:'the'},{t:'perfect'},{t:'birthday'},{t:'present'},{t:'for'},{t:'his'},{t:'grandmother.'},
+        {t:'He'},{t:'finally'},{t:'noticed'},
+        {t:'a lovely small round wooden box', note:'ลำดับคำคุณศัพท์: ความเห็น (lovely) → ขนาด (small) → รูปทรง (round) → วัสดุ (wooden) → นาม (box)'},
+        {t:'sitting'},{t:'on'},{t:'a'},{t:'dusty'},{t:'shelf,'},{t:'and'},{t:'something'},{t:'about'},{t:'it'},{t:'immediately'},{t:'caught'},{t:'his'},{t:'attention.'},
+        {t:'It'},{t:'was'},
+        {t:'smaller than he expected', note:'ตามหลัง than ด้วยอนุประโยคทั้งประโยคได้ (smaller than he expected)'},
+        {t:','},{t:'and'},{t:'definitely'},{t:'more'},{t:'delicate'},{t:'than'},{t:'the'},{t:'description'},{t:'had'},{t:'suggested.'},
+        {t:'The'},{t:'seller'},{t:'mentioned'},{t:'an'},{t:'interesting'},{t:'fact:'},{t:'apparently,'},{t:'the'},{t:'box'},{t:'was'},{t:'more'},{t:'valuable'},{t:'than'},{t:'most'},{t:'customers'},{t:'realized'},{t:'at'},{t:'first'},{t:'glance.'},
+        {t:'Get'},{t:'quietly'},{t:'explained'},{t:'that'},{t:'his'},{t:'grandmother'},{t:'collects'},{t:'unusual'},{t:'boxes,'},{t:'and'},{t:'she'},{t:'would'},{t:'probably'},{t:'still'},{t:'be'},
+        {t:'asleep', note:'asleep ใช้หลังกริยาเท่านั้น ไม่วางหน้านาม (พูดว่า “the asleep grandmother” ไม่ได้)'},
+        {t:'when'},{t:'he'},{t:'got'},{t:'home'},{t:'that'},{t:'morning,'},{t:'since'},{t:'she'},{t:'always'},{t:'slept'},{t:'late'},{t:'on'},{t:'weekends.'},
+        {t:'He'},{t:'remembered'},{t:'that'},{t:'she'},{t:'was'},{t:'often'},
+        {t:'afraid', note:'afraid ใช้หลังกริยาเท่านั้นเช่นกัน (asleep, alone, alive, afraid, alright)'},
+        {t:'of'},{t:'loud'},{t:'noises,'},{t:'so'},{t:'a'},{t:'quiet'},{t:'gift'},{t:'like'},{t:'this'},{t:'felt'},{t:'perfectly'},{t:'appropriate.'},
+        {t:'Nearby,'},{t:'another'},{t:'vendor'},{t:'was'},{t:'selling'},{t:'a'},{t:'beautiful'},
+        {t:'ten-year-old', note:'คำคุณศัพท์ประสม: ตัวเลข + หน่วย + old เชื่อมด้วยขีดหน้านาม (a ten-year-old clock)'},
+        {t:'clock'},{t:'that'},{t:'had'},{t:'been'},{t:'restored'},{t:'recently,'},{t:'along'},{t:'with'},{t:'several'},
+        {t:'well-made', note:'คำคุณศัพท์ประสม: สองคำเชื่อมด้วยขีดหน้านาม (well-made leather bags)'},
+        {t:'leather'},{t:'bags.'},
+        {t:'Get'},{t:'admitted'},{t:'that'},{t:'prices'},{t:'at'},{t:'this'},{t:'market'},{t:'kept'},{t:'getting'},
+        {t:'better and better', note:'ซ้ำคำขั้นกว่าเพื่อบอกการเปลี่ยนแปลงที่เพิ่มขึ้นเรื่อย ๆ'},
+        {t:'every'},{t:'year,'},{t:'as'},{t:'more'},{t:'sellers'},{t:'competed'},{t:'for'},{t:'customers.'},
+        {t:'He'},{t:'decided'},{t:'the'},{t:'wooden'},{t:'box'},{t:'was'},{t:'honestly'},
+        {t:'the nicest gift he had ever bought', note:'ขั้นสูงสุด + ปัจจุบันสมบูรณ์ บอกที่สุดตลอดกาล (the nicest … he has ever bought)'},
+        {t:'for'},{t:'anyone'},{t:'in'},{t:'his'},{t:'family.'},
+        {t:'After'},{t:'paying,'},{t:'Get'},{t:'felt'},{t:'happier'},{t:'than'},{t:'he'},{t:'had'},{t:'imagined,'},{t:'proud'},{t:'of'},{t:'finding'},{t:'such'},{t:'a'},{t:'thoughtful'},{t:'present.'},
+        {t:'Walking'},{t:'home'},{t:'with'},{t:'the'},{t:'box'},{t:'carefully'},{t:'wrapped,'},{t:'he'},{t:'smiled,'},{t:'already'},{t:'picturing'},{t:'his'},{t:'grandmother’s'},{t:'delighted'},{t:'reaction'},{t:'the'},{t:'next'},{t:'morning.'},
       ],
     },
   ],
@@ -8249,6 +9433,47 @@ const GRAMMAR_CURRIC = [
         { kind:'pick', label:'Preference', prompt:'I’d ___ stay home.', options:['rather','rather than'], answer:0 },
       ],
     },
+    {
+      id:'b1-s16-review', type:'review', title:'Review: Adverbs', titleTh:'ทบทวนบทเรียน: Adverbs',
+      intro:'Read the text below. Tap the highlighted words to see the grammar reason in Thai.',
+      introTh:'อ่านข้อความด้านล่าง แล้วแตะคำที่ไฮไลต์เพื่อดูเหตุผลทางไวยากรณ์เป็นภาษาไทย',
+      practice:[{}],
+      textTh:'หกเดือนก่อน ฉันย้ายไปอยู่เมืองใหม่เพื่อทำงานที่หนักมาก และแม้แต่เพื่อนสนิทที่สุดของฉันก็ยังคิดว่าฉันตัดสินใจผิด แม้กระทั่งตอนนี้ บางวันก็ยังรู้สึกยากลำบากมาก โดยเฉพาะตอนที่ฉันคิดถึงย่านเก่าและเพื่อนๆ ที่โตมาด้วยกัน โดยเฉพาะอย่างยิ่งในช่วงสัปดาห์แรกๆ ฉันรู้สึกหลงทางไปหมด หาทางไปร้านขายของชำง่ายๆ ยังไม่เจอเลย แม้ว่างานจะให้เงินเดือนดี ฉันก็ยังสงสัยอยู่บ้างว่าตัดสินใจถูกหรือเปล่า เพื่อนร่วมงานเก่าของฉันยังคงส่งข้อความหาฉันสม่ำเสมอ ถึงแม้ตอนนี้เราจะอยู่ไกลกันมาก อย่างไรก็ตาม ฉันไม่รู้สึกเหงาเท่าตอนแรกแล้ว เพราะฉันค่อยๆ สร้างกลุ่มเพื่อนใหม่เล็กๆ ขึ้นมาที่นี่ ฉันไม่ร้องไห้ก่อนนอนอีกแล้ว และความตื่นตระหนกที่เคยรู้สึกทุกเช้าก็จางหายไปในที่สุด ฝนตกหนักเมื่อสัปดาห์ที่แล้ว ฉันจึงอยู่แต่ในบ้านทั้งสุดสัปดาห์แทนที่จะออกไปสำรวจเมืองตามแผน เพราะอพาร์ตเมนต์ใหม่มีขนาดเล็ก ฉันจึงขายเฟอร์นิเจอร์เก่าส่วนใหญ่ก่อนย้ายเข้ามา เมื่อความมั่นใจของฉันเพิ่มขึ้นเรื่อยๆ ฉันพบว่าตัวเองเริ่มสนุกกับกิจวัตรประจำวันเล็กๆ ที่เคยรู้สึกน่ากลัว ฉันอยากจะดิ้นรนกับสิ่งใหม่ๆ มากกว่าอยู่แบบสบายแต่ไม่มีความสุขไปตลอด แม้ว่ามันจะฟังดูดราม่าไปหน่อยก็ตาม ดังนั้น เมื่อไหร่ที่ความสงสัยแวะเข้ามา ฉันก็จะเตือนตัวเองว่าทำไมถึงตัดสินใจแบบนี้ตั้งแต่แรก',
+      text:[
+        {t:'Six'},{t:'months'},{t:'ago,'},{t:'I'},{t:'moved'},{t:'to'},{t:'a'},{t:'new'},{t:'city'},{t:'for'},{t:'a'},{t:'demanding'},{t:'job,'},{t:'and'},
+        {t:'even my closest friends', note:'even เน้นสิ่งที่น่าประหลาดใจ (แม้แต่เพื่อนสนิทที่สุดก็ยังคิดแบบนั้น)'},
+        {t:'thought'},{t:'I'},{t:'was'},{t:'making'},{t:'a'},{t:'mistake.'},
+        {t:'Even'},{t:'now,'},{t:'some'},{t:'days'},{t:'feel'},{t:'incredibly'},{t:'hard,'},
+        {t:'especially when I miss', note:'especially ชี้ให้เห็นสิ่งหนึ่งว่าสำคัญ/ชัดเจนที่สุด'},
+        {t:'my'},{t:'old'},{t:'neighborhood'},{t:'and'},{t:'the'},{t:'friends'},{t:'I'},{t:'grew'},{t:'up'},{t:'with.'},
+        {t:'Particularly', note:'particularly เหมือน especially ใช้เน้นสิ่งหนึ่งโดยเฉพาะว่าสำคัญที่สุด'},
+        {t:'during'},{t:'the'},{t:'first'},{t:'few'},{t:'weeks,'},{t:'I'},{t:'felt'},{t:'completely'},{t:'lost,'},{t:'unable'},{t:'to'},{t:'find'},{t:'my'},{t:'way'},{t:'around'},{t:'simple'},{t:'things'},{t:'like'},{t:'the'},{t:'grocery'},{t:'store.'},
+        {t:'Although', note:'although เชื่อมอนุประโยคแสดงความขัดแย้ง ต่างจาก however ที่ขึ้นประโยคใหม่'},
+        {t:'the'},{t:'job'},{t:'pays'},{t:'well,'},{t:'I'},
+        {t:'still wonder', note:'still = ยังคงดำเนินอยู่ เร็วกว่าที่คาดว่าจะหยุด (ยังสงสัยอยู่จนถึงตอนนี้)'},
+        {t:'sometimes'},{t:'whether'},{t:'I'},{t:'made'},{t:'the'},{t:'right'},{t:'choice.'},
+        {t:'My'},{t:'old'},{t:'colleagues'},{t:'still'},{t:'message'},{t:'me'},{t:'regularly,'},{t:'though'},{t:'we'},{t:'now'},{t:'live'},{t:'far'},{t:'apart.'},
+        {t:'However', note:'however ขึ้นประโยคใหม่ตามด้วยคอมมา ต่างจาก although ที่เชื่อมอนุประโยค'},
+        {t:','},{t:'I'},{t:'no'},{t:'longer'},{t:'feel'},{t:'quite'},{t:'as'},{t:'lonely'},{t:'as'},{t:'I'},{t:'did'},{t:'at'},{t:'first,'},
+        {t:'since I have slowly built', note:'since ในที่นี้แปลว่า “เพราะ” บอกเหตุผล เหมือน because/as'},
+        {t:'a'},{t:'small'},{t:'circle'},{t:'of'},{t:'new'},{t:'friends'},{t:'here.'},
+        {t:'I'},{t:'don’t'},{t:'cry'},{t:'myself'},{t:'to'},{t:'sleep'},
+        {t:'any more', note:'not … any more = สิ่งนั้นหยุดแล้ว'},
+        {t:','},{t:'and'},{t:'the'},{t:'panic'},{t:'I'},{t:'used'},{t:'to'},{t:'feel'},{t:'each'},{t:'morning'},{t:'has'},{t:'finally'},{t:'faded'},{t:'away.'},
+        {t:'It'},{t:'rained'},{t:'heavily'},{t:'last'},{t:'week,'},
+        {t:'so', note:'so แสดงผลลัพธ์แบบไม่เป็นทางการ เชื่อมสองอนุประโยคเข้าด้วยกัน'},
+        {t:'I'},{t:'stayed'},{t:'inside'},{t:'all'},{t:'weekend'},{t:'instead'},{t:'of'},{t:'exploring'},{t:'the'},{t:'city'},{t:'as'},{t:'planned.'},
+        {t:'Because the new apartment is small', note:'because + อนุประโยค บอกเหตุผลโดยตรง'},
+        {t:','},{t:'I'},{t:'sold'},{t:'most'},{t:'of'},{t:'my'},{t:'old'},{t:'furniture'},{t:'before'},{t:'moving.'},
+        {t:'As my confidence grows', note:'as + อนุประโยค บอกเหตุผลเช่นเดียวกับ because'},
+        {t:','},{t:'I'},{t:'find'},{t:'myself'},{t:'enjoying'},{t:'small'},{t:'daily'},{t:'routines'},{t:'that'},{t:'once'},{t:'felt'},{t:'frightening.'},
+        {t:'I'},
+        {t:'would rather struggle through something new than stay', note:'would rather + กริยา + than = อยากทำสิ่งนี้มากกว่าสิ่งนั้น'},
+        {t:'comfortable'},{t:'and'},{t:'unhappy'},{t:'forever,'},{t:'even'},{t:'if'},{t:'that'},{t:'sounds'},{t:'a'},{t:'little'},{t:'dramatic.'},
+        {t:'Therefore', note:'therefore ผลลัพธ์แบบทางการ มักขึ้นต้นประโยคใหม่ ต่างจาก so ที่ไม่ทางการ'},
+        {t:','},{t:'whenever'},{t:'doubt'},{t:'creeps'},{t:'in,'},{t:'I'},{t:'remind'},{t:'myself'},{t:'why'},{t:'I'},{t:'made'},{t:'this'},{t:'decision'},{t:'in'},{t:'the'},{t:'first'},{t:'place.'},
+      ],
+    },
   ],
 },
 {
@@ -8345,6 +9570,53 @@ const GRAMMAR_CURRIC = [
         { kind:'pick', label:'Verb', prompt:'listen ___ music', options:['to','at'], answer:0 },
       ],
     },
+    {
+      id:'b1-s17-review', type:'review', title:'Review: Prepositions', titleTh:'ทบทวนบทเรียน: Prepositions',
+      intro:'Read the text below. Tap the highlighted words to see the grammar reason in Thai.',
+      introTh:'อ่านข้อความด้านล่าง แล้วแตะคำที่ไฮไลต์เพื่อดูเหตุผลทางไวยากรณ์เป็นภาษาไทย',
+      practice:[{}],
+      textTh:'ฝนทำงานเป็นนักออกแบบกราฟิกมาตลอด แม้ว่าวันนี้เธอจะสมัครเลื่อนตำแหน่งเป็นผู้อำนวยการฝ่ายสร้างสรรค์ที่บริษัทใหญ่กว่าเดิม เธอแต่งตัวคล้ายกับไอดอลในวงการที่เธอชื่นชอบ หวังว่าจะสร้างความประทับใจแรกที่ดี เธอเดินทางโดยรถไฟเพื่อประหยัดเวลา เพราะขับรถท่ามกลางรถติดหนักคงเครียดมาก ก่อนออกจากบ้าน เธอติดป้ายชื่อด้วยเข็มกลัดเล็กๆ แล้วจัดแฟ้มสำหรับโชว์ผลงานออกแบบที่ดีที่สุดของเธอ พี่ชายของฝนก็ทำงานที่บริษัทนี้เหมือนกัน แม้เขาจะบ่นเสมอว่าข้างในอาคารหนาวมากช่วงฤดูหนาว ฝนภูมิใจที่มาถึงตรงเวลาเป๊ะ ไม่เร็วไม่ช้าแม้แต่นาทีเดียว เธอออกจากบ้านเร็วกว่าปกติเผื่อไว้ และมาถึงอาคารทันเวลาพอที่จะสงบสติอารมณ์ก่อนเริ่ม ระหว่างสัมภาษณ์ คณะกรรมการถามว่าเธอเก่งเรื่องทำงานภายใต้ความกดดันหรือไม่ เพราะเดดไลน์อาจจะหนักมาก เธอยอมรับว่าความสำเร็จบางครั้งขึ้นอยู่กับการทำงานเป็นทีมมากกว่าความสามารถส่วนตัวเพียงอย่างเดียว เธอยังบอกด้วยว่าเธอสนใจงานออกแบบที่ยั่งยืนอย่างจริงจัง ซึ่งเป็นเทรนด์ที่กำลังเติบโตในวงการ ตอนจบการสัมภาษณ์ คณะกรรมการขอบคุณเธออย่างอบอุ่นและสัญญาว่าจะติดต่อกลับภายในหนึ่งสัปดาห์ ในที่สุด ฝนก็รู้สึกมั่นใจไม่ว่าผลจะออกมาเป็นอย่างไร ภูมิใจง่ายๆ กับการที่เธอเตรียมตัวมาอย่างดี',
+      text:[
+        {t:'Fon'},{t:'has'},{t:'always'},{t:'worked'},
+        {t:'as', note:'as = ในฐานะ (บอกบทบาทหรืออาชีพ)'},
+        {t:'a'},{t:'graphic'},{t:'designer,'},{t:'though'},{t:'today'},{t:'she'},{t:'was'},{t:'applying'},{t:'for'},{t:'a'},{t:'promotion'},{t:'to'},{t:'creative'},{t:'director'},{t:'at'},{t:'a'},{t:'bigger'},{t:'company.'},
+        {t:'She'},{t:'dressed'},
+        {t:'like', note:'like = คล้ายกับ (บอกความเหมือน ไม่ใช่บทบาท)'},
+        {t:'her'},{t:'professional'},{t:'heroes,'},{t:'hoping'},{t:'to'},{t:'make'},{t:'a'},{t:'strong'},{t:'first'},{t:'impression.'},
+        {t:'She'},{t:'travelled'},
+        {t:'by', note:'by = วิธีการเดินทาง (by train)'},
+        {t:'train'},{t:'to'},{t:'save'},{t:'time,'},{t:'since'},{t:'driving'},{t:'in'},{t:'heavy'},{t:'traffic'},{t:'would'},{t:'have'},{t:'been'},{t:'stressful.'},
+        {t:'Before'},{t:'leaving,'},{t:'she'},{t:'fixed'},{t:'her'},{t:'name'},{t:'badge'},
+        {t:'with', note:'with = เครื่องมือที่ใช้ทำสิ่งนั้น (with a pin)'},
+        {t:'a'},{t:'small'},{t:'pin,'},{t:'then'},{t:'packed'},{t:'a'},{t:'folder'},
+        {t:'for', note:'for + -ing บอกจุดประสงค์ (a folder for showing her work)'},
+        {t:'showing'},{t:'her'},{t:'best'},{t:'design'},{t:'work.'},
+        {t:'Fon’s'},{t:'older'},{t:'brother'},{t:'also'},{t:'works'},
+        {t:'at', note:'at = พูดถึงสถานที่ในฐานะจุดประสงค์ (at this company = ที่ทำงาน)'},
+        {t:'this'},{t:'company,'},{t:'though'},{t:'he'},{t:'always'},{t:'complains'},{t:'that'},{t:'it'},{t:'feels'},{t:'freezing'},
+        {t:'in the building', note:'in = อยู่ข้างในอาคารจริง ๆ ต่างจาก at ที่บอกจุดประสงค์'},
+        {t:'during'},{t:'winter.'},
+        {t:'Fon'},{t:'was'},{t:'proud'},{t:'that'},{t:'she'},{t:'arrived'},{t:'exactly'},
+        {t:'on time', note:'on time = ตรงเวลาเป๊ะ ไม่เร็วไม่ช้า'},
+        {t:','},{t:'not'},{t:'a'},{t:'single'},{t:'minute'},{t:'early'},{t:'or'},{t:'late.'},
+        {t:'She'},{t:'had'},{t:'left'},{t:'home'},{t:'extra'},{t:'early,'},{t:'just'},{t:'in'},{t:'case,'},{t:'and'},{t:'reached'},{t:'the'},{t:'building'},
+        {t:'in time', note:'in time = ทันเวลา ไม่สาย ไปถึงก่อนที่จะเริ่ม'},
+        {t:'to'},{t:'calm'},{t:'her'},{t:'nerves'},{t:'beforehand.'},
+        {t:'During'},{t:'the'},{t:'interview,'},{t:'the'},{t:'panel'},{t:'asked'},{t:'whether'},{t:'she'},{t:'was'},
+        {t:'good at', note:'good at เป็นคุณศัพท์ที่มีบุพบทตายตัว (good at + -ing)'},
+        {t:'working'},{t:'under'},{t:'pressure,'},{t:'since'},{t:'deadlines'},{t:'could'},{t:'be'},{t:'intense.'},
+        {t:'She'},{t:'admitted'},{t:'that'},{t:'success'},{t:'sometimes'},
+        {t:'depends on', note:'depend on เป็นกริยาที่มีบุพบทตายตัว (ขึ้นอยู่กับ)'},
+        {t:'teamwork'},{t:'rather'},{t:'than'},{t:'individual'},{t:'talent'},{t:'alone.'},
+        {t:'She'},{t:'also'},{t:'mentioned'},{t:'that'},{t:'she'},{t:'was'},{t:'genuinely'},
+        {t:'interested in', note:'interested in เป็นคุณศัพท์ที่มีบุพบทตายตัว (สนใจใน)'},
+        {t:'sustainable'},{t:'design,'},{t:'a'},{t:'growing'},{t:'trend'},{t:'in'},{t:'the'},{t:'industry.'},
+        {t:'At the end', note:'at the end = ณ จุดสุดท้ายของบางสิ่ง (ที่นี่คือช่วงจบของการสัมภาษณ์)'},
+        {t:'of'},{t:'the'},{t:'interview,'},{t:'the'},{t:'panel'},{t:'thanked'},{t:'her'},{t:'warmly'},{t:'and'},{t:'promised'},{t:'to'},{t:'contact'},{t:'her'},{t:'within'},{t:'a'},{t:'week.'},
+        {t:'In the end', note:'in the end = ในที่สุด หลังผ่านไปสักพัก ต่างจาก at the end ที่หมายถึงจุดจบตรง ๆ'},
+        {t:','},{t:'though,'},{t:'Fon'},{t:'felt'},{t:'confident'},{t:'regardless'},{t:'of'},{t:'the'},{t:'outcome,'},{t:'proud'},{t:'simply'},{t:'of'},{t:'how'},{t:'well'},{t:'she'},{t:'had'},{t:'prepared.'},
+      ],
+    },
   ],
 },
 ];
@@ -8355,6 +9627,22 @@ GRAMMAR_CURRIC.forEach(sec=>{
   (sec.lessons||[]).forEach(l=>{
     GJ_LESSONS.push({ ...l, level, sectionId:sec.id, sectionN:sec.n, sectionTitle:sec.title, sectionTitleTh:sec.titleTh, sectionDrillTense:sec.drillTense });
   });
+});
+
+/* Randomize the position of the correct answer so it isn't always option A.
+   Runs once at load; each exercise object's options/answer are shuffled together
+   so the shuffled order stays stable for the rest of the session. */
+function gjShuffleOptions(obj){
+  if(!obj || !Array.isArray(obj.options) || obj.options.length<2) return;
+  const original = obj.options;
+  const originalAnswer = obj.answer;
+  const order = shuffleArray(original.map((_,i)=>i));
+  obj.options = order.map(i=>original[i]);
+  obj.answer = order.indexOf(originalAnswer);
+}
+GJ_LESSONS.forEach(l=>{
+  gjShuffleOptions(l.quiz);
+  (l.practice||[]).forEach(ex=>gjShuffleOptions(ex));
 });
 
 let gjSolved = new Set(LS.get("et_grammar_solved", []));
@@ -8537,6 +9825,7 @@ function gjRefreshPracticeItem(pIdx){
     inner += gjChoiceHtml(l, ex, pIdx, gjSolved.has(l.id+":p"+pIdx));
   }
   el.innerHTML = inner;
+  gjSyncCarouselHeight();
 }
 
 /* pick / choice exercise */
@@ -8818,8 +10107,87 @@ function gjCompleteCardHtml(l, done, tot){
     </div>`;
 }
 
+/* ---------- end-of-section review: clickable text ---------- */
+function gjReviewTextHtml(l){
+  let html = '';
+  (l.text||[]).forEach((seg,i)=>{
+    const isPunct = /^[.,!?;:]+$/.test(seg.t);
+    if(i>0 && !isPunct) html += ' ';
+    html += seg.note ? `<button class="gj-word-btn" onclick="gjOpenWordNote(${i},this)">${seg.t}</button>` : seg.t;
+  });
+  return html;
+}
+function gjReviewLessonHtml(l){
+  const done = gjSolved.has(l.id+':p0');
+  return `
+    <div style="font-size:13px;color:var(--muted);margin-bottom:16px;line-height:1.5;">
+      ${l.intro}
+      <div style="color:var(--thai);margin-top:4px;font-weight:600;">${l.introTh}</div>
+    </div>
+    <div class="stat-card" style="padding:18px 16px;">
+      <div class="gj-review-sentence">${gjReviewTextHtml(l)}</div>
+      ${l.textTh?`<div class="gj-review-th">${l.textTh}</div>`:''}
+    </div>
+    <div style="margin-top:20px;">
+      ${done
+        ? `<div class="stat-card" style="text-align:center;border-color:var(--good);background:var(--good-bg);color:var(--good-fg);font-weight:800;font-size:15px;">${icon('check')} Reviewed</div>`
+        : `<button class="primary-btn" onclick="gjMarkReviewDone()">I've read it, mark as done</button>`}
+    </div>`;
+}
+let gjWordPopoverBtn = null;
+function gjOpenWordNote(wIdx, btnEl){
+  const l = GJ_LESSONS[gjLessonIdx];
+  const seg = l.text[wIdx];
+  let catcher = document.getElementById('gj-word-catcher');
+  let pop = document.getElementById('gj-word-popover');
+  if(!catcher){
+    catcher = document.createElement('div');
+    catcher.id = 'gj-word-catcher';
+    catcher.className = 'gj-word-popover-catcher';
+    catcher.onclick = gjCloseWordNote;
+    document.body.appendChild(catcher);
+    pop = document.createElement('div');
+    pop.id = 'gj-word-popover';
+    pop.className = 'gj-word-popover';
+    document.body.appendChild(pop);
+    document.body.addEventListener('scroll', gjCloseWordNote, {passive:true});
+  }
+  if(gjWordPopoverBtn) gjWordPopoverBtn.classList.remove('active');
+  gjWordPopoverBtn = btnEl;
+  btnEl.classList.add('active');
+  pop.innerHTML = `<div class="gj-word-popover-word">${seg.t}</div><div class="gj-word-popover-note">${seg.note}</div>`;
+  pop.classList.add('open');
+  catcher.classList.add('open');
+  requestAnimationFrame(()=>{
+    const rect = btnEl.getBoundingClientRect();
+    const popRect = pop.getBoundingClientRect();
+    const margin = 16;
+    let left = rect.left + rect.width/2 - popRect.width/2;
+    left = Math.max(margin, Math.min(left, window.innerWidth - popRect.width - margin));
+    let top = rect.top - popRect.height - 10;
+    if(top < margin) top = rect.bottom + 10;
+    if(top + popRect.height > window.innerHeight - margin) top = Math.max(margin, window.innerHeight - popRect.height - margin);
+    pop.style.left = left + 'px';
+    pop.style.top = top + 'px';
+  });
+}
+function gjCloseWordNote(){
+  const catcher = document.getElementById('gj-word-catcher');
+  const pop = document.getElementById('gj-word-popover');
+  if(catcher) catcher.classList.remove('open');
+  if(pop) pop.classList.remove('open');
+  if(gjWordPopoverBtn){ gjWordPopoverBtn.classList.remove('active'); gjWordPopoverBtn = null; }
+}
+function gjMarkReviewDone(){
+  const l = GJ_LESSONS[gjLessonIdx];
+  gjCloseWordNote();
+  gjMark(l.id+':p0');
+  renderGrammarLesson(false);
+}
+
 /* full lesson assembly */
 function renderGrammarLesson(resetScroll){
+  gjCloseWordNote();
   const l = GJ_LESSONS[gjLessonIdx];
   const done = gjLessonDone(l), tot = gjLessonTotal(l);
   document.getElementById("grammar-detail-title").textContent = l.title;
@@ -8836,8 +10204,19 @@ function renderGrammarLesson(resetScroll){
     <div style="margin-top:18px;">
       <div style="font-size:21px;font-weight:800;color:var(--text);line-height:1.25;">${l.title}</div>
       <div style="color:var(--thai);font-size:13.5px;font-weight:600;margin-top:5px;">${l.titleTh}</div>
-    </div>
+    </div>`;
 
+  if(l.type === "review"){
+    html += `<div style="margin-top:22px;">${gjReviewLessonHtml(l)}</div>
+    <div style="margin-top:20px;">${gjCompleteCardHtml(l, done, tot)}</div>`;
+
+    const body = document.getElementById("grammar-detail-body");
+    body.innerHTML = html;
+    if(resetScroll) requestAnimationFrame(()=>requestAnimationFrame(()=>window.scrollTo(0,0)));
+    return;
+  }
+
+  html += `
     <div style="margin-top:24px;">
       <div class="gj-step-hdr">
         <div class="gj-step-badge${gjNoticed?' done':''}" id="gj-learn-badge">${gjNoticed?icon('check'):'1'}</div>
@@ -8878,13 +10257,26 @@ function renderGrammarLesson(resetScroll){
 /* Swipeable one-at-a-time carousel for the practice step, since a section's
    lessons can have 4-5 exercises and stacking them all vertically made a
    lesson page very long. */
+function gjSyncCarouselHeight(){
+  // The carousel shows one slide at a time, but as a flex row its own height
+  // defaults to the tallest slide. Pin it to the visible slide's height instead,
+  // so short exercises don't leave dead space before the dots/next-lesson button.
+  const carousel = document.getElementById("gj-practice-carousel");
+  if(!carousel) return;
+  const idx = Math.round(carousel.scrollLeft / (carousel.clientWidth||1));
+  const slides = carousel.querySelectorAll(".gj-practice-slide");
+  const active = slides[idx] || slides[0];
+  if(active) carousel.style.height = active.offsetHeight + "px";
+}
 function gjPracticeCarouselInit(){
   const carousel = document.getElementById("gj-practice-carousel");
   if(!carousel) return;
   carousel.scrollLeft = 0;
+  gjSyncCarouselHeight();
   carousel.onscroll = ()=>{
     const idx = Math.round(carousel.scrollLeft / carousel.clientWidth);
     document.querySelectorAll("#gj-practice-dots .gj-practice-dot").forEach((d,i)=>d.classList.toggle("active", i===idx));
+    gjSyncCarouselHeight();
   };
 }
 function gjScrollToPractice(i){
