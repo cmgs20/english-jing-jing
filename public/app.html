@@ -88,6 +88,14 @@ p.sub{ color:var(--muted); font-size:14px; margin:0 0 16px; line-height:1.4; }
 .big-btn .desc{ font-size:12px; color:var(--muted); margin-top:3px; }
 .lock-badge{ display:inline-flex; vertical-align:-3px; width:15px; height:15px; color:var(--muted); }
 .lock-badge svg{ width:100%; height:100%; }
+.paywall-compare{ display:flex; gap:10px; width:100%; max-width:340px; text-align:left; }
+.paywall-compare-col{ flex:1; background:var(--card); border-radius:16px; padding:14px 12px; border:1px solid rgba(255,255,255,.06); }
+.paywall-compare-col.full{ border-color:rgba(122,168,255,.35); background:linear-gradient(160deg,rgba(122,168,255,.1),var(--card)); }
+.paywall-compare-head{ font-size:11px; font-weight:800; color:var(--muted); text-transform:uppercase; letter-spacing:.03em; margin-bottom:9px; }
+.paywall-compare-col.full .paywall-compare-head{ color:var(--blue-2); }
+.paywall-compare-item{ display:flex; align-items:flex-start; gap:6px; font-size:12.5px; line-height:1.35; color:var(--text); margin-bottom:7px; }
+.paywall-compare-item .ic{ width:13px; height:13px; margin-top:2px; color:var(--muted); }
+.paywall-compare-col.full .paywall-compare-item .ic{ color:var(--blue-2); }
 .big-btn .chev{ margin-left:auto; width:28px; height:28px; border-radius:50%; display:flex; align-items:center; justify-content:center; background:rgba(255,255,255,.08); flex-shrink:0; }
 .big-btn .chev .ic{ width:15px; height:15px; color:#cdd3e6; }
 .big-btn .mini{ position:absolute; right:-18px; bottom:-22px; opacity:.13; pointer-events:none; }
@@ -748,17 +756,34 @@ p.sub{ color:var(--muted); font-size:14px; margin:0 0 16px; line-height:1.4; }
   <!-- PAYWALL -->
   <section class="screen" id="screen-paywall">
     <div class="topbar"><button class="back-btn" onclick="go('home')"><svg class="ic" viewBox="0 0 24 24"><path d="m15 18-6-6 6-6"/></svg></button><h1>เข้าถึงเต็มรูปแบบ</h1><div style="width:36px"></div></div>
-    <div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:18px;padding:0 8px;">
+    <div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;text-align:center;gap:16px;padding:20px 8px 0;">
       <div style="width:64px;height:64px;border-radius:20px;background:linear-gradient(160deg,var(--blue-2),var(--violet));display:flex;align-items:center;justify-content:center;color:#fff;">
         <svg class="ic" viewBox="0 0 24 24" style="width:30px;height:30px;"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
       </div>
-      <h2 style="font-size:19px;margin:0;" id="paywall-title">ปลดล็อกแอปเต็มรูปแบบ</h2>
-      <p class="sub" style="margin:0;max-width:320px;" id="paywall-desc">แบบฝึกผันกริยา พจนานุกรมคำกริยา และบทเรียนไวยากรณ์ อยู่ในเวอร์ชันเต็ม ส่วนแฟลชการ์ดใช้ได้ฟรีตลอดไป</p>
+      <h2 style="font-size:19px;margin:0;" id="paywall-title">เรียนได้แบบไม่จำกัด</h2>
+      <p class="sub" style="margin:0;max-width:320px;" id="paywall-desc">ฝึกผันกริยา ค้นพจนานุกรมกริยา และเรียนไวยากรณ์ได้ครบทุกบท ไม่มีขีดจำกัด ส่วนแฟลชการ์ดใช้ได้ฟรีตลอดไป</p>
+      <div class="paywall-compare">
+        <div class="paywall-compare-col">
+          <div class="paywall-compare-head">ฟรี</div>
+          <div class="paywall-compare-item"><svg class="ic" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg><span>แฟลชการ์ดไม่จำกัด</span></div>
+          <div class="paywall-compare-item"><svg class="ic" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg><span>ไวยากรณ์ 1 บท</span></div>
+          <div class="paywall-compare-item"><svg class="ic" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg><span>Drill Present Simple</span></div>
+          <div class="paywall-compare-item"><svg class="ic" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg><span>เสียง R vs L</span></div>
+          <div class="paywall-compare-item"><svg class="ic" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg><span>กริยาพื้นฐาน 10 คำ</span></div>
+        </div>
+        <div class="paywall-compare-col full">
+          <div class="paywall-compare-head">เข้าถึงเต็มรูปแบบ</div>
+          <div class="paywall-compare-item"><svg class="ic" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg><span>ไวยากรณ์ครบ A1 ถึง B1</span></div>
+          <div class="paywall-compare-item"><svg class="ic" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg><span>Drill ทุก tense ไม่จำกัด</span></div>
+          <div class="paywall-compare-item"><svg class="ic" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg><span>ทุกเสียงที่ออกยาก</span></div>
+          <div class="paywall-compare-item"><svg class="ic" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg><span>พจนานุกรมกริยาทั้งหมด</span></div>
+        </div>
+      </div>
       <button class="big-btn" style="justify-content:center;" onclick="startTrainerCheckout()" id="paywall-buy-btn">
-        <div><div class="label" id="paywall-price-label">ปลดล็อกในราคา 249 บาท</div><div class="desc">ชำระเงินครั้งเดียว ใช้งานได้ตลอดชีพ</div></div>
+        <div><div class="label">เข้าถึงได้ไม่จำกัด ตลอดชีพ</div><div class="desc" id="paywall-price-label">249 บาท ชำระครั้งเดียว</div></div>
       </button>
       <p class="sub" id="paywall-error" style="color:var(--bad-fg);margin:0;"></p>
-      <p class="sub" style="margin:0;font-size:12px;">
+      <p class="sub" style="margin:0 0 24px;font-size:12px;">
         การซื้อถือว่ายอมรับ<a href="/terms" style="color:var(--muted);">ข้อกำหนดการใช้งาน</a>และ<a href="/privacy" style="color:var(--muted);">นโยบายความเป็นส่วนตัว</a>
       </p>
     </div>
@@ -4616,9 +4641,9 @@ function goPaywall(context){
 }
 function renderPaywallContext(){
   const ctx = PAYWALL_CONTEXT[paywallContext];
-  document.getElementById("paywall-title").textContent = ctx ? ctx.title : "ปลดล็อกแอปเต็มรูปแบบ";
+  document.getElementById("paywall-title").textContent = ctx ? ctx.title : "เรียนได้แบบไม่จำกัด";
   document.getElementById("paywall-desc").textContent = ctx ? ctx.desc :
-    "แบบฝึกผันกริยา พจนานุกรมคำกริยา และบทเรียนไวยากรณ์ อยู่ในเวอร์ชันเต็ม ส่วนแฟลชการ์ดใช้ได้ฟรีตลอดไป";
+    "ฝึกผันกริยา ค้นพจนานุกรมกริยา และเรียนไวยากรณ์ได้ครบทุกบท ไม่มีขีดจำกัด ส่วนแฟลชการ์ดใช้ได้ฟรีตลอดไป";
 }
 let unlockVerified = false;
 function isUnlocked(){ return unlockVerified === true; }
@@ -10430,7 +10455,7 @@ async function loadTrainerPrice(){
     const res = await fetch("/api/trainer-price");
     const data = await res.json();
     const label = document.getElementById("paywall-price-label");
-    if(label && data.priceThb) label.textContent = "ปลดล็อกในราคา " + data.priceThb + " บาท";
+    if(label && data.priceThb) label.textContent = data.priceThb + " บาท ชำระครั้งเดียว";
   }catch(e){ /* keep the default label */ }
 }
 function sleep(ms){ return new Promise(r => setTimeout(r, ms)); }
