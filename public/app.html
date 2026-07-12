@@ -86,6 +86,7 @@ p.sub{ color:var(--muted); font-size:14px; margin:0 0 16px; line-height:1.4; }
 .big-btn .emoji .ic{ width:28px; height:28px; color:#fff; stroke-width:2.2; }
 .big-btn .label{ font-size:17px; font-weight:800; letter-spacing:-.2px; }
 .big-btn .desc{ font-size:12px; color:var(--muted); margin-top:3px; }
+.price-strike{ text-decoration:line-through; color:var(--faint); margin-right:6px; }
 .lock-badge{ display:inline-flex; vertical-align:-3px; width:15px; height:15px; color:var(--muted); }
 .lock-badge svg{ width:100%; height:100%; }
 .paywall-compare{ display:flex; gap:10px; width:100%; max-width:340px; text-align:left; }
@@ -799,7 +800,7 @@ p.sub{ color:var(--muted); font-size:14px; margin:0 0 16px; line-height:1.4; }
         </div>
       </div>
       <button class="big-btn" style="justify-content:center;" onclick="startTrainerCheckout()" id="paywall-buy-btn">
-        <div><div class="label">เข้าถึงได้ไม่จำกัด ตลอดชีพ</div><div class="desc" id="paywall-price-label">249 บาท ชำระครั้งเดียว</div></div>
+        <div><div class="label">เข้าถึงได้ไม่จำกัด ตลอดชีพ</div><div class="desc"><span id="paywall-price-strike" class="price-strike">349 บาท</span><span id="paywall-price-label">249 บาท ชำระครั้งเดียว</span></div></div>
       </button>
       <p class="sub" id="paywall-error" style="color:var(--bad-fg);margin:0;"></p>
       <p class="sub" style="margin:0 0 24px;font-size:12px;">
@@ -10494,7 +10495,16 @@ async function loadTrainerPrice(){
     const res = await fetch("/api/trainer-price");
     const data = await res.json();
     const label = document.getElementById("paywall-price-label");
+    const strike = document.getElementById("paywall-price-strike");
     if(label && data.priceThb) label.textContent = data.priceThb + " บาท ชำระครั้งเดียว";
+    if(strike){
+      if(data.compareAtPriceThb && data.priceThb && data.compareAtPriceThb > data.priceThb){
+        strike.textContent = data.compareAtPriceThb + " บาท";
+        strike.style.display = "";
+      } else {
+        strike.style.display = "none";
+      }
+    }
   }catch(e){ /* keep the default label */ }
 }
 function sleep(ms){ return new Promise(r => setTimeout(r, ms)); }
