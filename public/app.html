@@ -656,7 +656,7 @@ p.sub{ color:var(--muted); font-size:14px; margin:0 0 16px; line-height:1.4; }
   <!-- IRREGULAR VERBS REFERENCE -->
   <section class="screen" id="screen-irregular-ref">
     <div class="topbar"><button class="back-btn" onclick="go('verbs')"><svg class="ic" viewBox="0 0 24 24"><path d="m15 18-6-6 6-6"/></svg></button><h1>Irregular Verbs</h1><div style="width:36px"></div></div>
-    <p class="sub">Base — Past — Past Participle — Thai</p>
+    <p class="sub">Base, Past, Past Participle, Thai</p>
     <div id="irregular-ref-list" style="flex:1;"></div>
   </section>
 
@@ -3470,7 +3470,7 @@ const VERB_EXAMPLES = {
   begin:"The movie begins at eight o'clock.", bend:"Bend your knees before you jump.",
   break:"Be careful, you might break the glass.",
   bring:"Can you bring your umbrella tomorrow?", build:"They are building a new house next door.",
-  buy:"I need to buy some milk on the way home.", catch:"Run, or you'll miss the train — you need to catch it now!",
+  buy:"I need to buy some milk on the way home.", catch:"Run, or you'll miss the train, you need to catch it now!",
   choose:"It's hard to choose between the two dresses.", come:"Can you come to my party on Saturday?",
   cost:"This jacket costs more than I expected.", cut:"She cut the cake into eight pieces.",
   do:"What do you usually do on weekends?", draw:"My daughter loves to draw animals.",
@@ -3479,7 +3479,7 @@ const VERB_EXAMPLES = {
   feel:"I feel a little tired after work.", fight:"The two brothers often fight over the remote control.",
   find:"I can't find my keys anywhere.", fly:"The plane flies over the mountains.",
   forget:"Don't forget to lock the door before you leave.", forgive:"It's hard to forgive someone who lied to you.",
-  freeze:"Put the meat in the freezer so it doesn't spoil — it will freeze overnight.",
+  freeze:"Put the meat in the freezer so it doesn't spoil, it will freeze overnight.",
   get:"Could you get some bread from the shop?", give:"She gave her seat to an elderly woman on the bus.",
   go:"What time do you go to bed?", grow:"This plant grows very fast in summer.",
   hang:"Please hang your coat by the door.", have:"I have two sisters and one brother.",
@@ -4478,7 +4478,7 @@ function generateExample(en, cat){
     const baseVerb = verb.split(" ")[0];
     if(ANIMAL_SOUND_CATS.has(cat) && /^(buzz|sting|hiss|croak|chirp|bark|meow|moo|bleat|growl|howl|roar|squawk)$/.test(baseVerb)){
       const rest = verb.includes(" ") ? " "+verb.split(" ").slice(1).join(" ") : "";
-      return `Listen — you can hear it ${ingForm(baseVerb)}${rest}.`;
+      return `Listen, you can hear it ${ingForm(baseVerb)}${rest}.`;
     }
     return `I want to learn how ${word}.`;
   }
@@ -4564,7 +4564,7 @@ function explainForm(v, slot){
   switch(slot){
     case "past":
       return v.irregular
-        ? `"${v.b}" เป็นกริยาอปกติ (irregular verb) รูปอดีตของมันคือ "${v.past}"${v.pastAlt? ` (หรือ "${v.pastAlt}")`:""} — ต้องจำรูปนี้ไว้เป็นพิเศษ ไม่ได้เติม -ed`
+        ? `"${v.b}" เป็นกริยาอปกติ (irregular verb) รูปอดีตของมันคือ "${v.past}"${v.pastAlt? ` (หรือ "${v.pastAlt}")`:""} ต้องจำรูปนี้ไว้เป็นพิเศษ ไม่ได้เติม -ed`
         : `"${v.b}" เป็นกริยาปกติ (regular verb) ในรูปอดีตให้เติม "-ed" ท้ายกริยา: "${v.b}" → "${v.past}"`;
     case "pp":
       return v.irregular
@@ -4725,7 +4725,7 @@ function renderTracker(){
   const mins = Math.floor(secs/60);
   document.getElementById("tracker-mins").textContent = mins;
   document.getElementById("tracker-progress-fill").style.width = Math.min(100, Math.round(mins/60*100))+"%";
-  document.getElementById("tracker-streak").innerHTML = icon('flame')+" "+computeStreak()+" day streak — goal: 1h per day";
+  document.getElementById("tracker-streak").innerHTML = icon('flame')+" "+computeStreak()+" day streak, goal: 1h per day";
   const week = document.getElementById("tracker-week");
   week.innerHTML="";
   const labels=["S","M","T","W","T","F","S"];
@@ -5185,7 +5185,7 @@ function checkDrill(){
     feedback.innerHTML = `${icon('circle_check_big')}<div>Correct! <br>${fullSentence} ${spkBtn}</div>`;
   } else {
     feedback.className = "drill-feedback bad";
-    feedback.innerHTML = `${icon('circle_x')}<div>Not quite — you wrote "${escapeHtml(input.value.trim())||"(nothing)"}" .<br>Correct answer: <b>${p.blank}</b><br>${explainForm(it.verb, p.slot)}<br><span style="opacity:.85">${fullSentence}</span> ${spkBtn}</div>`;
+    feedback.innerHTML = `${icon('circle_x')}<div>Not quite, you wrote "${escapeHtml(input.value.trim())||"(nothing)"}" .<br>Correct answer: <b>${p.blank}</b><br>${explainForm(it.verb, p.slot)}<br><span style="opacity:.85">${fullSentence}</span> ${spkBtn}</div>`;
   }
   recordDrillAnswer(it, isCorrect);
 }
@@ -5269,7 +5269,7 @@ function openVerbDetail(base){
   if(!isUnlocked() && !FREE_VERBS.has(base)){ goPaywall("verbs"); return; }
   document.getElementById("verb-detail-title").textContent = v.b;
   const body = document.getElementById("verb-detail-body");
-  let html = `<div class="conj-block"><h3>${v.b} — ${v.th}${v.irregular? " (กริยาอปกติ / irregular)":" (กริยาปกติ / regular)"}</h3>`;
+  let html = `<div class="conj-block"><h3>${v.b}: ${v.th}${v.irregular? " (กริยาอปกติ / irregular)":" (กริยาปกติ / regular)"}</h3>`;
   html += `<div class="conj-row"><span class="subj"></span><span>base: <b>${v.b}</b> · -s: <b>${v.s}</b> · -ing: <b>${v.ing}</b> · past: <b>${v.past}${v.pastAlt?"/"+v.pastAlt:""}</b> · past participle: <b>${v.pp}${v.ppAlt?"/"+v.ppAlt:""}</b></span></div></div>`;
   DICT_TENSES.forEach(t=>{
     html += `<div class="conj-block"><h3>${t.label}</h3>` +
@@ -5362,7 +5362,7 @@ const GRAMMAR_CURRIC = [
           slots:[{role:'subject'},{role:'verb'},{role:'object'}], answer:['They','drink','coffee'], distractors:['drinks','a coffee'] },
         { kind:'errors', label:'Find the mistakes', tokens:[
           'My','sister',
-          { err:true, word:'work', fix:'works', note:'"sister" is he/she/it — add -s.', noteTh:'"sister" คือ he/she/it ต้องเติม -s ที่กริยา' },
+          { err:true, word:'work', fix:'works', note:'"sister" is he/she/it, add -s.', noteTh:'"sister" คือ he/she/it ต้องเติม -s ที่กริยา' },
           'in','a','hospital.',
           'She',
           { err:true, word:'like', fix:'likes', note:'"She" needs the -s form too.', noteTh:'"She" ก็ต้องเติม -s เหมือนกัน' },
@@ -5371,7 +5371,7 @@ const GRAMMAR_CURRIC = [
           { err:true, word:'drink', fix:'drinks', note:'Same rule: "she" + -s.', noteTh:'กฎเดียวกัน: "she" ต้องเติม -s' },
           'coffee','before','work.',
           'Her','colleagues',
-          { err:true, word:'thinks', fix:'think', note:'"colleagues" is plural — no -s here.', noteTh:'"colleagues" เป็นพหูพจน์ ไม่ต้องเติม -s' },
+          { err:true, word:'thinks', fix:'think', note:'"colleagues" is plural, no -s here.', noteTh:'"colleagues" เป็นพหูพจน์ ไม่ต้องเติม -s' },
           'she','is','very','kind.',
         ] },
       ],
@@ -5519,15 +5519,15 @@ const GRAMMAR_CURRIC = [
           slots:[{role:'subject'},{role:'be'},{role:'verb'}], answer:['They','are','waiting'], distractors:['is','wait'] },
         { kind:'errors', label:'Find the mistakes', tokens:[
           'Right','now,','my','brother',
-          { err:true, word:'are', fix:'is', note:'"brother" is singular (he) — use is.', noteTh:'"brother" เป็นเอกพจน์ (he) ต้องใช้ is' },
+          { err:true, word:'are', fix:'is', note:'"brother" is singular (he), use is.', noteTh:'"brother" เป็นเอกพจน์ (he) ต้องใช้ is' },
           'watching','TV','in','the','living','room.',
           'My','parents',
-          { err:true, word:'is', fix:'are', note:'"parents" is plural — use are.', noteTh:'"parents" เป็นพหูพจน์ ต้องใช้ are' },
+          { err:true, word:'is', fix:'are', note:'"parents" is plural, use are.', noteTh:'"parents" เป็นพหูพจน์ ต้องใช้ are' },
           'cooking','dinner','in','the','kitchen.',
           'My','sister',
-          { err:true, word:'are', fix:'is', note:'"sister" is singular (she) — use is.', noteTh:'"sister" เป็นเอกพจน์ (she) ต้องใช้ is' },
+          { err:true, word:'are', fix:'is', note:'"sister" is singular (she), use is.', noteTh:'"sister" เป็นเอกพจน์ (she) ต้องใช้ is' },
           'doing','her','homework,','and','the','children',
-          { err:true, word:'is', fix:'are', note:'"children" is plural — use are.', noteTh:'"children" เป็นพหูพจน์ ต้องใช้ are' },
+          { err:true, word:'is', fix:'are', note:'"children" is plural, use are.', noteTh:'"children" เป็นพหูพจน์ ต้องใช้ are' },
           'playing','outside.',
         ] },
       ],
@@ -10128,7 +10128,7 @@ function gjErrorsHtml(pIdx, ex, solved){
   }</div>` : "";
   const progressHtml = solved
     ? `<div class="gj-err-progress" style="color:var(--good-fg);">${icon('circle_check_big')} Found all ${total} mistakes!</div>`
-    : `<div class="gj-err-progress">Tap the words that are wrong — ${foundList.length} / ${total} found.</div>`;
+    : `<div class="gj-err-progress">Tap the words that are wrong: ${foundList.length} / ${total} found.</div>`;
   const listenBtn = `<button class="spk-btn-inline" onclick="speakGjErrorsText(${pIdx})" title="Listen">${icon('volume_2')}</button>`;
   return `<div class="gj-err-text">${listenBtn} ${textHtml}</div>${notesHtml}${progressHtml}`;
 }
