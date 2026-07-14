@@ -46,10 +46,28 @@ export function trainerConfirmationHtml({
           </a>
         </div>
 
+        <!-- INSTALL STEPS (TH) -->
+        <div style="background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:16px;padding:20px 22px;margin:0 0 24px;">
+          <p style="font-size:14px;color:#f2f3f7;font-weight:700;margin:0 0 12px;">
+            วิธีติดตั้ง (ทำครั้งเดียว)
+          </p>
+          <p style="font-size:13.5px;color:#c7ccdb;line-height:1.8;margin:0 0 10px;">
+            1. กดปุ่ม "เปิดแอปของฉัน" ด้านบน เพื่อเปิดลิงก์ในเบราว์เซอร์ของโทรศัพท์
+            (Safari สำหรับ iPhone หรือ Chrome สำหรับ Android)
+          </p>
+          <p style="font-size:13.5px;color:#c7ccdb;line-height:1.8;margin:0 0 10px;">
+            2. เพิ่มหน้านี้ไปยังหน้าจอหลักของคุณ<br/>
+            &nbsp;&nbsp;• iPhone: กดไอคอนแชร์ (สี่เหลี่ยมมีลูกศรชี้ขึ้น) แล้วเลือก "เพิ่มไปยังหน้าจอโฮม"<br/>
+            &nbsp;&nbsp;• Android: กดเมนู (จุดสามจุด) มุมขวาบน แล้วเลือก "เพิ่มไปยังหน้าจอหลัก" หรือ "ติดตั้งแอป"
+          </p>
+          <p style="font-size:13.5px;color:#c7ccdb;line-height:1.8;margin:0;">
+            3. จากนั้นให้เปิดแอปจากไอคอนบนหน้าจอหลักทุกครั้ง แทนการกดลิงก์จากอีเมลนี้ซ้ำ
+            เพื่อให้ความคืบหน้าของคุณถูกบันทึกไว้อย่างถูกต้อง และแอปจะอัปเดตเวอร์ชันล่าสุดให้อัตโนมัติทุกครั้งที่เปิด
+          </p>
+        </div>
+
         <p style="font-size:13px;color:#9aa0b4;line-height:1.7;margin:0 0 8px;">
-          ลิงก์นี้ใช้ได้สูงสุด 2 อุปกรณ์ (เช่น มือถือและแท็บเล็ต) เมื่อเปิดแล้ว
-          ให้เพิ่มหน้านี้ไปที่หน้าจอหลักของคุณ เพื่อให้เข้าใช้งานได้ทันทีในครั้งต่อไป
-          ไม่ต้องกดลิงก์นี้ซ้ำอีกบนอุปกรณ์เครื่องนั้น
+          ลิงก์นี้ใช้ได้สูงสุด 2 อุปกรณ์ (เช่น มือถือและแท็บเล็ต)
         </p>
         <p style="font-size:14px;color:#c7ccdb;line-height:1.7;margin:0 0 32px;">
           มีคำถามหรือเข้าใช้งานไม่ได้? ตอบกลับอีเมลนี้ได้เลย
@@ -61,11 +79,29 @@ export function trainerConfirmationHtml({
         <h2 style="font-family:Georgia,serif;font-size:17px;color:#f2f3f7;margin:0 0 8px;font-weight:700;">
           You're in! Your app is unlocked.
         </h2>
-        <p style="font-family:Georgia,serif;font-size:13.5px;color:#8890a6;line-height:1.7;margin:0 0 24px;">
-          Thanks for your purchase (${amount} THB). Tap the button above on the device you want to learn on.
-          This link works on up to 2 devices — once opened, add the page to your home screen so it's always
-          one tap away. Questions or lost access? Just reply to this email.
+        <p style="font-family:Georgia,serif;font-size:13.5px;color:#8890a6;line-height:1.7;margin:0 0 20px;">
+          Thanks for your purchase (${amount} THB). This link works on up to 2 devices. Questions or lost access?
+          Just reply to this email.
         </p>
+
+        <!-- INSTALL STEPS (EN) -->
+        <div style="background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.06);border-radius:16px;padding:18px 20px;margin:0 0 24px;">
+          <p style="font-family:Georgia,serif;font-size:13px;color:#c7ccdb;font-weight:700;margin:0 0 10px;">
+            How to install (one time only)
+          </p>
+          <p style="font-family:Georgia,serif;font-size:12.5px;color:#8890a6;line-height:1.8;margin:0 0 8px;">
+            1. Tap "เปิดแอปของฉัน" above to open the link in your phone's browser (Safari for iPhone or Chrome for Android).
+          </p>
+          <p style="font-family:Georgia,serif;font-size:12.5px;color:#8890a6;line-height:1.8;margin:0 0 8px;">
+            2. Add this page to your home screen.<br/>
+            &nbsp;&nbsp;• iPhone: tap the Share icon (square with an arrow), then choose "Add to Home Screen".<br/>
+            &nbsp;&nbsp;• Android: tap the menu (three dots) in the top right, then choose "Add to Home screen" or "Install app".
+          </p>
+          <p style="font-family:Georgia,serif;font-size:12.5px;color:#8890a6;line-height:1.8;margin:0;">
+            3. From then on, always open the app from its home screen icon instead of this email link, so your
+            progress saves correctly and you always get the latest version automatically.
+          </p>
+        </div>
 
         <p style="font-size:14px;color:#c7ccdb;line-height:1.7;margin:0 0 18px;">
           <strong style="color:#f2f3f7;">ทีมงาน English jing jing</strong>
