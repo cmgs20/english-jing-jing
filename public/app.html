@@ -711,7 +711,7 @@ p.sub{ color:var(--muted); font-size:14px; margin:0 0 16px; line-height:1.4; }
     <div class="topbar"><h1><svg class="ic" viewBox="0 0 24 24" style="width:18px;height:18px;vertical-align:-2px;"><path d="M3 3v16a2 2 0 0 0 2 2h16"/><path d="M18 17V9"/><path d="M13 17V5"/><path d="M8 17v-3"/></svg> Your Progress</h1><div style="width:36px"></div></div>
     <div class="big-timer">
       <div class="mins" id="tracker-mins">0</div>
-      <div class="goal">minutes today · goal 60 min</div>
+      <div class="goal" id="tracker-goal-label">minutes today · goal 60 min</div>
     </div>
     <div class="progress-row"><div class="progress-bar"><div class="progress-fill" id="tracker-progress-fill" style="width:0%"></div></div></div>
     <div class="streak" id="tracker-streak" style="text-align:center;margin-top:14px;"></div>
@@ -771,6 +771,27 @@ p.sub{ color:var(--muted); font-size:14px; margin:0 0 16px; line-height:1.4; }
       <button class="ghost-btn" style="margin:16px 0 0;display:flex;align-items:center;justify-content:center;gap:8px;" onclick="speak('This is how a sentence sounds at this speed.','en-US')"><svg class="ic" viewBox="0 0 24 24"><path d="M11 4.702a.705.705 0 0 0-1.203-.498L6.413 7.587A1.4 1.4 0 0 1 5.416 8H3a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h2.416a1.4 1.4 0 0 1 .997.413l3.383 3.384A.705.705 0 0 0 11 19.298z"/><path d="M16 9a5 5 0 0 1 0 6"/><path d="M19.364 18.364a9 9 0 0 0 0-12.728"/></svg> Test this speed</button>
     </div>
     <p class="sub" style="margin-top:14px;">This speed applies everywhere the app reads English aloud: Flashcards, the Drill, and Pronunciation practice.</p>
+
+    <div class="section-label" style="margin-top:24px;">Daily goal</div>
+    <div class="rate-card">
+      <div class="rate-head"><b>Practice time per day</b><span id="settings-goal-label">60 min</span></div>
+      <input type="range" class="rate-slider" id="settings-goal-slider" min="15" max="60" step="5" value="60" oninput="setDailyGoal(this.value)">
+      <div class="rate-scale"><span>15 min</span><span>1 hour</span></div>
+    </div>
+    <p class="sub" style="margin-top:14px;">This sets the goal shown on your home screen, progress page, and streak.</p>
+
+    <div class="section-label" style="margin-top:24px;">Daily reminder</div>
+    <div class="rate-card">
+      <div style="display:flex;align-items:center;justify-content:space-between;">
+        <b style="font-size:15px;">Remind me to practice</b>
+        <button class="toggle" id="settings-reminder-toggle" onclick="toggleReminder()"></button>
+      </div>
+      <div id="settings-reminder-time-row" style="display:none;align-items:center;justify-content:space-between;margin-top:16px;">
+        <span class="sub" style="margin:0;">Reminder time</span>
+        <input type="time" id="settings-reminder-time" step="300" onchange="setReminderTime(this.value)" style="background:var(--inset);border:1px solid rgba(255,255,255,.08);color:var(--text);border-radius:10px;padding:8px 10px;font-size:14px;">
+      </div>
+    </div>
+    <p class="sub" style="margin-top:14px;">Works even when jing jing is fully closed. On iPhone, add jing jing to your home screen first (Share, then "Add to Home Screen"), then turn this on from the installed app.</p>
   </section>
 
   <!-- PAYWALL -->
@@ -4614,6 +4635,9 @@ function todayKey(){ return dateKey(new Date()); }
 let known = LS.get("et_known", {});
 function saveKnown(){ LS.set("et_known", known); }
 speechRate = LS.get("et_speech_rate", 0.55);
+let dailyGoalMin = LS.get("et_daily_goal_min", 60);
+let reminderEnabled = LS.get("et_reminder_enabled", false);
+let reminderTime = LS.get("et_reminder_time", "18:00");
 
 let flashState = { level:"all", cat:"all", mode:"all", sessionSize:"all", deck:[], idx:0, flipped:false, sessionKnown:0, sessionUnknown:0 };
 let drillState = { tenses:{}, types:{aff:true,neg:true,q:true}, verbType:"all", level:"all", sessionSize:15, sessionGoal:15, sessionIndex:0, sessionCorrect:0, pool:[], current:null, revealed:false };
@@ -4690,6 +4714,114 @@ function go(name, opts){
 function renderSettings(){
   document.getElementById("settings-rate-slider").value = speechRate;
   document.getElementById("settings-rate-label").textContent = speechRate.toFixed(2)+"×";
+  document.getElementById("settings-goal-slider").value = dailyGoalMin;
+  document.getElementById("settings-goal-label").textContent = goalLabel(dailyGoalMin);
+  document.getElementById("settings-reminder-time").value = reminderTime;
+  renderReminderUI();
+}
+function goalLabel(mins){ return mins>=60 ? "1 hour" : mins+" min"; }
+function setDailyGoal(v){
+  dailyGoalMin = parseInt(v, 10);
+  LS.set("et_daily_goal_min", dailyGoalMin);
+  document.getElementById("settings-goal-label").textContent = goalLabel(dailyGoalMin);
+  updateTrackerUI();
+  if(reminderEnabled) subscribeReminderPush();
+}
+function renderReminderUI(){
+  document.getElementById("settings-reminder-toggle").classList.toggle("on", reminderEnabled);
+  document.getElementById("settings-reminder-time-row").style.display = reminderEnabled ? "flex" : "none";
+}
+async function toggleReminder(){
+  reminderEnabled = !reminderEnabled;
+  LS.set("et_reminder_enabled", reminderEnabled);
+  renderReminderUI();
+  if(reminderEnabled){
+    if("Notification" in window && Notification.permission === "default"){
+      await Notification.requestPermission();
+    }
+    if("Notification" in window && Notification.permission === "granted"){
+      const ok = await subscribeReminderPush();
+      if(!ok) showBanner("Couldn't set up notifications on this browser or device. The reminder needs notification permission to work.");
+    } else {
+      showBanner("Notifications are blocked for jing jing in this browser, so the reminder can't be sent. Allow notifications in your browser settings to turn this on.");
+    }
+  } else {
+    unsubscribeReminderPush();
+  }
+}
+function setReminderTime(v){
+  reminderTime = v;
+  LS.set("et_reminder_time", reminderTime);
+  if(reminderEnabled) subscribeReminderPush();
+}
+/* =========================================================
+   PUSH NOTIFICATIONS (daily reminder)
+   Real background delivery: a Supabase-side cron hits
+   /api/send-reminders every few minutes and pushes to whichever
+   subscriptions are due, so this fires even if jing jing is fully
+   closed. See supabase-reminders.sql for the server-side setup. */
+const VAPID_PUBLIC_KEY = "BOthA8QJwzcFWbMVU6q8dN16jh56SECsZt0_JJ95t5h6ua3S1e_HvwvZJ-XiBq9EvGOp-epMPYl5pLTt8Xxxz6U";
+function urlBase64ToUint8Array(base64String){
+  const padding = "=".repeat((4 - base64String.length % 4) % 4);
+  const base64 = (base64String + padding).replace(/-/g, "+").replace(/_/g, "/");
+  const rawData = atob(base64);
+  const arr = new Uint8Array(rawData.length);
+  for(let i=0;i<rawData.length;i++) arr[i] = rawData.charCodeAt(i);
+  return arr;
+}
+function arrayBufferToBase64(buffer){
+  let binary = "";
+  const bytes = new Uint8Array(buffer);
+  for(let i=0;i<bytes.byteLength;i++) binary += String.fromCharCode(bytes[i]);
+  return btoa(binary);
+}
+async function registerReminderServiceWorker(){
+  if(!("serviceWorker" in navigator)) return null;
+  try{ return await navigator.serviceWorker.register("/sw-reminder.js"); }
+  catch(e){ return null; }
+}
+async function subscribeReminderPush(){
+  if(!("PushManager" in window)) return false;
+  const reg = await registerReminderServiceWorker();
+  if(!reg) return false;
+  try{
+    let sub = await reg.pushManager.getSubscription();
+    if(!sub){
+      sub = await reg.pushManager.subscribe({
+        userVisibleOnly: true,
+        applicationServerKey: urlBase64ToUint8Array(VAPID_PUBLIC_KEY),
+      });
+    }
+    const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+    const res = await fetch("/api/save-reminder", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        deviceId: getDeviceId(),
+        endpoint: sub.endpoint,
+        keys: {
+          p256dh: arrayBufferToBase64(sub.getKey("p256dh")),
+          auth: arrayBufferToBase64(sub.getKey("auth")),
+        },
+        reminderTime,
+        timezone,
+        dailyGoalMin,
+      }),
+    });
+    const data = await res.json();
+    return !!data.ok;
+  }catch(e){
+    return false;
+  }
+}
+async function unsubscribeReminderPush(){
+  try{
+    await fetch("/api/remove-reminder", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ deviceId: getDeviceId() }),
+    });
+  }catch(e){}
 }
 
 /* =========================================================
@@ -4706,16 +4838,16 @@ function computeStreak(){
   let streak=0; let d=new Date();
   while(true){
     const key = dateKey(d);
-    if(getDayMinutes(key) >= 3600) { streak++; d.setDate(d.getDate()-1); } else break;
+    if(getDayMinutes(key) >= dailyGoalMin*60) { streak++; d.setDate(d.getDate()-1); } else break;
   }
   return streak;
 }
 function updateTrackerUI(){
   const secs = getDayMinutes(todayKey());
   const mins = Math.floor(secs/60);
-  const pct = Math.min(100, Math.round(mins/60*100));
+  const pct = Math.min(100, Math.round(mins/dailyGoalMin*100));
   document.getElementById("home-mins-today").textContent = mins;
-  document.getElementById("home-mins-label").textContent = mins>=60 ? "Today's goal reached!" : (60-mins)+" min to hit today's goal.";
+  document.getElementById("home-mins-label").textContent = mins>=dailyGoalMin ? "Today's goal reached!" : (dailyGoalMin-mins)+" min to hit today's goal.";
   document.getElementById("home-ring").style.background = `conic-gradient(var(--blue) 0deg ${pct*3.6}deg, rgba(255,255,255,.10) ${pct*3.6}deg 360deg)`;
   document.getElementById("home-streak").textContent = computeStreak();
   if(document.getElementById("screen-tracker").classList.contains("active")) renderTracker();
@@ -4724,8 +4856,9 @@ function renderTracker(){
   const secs = getDayMinutes(todayKey());
   const mins = Math.floor(secs/60);
   document.getElementById("tracker-mins").textContent = mins;
-  document.getElementById("tracker-progress-fill").style.width = Math.min(100, Math.round(mins/60*100))+"%";
-  document.getElementById("tracker-streak").innerHTML = icon('flame')+" "+computeStreak()+" day streak, goal: 1h per day";
+  document.getElementById("tracker-goal-label").textContent = "minutes today · goal "+goalLabel(dailyGoalMin);
+  document.getElementById("tracker-progress-fill").style.width = Math.min(100, Math.round(mins/dailyGoalMin*100))+"%";
+  document.getElementById("tracker-streak").innerHTML = icon('flame')+" "+computeStreak()+" day streak, goal: "+goalLabel(dailyGoalMin)+" per day";
   const week = document.getElementById("tracker-week");
   week.innerHTML="";
   const labels=["S","M","T","W","T","F","S"];
@@ -10897,6 +11030,8 @@ function playPronRecording(){
   await tryActivateFromUrl();
   loadTrainerPrice();
   renderHome();
+  registerReminderServiceWorker();
+  if(reminderEnabled && "Notification" in window && Notification.permission === "granted") subscribeReminderPush();
 })();
 </script>
 </body>
