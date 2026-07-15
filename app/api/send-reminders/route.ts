@@ -1,9 +1,12 @@
 import { NextResponse, type NextRequest } from 'next/server'
 import { createServiceClient } from '@/lib/supabase-service'
 import { getWebPush } from '@/lib/web-push'
+import { sendAdminAlert } from '@/lib/alert'
 
 export const runtime = 'nodejs'
 export const dynamic = 'force-dynamic'
+
+const SOURCE = 'Send reminders cron'
 
 type ReminderRow = {
   id: string
@@ -37,15 +40,24 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ ok: false, reason: 'unauthorized' }, { status: 401 })
   }
 
+  try {
+    return await handleReminders()
+  } catch (err) {
+    await sendAdminAlert(SOURCE, err)
+    return NextResponse.json({ ok: false, reason: 'server_error' }, { status: 500 })
+  }
+}
+
+async function handleReminders() {
   const supabase = createServiceClient()
   const { data: rows, error } = await supabase.from('trainer_reminders').select('*')
   if (error) {
-    console.error('[send-reminders] fetch failed:', error)
-    return NextResponse.json({ ok: false, reason: 'server_error' }, { status: 500 })
+    throw new Error(`Failed to fetch reminders: ${error.message}`)
   }
 
   const webpush = getWebPush()
   let sent = 0
+  const failures: string[] = []
 
   for (const row of (rows ?? []) as ReminderRow[]) {
     let local
@@ -70,9 +82,14 @@ export async function POST(request: NextRequest) {
         await supabase.from('trainer_reminders').delete().eq('id', row.id)
       } else {
         console.error('[send-reminders] push failed for', row.id, err)
+        failures.push(`reminder ${row.id}: ${err instanceof Error ? err.message : String(err)}`)
       }
     }
   }
 
-  return NextResponse.json({ ok: true, sent })
+  if (failures.length > 0) {
+    await sendAdminAlert(SOURCE, `${failures.length} reminder(s) failed to send:\n\n${failures.join('\n')}`)
+  }
+
+  return NextResponse.json({ ok: true, sent, failed: failures.length })
 }
