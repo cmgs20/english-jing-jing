@@ -145,7 +145,7 @@ p.sub{ color:var(--muted); font-size:14px; margin:0 0 16px; line-height:1.4; }
 .home-tracker-txt{ flex:1; z-index:1; }
 .home-tracker-txt b{ font-size:15px; font-weight:800; display:block; }
 .home-tracker-txt p{ margin:2px 0 0; font-size:12.5px; color:var(--muted); line-height:1.4; }
-.home-cta{ margin-top:9px; display:inline-flex; align-items:center; gap:6px; font-size:12.5px; font-weight:800; color:#fff;
+.home-cta{ margin-left:auto; flex-shrink:0; z-index:1; display:inline-flex; align-items:center; gap:6px; font-size:12.5px; font-weight:800; color:#fff;
   background:linear-gradient(180deg,var(--blue-2),var(--blue)); padding:7px 13px; border-radius:999px; box-shadow:0 8px 20px -6px rgba(91,141,239,.7); cursor:pointer; border:none; font-family:inherit; }
 .home-cta .ic{ width:14px; height:14px; }
 .home-nudge{
@@ -156,7 +156,7 @@ p.sub{ color:var(--muted); font-size:14px; margin:0 0 16px; line-height:1.4; }
 .home-nudge-txt{ flex:1; }
 .home-nudge-txt b{ font-size:14px; font-weight:800; display:block; }
 .home-nudge-txt p{ margin:3px 0 0; font-size:12px; color:var(--muted); line-height:1.4; }
-.home-nudge-cta{ font-size:12px; padding:6px 13px; box-shadow:none; }
+.home-nudge-cta{ margin-top:9px; margin-left:0; font-size:12px; padding:6px 13px; box-shadow:none; }
 .home-nudge-close{ background:none; border:none; color:var(--muted); font-size:15px; line-height:1; padding:3px 5px; cursor:pointer; flex-shrink:0; font-family:inherit; }
 
 .progress-row{ display:flex; align-items:center; gap:10px; margin-top:10px; }
@@ -535,8 +535,8 @@ p.sub{ color:var(--muted); font-size:14px; margin:0 0 16px; line-height:1.4; }
       <div class="home-tracker-txt">
         <b>Keep your streak alive</b>
         <p id="home-mins-label">60 min to hit today's goal.</p>
-        <button class="home-cta" onclick="go('flash-setup')">Continue <svg class="ic" viewBox="0 0 24 24"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></button>
       </div>
+      <button class="home-cta" onclick="go('flash-setup')">Continue <svg class="ic" viewBox="0 0 24 24"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></button>
     </div>
   </section>
 
