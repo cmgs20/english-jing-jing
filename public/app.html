@@ -10413,7 +10413,7 @@ function gjReviewLessonHtml(l){
     <div style="margin-top:20px;">
       ${done
         ? `<div class="stat-card" style="text-align:center;border-color:var(--good);background:var(--good-bg);color:var(--good-fg);font-weight:800;font-size:15px;">${icon('check')} Reviewed</div>`
-        : `<button class="primary-btn" onclick="gjMarkReviewDone()">I've read it, mark as done</button>`}
+        : `<button class="primary-btn" style="display:block;width:fit-content;margin:0 auto;-webkit-appearance:none;appearance:none;" onclick="gjMarkReviewDone()">I've read it, mark as done</button>`}
     </div>`;
 }
 let gjWordPopoverBtn = null;
