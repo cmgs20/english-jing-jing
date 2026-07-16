@@ -23,7 +23,7 @@
   --thai:var(--orange-2); --radius:20px;
 }
 *{box-sizing:border-box; -webkit-tap-highlight-color:transparent;}
-html,body{height:100%; overflow-x:hidden;}
+html{height:100%; overflow-x:hidden;}
 body{
   margin:0;
   width:100%;
@@ -10384,8 +10384,8 @@ function gjCompleteCardHtml(l, done, tot){
       <div style="font-size:34px;">${complete?'🎉':'💪'}</div>
       <div style="font-size:17px;font-weight:800;color:${complete?'var(--good-fg)':'var(--text)'};margin-top:6px;">${complete?'Lesson complete!':'Keep going'}</div>
       <div style="font-size:13px;color:var(--muted);margin-top:4px;">${complete?'You finished every exercise here.':(tot-done)+' more to finish this lesson.'}</div>
-      <button class="primary-btn" style="margin-top:14px;" onclick="gjNextLesson()">${nextIdx!=null?'Next lesson ›':'Back to Grammar'}</button>
-      ${showDrillCta ? `<button class="ghost-btn" onclick="goPracticeDrill('${l.sectionDrillTense}')">Want more practice? Try the Conjugation Drill ›</button>` : ''}
+      <button class="primary-btn" style="margin:14px auto 0;display:block;width:fit-content;-webkit-appearance:none;appearance:none;" onclick="gjNextLesson()">${nextIdx!=null?'Next lesson ›':'Back to Grammar'}</button>
+      ${showDrillCta ? `<button class="ghost-btn" style="margin:10px auto 0;display:block;width:fit-content;-webkit-appearance:none;appearance:none;" onclick="goPracticeDrill('${l.sectionDrillTense}')">Want more practice? Try the Conjugation Drill ›</button>` : ''}
     </div>`;
 }
 
