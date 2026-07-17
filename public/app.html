@@ -100,13 +100,16 @@ p.sub{ color:var(--muted); font-size:14px; margin:0 0 16px; line-height:1.4; }
   color:var(--text); text-align:left; font-family:inherit; transition:transform .15s;
 }
 .big-btn:active{ transform:scale(.985); }
+.big-btn.premium-locked{ border-color:rgba(255,184,119,.35); box-shadow:0 0 0 1px rgba(255,184,119,.05) inset, 0 12px 28px -16px rgba(255,184,119,.55); }
 .big-btn .emoji{ width:54px; height:54px; border-radius:18px; display:flex; align-items:center; justify-content:center; flex-shrink:0; box-shadow:inset 0 1px 0 rgba(255,255,255,.45); }
 .big-btn .emoji .ic{ width:28px; height:28px; color:#fff; stroke-width:2.2; }
 .big-btn .label{ font-size:17px; font-weight:800; letter-spacing:-.2px; }
 .big-btn .desc{ font-size:12px; color:var(--muted); margin-top:3px; }
 .price-strike{ text-decoration:line-through; color:var(--faint); margin-right:6px; }
-.lock-badge{ display:inline-flex; vertical-align:-3px; width:15px; height:15px; color:var(--muted); }
+.lock-badge{ display:inline-flex; align-items:center; justify-content:center; vertical-align:-6px; width:21px; height:21px; color:var(--orange-2); background:rgba(255,184,119,.16); border-radius:7px; padding:3px; box-sizing:border-box; }
 .lock-badge svg{ width:100%; height:100%; }
+.paywall-personal{ display:none; align-items:center; gap:8px; background:rgba(255,184,119,.12); border:1px solid rgba(255,184,119,.3); color:var(--orange-2); font-size:13px; font-weight:700; padding:10px 14px; border-radius:14px; max-width:340px; text-align:left; }
+.paywall-personal .ic{ width:16px; height:16px; flex-shrink:0; }
 .paywall-compare{ display:flex; gap:10px; width:100%; max-width:340px; text-align:left; }
 .paywall-compare-col{ flex:1; background:var(--card); border-radius:16px; padding:14px 12px; border:1px solid rgba(255,255,255,.06); }
 .paywall-compare-col.full{ border-color:rgba(122,168,255,.35); background:linear-gradient(160deg,rgba(122,168,255,.1),var(--card)); }
@@ -239,6 +242,7 @@ p.sub{ color:var(--muted); font-size:14px; margin:0 0 16px; line-height:1.4; }
 
 /* Drill */
 .drill-card{ border-radius:24px; padding:20px; margin-top:8px; background:linear-gradient(160deg,#1b2036,var(--card)); border:1px solid rgba(255,255,255,.08); }
+.drill-card.shake{ animation:gj-shake .4s; }
 .drill-tag{ display:inline-flex; align-items:center; gap:6px; background:linear-gradient(150deg,var(--blue-2),var(--blue)); color:#fff; font-size:12.5px; font-weight:800; padding:6px 12px; border-radius:10px; margin-bottom:12px; }
 .drill-tag .ic{ width:14px; height:14px; }
 .drill-tag.q{ background:linear-gradient(150deg,var(--violet-2),var(--violet)); }
@@ -263,7 +267,9 @@ p.sub{ color:var(--muted); font-size:14px; margin:0 0 16px; line-height:1.4; }
 .drill-feedback:not(:empty){ padding:14px 16px; }
 .drill-feedback .ic{ width:18px; height:18px; flex-shrink:0; margin-top:1px; }
 .drill-feedback.good{ background:rgba(76,175,125,.14); color:var(--green-2); }
+.drill-feedback.good .ic{ animation:feedback-pop .4s cubic-bezier(.34,1.56,.64,1); }
 .drill-feedback.bad{ background:rgba(224,97,107,.13); color:var(--red-2); }
+@keyframes feedback-pop{ 0%{ transform:scale(.4); opacity:0; } 60%{ transform:scale(1.2); opacity:1; } 100%{ transform:scale(1); } }
 .drill-feedback b{ color:inherit; }
 .drill-btns{ display:flex; gap:10px; margin-top:16px; }
 .drill-btns button{ flex:1; padding:14px; border-radius:14px; border:none; font-family:inherit; font-weight:800; font-size:15px; }
@@ -352,6 +358,65 @@ p.sub{ color:var(--muted); font-size:14px; margin:0 0 16px; line-height:1.4; }
 .splash-mark{ width:68px; height:68px; border-radius:22px; background:linear-gradient(160deg,var(--blue-2),var(--violet)); display:flex; align-items:center; justify-content:center; color:#fff; }
 .splash-word{ font-size:22px; font-weight:800; color:var(--text); font-family:inherit; }
 .splash-spin{ width:26px; height:26px; border:3px solid rgba(255,255,255,.15); border-top-color:var(--blue-2); border-radius:50%; animation:btn-spin .7s linear infinite; }
+
+/* Onboarding preview carousel */
+.onb-carousel{ display:flex; overflow-x:auto; overflow-y:hidden; scroll-snap-type:x mandatory; scrollbar-width:none; -webkit-overflow-scrolling:touch; width:100%; }
+.onb-carousel::-webkit-scrollbar{ display:none; }
+.onb-slide{ flex:0 0 100%; scroll-snap-align:center; box-sizing:border-box; padding:0 4px; display:flex; flex-direction:column; align-items:center; gap:14px; }
+.onb-mock{ width:100%; max-width:280px; margin:0 auto; border-radius:26px; padding:22px 20px; text-align:center; background:linear-gradient(160deg,#1d2138,var(--card)); border:1px solid rgba(255,255,255,.08); box-sizing:border-box; }
+.onb-mock-lvl{ display:inline-block; font-size:10.5px; font-weight:800; color:#fff; padding:4px 10px; border-radius:999px; background:linear-gradient(150deg,var(--blue-2),var(--blue)); margin-bottom:14px; }
+.onb-mock-th{ font-size:13px; color:var(--thai); margin-bottom:4px; }
+.onb-mock-en{ font-size:25px; font-weight:800; margin-bottom:10px; }
+.onb-mock-ex{ font-size:13px; font-style:italic; color:var(--muted); }
+.onb-mock-hint{ margin-top:16px; font-size:11px; color:var(--faint); display:flex; align-items:center; justify-content:center; gap:5px; }
+.onb-mock-hint .ic{ width:12px; height:12px; }
+.onb-mock-grid{ display:grid; grid-template-columns:1fr 1fr; gap:9px; }
+.onb-mock-mod{ background:var(--card2); border:1px solid rgba(255,255,255,.06); border-radius:16px; padding:14px 8px; display:flex; flex-direction:column; align-items:center; gap:7px; }
+.onb-mock-mod-icon{ width:34px; height:34px; border-radius:11px; display:flex; align-items:center; justify-content:center; color:#fff; }
+.onb-mock-mod-icon .ic{ width:17px; height:17px; }
+.onb-mock-mod-label{ font-size:11.5px; font-weight:700; }
+.onb-mock-free{ display:inline-flex; align-items:center; gap:3px; font-size:9.5px; font-weight:800; color:var(--good-fg); background:var(--good-bg); padding:3px 7px; border-radius:999px; }
+.onb-mock-progress{ display:flex; flex-direction:column; align-items:center; gap:18px; }
+.onb-mock-ring{ width:96px; height:96px; border-radius:50%; background:conic-gradient(var(--blue-2) 0deg 270deg, rgba(255,255,255,.08) 270deg 360deg); display:flex; align-items:center; justify-content:center; }
+.onb-mock-ring-inner{ width:78px; height:78px; border-radius:50%; background:#12172a; display:flex; flex-direction:column; align-items:center; justify-content:center; }
+.onb-mock-ring-inner b{ font-size:21px; font-weight:800; }
+.onb-mock-ring-inner span{ font-size:9.5px; color:var(--faint); }
+.onb-mock-streak{ display:inline-flex; align-items:center; gap:6px; background:linear-gradient(180deg,var(--orange-2),var(--orange)); padding:8px 16px; border-radius:999px; font-weight:800; font-size:14px; color:#fff; }
+.onb-mock-streak .ic{ width:16px; height:16px; }
+.onb-caption{ font-size:14px; color:var(--muted); max-width:300px; margin:0; line-height:1.5; }
+.onb-dots{ display:flex; justify-content:center; gap:6px; }
+.onb-dot{ width:6px; height:6px; border-radius:50%; background:rgba(255,255,255,.18); border:none; padding:0; transition:background .15s, width .15s; }
+.onb-dot.active{ background:var(--blue-2); width:16px; border-radius:3px; }
+
+/* Unlock celebration */
+.unlock-overlay{ position:fixed; inset:0; z-index:220; display:flex; align-items:center; justify-content:center; padding:24px; background:rgba(6,8,16,.88); backdrop-filter:blur(6px); -webkit-backdrop-filter:blur(6px); opacity:0; pointer-events:none; transition:opacity .25s ease; }
+.unlock-overlay.active{ opacity:1; pointer-events:auto; }
+.unlock-card{ position:relative; width:100%; max-width:360px; background:var(--card); border:1px solid rgba(255,255,255,.1); border-radius:28px; padding:38px 26px 28px; text-align:center; overflow:hidden; transform:scale(.9) translateY(10px); transition:transform .35s cubic-bezier(.34,1.56,.64,1); }
+.unlock-overlay.active .unlock-card{ transform:scale(1) translateY(0); }
+.unlock-badge{ position:relative; width:76px; height:76px; margin:0 auto 18px; border-radius:26px; background:linear-gradient(160deg,var(--green-2),var(--blue)); display:flex; align-items:center; justify-content:center; color:#fff; box-shadow:0 16px 34px -10px rgba(76,175,125,.6); animation:unlock-pop .5s cubic-bezier(.34,1.56,.64,1) .15s both; }
+.unlock-badge .ic{ width:36px; height:36px; }
+@keyframes unlock-pop{ 0%{ transform:scale(.4) rotate(-15deg); opacity:0;} 100%{ transform:scale(1) rotate(0); opacity:1;} }
+.unlock-title{ font-size:21px; font-weight:800; margin:0 0 8px; }
+.unlock-sub{ font-size:14px; color:var(--muted); margin:0 0 24px; line-height:1.55; }
+.confetti-piece{ position:absolute; top:-12%; width:8px; height:14px; border-radius:2px; opacity:0; animation:confetti-fall 2.1s ease-in forwards; }
+.unlock-overlay.active .confetti-piece{ opacity:1; }
+@keyframes confetti-fall{ 0%{ transform:translateY(-20px) rotate(0deg); opacity:1; } 100%{ transform:translateY(440px) rotate(560deg); opacity:0; } }
+.confetti-piece:nth-child(1){ left:4%; background:var(--blue-2); animation-delay:.02s; }
+.confetti-piece:nth-child(2){ left:12%; background:var(--orange-2); animation-delay:.14s; }
+.confetti-piece:nth-child(3){ left:20%; background:var(--violet-2); animation-delay:.06s; }
+.confetti-piece:nth-child(4){ left:28%; background:var(--green-2); animation-delay:.2s; }
+.confetti-piece:nth-child(5){ left:36%; background:var(--blue-2); animation-delay:.1s; }
+.confetti-piece:nth-child(6){ left:44%; background:var(--orange-2); animation-delay:.24s; }
+.confetti-piece:nth-child(7){ left:52%; background:var(--violet-2); animation-delay:0s; }
+.confetti-piece:nth-child(8){ left:60%; background:var(--green-2); animation-delay:.18s; }
+.confetti-piece:nth-child(9){ left:68%; background:var(--blue-2); animation-delay:.08s; }
+.confetti-piece:nth-child(10){ left:76%; background:var(--orange-2); animation-delay:.22s; }
+.confetti-piece:nth-child(11){ left:84%; background:var(--violet-2); animation-delay:.04s; }
+.confetti-piece:nth-child(12){ left:92%; background:var(--green-2); animation-delay:.16s; }
+.confetti-piece:nth-child(13){ left:8%; background:var(--green-2); animation-delay:.3s; }
+.confetti-piece:nth-child(14){ left:33%; background:var(--blue-2); animation-delay:.34s; }
+.confetti-piece:nth-child(15){ left:58%; background:var(--orange-2); animation-delay:.28s; }
+.confetti-piece:nth-child(16){ left:88%; background:var(--violet-2); animation-delay:.32s; }
 
 /* Verb dictionary */
 .searchbar{ display:flex; align-items:center; gap:10px; background:var(--inset); border:1px solid rgba(255,255,255,.12); border-radius:16px; padding:0 14px; margin-bottom:14px; }
@@ -505,16 +570,51 @@ if("serviceWorker" in navigator){
 
   <!-- ONBOARDING -->
   <section class="screen" id="screen-onboarding" style="align-items:center;justify-content:center;text-align:center;gap:16px;padding:32px 24px;">
-    <div style="width:72px;height:72px;border-radius:22px;background:linear-gradient(160deg,var(--blue-2),var(--violet));display:flex;align-items:center;justify-content:center;color:#fff;">
-      <svg class="ic" viewBox="0 0 24 24" style="width:34px;height:34px;"><path d="M21.42 10.922a1 1 0 0 0-.019-1.838L12.83 5.18a2 2 0 0 0-1.66 0L2.6 9.08a1 1 0 0 0 0 1.832l8.57 3.908a2 2 0 0 0 1.66 0z"/><path d="M22 10v6"/><path d="M6 12.5V16a6 3 0 0 0 12 0v-3.5"/></svg>
+    <div style="width:56px;height:56px;border-radius:18px;background:linear-gradient(160deg,var(--blue-2),var(--violet));display:flex;align-items:center;justify-content:center;color:#fff;">
+      <svg class="ic" viewBox="0 0 24 24" style="width:28px;height:28px;"><path d="M21.42 10.922a1 1 0 0 0-.019-1.838L12.83 5.18a2 2 0 0 0-1.66 0L2.6 9.08a1 1 0 0 0 0 1.832l8.57 3.908a2 2 0 0 0 1.66 0z"/><path d="M22 10v6"/><path d="M6 12.5V16a6 3 0 0 0 12 0v-3.5"/></svg>
     </div>
-    <div class="home-wordmark" style="font-size:26px;">English <span class="jj">jing jing</span></div>
-    <p class="sub" style="max-width:320px;margin:0;font-size:15.5px;">เรียนภาษาอังกฤษที่ออกแบบมาสำหรับคนไทยโดยเฉพาะ ตั้งแต่ระดับ A1 ถึง B1</p>
-    <div class="rate-card" style="width:100%;max-width:360px;text-align:left;">
-      <div style="display:flex;align-items:flex-start;gap:10px;margin-bottom:12px;"><svg class="ic" viewBox="0 0 24 24" style="width:18px;height:18px;flex-shrink:0;margin-top:1px;color:var(--good-fg);"><path d="M20 6 9 17l-5-5"/></svg><span style="font-size:14px;">แฟลชการ์ดคำศัพท์ A1–B1 ใช้ได้ฟรีไม่จำกัด ตลอดไป</span></div>
-      <div style="display:flex;align-items:flex-start;gap:10px;"><svg class="ic" viewBox="0 0 24 24" style="width:18px;height:18px;flex-shrink:0;margin-top:1px;color:var(--good-fg);"><path d="M20 6 9 17l-5-5"/></svg><span style="font-size:14px;">ลองไวยากรณ์ แบบฝึกผันกริยา และเสียงยาก ๆ ได้ฟรีในทุกหมวดก่อนตัดสินใจซื้อ</span></div>
+    <div class="home-wordmark" style="font-size:22px;">English <span class="jj">jing jing</span></div>
+    <p class="sub" style="max-width:320px;margin:0;font-size:14px;">เรียนภาษาอังกฤษที่ออกแบบมาสำหรับคนไทยโดยเฉพาะ ตั้งแต่ระดับ A1 ถึง B1</p>
+
+    <div class="onb-carousel" id="onb-carousel">
+      <div class="onb-slide">
+        <div class="onb-mock">
+          <span class="onb-mock-lvl">A1 · Vocabulary</span>
+          <div class="onb-mock-th">น่าประหลาดใจ</div>
+          <div class="onb-mock-en">surprising</div>
+          <div class="onb-mock-ex">"The news was surprising."</div>
+          <div class="onb-mock-hint"><svg class="ic" viewBox="0 0 24 24"><path d="M21 12a9 9 0 1 1-9-9c2.52 0 4.93 1 6.74 2.74L21 8"/><path d="M21 3v5h-5"/></svg> tap to flip</div>
+        </div>
+        <p class="onb-caption">แฟลชการ์ดคำศัพท์ A1–B1 ใช้ได้ฟรีไม่จำกัด ตลอดไป</p>
+      </div>
+      <div class="onb-slide">
+        <div class="onb-mock">
+          <div class="onb-mock-grid">
+            <div class="onb-mock-mod"><div class="onb-mock-mod-icon" style="background:linear-gradient(150deg,var(--orange-2),var(--orange));"><svg class="ic" viewBox="0 0 24 24"><path d="M12 20h9"/><path d="M16.376 3.622a1 1 0 0 1 3.002 3.002L7.368 18.635a2 2 0 0 1-.855.506l-2.872.838a.5.5 0 0 1-.62-.62l.838-2.872a2 2 0 0 1 .506-.854z"/></svg></div><span class="onb-mock-mod-label">Drill</span><span class="onb-mock-free">ลองฟรี</span></div>
+            <div class="onb-mock-mod"><div class="onb-mock-mod-icon" style="background:linear-gradient(150deg,var(--violet-2),var(--violet));"><svg class="ic" viewBox="0 0 24 24"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" x2="12" y1="19" y2="22"/></svg></div><span class="onb-mock-mod-label">Sounds</span><span class="onb-mock-free">ลองฟรี</span></div>
+            <div class="onb-mock-mod"><div class="onb-mock-mod-icon" style="background:linear-gradient(150deg,var(--green-2),var(--green));"><svg class="ic" viewBox="0 0 24 24"><path d="M12 7v14"/><path d="M16 12h2"/><path d="M16 8h2"/><path d="M3 18a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h5a4 4 0 0 1 4 4 4 4 0 0 1 4-4h5a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1h-6a3 3 0 0 0-3 3 3 3 0 0 0-3-3z"/><path d="M6 12h2"/><path d="M6 8h2"/></svg></div><span class="onb-mock-mod-label">Verbs</span><span class="onb-mock-free">ลองฟรี</span></div>
+            <div class="onb-mock-mod"><div class="onb-mock-mod-icon" style="background:linear-gradient(150deg,var(--red-2),var(--red));"><svg class="ic" viewBox="0 0 24 24"><path d="M21.42 10.922a1 1 0 0 0-.019-1.838L12.83 5.18a2 2 0 0 0-1.66 0L2.6 9.08a1 1 0 0 0 0 1.832l8.57 3.908a2 2 0 0 0 1.66 0z"/><path d="M22 10v6"/><path d="M6 12.5V16a6 3 0 0 0 12 0v-3.5"/></svg></div><span class="onb-mock-mod-label">Grammar</span><span class="onb-mock-free">ลองฟรี</span></div>
+          </div>
+        </div>
+        <p class="onb-caption">ลองไวยากรณ์ แบบฝึกผันกริยา และเสียงยาก ๆ ได้ฟรีในทุกหมวดก่อนตัดสินใจซื้อ</p>
+      </div>
+      <div class="onb-slide">
+        <div class="onb-mock">
+          <div class="onb-mock-progress">
+            <div class="onb-mock-ring"><div class="onb-mock-ring-inner"><b>45</b><span>/60 min</span></div></div>
+            <div class="onb-mock-streak"><svg class="ic" viewBox="0 0 24 24"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/></svg> 7 day streak</div>
+          </div>
+        </div>
+        <p class="onb-caption">ติดตามความคืบหน้าทุกวันและสร้าง streak ของคุณ</p>
+      </div>
     </div>
-    <button class="primary-btn" style="width:100%;max-width:360px;margin-top:4px;" onclick="finishOnboarding()">เริ่มเรียนเลย</button>
+    <div class="onb-dots" id="onb-dots">
+      <button class="onb-dot active" onclick="onbScrollTo(0)"></button>
+      <button class="onb-dot" onclick="onbScrollTo(1)"></button>
+      <button class="onb-dot" onclick="onbScrollTo(2)"></button>
+    </div>
+
+    <button class="primary-btn" style="width:100%;max-width:360px;margin-top:0;" onclick="finishOnboarding()">เริ่มเรียนเลย</button>
   </section>
 
   <!-- HOME -->
@@ -869,6 +969,7 @@ if("serviceWorker" in navigator){
       </div>
       <h2 style="font-size:19px;margin:0;" id="paywall-title">เรียนได้แบบไม่จำกัด</h2>
       <p class="sub" style="margin:0;max-width:320px;" id="paywall-desc">ฝึกผันกริยา ค้นพจนานุกรมกริยา และเรียนไวยากรณ์ได้ครบทุกบท ไม่มีขีดจำกัด ส่วนแฟลชการ์ดใช้ได้ฟรีตลอดไป</p>
+      <div class="paywall-personal" id="paywall-personal"><svg class="ic" viewBox="0 0 24 24"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/></svg><span id="paywall-personal-text"></span></div>
       <div class="paywall-compare">
         <div class="paywall-compare-col">
           <div class="paywall-compare-head">ฟรี</div>
@@ -917,6 +1018,20 @@ if("serviceWorker" in navigator){
     <button class="nav-btn" data-nav="verbs" onclick="go('verbs')"><svg class="ic" viewBox="0 0 24 24"><path d="M12 7v14"/><path d="M16 12h2"/><path d="M16 8h2"/><path d="M3 18a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h5a4 4 0 0 1 4 4 4 4 0 0 1 4-4h5a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1h-6a3 3 0 0 0-3 3 3 3 0 0 0-3-3z"/><path d="M6 12h2"/><path d="M6 8h2"/></svg>Verbs</button>
     <button class="nav-btn" data-nav="tracker" onclick="go('tracker')"><svg class="ic" viewBox="0 0 24 24"><path d="M3 3v16a2 2 0 0 0 2 2h16"/><path d="M18 17V9"/><path d="M13 17V5"/><path d="M8 17v-3"/></svg>Track</button>
   </nav>
+
+  <!-- UNLOCK CELEBRATION -->
+  <div class="unlock-overlay" id="unlock-overlay">
+    <div class="unlock-card">
+      <i class="confetti-piece"></i><i class="confetti-piece"></i><i class="confetti-piece"></i><i class="confetti-piece"></i>
+      <i class="confetti-piece"></i><i class="confetti-piece"></i><i class="confetti-piece"></i><i class="confetti-piece"></i>
+      <i class="confetti-piece"></i><i class="confetti-piece"></i><i class="confetti-piece"></i><i class="confetti-piece"></i>
+      <i class="confetti-piece"></i><i class="confetti-piece"></i><i class="confetti-piece"></i><i class="confetti-piece"></i>
+      <div class="unlock-badge"><svg class="ic" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg></div>
+      <h2 class="unlock-title">ยินดีด้วย! ปลดล็อกครบทุกฟีเจอร์แล้ว</h2>
+      <p class="unlock-sub">เข้าถึงไวยากรณ์ แบบฝึกผันกริยา การออกเสียง และพจนานุกรมกริยาได้แบบไม่จำกัด ตลอดชีพ<br><span style="color:var(--faint);font-size:12px;">Full lifetime access unlocked.</span></p>
+      <button class="primary-btn" style="width:100%;box-sizing:border-box;margin-top:0;" onclick="dismissUnlockCelebration()">เริ่มเรียนเลย</button>
+    </div>
+  </div>
 </div>
 
 <script>
@@ -4691,6 +4806,11 @@ function restackBanners(){
     offset += b.offsetHeight + gap;
   });
 }
+function haptic(pattern){
+  // Android Chrome/WebView supports navigator.vibrate; iOS Safari never has
+  // (no vibrate API at all there), so this is a silent no-op on iPhones.
+  try{ if(navigator.vibrate) navigator.vibrate(pattern); }catch(e){}
+}
 function showBanner(message){
   const div = document.createElement("div");
   div.className = "storage-warn-banner";
@@ -4703,6 +4823,20 @@ function warnStorageFailure(){
   if(storageWarnShown) return;
   storageWarnShown = true;
   showBanner("Your progress isn't saving on this device right now (private browsing or storage full). It'll still work this session, but won't be remembered next time.");
+}
+function showUnlockCelebration(){
+  haptic([25,50,25,50,80]);
+  const overlay = document.getElementById("unlock-overlay");
+  overlay.querySelectorAll(".confetti-piece").forEach(el=>{
+    el.style.animation = "none";
+    void el.offsetWidth; // restart the fall animation even if this fires again this session
+    el.style.animation = "";
+  });
+  overlay.classList.add("active");
+}
+function dismissUnlockCelebration(){
+  document.getElementById("unlock-overlay").classList.remove("active");
+  go("home");
 }
 const LS = {
   get(k,d){ try{ const v = JSON.parse(localStorage.getItem(k)); return v===null||v===undefined? d : v; }catch(e){ return d; } },
@@ -4777,6 +4911,14 @@ function renderPaywallContext(){
   document.getElementById("paywall-title").textContent = ctx ? ctx.title : "เรียนได้แบบไม่จำกัด";
   document.getElementById("paywall-desc").textContent = ctx ? ctx.desc :
     "ฝึกผันกริยา ค้นพจนานุกรมกริยา และเรียนไวยากรณ์ได้ครบทุกบท ไม่มีขีดจำกัด ส่วนแฟลชการ์ดใช้ได้ฟรีตลอดไป";
+  const personalEl = document.getElementById("paywall-personal");
+  const line = paywallPersonalLine();
+  if(line){
+    document.getElementById("paywall-personal-text").textContent = line;
+    personalEl.style.display = "flex";
+  } else {
+    personalEl.style.display = "none";
+  }
 }
 let unlockVerified = false;
 function isUnlocked(){ return unlockVerified === true; }
@@ -4809,10 +4951,26 @@ function go(name, opts){
   if(name==="grammar") renderGrammarList();
   if(name==="settings") renderSettings();
   if(name==="pron-setup") renderPronCategoryList();
+  if(name==="onboarding") onbCarouselInit();
 }
 function finishOnboarding(){
   LS.set("et_onboarded", true);
   go("home");
+}
+function onbCarouselInit(){
+  const carousel = document.getElementById("onb-carousel");
+  if(!carousel) return;
+  carousel.scrollLeft = 0;
+  document.querySelectorAll("#onb-dots .onb-dot").forEach((d,i)=>d.classList.toggle("active", i===0));
+  carousel.onscroll = ()=>{
+    const idx = Math.round(carousel.scrollLeft / carousel.clientWidth);
+    document.querySelectorAll("#onb-dots .onb-dot").forEach((d,i)=>d.classList.toggle("active", i===idx));
+  };
+}
+function onbScrollTo(i){
+  const carousel = document.getElementById("onb-carousel");
+  if(!carousel) return;
+  carousel.scrollTo({ left: i*carousel.clientWidth, behavior:"smooth" });
 }
 function renderSettings(){
   document.getElementById("settings-rate-slider").value = speechRate;
@@ -4945,6 +5103,16 @@ function computeStreak(){
   }
   return streak;
 }
+// Ties the paywall's message to the user's own real progress instead of a
+// generic pitch — a streak or word count they've actually built feels like
+// something worth protecting, which is a stronger nudge than a flat feature list.
+function paywallPersonalLine(){
+  const streak = computeStreak();
+  if(streak >= 2) return `คุณต่อ streak มาแล้ว ${streak} วันติด อย่าให้ขาดตอน ปลดล็อกเพื่อฝึกได้ทุกวันแบบไม่จำกัด`;
+  const wordsCount = Object.keys(known).length;
+  if(wordsCount >= 20) return `คุณเรียนรู้คำศัพท์ไปแล้ว ${wordsCount} คำ ปลดล็อกเพื่อเรียนต่อแบบเต็มรูปแบบ`;
+  return null;
+}
 function updateTrackerUI(){
   const secs = getDayMinutes(todayKey());
   const mins = Math.floor(secs/60);
@@ -5028,6 +5196,8 @@ function renderHome(){
     if(!el) return;
     el.style.display = locked ? "inline-flex" : "none";
     if(locked) el.innerHTML = icon("lock","");
+    const card = el.closest(".big-btn");
+    if(card) card.classList.toggle("premium-locked", locked);
   });
   renderHomeNudge();
 }
@@ -5431,11 +5601,16 @@ function checkDrill(){
   const feedback = document.getElementById("drill-feedback");
   const spkBtn = `<button class="spk-btn-inline" onclick="speakDrillSentence()" title="Listen">${icon('volume_2')}</button>`;
   if(isCorrect){
+    haptic(20);
     feedback.className = "drill-feedback good";
     feedback.innerHTML = `${icon('circle_check_big')}<div>Correct! <br>${fullSentence} ${spkBtn}</div>`;
   } else {
+    haptic([30,40,30]);
     feedback.className = "drill-feedback bad";
     feedback.innerHTML = `${icon('circle_x')}<div>Not quite, you wrote "${escapeHtml(input.value.trim())||"(nothing)"}" .<br>Correct answer: <b>${p.blank}</b><br>${explainForm(it.verb, p.slot)}<br><span style="opacity:.85">${fullSentence}</span> ${spkBtn}</div>`;
+    const card = document.getElementById("drill-card");
+    card.classList.add("shake");
+    setTimeout(()=>{ card.classList.remove("shake"); }, 400);
   }
   recordDrillAnswer(it, isCorrect);
 }
@@ -10183,11 +10358,13 @@ function gjChooseQuiz(i){
   const l = GJ_LESSONS[gjLessonIdx];
   if(gjNoticed) return;
   if(i===l.quiz.answer){
+    haptic(20);
     gjNoticed = true;
     document.getElementById("gj-learn-gate").innerHTML = gjLearnGateHtml(l);
     document.getElementById("gj-learn-badge").classList.add("done");
     document.getElementById("gj-learn-badge").innerHTML = icon('check');
   } else {
+    haptic([30,40,30]);
     const btns = document.querySelectorAll("#gj-learn-gate .gj-choice-btn");
     const btn = btns[i];
     if(btn){ btn.classList.add("wrong"); setTimeout(()=>btn.classList.remove("wrong"), 500); }
@@ -10249,10 +10426,12 @@ function gjChoosePractice(pIdx, oIdx){
   const key = l.id+":p"+pIdx;
   if(gjSolved.has(key)) return;
   if(oIdx===ex.answer){
+    haptic(20);
     gjMark(key);
     gjRefreshPracticeItem(pIdx);
     gjUpdateProgressUI();
   } else {
+    haptic([30,40,30]);
     const row = document.getElementById("gj-practice-"+pIdx);
     const btn = row && row.querySelectorAll(".gj-choice-btn")[oIdx];
     if(btn){ btn.classList.add("wrong"); setTimeout(()=>btn.classList.remove("wrong"), 500); }
@@ -10328,11 +10507,13 @@ function gjBuilderEvaluate(pIdx){
   const norm = s => (s||"").trim().toLowerCase();
   const ok = st.placed.every((p,i)=> norm(p.word)===norm(ex.answer[i]));
   if(ok){
+    haptic(20);
     st.status = "solved";
     gjMark(l.id+":p"+pIdx);
     gjRefreshPracticeItem(pIdx);
     gjUpdateProgressUI();
   } else {
+    haptic([30,40,30]);
     st.status = "wrong";
     gjRefreshPracticeItem(pIdx);
     setTimeout(()=>{
@@ -10399,6 +10580,7 @@ function gjErrorsTap(pIdx, tokenIdx){
   const st = gjErrorsState[pIdx];
   const token = ex.tokens[tokenIdx];
   if(token && token.err){
+    haptic(20);
     if(st.found.has(tokenIdx)) return;
     st.found.add(tokenIdx);
     if(st.found.size >= gjErrorsTotal(ex)){
@@ -10409,6 +10591,7 @@ function gjErrorsTap(pIdx, tokenIdx){
       gjRefreshPracticeItem(pIdx);
     }
   } else {
+    haptic([30,40,30]);
     const el = document.getElementById(`gj-err-${pIdx}-${tokenIdx}`);
     if(el){ el.classList.add("shake"); setTimeout(()=>{ el.classList.remove("shake"); }, 400); }
   }
@@ -10771,9 +10954,7 @@ async function submitRestoreCode(){
   btn.disabled = false;
   btn.textContent = originalLabel;
   if(data.ok){
-    showBanner("ปลดล็อกเรียบร้อย ใช้งานได้เต็มรูปแบบแล้ว");
-    renderHome();
-    go("home");
+    showUnlockCelebration();
   } else if(data.reason === "device_limit"){
     errEl.textContent = "ลิงก์นี้ถูกใช้ครบจำนวนเครื่องสูงสุดแล้ว หากเป็นความผิดพลาด ตอบกลับอีเมลยืนยันของคุณ";
   } else if(data.reason === "server_error" || data.reason === "network_error"){
@@ -10830,8 +11011,7 @@ async function unlockFromSessionId(sessionId){
   LS.set("et_access_code", code);
   const data = await verifyAccess();
   if(data.ok){
-    showBanner("Full access unlocked on this device. Enjoy!");
-    renderHome();
+    showUnlockCelebration();
   }
 }
 async function tryActivateFromUrl(){
@@ -10844,7 +11024,7 @@ async function tryActivateFromUrl(){
     LS.set("et_access_code", code);
     const data = await verifyAccess();
     if(data.ok){
-      showBanner("Full access unlocked on this device. Enjoy!");
+      showUnlockCelebration();
     } else if(data.reason === "device_limit"){
       showBanner("This access link has already been used on the maximum number of devices. Reply to your confirmation email if this is a mistake.");
     } else if(data.reason === "server_error" || data.reason === "network_error"){
