@@ -51,9 +51,12 @@ body{
    never scrolls under it — the nav's clearance is already excluded via
    #app's padding-bottom. min-height:0 lets the flex:1 item actually shrink
    and scroll instead of growing past its allotted space. */
-.screen{ padding:14px 18px; flex:1; min-height:0; display:none; flex-direction:column; animation:fade .18s ease; overflow-y:auto; -webkit-overflow-scrolling:touch; overscroll-behavior:contain; }
+.screen{ padding:14px 18px; flex:1; min-height:0; display:none; flex-direction:column; overflow-y:auto; -webkit-overflow-scrolling:touch; overscroll-behavior:contain; }
 .screen.active{ display:flex; }
-@keyframes fade{ from{opacity:0; transform:translateY(6px);} to{opacity:1; transform:none;} }
+.screen.anim-forward{ animation:screen-in-forward .22s ease; }
+.screen.anim-back{ animation:screen-in-back .22s ease; }
+@keyframes screen-in-forward{ from{opacity:0; transform:translateX(14px);} to{opacity:1; transform:none;} }
+@keyframes screen-in-back{ from{opacity:0; transform:translateX(-14px);} to{opacity:1; transform:none;} }
 
 .topbar{
   display:flex; align-items:center; gap:12px; padding:2px 18px 10px; margin:0 -18px; position:sticky; top:env(safe-area-inset-top,0px); z-index:9;
@@ -339,6 +342,16 @@ p.sub{ color:var(--muted); font-size:14px; margin:0 0 16px; line-height:1.4; }
 .nav-btn.fab{ width:52px; height:52px; border-radius:18px; margin-top:-26px; flex:0 0 auto; justify-content:center;
   background:linear-gradient(160deg,var(--blue-2),var(--violet)); box-shadow:0 14px 30px -8px rgba(91,141,239,.8); color:#fff; }
 .nav-btn.fab .ic{ width:26px; height:26px; }
+.bottom-nav.hidden{ display:none; }
+.btn-spin{ display:inline-block; width:14px; height:14px; border:2px solid rgba(255,255,255,.35); border-top-color:#fff; border-radius:50%; animation:btn-spin .6s linear infinite; margin-right:8px; vertical-align:-2px; }
+@keyframes btn-spin{ to{ transform:rotate(360deg); } }
+.restore-link{ background:none; border:none; color:var(--muted); font-family:inherit; font-size:13px; font-weight:700; text-decoration:underline; padding:6px; cursor:pointer; }
+.compare-tag{ display:block; font-size:10px; font-style:normal; font-weight:600; color:var(--faint); margin-top:1px; }
+#splash{ position:fixed; inset:0; z-index:200; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:14px; background:var(--bg); transition:opacity .25s ease; }
+#splash.hide{ opacity:0; pointer-events:none; }
+.splash-mark{ width:68px; height:68px; border-radius:22px; background:linear-gradient(160deg,var(--blue-2),var(--violet)); display:flex; align-items:center; justify-content:center; color:#fff; }
+.splash-word{ font-size:22px; font-weight:800; color:var(--text); font-family:inherit; }
+.splash-spin{ width:26px; height:26px; border:3px solid rgba(255,255,255,.15); border-top-color:var(--blue-2); border-radius:50%; animation:btn-spin .7s linear infinite; }
 
 /* Verb dictionary */
 .searchbar{ display:flex; align-items:center; gap:10px; background:var(--inset); border:1px solid rgba(255,255,255,.12); border-radius:16px; padding:0 14px; margin-bottom:14px; }
@@ -476,6 +489,11 @@ p.sub{ color:var(--muted); font-size:14px; margin:0 0 16px; line-height:1.4; }
 </style>
 </head>
 <body>
+<div id="splash">
+  <div class="splash-mark"><svg class="ic" viewBox="0 0 24 24" style="width:32px;height:32px;"><path d="M21.42 10.922a1 1 0 0 0-.019-1.838L12.83 5.18a2 2 0 0 0-1.66 0L2.6 9.08a1 1 0 0 0 0 1.832l8.57 3.908a2 2 0 0 0 1.66 0z"/><path d="M22 10v6"/><path d="M6 12.5V16a6 3 0 0 0 12 0v-3.5"/></svg></div>
+  <div class="splash-word">English <span style="background:linear-gradient(90deg,var(--blue-2),var(--violet-2));-webkit-background-clip:text;background-clip:text;color:transparent;">jing jing</span></div>
+  <div class="splash-spin"></div>
+</div>
 <script>
 if("serviceWorker" in navigator){
   window.addEventListener("load", function(){
@@ -484,6 +502,20 @@ if("serviceWorker" in navigator){
 }
 </script>
 <div id="app">
+
+  <!-- ONBOARDING -->
+  <section class="screen" id="screen-onboarding" style="align-items:center;justify-content:center;text-align:center;gap:16px;padding:32px 24px;">
+    <div style="width:72px;height:72px;border-radius:22px;background:linear-gradient(160deg,var(--blue-2),var(--violet));display:flex;align-items:center;justify-content:center;color:#fff;">
+      <svg class="ic" viewBox="0 0 24 24" style="width:34px;height:34px;"><path d="M21.42 10.922a1 1 0 0 0-.019-1.838L12.83 5.18a2 2 0 0 0-1.66 0L2.6 9.08a1 1 0 0 0 0 1.832l8.57 3.908a2 2 0 0 0 1.66 0z"/><path d="M22 10v6"/><path d="M6 12.5V16a6 3 0 0 0 12 0v-3.5"/></svg>
+    </div>
+    <div class="home-wordmark" style="font-size:26px;">English <span class="jj">jing jing</span></div>
+    <p class="sub" style="max-width:320px;margin:0;font-size:15.5px;">เรียนภาษาอังกฤษที่ออกแบบมาสำหรับคนไทยโดยเฉพาะ ตั้งแต่ระดับ A1 ถึง B1</p>
+    <div class="rate-card" style="width:100%;max-width:360px;text-align:left;">
+      <div style="display:flex;align-items:flex-start;gap:10px;margin-bottom:12px;"><svg class="ic" viewBox="0 0 24 24" style="width:18px;height:18px;flex-shrink:0;margin-top:1px;color:var(--good-fg);"><path d="M20 6 9 17l-5-5"/></svg><span style="font-size:14px;">แฟลชการ์ดคำศัพท์ A1–B1 ใช้ได้ฟรีไม่จำกัด ตลอดไป</span></div>
+      <div style="display:flex;align-items:flex-start;gap:10px;"><svg class="ic" viewBox="0 0 24 24" style="width:18px;height:18px;flex-shrink:0;margin-top:1px;color:var(--good-fg);"><path d="M20 6 9 17l-5-5"/></svg><span style="font-size:14px;">ลองไวยากรณ์ แบบฝึกผันกริยา และเสียงยาก ๆ ได้ฟรีในทุกหมวดก่อนตัดสินใจซื้อ</span></div>
+    </div>
+    <button class="primary-btn" style="width:100%;max-width:360px;margin-top:4px;" onclick="finishOnboarding()">เริ่มเรียนเลย</button>
+  </section>
 
   <!-- HOME -->
   <section class="screen active" id="screen-home">
@@ -818,6 +850,14 @@ if("serviceWorker" in navigator){
       </div>
     </div>
     <p class="sub" style="margin-top:14px;">Works even when jing jing is fully closed. On iPhone, add jing jing to your home screen first (Share, then "Add to Home Screen"), then turn this on from the installed app.</p>
+
+    <div class="section-label" style="margin-top:24px;">Purchase</div>
+    <div class="rate-card">
+      <div style="display:flex;align-items:center;justify-content:space-between;">
+        <b style="font-size:15px;">ซื้อไปแล้วแต่เครื่องนี้ล็อกอยู่?</b>
+        <button class="ghost-btn" onclick="go('restore')">กู้คืน</button>
+      </div>
+    </div>
   </section>
 
   <!-- PAYWALL -->
@@ -833,10 +873,10 @@ if("serviceWorker" in navigator){
         <div class="paywall-compare-col">
           <div class="paywall-compare-head">ฟรี</div>
           <div class="paywall-compare-item"><svg class="ic" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg><span>แฟลชการ์ดไม่จำกัด</span></div>
-          <div class="paywall-compare-item"><svg class="ic" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg><span>ไวยากรณ์ 1 บท</span></div>
-          <div class="paywall-compare-item"><svg class="ic" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg><span>Drill Present Simple</span></div>
-          <div class="paywall-compare-item"><svg class="ic" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg><span>เสียง R vs L</span></div>
-          <div class="paywall-compare-item"><svg class="ic" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg><span>กริยาพื้นฐาน 10 คำ</span></div>
+          <div class="paywall-compare-item"><svg class="ic" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg><span>ไวยากรณ์ 1 บท<i class="compare-tag">ตัวอย่าง</i></span></div>
+          <div class="paywall-compare-item"><svg class="ic" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg><span>Drill Present Simple<i class="compare-tag">ตัวอย่าง</i></span></div>
+          <div class="paywall-compare-item"><svg class="ic" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg><span>เสียง R vs L<i class="compare-tag">ตัวอย่าง</i></span></div>
+          <div class="paywall-compare-item"><svg class="ic" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg><span>กริยาพื้นฐาน 10 คำ<i class="compare-tag">ตัวอย่าง</i></span></div>
         </div>
         <div class="paywall-compare-col full">
           <div class="paywall-compare-head">เข้าถึงเต็มรูปแบบ</div>
@@ -847,13 +887,26 @@ if("serviceWorker" in navigator){
         </div>
       </div>
       <button class="big-btn" style="justify-content:center;" onclick="startTrainerCheckout()" id="paywall-buy-btn">
-        <div><div class="label">เข้าถึงได้ไม่จำกัด ตลอดชีพ</div><div class="desc"><span id="paywall-price-strike" class="price-strike">349 บาท</span><span id="paywall-price-label">249 บาท ชำระครั้งเดียว</span></div></div>
+        <div><div class="label" id="paywall-buy-label">เข้าถึงได้ไม่จำกัด ตลอดชีพ</div><div class="desc" id="paywall-buy-desc"><span id="paywall-price-strike" class="price-strike">349 บาท</span><span id="paywall-price-label">249 บาท ชำระครั้งเดียว</span></div></div>
       </button>
       <p class="sub" id="paywall-error" style="color:var(--bad-fg);margin:0;"></p>
+      <button class="restore-link" onclick="go('restore')">ซื้อไปแล้ว? กู้คืนการเข้าถึงที่นี่</button>
       <p class="sub" style="margin:0 0 24px;font-size:12px;">
         การซื้อถือว่ายอมรับ<a href="/terms" style="color:var(--muted);">ข้อกำหนดการใช้งาน</a>และ<a href="/privacy" style="color:var(--muted);">นโยบายความเป็นส่วนตัว</a>
       </p>
     </div>
+  </section>
+
+  <!-- RESTORE ACCESS -->
+  <section class="screen" id="screen-restore">
+    <div class="topbar"><button class="back-btn" onclick="go('paywall')"><svg class="ic" viewBox="0 0 24 24"><path d="m15 18-6-6 6-6"/></svg></button><h1>กู้คืนการเข้าถึง</h1><div style="width:36px"></div></div>
+    <p class="sub" style="margin-top:6px;">หากคุณซื้อแล้วแต่เครื่องนี้ไม่ได้ปลดล็อก ให้วางลิงก์หรือรหัสจากอีเมลยืนยันการซื้อของคุณด้านล่าง</p>
+    <div class="rate-card" style="margin-top:16px;">
+      <input type="text" id="restore-input" placeholder="วางลิงก์หรือรหัสที่นี่" style="width:100%;box-sizing:border-box;background:var(--inset);border:1px solid rgba(255,255,255,.12);color:var(--text);border-radius:14px;padding:14px 16px;font-size:15px;font-family:inherit;">
+      <button class="primary-btn" id="restore-btn" style="margin-top:14px;" onclick="submitRestoreCode()">ยืนยัน</button>
+      <p class="sub" id="restore-error" style="color:var(--bad-fg);margin:12px 0 0;"></p>
+    </div>
+    <p class="sub" style="margin-top:16px;font-size:12px;">หาลิงก์ไม่เจอ? ตรวจสอบอีเมลยืนยันการซื้อ (รวมถึงกล่องสแปม) ที่ส่งไปยังอีเมลที่ใช้ตอนซื้อ</p>
   </section>
 
   <!-- BOTTOM NAV -->
@@ -4675,7 +4728,17 @@ function saveDrillMistakes(){ LS.set("et_drill_mistakes", drillMistakes); }
 /* =========================================================
    NAVIGATION
    ========================================================= */
-const FREE_SCREENS = new Set(["home","flash-setup","flash-play","tracker","settings","paywall","drill-setup","verbs","grammar","pron-setup"]);
+const FREE_SCREENS = new Set(["home","onboarding","flash-setup","flash-play","tracker","settings","paywall","restore","drill-setup","verbs","grammar","pron-setup"]);
+const SCREEN_DEPTH = {
+  onboarding:0, home:0,
+  "flash-setup":1, "flash-play":2,
+  "drill-setup":1, "drill-play":2,
+  verbs:1, "verb-detail":2, "irregular-ref":2,
+  grammar:1, "grammar-detail":2,
+  "pron-setup":1, "pron-practice":2,
+  tracker:1, settings:1, paywall:1, restore:2,
+};
+let lastScreenName = "home";
 /* Free samples: a real, working slice of each locked module so a cold ad
    visitor can try before buying, rather than hitting a blind paywall. The
    list/setup screens above are fully browsable; only the actual content
@@ -4727,8 +4790,16 @@ function go(name, opts){
   const activeScreen = document.getElementById("screen-"+name);
   activeScreen.classList.add("active");
   activeScreen.scrollTop = 0;
+  const fromDepth = SCREEN_DEPTH[lastScreenName] ?? 0;
+  const toDepth = SCREEN_DEPTH[name] ?? 0;
+  activeScreen.classList.remove("anim-forward","anim-back");
+  void activeScreen.offsetWidth; // restart the animation even if the same class gets re-applied
+  activeScreen.classList.add(toDepth < fromDepth ? "anim-back" : "anim-forward");
+  lastScreenName = name;
   document.querySelectorAll(".nav-btn").forEach(b=>b.classList.toggle("active", b.dataset.nav===name));
+  document.querySelector(".bottom-nav").classList.toggle("hidden", name==="paywall" || name==="restore" || name==="onboarding");
   if(name==="paywall") renderPaywallContext();
+  if(name==="restore"){ document.getElementById("restore-input").value=""; document.getElementById("restore-error").textContent=""; }
   if(name==="flash-setup") renderFlashSetup();
   if(name==="drill-setup") renderDrillSetup();
   if(name==="tracker") renderTracker();
@@ -4738,6 +4809,10 @@ function go(name, opts){
   if(name==="grammar") renderGrammarList();
   if(name==="settings") renderSettings();
   if(name==="pron-setup") renderPronCategoryList();
+}
+function finishOnboarding(){
+  LS.set("et_onboarded", true);
+  go("home");
 }
 function renderSettings(){
   document.getElementById("settings-rate-slider").value = speechRate;
@@ -10002,7 +10077,7 @@ function renderGrammarList(){
 
   let html = `<div class="stat-card" style="margin-top:6px;">
     <div class="section-label" style="margin:0 0 4px;">Level ${grammarLevel} · your course</div>
-    <div style="font-size:15px;font-weight:700;color:var(--text);margin:2px 0 9px;">${doneAll} / ${totalAll} steps built</div>
+    <div style="font-size:15px;font-weight:700;color:var(--text);margin:2px 0 9px;">${doneAll} / ${totalAll} steps completed</div>
     <div class="progress-bar"><div class="progress-fill" style="width:${totalAll?Math.round(doneAll/totalAll*100):0}%"></div></div>
   </div>`;
 
@@ -10655,8 +10730,14 @@ async function verifyAccess(){
 async function startTrainerCheckout(){
   const btn = document.getElementById("paywall-buy-btn");
   const errEl = document.getElementById("paywall-error");
+  const labelEl = document.getElementById("paywall-buy-label");
+  const descEl = document.getElementById("paywall-buy-desc");
   errEl.textContent = "";
   btn.disabled = true;
+  const originalLabel = labelEl.textContent;
+  const originalDesc = descEl.innerHTML;
+  labelEl.innerHTML = '<span class="btn-spin"></span>กำลังเปิดหน้าชำระเงิน...';
+  descEl.textContent = "กรุณารอสักครู่";
   try{
     const res = await fetch("/api/checkout-trainer", { method:"POST" });
     const data = await res.json();
@@ -10665,6 +10746,40 @@ async function startTrainerCheckout(){
   }catch(e){
     errEl.textContent = "เกิดข้อผิดพลาด กรุณาลองใหม่อีกครั้งในอีกสักครู่";
     btn.disabled = false;
+    labelEl.textContent = originalLabel;
+    descEl.innerHTML = originalDesc;
+  }
+}
+async function submitRestoreCode(){
+  const input = document.getElementById("restore-input");
+  const errEl = document.getElementById("restore-error");
+  const btn = document.getElementById("restore-btn");
+  errEl.textContent = "";
+  const raw = (input.value || "").trim();
+  if(!raw){ errEl.textContent = "กรุณาวางลิงก์หรือรหัสจากอีเมลของคุณ"; return; }
+  let code = raw;
+  try{
+    const url = new URL(raw.includes("://") ? raw : "https://x/" + raw.replace(/^\/+/, ""));
+    const c = url.searchParams.get("code");
+    if(c) code = c;
+  }catch(e){ /* not a URL — treat the whole input as the code itself */ }
+  const originalLabel = btn.textContent;
+  btn.disabled = true;
+  btn.textContent = "กำลังตรวจสอบ...";
+  LS.set("et_access_code", code);
+  const data = await verifyAccess();
+  btn.disabled = false;
+  btn.textContent = originalLabel;
+  if(data.ok){
+    showBanner("ปลดล็อกเรียบร้อย ใช้งานได้เต็มรูปแบบแล้ว");
+    renderHome();
+    go("home");
+  } else if(data.reason === "device_limit"){
+    errEl.textContent = "ลิงก์นี้ถูกใช้ครบจำนวนเครื่องสูงสุดแล้ว หากเป็นความผิดพลาด ตอบกลับอีเมลยืนยันของคุณ";
+  } else if(data.reason === "server_error" || data.reason === "network_error"){
+    errEl.textContent = "เกิดข้อผิดพลาด กรุณาลองใหม่อีกครั้ง";
+  } else {
+    errEl.textContent = "รหัสหรือลิงก์นี้ไม่ถูกต้อง กรุณาตรวจสอบอีเมลยืนยันการซื้อของคุณ";
   }
 }
 async function loadTrainerPrice(){
@@ -11073,9 +11188,13 @@ function playPronRecording(){
 (async function initTrainer(){
   await tryActivateFromUrl();
   loadTrainerPrice();
-  renderHome();
+  const onboarded = LS.get("et_onboarded", false) || isUnlocked();
+  if(onboarded) LS.set("et_onboarded", true);
+  go(onboarded ? "home" : "onboarding");
   registerReminderServiceWorker();
   if(reminderEnabled && "Notification" in window && Notification.permission === "granted") subscribeReminderPush();
+  const splash = document.getElementById("splash");
+  if(splash){ splash.classList.add("hide"); setTimeout(()=>splash.remove(), 300); }
 })();
 </script>
 </body>
