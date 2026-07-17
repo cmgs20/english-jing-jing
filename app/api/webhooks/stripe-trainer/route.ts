@@ -50,6 +50,21 @@ export async function POST(request: NextRequest) {
     const customerEmail: string = session.customer_details?.email ?? ''
     const amount = session.amount_total ? session.amount_total / 100 : 0
 
+    if (session.metadata?.type === 'device_addon') {
+      const purchaseId: string | undefined = session.metadata?.purchaseId
+      if (!purchaseId) {
+        console.error('[webhook-trainer] device_addon session missing purchaseId metadata')
+        return NextResponse.json({ received: true })
+      }
+      const { error } = await supabase.rpc('grant_trainer_device_addon', {
+        p_purchase_id: purchaseId,
+        p_session_id: session.id,
+        p_amount: amount,
+      })
+      if (error) console.error('[webhook-trainer] grant_trainer_device_addon failed:', error)
+      return NextResponse.json({ received: true })
+    }
+
     // Idempotency — Stripe can replay webhook deliveries
     const { data: existing } = await supabase
       .from('trainer_purchases')

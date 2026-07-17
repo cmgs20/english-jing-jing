@@ -1,0 +1,89 @@
+.page{
+  --blue:#5b8def; --blue-2:#7aa8ff;
+  --orange:#f2a65a; --orange-2:#ffb877;
+  --violet:#8e5bef; --violet-2:#a97bff;
+  --green:#4caf7d; --green-2:#63d29a;
+  --red:#e0616b; --red-2:#ff8a9c;
+  --bg:#0a0c16; --card:#161a2e; --card2:#1b2036; --inset:#10142a;
+  --text:#f2f3f7; --muted:#9aa0b4; --faint:#6b7288; --thai:#ffb877;
+  --line:rgba(255,255,255,.08);
+  background:var(--bg); color:var(--text);
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Helvetica Neue",Arial,sans-serif;
+  min-height:100vh;
+}
+.page *{ box-sizing:border-box; }
+
+.wrap{ max-width:640px; margin:0 auto; padding:0 20px 96px; }
+
+.nav{ display:flex; align-items:center; justify-content:space-between; padding:20px 0; }
+.brand{ display:flex; align-items:center; gap:10px; text-decoration:none; color:var(--text); }
+.brandMark{ width:34px; height:34px; border-radius:11px; background:linear-gradient(160deg,var(--blue-2),var(--violet)); }
+.brandWord{ font-weight:800; font-size:16px; }
+.brandWord span{ background:linear-gradient(90deg,var(--blue-2),var(--violet-2)); -webkit-background-clip:text; background-clip:text; color:transparent; }
+.navLink{ font-size:13px; font-weight:700; color:var(--muted); text-decoration:none; }
+.navLink:hover{ color:var(--blue-2); }
+
+.hero{ text-align:center; padding:28px 0 8px; }
+.eyebrow{ display:inline-block; font-size:11.5px; font-weight:700; letter-spacing:.1em; text-transform:uppercase; color:var(--orange-2); background:rgba(255,166,87,.1); border:1px solid rgba(255,166,87,.25); border-radius:999px; padding:5px 14px; margin-bottom:18px; }
+.h1{ font-size:clamp(26px,5vw,34px); font-weight:800; line-height:1.28; margin:0 0 14px; text-wrap:balance; }
+.h1 .accent{ background:linear-gradient(90deg,var(--blue-2),var(--violet-2)); -webkit-background-clip:text; background-clip:text; color:transparent; }
+.subEn{ font-size:15px; color:var(--muted); max-width:46ch; margin:0 auto 28px; line-height:1.6; }
+
+.ctaRow{ display:flex; flex-direction:column; align-items:center; gap:10px; margin-bottom:8px; }
+.cta{
+  display:inline-flex; align-items:center; gap:8px; font-size:16px; font-weight:800; color:#fff;
+  background:linear-gradient(150deg,var(--blue-2),var(--violet)); border:none; border-radius:999px;
+  padding:16px 34px; text-decoration:none; box-shadow:0 16px 34px -10px rgba(91,141,239,.55);
+}
+.ctaNote{ font-size:12.5px; color:var(--faint); }
+
+.mockWrap{ display:flex; justify-content:center; margin:40px 0 8px; }
+.mock{ width:100%; max-width:280px; border-radius:26px; padding:22px 20px; text-align:center; background:linear-gradient(160deg,#1d2138,var(--card)); border:1px solid var(--line); }
+.mockLvl{ display:inline-block; font-size:10.5px; font-weight:800; color:#fff; padding:4px 10px; border-radius:999px; background:linear-gradient(150deg,var(--blue-2),var(--blue)); margin-bottom:14px; }
+.mockTh{ font-size:13px; color:var(--thai); margin-bottom:4px; }
+.mockEn{ font-size:25px; font-weight:800; margin-bottom:10px; }
+.mockEx{ font-size:13px; font-style:italic; color:var(--muted); }
+
+.section{ margin-top:64px; }
+.sectionHead{ text-align:center; margin-bottom:28px; }
+.h2{ font-size:22px; font-weight:800; margin:0 0 6px; }
+.h2Sub{ font-size:13.5px; color:var(--muted); }
+
+.grid{ display:grid; grid-template-columns:1fr; gap:12px; }
+.modCard{ display:flex; align-items:center; gap:14px; border-radius:20px; padding:16px 18px; border:1px solid var(--line); }
+.modIcon{ width:44px; height:44px; border-radius:14px; flex-shrink:0; display:flex; align-items:center; justify-content:center; color:#fff; }
+.modBody{ flex:1; }
+.modName{ font-weight:800; font-size:15px; display:flex; align-items:center; gap:8px; }
+.modDesc{ font-size:13px; color:var(--muted); margin-top:2px; }
+.tagFree{ font-size:10px; font-weight:800; color:var(--green-2); background:rgba(76,175,125,.14); border-radius:999px; padding:2px 8px; }
+.tagSample{ font-size:10px; font-weight:800; color:var(--orange-2); background:rgba(242,166,90,.14); border-radius:999px; padding:2px 8px; }
+
+.whyList{ display:flex; flex-direction:column; gap:14px; }
+.whyItem{ display:flex; gap:12px; border-radius:16px; padding:14px 16px; background:var(--card2); border:1px solid var(--line); }
+.whyItem b{ display:block; font-size:14px; margin-bottom:3px; }
+.whyItem p{ margin:0; font-size:13px; color:var(--muted); line-height:1.55; }
+
+.priceCard{ border-radius:24px; padding:30px 26px; text-align:center; background:linear-gradient(165deg,#1d2138,var(--card)); border:1px solid var(--line); }
+.priceTh{ font-size:15px; color:var(--thai); margin-bottom:6px; }
+.priceRow{ display:flex; align-items:baseline; justify-content:center; gap:10px; margin:6px 0 4px; }
+.priceStrike{ font-size:16px; color:var(--faint); text-decoration:line-through; }
+.priceNow{ font-size:32px; font-weight:800; }
+.priceUnit{ font-size:13px; color:var(--muted); margin-bottom:18px; }
+.priceDeadline{ font-size:12.5px; color:var(--thai); margin-bottom:18px; }
+.priceBullets{ text-align:left; max-width:340px; margin:0 auto 22px; display:flex; flex-direction:column; gap:8px; }
+.priceBullets li{ font-size:13.5px; color:var(--muted); list-style:none; display:flex; gap:8px; }
+.priceBullets li::before{ content:"✓"; color:var(--green-2); font-weight:800; flex-shrink:0; }
+
+.faq{ border-radius:16px; border:1px solid var(--line); margin-bottom:10px; overflow:hidden; }
+.faq summary{ cursor:pointer; padding:16px 18px; font-weight:700; font-size:14.5px; list-style:none; display:flex; justify-content:space-between; gap:12px; }
+.faq summary::-webkit-details-marker{ display:none; }
+.faq summary::after{ content:"+"; color:var(--faint); font-weight:400; font-size:20px; flex-shrink:0; }
+.faq[open] summary::after{ content:"–"; }
+.faqBody{ padding:0 18px 16px; font-size:13.5px; color:var(--muted); line-height:1.6; }
+
+.footer{ margin-top:72px; padding-top:24px; border-top:1px solid var(--line); font-size:12.5px; color:var(--faint); line-height:1.8; text-align:center; }
+.footer a{ color:var(--blue-2); text-decoration:none; }
+
+@media (min-width:560px){
+  .grid{ grid-template-columns:1fr 1fr; }
+}

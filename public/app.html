@@ -337,17 +337,17 @@ p.sub{ color:var(--muted); font-size:14px; margin:0 0 16px; line-height:1.4; }
 
 .bottom-nav{
   position:fixed; left:50%; transform:translateX(-50%); bottom:calc(env(safe-area-inset-bottom,0px) + 16px);
-  width:calc(100% - 36px); max-width:444px; height:66px; border-radius:26px;
+  width:calc(100% - 20px); max-width:480px; height:64px; border-radius:24px;
   background:rgba(18,22,40,.86); backdrop-filter:blur(18px); -webkit-backdrop-filter:blur(18px);
   border:1px solid rgba(255,255,255,.08); display:flex; align-items:center; justify-content:space-around;
-  box-shadow:0 20px 40px -20px rgba(0,0,0,.9); padding:0; z-index:50;
+  box-shadow:0 20px 40px -20px rgba(0,0,0,.9); padding:0 2px; z-index:50;
 }
-.nav-btn{ flex:1; background:none; border:none; color:var(--faint); display:flex; flex-direction:column; align-items:center; gap:4px; font-size:10px; font-weight:700; font-family:inherit; padding:4px; }
-.nav-btn .ic{ width:22px; height:22px; }
+.nav-btn{ flex:1; min-width:0; background:none; border:none; color:var(--faint); display:flex; flex-direction:column; align-items:center; gap:3px; font-size:8.8px; font-weight:700; font-family:inherit; padding:4px 1px; white-space:nowrap; }
+.nav-btn .ic{ width:19px; height:19px; }
 .nav-btn.active{ color:var(--blue-2); }
-.nav-btn.fab{ width:52px; height:52px; border-radius:18px; margin-top:-26px; flex:0 0 auto; justify-content:center;
+.nav-btn.fab{ width:46px; height:46px; border-radius:16px; margin-top:-22px; flex:0 0 auto; justify-content:center;
   background:linear-gradient(160deg,var(--blue-2),var(--violet)); box-shadow:0 14px 30px -8px rgba(91,141,239,.8); color:#fff; }
-.nav-btn.fab .ic{ width:26px; height:26px; }
+.nav-btn.fab .ic{ width:23px; height:23px; }
 .bottom-nav.hidden{ display:none; }
 .btn-spin{ display:inline-block; width:14px; height:14px; border:2px solid rgba(255,255,255,.35); border-top-color:#fff; border-radius:50%; animation:btn-spin .6s linear infinite; margin-right:8px; vertical-align:-2px; }
 @keyframes btn-spin{ to{ transform:rotate(360deg); } }
@@ -621,7 +621,7 @@ if("serviceWorker" in navigator){
   <section class="screen active" id="screen-home">
     <div class="home-hdr">
       <div>
-        <div class="home-hi">ยินดีต้อนรับ</div>
+        <div class="home-hi">Welcome back</div>
         <div class="home-wordmark">English <span class="jj">jing jing</span></div>
       </div>
       <div style="display:flex;align-items:center;gap:8px;">
@@ -662,9 +662,9 @@ if("serviceWorker" in navigator){
 
     <div class="home-nudge" id="home-nudge" style="display:none;">
       <div class="home-nudge-txt">
-        <b>คุณฝึกมาเยอะแล้ว!</b>
-        <p>ไวยากรณ์ แบบฝึกผันกริยา และอีกเยอะที่รออยู่ มีให้ลองฟรีในทุกหมวด</p>
-        <button class="home-cta home-nudge-cta" onclick="go('grammar')">ลองดู</button>
+        <b>You've been practicing a lot!</b>
+        <p>Grammar, conjugation drills, and more are waiting — free samples in every section.</p>
+        <button class="home-cta home-nudge-cta" onclick="go('grammar')">Take a look</button>
       </div>
       <button class="home-nudge-close" onclick="dismissHomeNudge()" aria-label="Close">✕</button>
     </div>
@@ -743,6 +743,13 @@ if("serviceWorker" in navigator){
     </div>
     <div class="drill-btns" id="flash-complete-btns" style="display:none;">
       <button class="btn-next" onclick="go('flash-setup')">New session</button>
+    </div>
+    <div class="home-nudge" id="flash-session-nudge" style="display:none;margin-left:0;margin-right:0;">
+      <div class="home-nudge-txt">
+        <b id="flash-session-nudge-title">Nice session!</b>
+        <p id="flash-session-nudge-body">Grammar, verbs, and conjugation drills have free samples too, same level as your flashcards.</p>
+        <button class="home-cta home-nudge-cta" id="flash-session-nudge-cta" onclick="go('grammar')">Take a peek</button>
+      </div>
     </div>
   </section>
 
@@ -990,6 +997,7 @@ if("serviceWorker" in navigator){
       <button class="big-btn" style="justify-content:center;" onclick="startTrainerCheckout()" id="paywall-buy-btn">
         <div><div class="label" id="paywall-buy-label">เข้าถึงได้ไม่จำกัด ตลอดชีพ</div><div class="desc" id="paywall-buy-desc"><span id="paywall-price-strike" class="price-strike">349 บาท</span><span id="paywall-price-label">249 บาท ชำระครั้งเดียว</span></div></div>
       </button>
+      <p class="sub" id="paywall-discount-deadline" style="margin:0 0 10px;font-size:12.5px;color:var(--thai);display:none;"></p>
       <p class="sub" id="paywall-error" style="color:var(--bad-fg);margin:0;"></p>
       <button class="restore-link" onclick="go('restore')">ซื้อไปแล้ว? กู้คืนการเข้าถึงที่นี่</button>
       <p class="sub" style="margin:0 0 24px;font-size:12px;">
@@ -1000,21 +1008,42 @@ if("serviceWorker" in navigator){
 
   <!-- RESTORE ACCESS -->
   <section class="screen" id="screen-restore">
-    <div class="topbar"><button class="back-btn" onclick="go('paywall')"><svg class="ic" viewBox="0 0 24 24"><path d="m15 18-6-6 6-6"/></svg></button><h1>กู้คืนการเข้าถึง</h1><div style="width:36px"></div></div>
-    <p class="sub" style="margin-top:6px;">หากคุณซื้อแล้วแต่เครื่องนี้ไม่ได้ปลดล็อก ให้วางลิงก์หรือรหัสจากอีเมลยืนยันการซื้อของคุณด้านล่าง</p>
+    <div class="topbar"><button class="back-btn" onclick="go('paywall')"><svg class="ic" viewBox="0 0 24 24"><path d="m15 18-6-6 6-6"/></svg></button><h1>Restore Access</h1><div style="width:36px"></div></div>
+    <p class="sub" style="margin-top:6px;">
+      <span style="display:block;color:var(--thai);">หากคุณซื้อแล้วแต่เครื่องนี้ไม่ได้ปลดล็อก ให้วางลิงก์หรือรหัสจากอีเมลยืนยันการซื้อของคุณด้านล่าง</span>
+      <span style="display:block;color:var(--muted);margin-top:4px;">If you've already purchased but this device isn't unlocked, paste the link or code from your confirmation email below.</span>
+    </p>
     <div class="rate-card" style="margin-top:16px;">
       <input type="text" id="restore-input" placeholder="วางลิงก์หรือรหัสที่นี่" style="width:100%;box-sizing:border-box;background:var(--inset);border:1px solid rgba(255,255,255,.12);color:var(--text);border-radius:14px;padding:14px 16px;font-size:15px;font-family:inherit;">
       <button class="primary-btn" id="restore-btn" style="margin-top:14px;" onclick="submitRestoreCode()">ยืนยัน</button>
       <p class="sub" id="restore-error" style="color:var(--bad-fg);margin:12px 0 0;"></p>
+      <div id="restore-device-addon" style="display:none;margin-top:14px;padding-top:14px;border-top:1px solid rgba(255,255,255,.08);">
+        <p class="sub" style="margin:0 0 12px;">
+          <span style="display:block;color:var(--thai);">ต้องการใช้กับเครื่องนี้ด้วย? ซื้อสิทธิ์เพิ่มอีก 1 เครื่องแบบจ่ายครั้งเดียว</span>
+          <span style="display:block;color:var(--muted);margin-top:4px;">Want to use it on this device too? Add one more device slot with a single one-time payment.</span>
+        </p>
+        <button class="primary-btn" id="device-addon-btn" onclick="startDeviceAddonCheckout()">Add this device</button>
+      </div>
     </div>
-    <p class="sub" style="margin-top:16px;font-size:12px;">หาลิงก์ไม่เจอ? ตรวจสอบอีเมลยืนยันการซื้อ (รวมถึงกล่องสแปม) ที่ส่งไปยังอีเมลที่ใช้ตอนซื้อ</p>
+
+    <div class="rate-card" style="margin-top:16px;">
+      <p class="sub" style="margin:0 0 12px;">
+        <span style="display:block;color:var(--thai);">หาอีเมลไม่เจอ (รวมถึงกล่องสแปมแล้ว)? กรอกอีเมลที่ใช้ตอนซื้อ แล้วเราจะส่งลิงก์ให้อีกครั้ง</span>
+        <span style="display:block;color:var(--muted);margin-top:4px;">Can't find the email, even in spam? Enter the address you used to buy, and we'll send the link again.</span>
+      </p>
+      <input type="email" id="resend-email-input" placeholder="you@email.com" style="width:100%;box-sizing:border-box;background:var(--inset);border:1px solid rgba(255,255,255,.12);color:var(--text);border-radius:14px;padding:14px 16px;font-size:15px;font-family:inherit;">
+      <button class="primary-btn" id="resend-link-btn" style="margin-top:14px;" onclick="submitResendLink()">Send my link</button>
+      <p class="sub" id="resend-link-msg" style="margin:12px 0 0;"></p>
+    </div>
   </section>
 
   <!-- BOTTOM NAV -->
   <nav class="bottom-nav">
     <button class="nav-btn active" data-nav="home" onclick="go('home')"><svg class="ic" viewBox="0 0 24 24"><path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8"/><path d="M3 10a2 2 0 0 1 .709-1.528l7-5.999a2 2 0 0 1 2.582 0l7 5.999A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>Home</button>
     <button class="nav-btn" data-nav="flash-setup" onclick="go('flash-setup')"><svg class="ic" viewBox="0 0 24 24"><path d="m12.83 2.18a2 2 0 0 0-1.66 0L2.6 6.08a1 1 0 0 0 0 1.83l8.58 3.91a2 2 0 0 0 1.66 0l8.58-3.9a1 1 0 0 0 0-1.83Z"/><path d="m22 17.65-9.17 4.16a2 2 0 0 1-1.66 0L2 17.65"/><path d="m22 12.65-9.17 4.16a2 2 0 0 1-1.66 0L2 12.65"/></svg>Cards</button>
+    <button class="nav-btn" data-nav="grammar" onclick="go('grammar')"><svg class="ic" viewBox="0 0 24 24"><path d="M21.42 10.922a1 1 0 0 0-.019-1.838L12.83 5.18a2 2 0 0 0-1.66 0L2.6 9.08a1 1 0 0 0 0 1.838l8.57 3.908a2 2 0 0 0 1.66 0z"/><path d="M22 10v6"/><path d="M6 12.5V16a6 3 0 0 0 12 0v-3.5"/></svg>Grammar</button>
     <button class="nav-btn fab" data-nav="drill-setup" onclick="go('drill-setup')"><svg class="ic" viewBox="0 0 24 24"><path d="M12 20h9"/><path d="M16.376 3.622a1 1 0 0 1 3.002 3.002L7.368 18.635a2 2 0 0 1-.855.506l-2.872.838a.5.5 0 0 1-.62-.62l.838-2.872a2 2 0 0 1 .506-.854z"/></svg></button>
+    <button class="nav-btn" data-nav="pron-setup" onclick="go('pron-setup')"><svg class="ic" viewBox="0 0 24 24"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" x2="12" y1="19" y2="22"/></svg>Sounds</button>
     <button class="nav-btn" data-nav="verbs" onclick="go('verbs')"><svg class="ic" viewBox="0 0 24 24"><path d="M12 7v14"/><path d="M16 12h2"/><path d="M16 8h2"/><path d="M3 18a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h5a4 4 0 0 1 4 4 4 4 0 0 1 4-4h5a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1h-6a3 3 0 0 0-3 3 3 3 0 0 0-3-3z"/><path d="M6 12h2"/><path d="M6 8h2"/></svg>Verbs</button>
     <button class="nav-btn" data-nav="tracker" onclick="go('tracker')"><svg class="ic" viewBox="0 0 24 24"><path d="M3 3v16a2 2 0 0 0 2 2h16"/><path d="M18 17V9"/><path d="M13 17V5"/><path d="M8 17v-3"/></svg>Track</button>
   </nav>
@@ -5321,6 +5350,7 @@ function startFlash(){
   flashState.sessionKnown=0; flashState.sessionUnknown=0;
   document.getElementById("flash-complete").style.display="none";
   document.getElementById("flash-complete-btns").style.display="none";
+  document.getElementById("flash-session-nudge").style.display="none";
   document.getElementById("flash-flip-wrap").style.display="";
   document.getElementById("flash-actions").style.display="flex";
   document.getElementById("flash-nav").style.display="flex";
@@ -5368,6 +5398,44 @@ function finishFlash(){
     `${icon('circle_check_big')} ${flashState.sessionKnown} known &nbsp;·&nbsp; ${icon('rotate_ccw')} ${flashState.sessionUnknown} to review`;
   document.getElementById("flash-complete").style.display="block";
   document.getElementById("flash-complete-btns").style.display="flex";
+  renderFlashSessionNudge();
+}
+/* Second, independent paywall touchpoint (see also shouldShowHomeNudge above).
+   That one only fires after 30 known words on the Home screen; someone doing
+   short, frequent sessions could go a long time without seeing it. This one
+   triggers off session count instead, right after a session — where attention
+   is already on the app — and rotates which locked module it points to. */
+const FLASH_NUDGE_EVERY_N_SESSIONS = 3;
+const FLASH_NUDGE_SNOOZE_HOURS = 20;
+const FLASH_SESSION_NUDGE_TARGETS = [
+  { screen:"grammar", title:"Nice session!", body:"Grammar has free samples too, same level as your flashcards.", cta:"Try a lesson" },
+  { screen:"verbs", title:"Nice session!", body:"The Verb Dictionary lets you look up 10 basic verbs for free.", cta:"Look one up" },
+  { screen:"pron-setup", title:"Nice session!", body:"Pronunciation has a free R vs L sound drill, good practice after vocabulary.", cta:"Give it a try" },
+  { screen:"drill-setup", title:"Nice session!", body:"Conjugation Drill has a free Present Simple sample, same words you just studied.", cta:"Try the drill" },
+];
+function shouldShowFlashSessionNudge(){
+  if(isUnlocked()) return false;
+  const count = LS.get("et_flash_sessions_completed", 0) + 1;
+  LS.set("et_flash_sessions_completed", count);
+  if(count % FLASH_NUDGE_EVERY_N_SESSIONS !== 0) return false;
+  const lastShown = LS.get("et_flash_session_nudge_at", 0);
+  if((Date.now() - lastShown) / 3600000 < FLASH_NUDGE_SNOOZE_HOURS) return false;
+  return true;
+}
+function renderFlashSessionNudge(){
+  const el = document.getElementById("flash-session-nudge");
+  if(!el) return;
+  if(!shouldShowFlashSessionNudge()){ el.style.display = "none"; return; }
+  LS.set("et_flash_session_nudge_at", Date.now());
+  const seen = LS.get("et_flash_session_nudge_idx", 0);
+  const target = FLASH_SESSION_NUDGE_TARGETS[seen % FLASH_SESSION_NUDGE_TARGETS.length];
+  LS.set("et_flash_session_nudge_idx", seen + 1);
+  document.getElementById("flash-session-nudge-title").textContent = target.title;
+  document.getElementById("flash-session-nudge-body").textContent = target.body;
+  const cta = document.getElementById("flash-session-nudge-cta");
+  cta.textContent = target.cta;
+  cta.onclick = () => go(target.screen);
+  el.style.display = "flex";
 }
 
 /* =========================================================
@@ -10953,15 +11021,48 @@ async function submitRestoreCode(){
   const data = await verifyAccess();
   btn.disabled = false;
   btn.textContent = originalLabel;
+  document.getElementById("restore-device-addon").style.display = "none";
   if(data.ok){
     showUnlockCelebration();
   } else if(data.reason === "device_limit"){
-    errEl.textContent = "ลิงก์นี้ถูกใช้ครบจำนวนเครื่องสูงสุดแล้ว หากเป็นความผิดพลาด ตอบกลับอีเมลยืนยันของคุณ";
+    errEl.textContent = "ลิงก์นี้ถูกใช้ครบจำนวนเครื่องสูงสุดแล้ว";
+    document.getElementById("restore-device-addon").style.display = "block";
   } else if(data.reason === "server_error" || data.reason === "network_error"){
     errEl.textContent = "เกิดข้อผิดพลาด กรุณาลองใหม่อีกครั้ง";
   } else {
     errEl.textContent = "รหัสหรือลิงก์นี้ไม่ถูกต้อง กรุณาตรวจสอบอีเมลยืนยันการซื้อของคุณ";
   }
+}
+async function submitResendLink(){
+  const input = document.getElementById("resend-email-input");
+  const msgEl = document.getElementById("resend-link-msg");
+  const btn = document.getElementById("resend-link-btn");
+  const email = (input.value || "").trim();
+  msgEl.style.color = "var(--bad-fg)";
+  if(!email){ msgEl.textContent = "Enter the email you used to buy."; return; }
+  const originalLabel = btn.textContent;
+  btn.disabled = true;
+  btn.textContent = "Sending...";
+  try{
+    const res = await fetch("/api/trainer-resend-link", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email }),
+    });
+    const data = await res.json();
+    if(data.ok){
+      msgEl.style.color = "var(--good-fg)";
+      msgEl.textContent = "Sent! Check your inbox (and spam folder) in a minute.";
+    } else if(data.reason === "not_found"){
+      msgEl.textContent = "No purchase found for this email. Double-check the address you used to buy.";
+    } else {
+      msgEl.textContent = "Something went wrong. Please try again.";
+    }
+  }catch(e){
+    msgEl.textContent = "Network error. Please try again.";
+  }
+  btn.disabled = false;
+  btn.textContent = originalLabel;
 }
 async function loadTrainerPrice(){
   try{
@@ -10969,6 +11070,7 @@ async function loadTrainerPrice(){
     const data = await res.json();
     const label = document.getElementById("paywall-price-label");
     const strike = document.getElementById("paywall-price-strike");
+    const deadlineEl = document.getElementById("paywall-discount-deadline");
     if(label && data.priceThb) label.textContent = data.priceThb + " บาท ชำระครั้งเดียว";
     if(strike){
       if(data.compareAtPriceThb && data.priceThb && data.compareAtPriceThb > data.priceThb){
@@ -10978,6 +11080,18 @@ async function loadTrainerPrice(){
         strike.style.display = "none";
       }
     }
+    if(deadlineEl){
+      if(data.discountActive && data.discountDeadline){
+        const d = new Date(data.discountDeadline);
+        const thaiDate = d.toLocaleDateString("th-TH-u-ca-buddhist", { day:"numeric", month:"long", year:"numeric", timeZone:"Asia/Bangkok" });
+        deadlineEl.textContent = `ราคานี้ถึง ${thaiDate} เท่านั้น`;
+        deadlineEl.style.display = "";
+      } else {
+        deadlineEl.style.display = "none";
+      }
+    }
+    const addonBtn = document.getElementById("device-addon-btn");
+    if(addonBtn && data.deviceAddonPriceThb) addonBtn.textContent = `Add this device (${data.deviceAddonPriceThb} THB)`;
   }catch(e){ /* keep the default label */ }
 }
 function sleep(ms){ return new Promise(r => setTimeout(r, ms)); }
@@ -11020,13 +11134,25 @@ async function tryActivateFromUrl(){
   const purchased = params.get("purchased");
   const sessionId = params.get("session_id");
   const cancelled = params.get("cancelled");
-  if(code){
+  const deviceAddon = params.get("device_addon");
+  const deviceAddonCancelled = params.get("device_addon_cancelled");
+  if(deviceAddon){
+    window.history.replaceState({}, "", window.location.pathname);
+    if(code) LS.set("et_access_code", code);
+    showBanner("Payment received! Adding this device...");
+    unlockFromDeviceAddon(); // not awaited — runs in the background, updates the UI itself
+  } else if(deviceAddonCancelled){
+    window.history.replaceState({}, "", window.location.pathname);
+    if(code) LS.set("et_access_code", code);
+    go("restore");
+  } else if(code){
     LS.set("et_access_code", code);
     const data = await verifyAccess();
     if(data.ok){
       showUnlockCelebration();
     } else if(data.reason === "device_limit"){
-      showBanner("This access link has already been used on the maximum number of devices. Reply to your confirmation email if this is a mistake.");
+      go("restore");
+      showDeviceLimitOnRestore();
     } else if(data.reason === "server_error" || data.reason === "network_error"){
       showBanner("Something went wrong on our end. Please try opening the link again in a moment.");
     } else {
@@ -11047,6 +11173,51 @@ async function tryActivateFromUrl(){
     await verifyAccess();
   } else {
     await verifyAccess();
+  }
+}
+// After a successful device-addon payment, the webhook needs a moment to bump
+// max_devices — retry activation briefly before giving up, same pattern as
+// unlockFromSessionId above.
+async function unlockFromDeviceAddon(){
+  let data = { ok:false };
+  for(let i=0; i<5 && !data.ok; i++){
+    if(i>0) await sleep(1500);
+    data = await verifyAccess();
+  }
+  if(data.ok){
+    showUnlockCelebration();
+  } else {
+    go("restore");
+    showBanner("Still confirming your payment. Try tapping \"Confirm\" again in a moment.");
+  }
+}
+function showDeviceLimitOnRestore(){
+  const errEl = document.getElementById("restore-error");
+  const addonEl = document.getElementById("restore-device-addon");
+  if(errEl) errEl.textContent = "This access link has already been used on the maximum number of devices.";
+  if(addonEl) addonEl.style.display = "block";
+}
+async function startDeviceAddonCheckout(){
+  const btn = document.getElementById("device-addon-btn");
+  const errEl = document.getElementById("restore-error");
+  const originalLabel = btn.textContent;
+  btn.disabled = true;
+  btn.textContent = "Opening payment page...";
+  const purchaseId = LS.get("et_access_code", null);
+  try{
+    if(!purchaseId) throw new Error("no_code");
+    const res = await fetch("/api/checkout-device-addon", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ purchaseId }),
+    });
+    const data = await res.json();
+    if(!res.ok || !data.url) throw new Error(data.error || "checkout_failed");
+    window.location.href = data.url;
+  }catch(e){
+    errEl.textContent = "Something went wrong. Please try again in a moment.";
+    btn.disabled = false;
+    btn.textContent = originalLabel;
   }
 }
 

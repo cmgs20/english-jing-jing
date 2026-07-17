@@ -30,13 +30,15 @@ export default function TermsPage() {
             th={
               <>
                 หลังชำระเงิน คุณจะได้รับลิงก์เข้าใช้งานทางอีเมล ลิงก์นี้ใช้ได้สูงสุด <b>2 อุปกรณ์</b>{' '}
-                ต่อการซื้อหนึ่งครั้ง หากต้องการใช้งานเพิ่มเติม ติดต่อเราได้โดยตอบกลับอีเมลยืนยันการซื้อ
+                ต่อการซื้อหนึ่งครั้ง หากต้องการใช้งานเพิ่มเติม สามารถซื้อสิทธิ์เพิ่มอีก 1 เครื่องได้จากหน้า
+                &ldquo;กู้คืนการเข้าถึง&rdquo; ในแอป หรือติดต่อเราได้โดยตอบกลับอีเมลยืนยันการซื้อ
               </>
             }
             en={
               <>
                 After payment, you'll receive an access link by email. It works on up to <b>2 devices</b>{' '}
-                per purchase. Need more? Just reply to your confirmation email.
+                per purchase. Need more? You can buy one extra device slot from the &ldquo;Restore
+                Access&rdquo; screen in the app, or just reply to your confirmation email.
               </>
             }
           />
