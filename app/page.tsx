@@ -10,10 +10,27 @@ import {
 
 export const dynamic = 'force-dynamic'
 
+const title = 'English jing jing: เรียนภาษาอังกฤษที่ออกแบบมาสำหรับคนไทย'
+const description =
+  'แฟลชการ์ด ไวยากรณ์ ฝึกผันกริยา และฝึกออกเสียง ออกแบบมาสำหรับคนไทยระดับ A1–B1 โดยเฉพาะ แฟลชการ์ดใช้ฟรีตลอดไป จ่ายครั้งเดียวปลดล็อกที่เหลือทั้งหมด'
+
 export const metadata: Metadata = {
-  title: 'English jing jing — เรียนภาษาอังกฤษที่ออกแบบมาสำหรับคนไทย',
-  description:
-    'แฟลชการ์ด ไวยากรณ์ ฝึกผันกริยา และฝึกออกเสียง ออกแบบมาสำหรับคนไทยระดับ A1–B1 โดยเฉพาะ แฟลชการ์ดใช้ฟรีตลอดไป จ่ายครั้งเดียวปลดล็อกที่เหลือทั้งหมด',
+  title,
+  description,
+  openGraph: {
+    type: 'website',
+    url: '/',
+    title,
+    description,
+    images: ['/icon-512.png'],
+    locale: 'th_TH',
+  },
+  twitter: {
+    card: 'summary',
+    title,
+    description,
+    images: ['/icon-512.png'],
+  },
 }
 
 function Icon({ path, size = 22 }: { path: string; size?: number }) {
