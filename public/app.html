@@ -476,6 +476,13 @@ p.sub{ color:var(--muted); font-size:14px; margin:0 0 16px; line-height:1.4; }
 </style>
 </head>
 <body>
+<script>
+if("serviceWorker" in navigator){
+  window.addEventListener("load", function(){
+    navigator.serviceWorker.register("/sw-reminder.js").catch(function(){});
+  });
+}
+</script>
 <div id="app">
 
   <!-- HOME -->
