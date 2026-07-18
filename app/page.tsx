@@ -1,13 +1,10 @@
 import type { Metadata } from 'next'
-import { headers } from 'next/headers'
 import styles from './page.module.css'
 import {
-  getTrainerPriceForVariant,
-  getTrainerCompareAtPriceForVariant,
+  getTrainerPriceThb,
+  getTrainerCompareAtPriceThb,
   isTrainerDiscountActive,
-  isPriceTestEnabled,
   getTrainerDeviceAddonPriceThb,
-  type PriceVariant,
 } from '@/lib/trainer'
 
 export const dynamic = 'force-dynamic'
@@ -72,14 +69,9 @@ const MODULES = [
 ]
 
 export default function LandingPage() {
-  // Set by middleware.ts so the same visitor sees the same price here and
-  // inside the app — a header, not the cookie, because the cookie middleware
-  // just set only reaches the *next* request, not this render.
-  const variantHeader = headers().get('x-price-variant')
-  const variant: PriceVariant | null = variantHeader === 'a' || variantHeader === 'b' ? variantHeader : null
-  const priceThb = getTrainerPriceForVariant(variant)
-  const compareAtPriceThb = getTrainerCompareAtPriceForVariant(variant)
-  const discountActive = isPriceTestEnabled() ? false : isTrainerDiscountActive()
+  const priceThb = getTrainerPriceThb()
+  const compareAtPriceThb = getTrainerCompareAtPriceThb()
+  const discountActive = isTrainerDiscountActive()
   const deviceAddonPriceThb = getTrainerDeviceAddonPriceThb()
 
   return (

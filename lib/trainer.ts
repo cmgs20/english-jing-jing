@@ -44,35 +44,3 @@ export function getTrainerDeviceAddonPriceThb(): number {
   const parsed = raw ? parseInt(raw, 10) : NaN
   return Number.isFinite(parsed) && parsed > 0 ? parsed : 49
 }
-
-// ── Price test: 249 vs 349 THB flat, no discount framing ──
-// Each visitor is bucketed once (see middleware.ts, cookie "ejj_pv") into
-// variant "a" or "b" and always sees/pays that price from then on. Toggle
-// with TRAINER_PRICE_TEST_ENABLED=true; leaving it unset/false fully
-// restores the old rolling-discount price with zero code changes.
-export type PriceVariant = 'a' | 'b'
-
-export function isPriceTestEnabled(): boolean {
-  return process.env.TRAINER_PRICE_TEST_ENABLED === 'true'
-}
-
-function getPriceTestVariantPriceThb(variant: PriceVariant): number {
-  const raw = process.env[variant === 'a' ? 'TRAINER_PRICE_TEST_A_THB' : 'TRAINER_PRICE_TEST_B_THB']
-  const parsed = raw ? parseInt(raw, 10) : NaN
-  if (Number.isFinite(parsed) && parsed > 0) return parsed
-  return variant === 'a' ? 249 : 349
-}
-
-export function getTrainerPriceForVariant(variant: PriceVariant | null): number {
-  if (isPriceTestEnabled() && variant) return getPriceTestVariantPriceThb(variant)
-  return getTrainerPriceThb()
-}
-
-// A flat price-test variant has no "was X" anchor to show — that's a
-// rolling-discount-only concept. Returning the same number as the price
-// itself makes existing "show strike only if compareAt > price" UI code
-// correctly hide the strike-through during the test, with no UI changes.
-export function getTrainerCompareAtPriceForVariant(variant: PriceVariant | null): number {
-  if (isPriceTestEnabled() && variant) return getPriceTestVariantPriceThb(variant)
-  return getTrainerCompareAtPriceThb()
-}

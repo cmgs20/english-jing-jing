@@ -1,5 +1,5 @@
-import { NextResponse, type NextRequest } from 'next/server'
-import { getTrainerPriceForVariant, isPriceTestEnabled, type PriceVariant } from '@/lib/trainer'
+import { NextResponse } from 'next/server'
+import { getTrainerPriceThb } from '@/lib/trainer'
 
 export const runtime = 'nodejs'
 
@@ -21,12 +21,10 @@ async function createStripeSession(params: Record<string, string>): Promise<{ ur
   return data
 }
 
-export async function POST(request: NextRequest) {
+export async function POST(request: Request) {
   try {
     const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'
-    const variantRaw = request.cookies.get('ejj_pv')?.value
-    const variant: PriceVariant | null = variantRaw === 'a' || variantRaw === 'b' ? variantRaw : null
-    const priceThb = getTrainerPriceForVariant(variant)
+    const priceThb = getTrainerPriceThb()
 
     // Which module's paywall sent the customer here (drill/verbs/grammar/pron/settings)
     // — carried through to the webhook so the purchase event can be tagged by context.
@@ -49,7 +47,6 @@ export async function POST(request: NextRequest) {
       'line_items[0][quantity]': '1',
       'metadata[type]': 'trainer',
       ...(context ? { 'metadata[context]': context } : {}),
-      ...(isPriceTestEnabled() && variant ? { 'metadata[price_variant]': variant } : {}),
       'success_url': `${siteUrl}/app.html?purchased=1&session_id={CHECKOUT_SESSION_ID}`,
       'cancel_url': `${siteUrl}/app.html?cancelled=1`,
     })

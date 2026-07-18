@@ -22,14 +22,10 @@ export async function POST(request: NextRequest) {
   }
   const context = typeof body?.context === 'string' ? body.context.slice(0, 40) : null
   const deviceId = typeof body?.deviceId === 'string' ? body.deviceId.slice(0, 80) : null
-  // Read from the request's own cookie rather than trusting a client-sent
-  // value, so the price-test analytics can't be skewed by a tampered payload.
-  const cookieVariant = request.cookies.get('ejj_pv')?.value
-  const priceVariant = cookieVariant === 'a' || cookieVariant === 'b' ? cookieVariant : null
 
   try {
     const supabase = createServiceClient()
-    await supabase.from('trainer_events').insert({ event, context, device_id: deviceId, price_variant: priceVariant })
+    await supabase.from('trainer_events').insert({ event, context, device_id: deviceId })
   } catch (err) {
     // Tracking must never break the app for the user — log and move on.
     console.error('[track-event] insert failed:', err)
