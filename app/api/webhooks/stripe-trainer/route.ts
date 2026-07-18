@@ -89,9 +89,10 @@ export async function POST(request: NextRequest) {
       }
 
       const context = typeof session.metadata?.context === 'string' ? session.metadata.context : null
+      const priceVariant = typeof session.metadata?.price_variant === 'string' ? session.metadata.price_variant : null
       const { error: eventError } = await supabase
         .from('trainer_events')
-        .insert({ event: 'purchase', context })
+        .insert({ event: 'purchase', context, price_variant: priceVariant })
       if (eventError) console.error('[webhook-trainer] failed to log purchase event:', eventError)
 
       const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://englishjingjing.com'
