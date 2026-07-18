@@ -5,7 +5,14 @@ export const runtime = 'nodejs'
 
 // Client-side funnel events only — purchase completion is logged separately
 // by the Stripe webhook, which is the authoritative source for that event.
-const ALLOWED_EVENTS = new Set(['paywall_view', 'paywall_cta_click'])
+const ALLOWED_EVENTS = new Set([
+  'paywall_view',
+  'paywall_cta_click',
+  'restore_attempt',
+  'access_link_result',
+  'resend_requested',
+  'session_unlock_result',
+])
 
 export async function POST(request: NextRequest) {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any

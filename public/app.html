@@ -1136,7 +1136,7 @@ if("serviceWorker" in navigator){
 
   <!-- RESTORE ACCESS -->
   <section class="screen" id="screen-restore">
-    <div class="topbar"><button class="back-btn" aria-label="Back" onclick="go('paywall')"><svg class="ic" viewBox="0 0 24 24"><path d="m15 18-6-6 6-6"/></svg></button><h1>Restore Access</h1><div style="width:36px"></div></div>
+    <div class="topbar"><button class="back-btn" aria-label="Back" onclick="go('paywall')"><svg class="ic" viewBox="0 0 24 24"><path d="m15 18-6-6 6-6"/></svg></button><h1>กู้คืนการเข้าถึง</h1><div style="width:36px"></div></div>
     <p class="sub" style="margin-top:6px;">
       <span style="display:block;color:var(--thai);">หากคุณซื้อแล้วแต่เครื่องนี้ไม่ได้ปลดล็อก ให้วางลิงก์หรือรหัสจากอีเมลยืนยันการซื้อของคุณด้านล่าง</span>
       <span style="display:block;color:var(--muted);margin-top:4px;">If you've already purchased but this device isn't unlocked, paste the link or code from your confirmation email below.</span>
@@ -1150,7 +1150,7 @@ if("serviceWorker" in navigator){
           <span style="display:block;color:var(--thai);">ต้องการใช้กับเครื่องนี้ด้วย? ซื้อสิทธิ์เพิ่มอีก 1 เครื่องแบบจ่ายครั้งเดียว</span>
           <span style="display:block;color:var(--muted);margin-top:4px;">Want to use it on this device too? Add one more device slot with a single one-time payment.</span>
         </p>
-        <button class="primary-btn" id="device-addon-btn" onclick="startDeviceAddonCheckout()">Add this device</button>
+        <button class="primary-btn" id="device-addon-btn" onclick="startDeviceAddonCheckout()">เพิ่มอุปกรณ์นี้</button>
       </div>
     </div>
 
@@ -1160,7 +1160,7 @@ if("serviceWorker" in navigator){
         <span style="display:block;color:var(--muted);margin-top:4px;">Can't find the email, even in spam? Enter the address you used to buy, and we'll send the link again.</span>
       </p>
       <input type="email" id="resend-email-input" placeholder="you@email.com" style="width:100%;box-sizing:border-box;background:var(--inset);border:1px solid rgba(var(--hairline-rgb),.12);color:var(--text);border-radius:14px;padding:14px 16px;font-size:15px;font-family:inherit;">
-      <button class="primary-btn" id="resend-link-btn" style="margin-top:14px;" onclick="submitResendLink()">Send my link</button>
+      <button class="primary-btn" id="resend-link-btn" style="margin-top:14px;" onclick="submitResendLink()">ส่งลิงก์ให้ฉัน</button>
       <p class="sub" id="resend-link-msg" style="margin:12px 0 0;" aria-live="polite"></p>
     </div>
   </section>
@@ -11411,6 +11411,7 @@ async function submitRestoreCode(){
   btn.textContent = "กำลังตรวจสอบ...";
   LS.set("et_access_code", code);
   const data = await verifyAccess();
+  trackEvent("restore_attempt", data.ok ? "ok" : (data.reason || "unknown"));
   btn.disabled = false;
   btn.textContent = originalLabel;
   document.getElementById("restore-device-addon").style.display = "none";
@@ -11431,10 +11432,10 @@ async function submitResendLink(){
   const btn = document.getElementById("resend-link-btn");
   const email = (input.value || "").trim();
   msgEl.style.color = "var(--bad-fg)";
-  if(!email){ msgEl.textContent = "Enter the email you used to buy."; return; }
+  if(!email){ msgEl.textContent = "กรุณากรอกอีเมลที่ใช้ตอนซื้อ"; return; }
   const originalLabel = btn.textContent;
   btn.disabled = true;
-  btn.textContent = "Sending...";
+  btn.textContent = "กำลังส่ง...";
   try{
     const res = await fetch("/api/trainer-resend-link", {
       method: "POST",
@@ -11444,14 +11445,24 @@ async function submitResendLink(){
     const data = await res.json();
     if(data.ok){
       msgEl.style.color = "var(--good-fg)";
-      msgEl.textContent = "Sent! Check your inbox (and spam folder) in a minute.";
+      msgEl.textContent = "ส่งแล้ว! ตรวจสอบกล่องอีเมลของคุณ (รวมถึงกล่องสแปม) ในอีกสักครู่";
+      trackEvent("resend_requested", "ok");
     } else if(data.reason === "not_found"){
-      msgEl.textContent = "No purchase found for this email. Double-check the address you used to buy.";
+      // A typo at checkout or here means the email will never match — a bare
+      // error is a dead end since there's no account/password reset to fall
+      // back on, so hand them a support email pre-filled with what they typed.
+      const supportHref = "mailto:englishjingjingthai@gmail.com?subject=" +
+        encodeURIComponent("English jing jing — หาอีเมลที่ใช้ซื้อไม่เจอ") +
+        "&body=" + encodeURIComponent("อีเมลที่ใช้ตอนซื้อ: " + email);
+      msgEl.innerHTML = `ไม่พบการซื้อด้วยอีเมลนี้ ลองตรวจสอบตัวสะกดอีกครั้ง หรือ <a href="${supportHref}" style="color:inherit;text-decoration:underline;">ติดต่อเราทางอีเมล</a> แล้วเราจะช่วยตรวจสอบให้`;
+      trackEvent("resend_requested", "not_found");
     } else {
-      msgEl.textContent = "Something went wrong. Please try again.";
+      msgEl.textContent = "เกิดข้อผิดพลาด กรุณาลองใหม่อีกครั้ง";
+      trackEvent("resend_requested", data.reason || "error");
     }
   }catch(e){
-    msgEl.textContent = "Network error. Please try again.";
+    msgEl.textContent = "เกิดข้อผิดพลาดเครือข่าย กรุณาลองใหม่อีกครั้ง";
+    trackEvent("resend_requested", "network_error");
   }
   btn.disabled = false;
   btn.textContent = originalLabel;
@@ -11479,7 +11490,7 @@ async function loadTrainerPrice(){
     // communicates "discounted from the regular price" honestly.
     if(deadlineEl) deadlineEl.style.display = "none";
     const addonBtn = document.getElementById("device-addon-btn");
-    if(addonBtn && data.deviceAddonPriceThb) addonBtn.textContent = `Add this device (${data.deviceAddonPriceThb} THB)`;
+    if(addonBtn && data.deviceAddonPriceThb) addonBtn.textContent = `เพิ่มอุปกรณ์นี้ (${data.deviceAddonPriceThb} บาท)`;
     renderHomeNudge();
     refreshFlashSessionNudgeUrgency();
     renderSettingsPurchaseCta();
@@ -11512,13 +11523,15 @@ async function unlockFromSessionId(sessionId){
   }
   if(!code){
     unlockInProgress = false;
-    showBanner("We're still confirming your payment. Check your email for your access link in a moment.");
+    trackEvent("session_unlock_result", "purchase_pending");
+    showBanner("ยังไม่สามารถยืนยันการชำระเงินได้ในตอนนี้ หากคุณจ่ายผ่าน PromptPay การยืนยันจากธนาคารอาจใช้เวลาสองสามนาที เราจะส่งลิงก์เข้าใช้งานไปที่อีเมลของคุณทันทีที่ยืนยันเสร็จ<br><span style=\"opacity:.7;font-size:.85em;\">Still confirming your payment — if you paid via PromptPay, bank confirmation can take a few minutes. We'll email your access link the moment it's ready.</span>");
     return;
   }
   LS.set("et_access_code", code);
   const data = await verifyAccess();
   unlockInProgress = false;
   if(data.ok){
+    trackEvent("session_unlock_result", "purchase_instant");
     showUnlockCelebration();
   }
 }
@@ -11533,7 +11546,7 @@ async function tryActivateFromUrl(){
   if(deviceAddon){
     window.history.replaceState({}, "", window.location.pathname);
     if(code) LS.set("et_access_code", code);
-    showBanner("Payment received! Adding this device...");
+    showBanner("กำลังยืนยันการชำระเงิน กรุณารอสักครู่...<br><span style=\"opacity:.7;font-size:.85em;\">Confirming your payment, please wait...</span>");
     unlockFromDeviceAddon(); // not awaited — runs in the background, updates the UI itself
   } else if(deviceAddonCancelled){
     window.history.replaceState({}, "", window.location.pathname);
@@ -11542,24 +11555,25 @@ async function tryActivateFromUrl(){
   } else if(code){
     LS.set("et_access_code", code);
     const data = await verifyAccess();
+    trackEvent("access_link_result", data.ok ? "ok" : (data.reason || "unknown"));
     if(data.ok){
       showUnlockCelebration();
     } else if(data.reason === "device_limit"){
       go("restore");
       showDeviceLimitOnRestore();
     } else if(data.reason === "server_error" || data.reason === "network_error"){
-      showBanner("Something went wrong on our end. Please try opening the link again in a moment.");
+      showBanner("เกิดข้อผิดพลาดจากฝั่งเรา กรุณาลองเปิดลิงก์อีกครั้งในอีกสักครู่<br><span style=\"opacity:.7;font-size:.85em;\">Something went wrong on our end. Please try opening the link again in a moment.</span>");
     } else {
-      showBanner("This access link isn't valid. Please check the link in your confirmation email.");
+      showBanner("ลิงก์เข้าใช้งานนี้ไม่ถูกต้อง กรุณาตรวจสอบลิงก์ในอีเมลยืนยันการซื้อของคุณ<br><span style=\"opacity:.7;font-size:.85em;\">This access link isn't valid. Please check the link in your confirmation email.</span>");
     }
     window.history.replaceState({}, "", window.location.pathname);
   } else if(purchased){
     window.history.replaceState({}, "", window.location.pathname);
     if(sessionId){
-      showBanner("Thanks for your purchase! Finishing setup...");
+      showBanner("ขอบคุณสำหรับการสั่งซื้อ! กำลังยืนยันการชำระเงิน...<br><span style=\"opacity:.7;font-size:.85em;\">Thanks for your purchase! Confirming your payment...</span>");
       unlockFromSessionId(sessionId); // not awaited — runs in the background, updates the UI itself
     } else {
-      showBanner("Thanks for your purchase! Check your email for your access link.");
+      showBanner("ขอบคุณสำหรับการสั่งซื้อ! เราได้ส่งลิงก์เข้าใช้งานไปที่อีเมลของคุณแล้ว<br><span style=\"opacity:.7;font-size:.85em;\">Thanks for your purchase! Check your email for your access link.</span>");
     }
   } else if(cancelled){
     window.history.replaceState({}, "", window.location.pathname);
@@ -11578,17 +11592,18 @@ async function unlockFromDeviceAddon(){
     if(i>0) await sleep(1500);
     data = await verifyAccess();
   }
+  trackEvent("session_unlock_result", data.ok ? "device_addon_instant" : "device_addon_pending");
   if(data.ok){
     showUnlockCelebration();
   } else {
     go("restore");
-    showBanner("Still confirming your payment. Try tapping \"Confirm\" again in a moment.");
+    showBanner("ยังไม่สามารถยืนยันการชำระเงินสำหรับอุปกรณ์นี้ได้ หากคุณจ่ายผ่าน PromptPay อาจต้องรอสักครู่ ลองวางลิงก์เข้าใช้งานเดิมของคุณแล้วกดยืนยันอีกครั้ง<br><span style=\"opacity:.7;font-size:.85em;\">Still confirming this device's payment — if you paid via PromptPay it can take a moment. Paste your original access link below and tap Confirm again.</span>");
   }
 }
 function showDeviceLimitOnRestore(){
   const errEl = document.getElementById("restore-error");
   const addonEl = document.getElementById("restore-device-addon");
-  if(errEl) errEl.textContent = "This access link has already been used on the maximum number of devices.";
+  if(errEl) errEl.textContent = "ลิงก์นี้ถูกใช้ครบจำนวนเครื่องสูงสุดแล้ว";
   if(addonEl) addonEl.style.display = "block";
 }
 async function startDeviceAddonCheckout(){
@@ -11596,7 +11611,7 @@ async function startDeviceAddonCheckout(){
   const errEl = document.getElementById("restore-error");
   const originalLabel = btn.textContent;
   btn.disabled = true;
-  btn.textContent = "Opening payment page...";
+  btn.textContent = "กำลังเปิดหน้าชำระเงิน...";
   const purchaseId = LS.get("et_access_code", null);
   try{
     if(!purchaseId) throw new Error("no_code");
@@ -11609,7 +11624,7 @@ async function startDeviceAddonCheckout(){
     if(!res.ok || !data.url) throw new Error(data.error || "checkout_failed");
     window.location.href = data.url;
   }catch(e){
-    errEl.textContent = "Something went wrong. Please try again in a moment.";
+    errEl.textContent = "เกิดข้อผิดพลาด กรุณาลองใหม่อีกครั้งในอีกสักครู่";
     btn.disabled = false;
     btn.textContent = originalLabel;
   }
