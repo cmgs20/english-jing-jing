@@ -151,10 +151,20 @@ p.sub{ color:var(--muted); font-size:14px; margin:0 0 16px; line-height:1.4; }
 }
 .big-btn:active{ transform:scale(.985); }
 .big-btn.premium-locked{ border-color:rgba(255,184,119,.35); box-shadow:0 0 0 1px rgba(255,184,119,.05) inset, 0 12px 28px -16px rgba(255,184,119,.55); }
+#paywall-buy-btn.buy-cta{
+  background:linear-gradient(160deg,var(--blue-2),var(--violet)); border:none;
+  box-shadow:0 18px 34px -14px rgba(91,141,239,.7), inset 0 1px 0 rgba(255,255,255,.25);
+}
+#paywall-buy-btn.buy-cta:disabled{ opacity:.75; }
+#paywall-buy-btn.buy-cta .label{ color:#fff; }
+#paywall-buy-btn.buy-cta .desc{ color:rgba(255,255,255,.88); }
+#paywall-buy-btn.buy-cta .price-strike{ color:rgba(255,255,255,.62); }
 .big-btn .emoji{ width:54px; height:54px; border-radius:18px; display:flex; align-items:center; justify-content:center; flex-shrink:0; box-shadow:inset 0 1px 0 rgba(255,255,255,.45); }
 .big-btn .emoji .ic{ width:28px; height:28px; color:#fff; stroke-width:2.2; }
 .big-btn .label{ font-size:17px; font-weight:800; letter-spacing:-.2px; }
 .big-btn .desc{ font-size:12px; color:var(--muted); margin-top:3px; }
+.big-btn .desc-th{ display:block; color:var(--thai); }
+.big-btn .desc-en{ display:block; color:var(--faint); font-size:10.5px; margin-top:2px; }
 .price-strike{ text-decoration:line-through; color:var(--faint); margin-right:6px; }
 .lock-badge{ display:inline-flex; align-items:center; justify-content:center; vertical-align:-6px; width:21px; height:21px; color:var(--orange-2); background:rgba(255,184,119,.16); border-radius:7px; padding:3px; box-sizing:border-box; }
 .lock-badge svg{ width:100%; height:100%; }
@@ -200,6 +210,7 @@ p.sub{ color:var(--muted); font-size:14px; margin:0 0 16px; line-height:1.4; }
 .home-ring-inner span{ font-size:8.5px; color:var(--faint); }
 .home-tracker-txt{ flex:1; z-index:1; }
 .home-tracker-txt b{ font-size:15px; font-weight:800; display:block; }
+.home-tracker-title-th{ display:block; font-size:11px; color:var(--thai); margin-top:1px; }
 .home-tracker-txt p{ margin:2px 0 0; font-size:12.5px; color:var(--muted); line-height:1.4; }
 .home-cta{ margin-left:auto; flex-shrink:0; z-index:1; display:inline-flex; align-items:center; gap:6px; font-size:12.5px; font-weight:800; color:#fff;
   background:linear-gradient(180deg,var(--blue-2),var(--blue)); padding:7px 13px; border-radius:999px; box-shadow:0 8px 20px -6px rgba(91,141,239,.7); cursor:pointer; border:none; font-family:inherit; }
@@ -705,7 +716,7 @@ if("serviceWorker" in navigator){
   <section class="screen active" id="screen-home">
     <div class="home-hdr">
       <div>
-        <div class="home-hi">Welcome back</div>
+        <div class="home-hi">Welcome back · ยินดีต้อนรับกลับ</div>
         <div class="home-wordmark">English <span class="jj">jing jing</span></div>
       </div>
       <div style="display:flex;align-items:center;gap:8px;">
@@ -716,40 +727,40 @@ if("serviceWorker" in navigator){
 
     <button class="big-btn" onclick="go('flash-setup')">
       <div class="emoji"><svg class="ic" viewBox="0 0 24 24"><path d="m12.83 2.18a2 2 0 0 0-1.66 0L2.6 6.08a1 1 0 0 0 0 1.83l8.58 3.91a2 2 0 0 0 1.66 0l8.58-3.9a1 1 0 0 0 0-1.83Z"/><path d="m22 17.65-9.17 4.16a2 2 0 0 1-1.66 0L2 17.65"/><path d="m22 12.65-9.17 4.16a2 2 0 0 1-1.66 0L2 12.65"/></svg></div>
-      <div><div class="label">Flashcards</div><div class="desc">Vocabulary A1–B1 · Thai → English</div></div>
+      <div><div class="label">Flashcards</div><div class="desc"><span class="desc-th">คำศัพท์ A1–B1 ไทย → อังกฤษ ไม่จำกัดจำนวน</span><span class="desc-en">Vocabulary A1–B1 · Thai → English</span></div></div>
       <div class="chev"><svg class="ic" viewBox="0 0 24 24"><path d="m9 18 6-6-6-6"/></svg></div>
     </button>
 
     <button class="big-btn" onclick="go('drill-setup')">
       <div class="emoji"><svg class="ic" viewBox="0 0 24 24"><path d="M12 20h9"/><path d="M16.376 3.622a1 1 0 0 1 3.002 3.002L7.368 18.635a2 2 0 0 1-.855.506l-2.872.838a.5.5 0 0 1-.62-.62l.838-2.872a2 2 0 0 1 .506-.854z"/></svg></div>
-      <div><div class="label">Conjugation Drill <span class="lock-badge" id="lock-drill-setup" style="display:none;"></span></div><div class="desc">Tenses, verbs, questions, modals…</div></div>
+      <div><div class="label">Conjugation Drill <span class="lock-badge" id="lock-drill-setup" style="display:none;"></span></div><div class="desc"><span class="desc-th">ฝึกผันกริยาทุก tense พร้อมเฉลยทันที</span><span class="desc-en">Tenses, verbs, questions, modals…</span></div></div>
       <div class="chev"><svg class="ic" viewBox="0 0 24 24"><path d="m9 18 6-6-6-6"/></svg></div>
     </button>
 
     <button class="big-btn" onclick="go('pron-setup')">
       <div class="emoji"><svg class="ic" viewBox="0 0 24 24"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" x2="12" y1="19" y2="22"/></svg></div>
-      <div><div class="label">Pronunciation <span class="lock-badge" id="lock-pron-setup" style="display:none;"></span></div><div class="desc">Sounds that are tricky for Thai speakers</div></div>
+      <div><div class="label">Pronunciation <span class="lock-badge" id="lock-pron-setup" style="display:none;"></span></div><div class="desc"><span class="desc-th">เสียงที่คนไทยออกเสียงยาก เช่น R vs L</span><span class="desc-en">Sounds that are tricky for Thai speakers</span></div></div>
       <div class="chev"><svg class="ic" viewBox="0 0 24 24"><path d="m9 18 6-6-6-6"/></svg></div>
     </button>
 
     <button class="big-btn" onclick="go('verbs')">
       <div class="emoji"><svg class="ic" viewBox="0 0 24 24"><path d="M12 7v14"/><path d="M16 12h2"/><path d="M16 8h2"/><path d="M3 18a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h5a4 4 0 0 1 4 4 4 4 0 0 1 4-4h5a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1h-6a3 3 0 0 0-3 3 3 3 0 0 0-3-3z"/><path d="M6 12h2"/><path d="M6 8h2"/></svg></div>
-      <div><div class="label">Verb Dictionary <span class="lock-badge" id="lock-verbs" style="display:none;"></span></div><div class="desc">Look up any verb's full conjugation</div></div>
+      <div><div class="label">Verb Dictionary <span class="lock-badge" id="lock-verbs" style="display:none;"></span></div><div class="desc"><span class="desc-th">ค้นการผันกริยาแบบเต็มของคำใดก็ได้</span><span class="desc-en">Look up any verb's full conjugation</span></div></div>
       <div class="chev"><svg class="ic" viewBox="0 0 24 24"><path d="m9 18 6-6-6-6"/></svg></div>
     </button>
 
     <button class="big-btn" onclick="go('grammar')">
       <div class="emoji"><svg class="ic" viewBox="0 0 24 24"><path d="M21.42 10.922a1 1 0 0 0-.019-1.838L12.83 5.18a2 2 0 0 0-1.66 0L2.6 9.08a1 1 0 0 0 0 1.832l8.57 3.908a2 2 0 0 0 1.66 0z"/><path d="M22 10v6"/><path d="M6 12.5V16a6 3 0 0 0 12 0v-3.5"/></svg></div>
-      <div><div class="label">Grammar <span class="lock-badge" id="lock-grammar" style="display:none;"></span></div><div class="desc">Step-by-step lessons: rule, compare, practice</div></div>
+      <div><div class="label">Grammar <span class="lock-badge" id="lock-grammar" style="display:none;"></span></div><div class="desc"><span class="desc-th">บทเรียนทีละขั้น: กฎ เปรียบเทียบ ฝึกใช้</span><span class="desc-en">Step-by-step lessons: rule, compare, practice</span></div></div>
       <div class="chev"><svg class="ic" viewBox="0 0 24 24"><path d="m9 18 6-6-6-6"/></svg></div>
     </button>
 
     <div class="home-nudge" id="home-nudge" style="display:none;">
       <div class="home-nudge-txt">
-        <b>You've been practicing a lot!</b>
-        <p>Grammar, conjugation drills, and more are waiting — free samples in every section.</p>
+        <b>You've been practicing a lot! · คุณฝึกมาเยอะแล้ว!</b>
+        <p>Grammar, conjugation drills, and more are waiting — free samples in every section.<br>ไวยากรณ์ แบบฝึกผันกริยา และอีกมากมายรออยู่ ลองฟรีได้ทุกหมวด</p>
         <p class="home-nudge-urgency" id="home-nudge-urgency" style="display:none;"></p>
-        <button class="home-cta home-nudge-cta" onclick="go('grammar')">Take a look</button>
+        <button class="home-cta home-nudge-cta" onclick="go('grammar')">Take a look · ดูเลย</button>
       </div>
       <button class="home-nudge-close" onclick="dismissHomeNudge()" aria-label="Close">✕</button>
     </div>
@@ -757,10 +768,11 @@ if("serviceWorker" in navigator){
     <div class="home-tracker">
       <div class="home-ring" id="home-ring"><div class="home-ring-inner"><b id="home-mins-today">0</b><span>/60 min</span></div></div>
       <div class="home-tracker-txt">
-        <b>Keep your streak alive</b>
+        <b id="home-tracker-title">Keep your streak alive</b>
+        <span class="home-tracker-title-th" id="home-tracker-title-th">อย่าให้ streak หาย</span>
         <p id="home-mins-label">60 min to hit today's goal.</p>
       </div>
-      <button class="home-cta" onclick="go('flash-setup')">Continue <svg class="ic" viewBox="0 0 24 24"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></button>
+      <button class="home-cta" onclick="go('flash-setup')"><span id="home-tracker-cta-label">Continue</span> <svg class="ic" viewBox="0 0 24 24"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></button>
     </div>
 
     <button class="restore-link" id="home-restore-link" onclick="go('restore')" style="display:none;margin:4px auto 0;">ซื้อไปแล้ว? กู้คืนการเข้าถึงที่นี่</button>
@@ -1108,7 +1120,7 @@ if("serviceWorker" in navigator){
         <span style="font-size:11.5px;color:var(--muted);background:var(--inset);border-radius:20px;padding:6px 12px;white-space:nowrap;">ไวยากรณ์ 198 บทเรียน</span>
         <span style="font-size:11.5px;color:var(--muted);background:var(--inset);border-radius:20px;padding:6px 12px;white-space:nowrap;">กริยา 233 คำ ผัน 7 tense</span>
       </div>
-      <button class="big-btn" style="justify-content:center;" onclick="startTrainerCheckout()" id="paywall-buy-btn">
+      <button class="big-btn buy-cta" style="justify-content:center;" onclick="startTrainerCheckout()" id="paywall-buy-btn">
         <div><div class="label" id="paywall-buy-label">เข้าถึงได้ไม่จำกัด ตลอดชีพ</div><div class="desc" id="paywall-buy-desc"><span id="paywall-price-strike" class="price-strike">349 บาท</span><span id="paywall-price-label">249 บาท ชำระครั้งเดียว</span></div></div>
       </button>
       <p class="sub" id="paywall-discount-deadline" style="margin:0 0 10px;font-size:12.5px;color:var(--thai);display:none;"></p>
@@ -5144,14 +5156,12 @@ let unlockVerified = false;
 let unlockInProgress = false;
 function isUnlocked(){ return unlockVerified === true; }
 let trainerPriceData = null;
-/* Short urgency line reused wherever we want to surface the discount
-   deadline outside the paywall screen itself (home nudge, session nudge,
-   settings). Returns "" when there's no active discount to talk about. */
+/* The launch discount runs on a rolling window with no real end date, so a
+   "days left" countdown here would be a claim that's never actually true —
+   deliberately not shown anywhere (home nudge, session nudge, settings).
+   Kept as a no-op so the three call sites below don't need to change. */
 function nudgeUrgencyText(){
-  if(!trainerPriceData || !trainerPriceData.discountActive || !trainerPriceData.discountDeadline) return "";
-  const days = Math.ceil((new Date(trainerPriceData.discountDeadline).getTime() - Date.now()) / 86400000);
-  if(days <= 0) return "";
-  return `⏳ เหลืออีก ${days} วัน ก่อนราคาขึ้นเป็น ${trainerPriceData.compareAtPriceThb} บาท`;
+  return "";
 }
 function applyNudgeUrgency(elId){
   const el = document.getElementById(elId);
@@ -5447,7 +5457,17 @@ function updateTrackerUI(){
   document.getElementById("home-mins-today").textContent = mins;
   document.getElementById("home-mins-label").textContent = mins>=dailyGoalMin ? "Today's goal reached!" : (dailyGoalMin-mins)+" min to hit today's goal.";
   document.getElementById("home-ring").style.background = `conic-gradient(var(--blue) 0deg ${pct*3.6}deg, rgba(var(--hairline-rgb),.10) ${pct*3.6}deg 360deg)`;
-  document.getElementById("home-streak").textContent = computeStreak();
+  const streak = computeStreak();
+  document.getElementById("home-streak").textContent = streak;
+  // Day-1 users have no streak to "keep alive" and nothing to "continue" —
+  // swap the tracker card's copy so it invites a first session instead.
+  const hasEverPracticed = streak > 0 || Object.keys(cardState).length > 0 || drillStats.total > 0;
+  const titleEl = document.getElementById("home-tracker-title");
+  const titleThEl = document.getElementById("home-tracker-title-th");
+  const ctaLabelEl = document.getElementById("home-tracker-cta-label");
+  if(titleEl) titleEl.textContent = hasEverPracticed ? "Keep your streak alive" : "Start your streak";
+  if(titleThEl) titleThEl.textContent = hasEverPracticed ? "อย่าให้ streak หาย" : "เริ่มสร้าง streak ของคุณ";
+  if(ctaLabelEl) ctaLabelEl.textContent = hasEverPracticed ? "Continue" : "Start";
   if(document.getElementById("screen-tracker").classList.contains("active")) renderTracker();
 }
 function renderTracker(){
@@ -11448,19 +11468,11 @@ async function loadTrainerPrice(){
         strike.style.display = "none";
       }
     }
-    if(deadlineEl){
-      if(data.discountActive && data.discountDeadline){
-        const d = new Date(data.discountDeadline);
-        const thaiDate = d.toLocaleDateString("th-TH-u-ca-buddhist", { day:"numeric", month:"long", year:"numeric", timeZone:"Asia/Bangkok" });
-        const days = Math.ceil((d.getTime() - Date.now()) / 86400000);
-        deadlineEl.textContent = days > 0
-          ? `ราคานี้ถึง ${thaiDate} เท่านั้น (เหลืออีก ${days} วัน)`
-          : `ราคานี้ถึง ${thaiDate} เท่านั้น`;
-        deadlineEl.style.display = "";
-      } else {
-        deadlineEl.style.display = "none";
-      }
-    }
+    // No countdown/deadline shown here on purpose — the discount runs on a
+    // rolling window with no real end date, so a "valid until" claim would
+    // never actually come true. The strike-through price above already
+    // communicates "discounted from the regular price" honestly.
+    if(deadlineEl) deadlineEl.style.display = "none";
     const addonBtn = document.getElementById("device-addon-btn");
     if(addonBtn && data.deviceAddonPriceThb) addonBtn.textContent = `Add this device (${data.deviceAddonPriceThb} THB)`;
     renderHomeNudge();

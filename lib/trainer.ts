@@ -3,6 +3,12 @@
 // one-time flash sale with a hard end date), the discount instead rolls in
 // fixed-length windows anchored to the epoch, so "time left" is always a real,
 // short, currently-true number and never needs manual renewal.
+//
+// Because this rolling window never truly ends, the UI deliberately never
+// surfaces a "days left" / "valid until" countdown for it — that framing
+// would be a claim that's never actually true. Only set an explicit
+// TRAINER_DISCOUNT_DEADLINE if you want to bring back a real, honest
+// countdown for a genuine time-boxed promo.
 const ROLLING_DISCOUNT_WINDOW_HOURS = 48
 
 export function getTrainerDiscountDeadline(): Date {

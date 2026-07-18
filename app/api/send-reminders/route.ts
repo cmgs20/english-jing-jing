@@ -2,7 +2,7 @@ import { NextResponse, type NextRequest } from 'next/server'
 import { createServiceClient } from '@/lib/supabase-service'
 import { getWebPush } from '@/lib/web-push'
 import { sendAdminAlert } from '@/lib/alert'
-import { isTrainerDiscountActive, getTrainerDiscountDeadline, getTrainerPriceThb, getTrainerCompareAtPriceThb } from '@/lib/trainer'
+import { isTrainerDiscountActive, getTrainerPriceThb, getTrainerCompareAtPriceThb } from '@/lib/trainer'
 
 export const runtime = 'nodejs'
 export const dynamic = 'force-dynamic'
@@ -20,21 +20,16 @@ type ReminderRow = {
   last_sent_date: string | null
 }
 
-// Devices within this many days of the launch-discount deadline get the
-// urgency-flavored notification instead of the generic practice reminder —
-// only applies to devices that never activated a purchase (see unlockedDeviceIds
-// below). Reuses the existing once-per-day reminder slot rather than adding a
-// second cron/notification, so someone who already opted into push isn't
-// messaged more often than they agreed to.
-const URGENCY_WINDOW_DAYS = 3
-
-function buildNotificationPayload(daysLeft: number) {
+// Devices that never activated a purchase (see unlockedDeviceIds below) get
+// a reminder that also mentions the discounted price, instead of the plain
+// practice nudge. No "last day" / "X days left" framing: the launch discount
+// runs on a rolling window with no real expiry, so a countdown here would be
+// a claim that's never actually true.
+function buildNotificationPayload() {
   const price = getTrainerPriceThb()
   const compareAt = getTrainerCompareAtPriceThb()
-  const body = daysLeft <= 1
-    ? `วันนี้เป็นวันสุดท้ายของราคาโปรโมชั่น ${price} บาท (ปกติ ${compareAt} บาท) ปลดล็อกก่อนหมดเวลา`
-    : `เหลืออีก ${daysLeft} วันก่อนราคาโปรโมชั่น ${price} บาท (ปกติ ${compareAt} บาท) จะหมดอายุ`
-  return { title: 'โปรโมชั่นใกล้หมดแล้ว!', body, url: '/app.html?open=paywall' }
+  const body = `ปลดล็อกไวยากรณ์ครบทุกบท ฝึกผันกริยาทุก tense และอีกเยอะ ในราคา ${price} บาท (ปกติ ${compareAt} บาท) ชำระครั้งเดียว`
+  return { title: 'ฝึกภาษาอังกฤษต่อได้เลย', body, url: '/app.html?open=paywall' }
 }
 
 // Local wall-clock time for a given IANA zone, rounded down to the nearest
@@ -74,7 +69,7 @@ async function handleReminders() {
     throw new Error(`Failed to fetch reminders: ${error.message}`)
   }
 
-  // Devices that never activated a purchase are eligible for the urgency
+  // Devices that never activated a purchase are eligible for the price-nudge
   // notification below — everyone else just gets the normal practice reminder.
   const { data: activations, error: activationsError } = await supabase
     .from('trainer_activations')
@@ -85,7 +80,6 @@ async function handleReminders() {
   const unlockedDeviceIds = new Set((activations ?? []).map((a) => a.device_id))
 
   const discountActive = isTrainerDiscountActive()
-  const daysLeft = Math.ceil((getTrainerDiscountDeadline().getTime() - Date.now()) / 86400000)
 
   const webpush = getWebPush()
   let sent = 0
@@ -101,9 +95,9 @@ async function handleReminders() {
     if (local.hhmm !== row.reminder_time) continue
     if (row.last_sent_date === local.date) continue
 
-    const showUrgency = !unlockedDeviceIds.has(row.device_id) && discountActive && daysLeft <= URGENCY_WINDOW_DAYS && daysLeft >= 0
-    const payload = showUrgency
-      ? buildNotificationPayload(daysLeft)
+    const showPriceNudge = !unlockedDeviceIds.has(row.device_id) && discountActive
+    const payload = showPriceNudge
+      ? buildNotificationPayload()
       : { title: 'Time to practice!', body: 'jing jing is ready when you are.' }
 
     try {
