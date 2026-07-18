@@ -168,7 +168,7 @@ export default function LandingPage() {
             </div>
             <div className={styles.priceUnit}>ชำระครั้งเดียว · One-time payment</div>
             <ul className={styles.priceBullets}>
-              <li>ปลดล็อกทุกโหมด: ไวยากรณ์ครบ A1–B1, Drill ทุก tense, ทุกเสียงที่ออกยาก, พจนานุกรมกริยาทั้งหมด</li>
+              <li>ปลดล็อกทุกโหมด: ไวยากรณ์ 198 บท (A1–B1), Drill ครบ 7 tense, เสียงยาก 24 เสียง, พจนานุกรมกริยา 233 คำ</li>
               <li>แฟลชการ์ดใช้ฟรีตลอดไป ไม่ว่าจะซื้อหรือไม่</li>
               <li>ใช้ได้ 2 อุปกรณ์ต่อการซื้อ 1 ครั้ง เพิ่มอุปกรณ์ภายหลังได้ในราคา {deviceAddonPriceThb} บาท</li>
             </ul>

@@ -1109,16 +1109,17 @@ if("serviceWorker" in navigator){
         </div>
         <div class="paywall-compare-col full">
           <div class="paywall-compare-head">เข้าถึงเต็มรูปแบบ</div>
-          <div class="paywall-compare-item"><svg class="ic" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg><span>ไวยากรณ์ครบ A1 ถึง B1</span></div>
-          <div class="paywall-compare-item"><svg class="ic" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg><span>Drill ทุก tense ไม่จำกัด</span></div>
-          <div class="paywall-compare-item"><svg class="ic" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg><span>ทุกเสียงที่ออกยาก</span></div>
-          <div class="paywall-compare-item"><svg class="ic" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg><span>พจนานุกรมกริยาทั้งหมด</span></div>
+          <div class="paywall-compare-item"><svg class="ic" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg><span>ไวยากรณ์ครบ 198 บท ตั้งแต่ A1 ถึง B1</span></div>
+          <div class="paywall-compare-item"><svg class="ic" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg><span>Drill ครบ 7 tense ไม่จำกัด</span></div>
+          <div class="paywall-compare-item"><svg class="ic" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg><span>เสียงที่ออกยากครบ 24 เสียง</span></div>
+          <div class="paywall-compare-item"><svg class="ic" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg><span>พจนานุกรมกริยา 233 คำ</span></div>
         </div>
       </div>
       <div style="display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin:2px 0 4px;">
         <span style="font-size:11.5px;color:var(--muted);background:var(--inset);border-radius:20px;padding:6px 12px;white-space:nowrap;">คำศัพท์ 1,489 คำ</span>
         <span style="font-size:11.5px;color:var(--muted);background:var(--inset);border-radius:20px;padding:6px 12px;white-space:nowrap;">ไวยากรณ์ 198 บทเรียน</span>
         <span style="font-size:11.5px;color:var(--muted);background:var(--inset);border-radius:20px;padding:6px 12px;white-space:nowrap;">กริยา 233 คำ ผัน 7 tense</span>
+        <span style="font-size:11.5px;color:var(--muted);background:var(--inset);border-radius:20px;padding:6px 12px;white-space:nowrap;">เสียงยาก 24 เสียง</span>
       </div>
       <button class="big-btn buy-cta" style="justify-content:center;" onclick="startTrainerCheckout()" id="paywall-buy-btn">
         <div><div class="label" id="paywall-buy-label">เข้าถึงได้ไม่จำกัด ตลอดชีพ</div><div class="desc" id="paywall-buy-desc"><span id="paywall-price-strike" class="price-strike">349 บาท</span><span id="paywall-price-label">249 บาท ชำระครั้งเดียว</span></div></div>
@@ -1183,6 +1184,12 @@ if("serviceWorker" in navigator){
       <div class="unlock-badge"><svg class="ic" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg></div>
       <h2 class="unlock-title">ยินดีด้วย! ปลดล็อกครบทุกฟีเจอร์แล้ว</h2>
       <p class="unlock-sub">เข้าถึงไวยากรณ์ แบบฝึกผันกริยา การออกเสียง และพจนานุกรมกริยาได้แบบไม่จำกัด ตลอดชีพ<br><span style="color:var(--faint);font-size:12px;">Full lifetime access unlocked.</span></p>
+      <div style="display:flex;gap:6px;justify-content:center;flex-wrap:wrap;margin:0 0 4px;">
+        <span style="font-size:11px;color:var(--muted);background:var(--inset);border-radius:20px;padding:5px 10px;white-space:nowrap;">ไวยากรณ์ 198 บท</span>
+        <span style="font-size:11px;color:var(--muted);background:var(--inset);border-radius:20px;padding:5px 10px;white-space:nowrap;">7 tense</span>
+        <span style="font-size:11px;color:var(--muted);background:var(--inset);border-radius:20px;padding:5px 10px;white-space:nowrap;">เสียงยาก 24 เสียง</span>
+        <span style="font-size:11px;color:var(--muted);background:var(--inset);border-radius:20px;padding:5px 10px;white-space:nowrap;">กริยา 233 คำ</span>
+      </div>
       <p class="sub" style="margin:2px 0 0;font-size:12px;color:var(--muted);">เราได้ส่งลิงก์เข้าใช้งานไปที่อีเมลของคุณแล้ว เก็บไว้เผื่อใช้งานบนเครื่องอื่น<br><span style="color:var(--faint);">We've also emailed you this access link — save it in case you need it on another device.</span></p>
       <button class="primary-btn" style="width:100%;box-sizing:border-box;margin-top:0;" onclick="dismissUnlockCelebration()">เริ่มเรียนเลย</button>
     </div>
@@ -5109,23 +5116,23 @@ const FREE_DRILL_SIZE = 5;
 const PAYWALL_CONTEXT = {
   drill: {
     title: "ฝึกผันกริยาได้ทุก Tense",
-    desc: "คุณเพิ่งลองแบบฝึก Present Simple ฟรีไปแล้ว เวอร์ชันเต็มปลดล็อกทุก tense ทั้งประโยคบอกเล่า ปฏิเสธ และคำถาม ฝึกได้ไม่จำกัด",
+    desc: "คุณเพิ่งลองแบบฝึก Present Simple ฟรีไปแล้ว เวอร์ชันเต็มปลดล็อกครบ 7 tense ทั้งประโยคบอกเล่า ปฏิเสธ และคำถาม ฝึกได้ไม่จำกัด",
   },
   verbs: {
     title: "ค้นกริยาได้ครบทุกคำ",
-    desc: "คุณเพิ่งดูตัวอย่างการผันกริยาพื้นฐานไปแล้ว เวอร์ชันเต็มปลดล็อกพจนานุกรมกริยาทั้งหมด พร้อมการผันครบทุก tense",
+    desc: "คุณเพิ่งดูตัวอย่างการผันกริยาพื้นฐานไปแล้ว เวอร์ชันเต็มปลดล็อกพจนานุกรมกริยา 233 คำ พร้อมการผันครบ 7 tense",
   },
   grammar: {
     title: "เรียนไวยากรณ์ได้ครบทุกบท",
-    desc: "คุณเพิ่งเรียนบทแรกฟรีไปแล้ว เวอร์ชันเต็มปลดล็อกบทเรียนไวยากรณ์ทั้งหมด ตั้งแต่ระดับ A1 ถึง B1",
+    desc: "คุณเพิ่งเรียนบทแรกฟรีไปแล้ว เวอร์ชันเต็มปลดล็อกบทเรียนไวยากรณ์ครบ 198 บท ตั้งแต่ระดับ A1 ถึง B1",
   },
   pron: {
     title: "ฝึกออกเสียงได้ครบทุกเสียง",
-    desc: "คุณเพิ่งลองฝึกเสียง R กับ L ไปแล้ว เวอร์ชันเต็มปลดล็อกทุกเสียงที่คนไทยมักออกเสียงยาก",
+    desc: "คุณเพิ่งลองฝึกเสียง R กับ L ไปแล้ว เวอร์ชันเต็มปลดล็อกเสียงที่คนไทยมักออกเสียงยากครบ 24 เสียง",
   },
   settings: {
     title: "ปลดล็อกทุกฟีเจอร์ ตลอดชีพ",
-    desc: "ไวยากรณ์ครบ A1–B1, Drill ทุก tense, ทุกเสียงที่ออกยาก และพจนานุกรมกริยาทั้งหมด จ่ายครั้งเดียวใช้ได้ตลอดไป",
+    desc: "ไวยากรณ์ครบ 198 บท, Drill ครบ 7 tense, เสียงยาก 24 เสียง และพจนานุกรมกริยา 233 คำ จ่ายครั้งเดียวใช้ได้ตลอดไป",
   },
 };
 let paywallContext = null;
