@@ -21,10 +21,20 @@ async function createStripeSession(params: Record<string, string>): Promise<{ ur
   return data
 }
 
-export async function POST() {
+export async function POST(request: Request) {
   try {
     const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'
     const priceThb = getTrainerPriceThb()
+
+    // Which module's paywall sent the customer here (drill/verbs/grammar/pron/settings)
+    // — carried through to the webhook so the purchase event can be tagged by context.
+    let context: string | null = null
+    try {
+      const body = await request.json()
+      if (typeof body?.context === 'string') context = body.context.slice(0, 40)
+    } catch {
+      // no body sent — fine, context stays null
+    }
 
     const session = await createStripeSession({
       'payment_method_types[0]': 'promptpay',
@@ -36,6 +46,7 @@ export async function POST() {
       'line_items[0][price_data][product_data][description]': 'One-time purchase, lifetime access to the full app',
       'line_items[0][quantity]': '1',
       'metadata[type]': 'trainer',
+      ...(context ? { 'metadata[context]': context } : {}),
       'success_url': `${siteUrl}/app.html?purchased=1&session_id={CHECKOUT_SESSION_ID}`,
       'cancel_url': `${siteUrl}/app.html?cancelled=1`,
     })

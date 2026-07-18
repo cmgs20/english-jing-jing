@@ -1,14 +1,13 @@
 export const legalCss = `
+/* Color tokens (--bg, --text, --blue, etc.) come from /public/palette.css,
+   linked site-wide in app/layout.tsx — see that file to change a brand color. */
 :root{
-  --bg:#0a0c16; --card:#161a2e; --card2:#1b2036; --line:rgba(255,255,255,.08);
-  --text:#f2f3f7; --muted:#9aa0b4; --faint:#6b7288;
-  --blue:#5b8def; --blue-2:#7aa8ff; --violet:#8e5bef;
-  --thai:#ffb877; --thai-soft:rgba(255,184,119,.08);
+  --thai-soft:rgba(255,184,119,.08);
 }
 *{box-sizing:border-box;}
 body.legal{
   margin:0; background:var(--bg); color:var(--text);
-  font-family:Georgia,'Times New Roman',serif;
+  font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","Segoe UI",Roboto,sans-serif;
 }
 .legal-th{ font-family:"Noto Sans Thai","Leelawadee UI","Segoe UI",sans-serif; }
 .legal-wrap{ max-width:680px; margin:0 auto; padding:48px 20px 96px; }

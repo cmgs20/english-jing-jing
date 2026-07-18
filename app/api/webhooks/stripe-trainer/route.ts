@@ -88,6 +88,12 @@ export async function POST(request: NextRequest) {
         return NextResponse.json({ error: 'db_error' }, { status: 500 })
       }
 
+      const context = typeof session.metadata?.context === 'string' ? session.metadata.context : null
+      const { error: eventError } = await supabase
+        .from('trainer_events')
+        .insert({ event: 'purchase', context })
+      if (eventError) console.error('[webhook-trainer] failed to log purchase event:', eventError)
+
       const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://englishjingjing.com'
       const accessUrl = `${siteUrl}/app.html?code=${purchase.id}`
 

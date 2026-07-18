@@ -20,15 +20,15 @@
 <meta name="theme-color" content="#0a0c16">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<link rel="stylesheet" href="/palette.css">
 <style>
 :root{
-  --blue:#5b8def; --blue-2:#7aa8ff;
-  --orange:#f2a65a; --orange-2:#ffb877;
-  --violet:#8e5bef; --violet-2:#a97bff;
-  --green:#4caf7d; --green-2:#63d29a;
-  --red:#e0616b; --red-2:#ff8a9c;
-  --bg:#0a0c16; --card:#161a2e; --card2:#1b2036; --inset:#10142a;
-  --text:#f2f3f7; --muted:#9aa0b4; --faint:#8188a0;
+  /* Base blue/orange/violet/green/red/bg/card/card2/inset/text/muted/line tokens
+     come from /palette.css (shared with the landing + legal pages) — change a
+     brand color there first. --faint is intentionally overridden here: a
+     lighter gray than the shared token reads better against this screen's
+     surfaces. */
+  --faint:#8188a0;
   --accent:var(--blue); --accent2:var(--orange); --good:var(--green); --bad:var(--red);
   --good-bg:#1e3b2f; --good-fg:#7fd9a8; --bad-bg:#33253a; --bad-fg:#f0a8b6;
   --thai:var(--orange-2); --radius:20px;
@@ -100,6 +100,9 @@ body{
    and scroll instead of growing past its allotted space. */
 .screen{ padding:14px 18px; flex:1; min-height:0; display:none; flex-direction:column; overflow-y:auto; -webkit-overflow-scrolling:touch; overscroll-behavior:contain; }
 .screen.active{ display:flex; }
+/* Screens with a sticky-cta footer button need extra bottom padding so the
+   last list item can scroll clear of the button instead of sitting under it. */
+.screen.has-sticky-cta{ padding-bottom:calc(14px + 74px); }
 .screen.anim-forward{ animation:screen-in-forward .22s ease; }
 .screen.anim-back{ animation:screen-in-back .22s ease; }
 @keyframes screen-in-forward{ from{opacity:0; transform:translateX(14px);} to{opacity:1; transform:none;} }
@@ -764,7 +767,7 @@ if("serviceWorker" in navigator){
   </section>
 
   <!-- FLASHCARDS SETUP -->
-  <section class="screen" id="screen-flash-setup">
+  <section class="screen has-sticky-cta" id="screen-flash-setup">
     <div class="topbar"><button class="back-btn" aria-label="Back" onclick="go('home')"><svg class="ic" viewBox="0 0 24 24"><path d="m15 18-6-6 6-6"/></svg></button><h1>Flashcards</h1><div style="width:36px"></div></div>
     <div class="section-label">Level</div>
     <div class="pill-row" id="flash-level-pills"></div>
@@ -840,7 +843,7 @@ if("serviceWorker" in navigator){
   </section>
 
   <!-- DRILL SETUP -->
-  <section class="screen" id="screen-drill-setup">
+  <section class="screen has-sticky-cta" id="screen-drill-setup">
     <div class="topbar"><button class="back-btn" aria-label="Back" onclick="go('home')"><svg class="ic" viewBox="0 0 24 24"><path d="m15 18-6-6 6-6"/></svg></button><h1>Conjugation Drill</h1><div style="width:36px"></div></div>
     <p class="sub" id="drill-free-note" style="display:none;">โหมดทดลองฟรี: Present Simple 5 ประโยค ปลดล็อกเพื่อฝึกได้ทุก tense ไม่จำกัด</p>
     <div class="section-label">Tenses to practice</div>
@@ -4964,6 +4967,18 @@ function announce(text){
   el.textContent = "";
   setTimeout(()=>{ el.textContent = text; }, 30);
 }
+// Fire-and-forget conversion funnel logging (paywall view / CTA click).
+// Tracking must never break or slow down the app for the user.
+function trackEvent(event, context){
+  try{
+    fetch("/api/track-event", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ event, context: context || null, deviceId: getDeviceId() }),
+      keepalive: true,
+    }).catch(()=>{});
+  }catch(e){}
+}
 function showBanner(message){
   const div = document.createElement("div");
   div.className = "storage-warn-banner";
@@ -5123,6 +5138,10 @@ function renderPaywallContext(){
   }
 }
 let unlockVerified = false;
+// Set while unlockFromSessionId is polling for a just-completed purchase
+// (webhook can lag a few seconds behind the Stripe redirect). Lets go()
+// avoid bouncing a paying customer back to the sales paywall during that gap.
+let unlockInProgress = false;
 function isUnlocked(){ return unlockVerified === true; }
 let trainerPriceData = null;
 /* Short urgency line reused wherever we want to surface the discount
@@ -5144,6 +5163,10 @@ function applyNudgeUrgency(elId){
 function go(name, opts){
   gjCloseWordNote();
   if(!FREE_SCREENS.has(name) && !isUnlocked() && !(opts && opts.bypassLock)){
+    if(unlockInProgress){
+      showBanner("กำลังยืนยันการชำระเงินของคุณ อีกไม่กี่วินาที... / Confirming your payment — this'll unlock in a few seconds, please try again.");
+      return;
+    }
     paywallContext = null;
     name = "paywall";
   }
@@ -5159,7 +5182,7 @@ function go(name, opts){
   lastScreenName = name;
   document.querySelectorAll(".nav-btn").forEach(b=>b.classList.toggle("active", b.dataset.nav===name));
   document.querySelector(".bottom-nav").classList.toggle("hidden", name==="paywall" || name==="restore" || name==="onboarding");
-  if(name==="paywall") renderPaywallContext();
+  if(name==="paywall"){ renderPaywallContext(); trackEvent("paywall_view", paywallContext); }
   if(name==="restore"){ document.getElementById("restore-input").value=""; document.getElementById("restore-error").textContent=""; }
   if(name==="flash-setup") renderFlashSetup();
   if(name==="drill-setup") renderDrillSetup();
@@ -11318,6 +11341,7 @@ async function verifyAccess(){
   }
 }
 async function startTrainerCheckout(){
+  trackEvent("paywall_cta_click", paywallContext);
   const btn = document.getElementById("paywall-buy-btn");
   const errEl = document.getElementById("paywall-error");
   const labelEl = document.getElementById("paywall-buy-label");
@@ -11329,7 +11353,11 @@ async function startTrainerCheckout(){
   labelEl.innerHTML = '<span class="btn-spin"></span>กำลังเปิดหน้าชำระเงิน...';
   descEl.textContent = "กรุณารอสักครู่";
   try{
-    const res = await fetch("/api/checkout-trainer", { method:"POST" });
+    const res = await fetch("/api/checkout-trainer", {
+      method:"POST",
+      headers:{ "Content-Type":"application/json" },
+      body: JSON.stringify({ context: paywallContext || null }),
+    });
     const data = await res.json();
     if(!res.ok || !data.url) throw new Error(data.error || "checkout_failed");
     window.location.href = data.url;
@@ -11458,6 +11486,7 @@ async function lookupPurchaseBySession(sessionId){
 // confirmation email never arrives. The webhook can lag a second or two
 // behind the redirect, so this retries briefly before giving up.
 async function unlockFromSessionId(sessionId){
+  unlockInProgress = true;
   let code = null;
   for(let i=0; i<5 && !code; i++){
     if(i>0) await sleep(1500);
@@ -11465,11 +11494,13 @@ async function unlockFromSessionId(sessionId){
     if(lookup.ok && lookup.code) code = lookup.code;
   }
   if(!code){
+    unlockInProgress = false;
     showBanner("We're still confirming your payment. Check your email for your access link in a moment.");
     return;
   }
   LS.set("et_access_code", code);
   const data = await verifyAccess();
+  unlockInProgress = false;
   if(data.ok){
     showUnlockCelebration();
   }
