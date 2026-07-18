@@ -77,6 +77,7 @@ export default function LandingPage() {
   const deadlineLabel = getTrainerDiscountDeadline().toLocaleDateString('th-TH-u-ca-buddhist', {
     day: 'numeric', month: 'long', year: 'numeric', timeZone: 'Asia/Bangkok',
   })
+  const daysLeft = Math.ceil((getTrainerDiscountDeadline().getTime() - Date.now()) / 86400000)
 
   return (
     <div className={styles.page}>
@@ -171,6 +172,12 @@ export default function LandingPage() {
               <span className={styles.priceNow}>{priceThb} บาท</span>
             </div>
             <div className={styles.priceUnit}>ชำระครั้งเดียว · One-time payment</div>
+            {discountActive && daysLeft > 0 && (
+              <div className={styles.priceCountdown}>
+                <Icon path="M12 8v4l3 3 M12 22a10 10 0 1 0 0-20 10 10 0 0 0 0 20Z" size={14} />
+                เหลืออีก {daysLeft} วันเท่านั้น
+              </div>
+            )}
             {discountActive && <div className={styles.priceDeadline}>ราคานี้ถึง {deadlineLabel} เท่านั้น</div>}
             <ul className={styles.priceBullets}>
               <li>ปลดล็อกทุกโหมด: ไวยากรณ์ครบ A1–B1, Drill ทุก tense, ทุกเสียงที่ออกยาก, พจนานุกรมกริยาทั้งหมด</li>

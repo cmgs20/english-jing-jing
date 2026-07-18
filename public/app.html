@@ -173,6 +173,7 @@ p.sub{ color:var(--muted); font-size:14px; margin:0 0 16px; line-height:1.4; }
 .home-nudge-txt{ flex:1; }
 .home-nudge-txt b{ font-size:14px; font-weight:800; display:block; }
 .home-nudge-txt p{ margin:3px 0 0; font-size:12px; color:var(--muted); line-height:1.4; }
+.home-nudge-txt p.home-nudge-urgency{ color:var(--orange-2); font-weight:700; }
 .home-nudge-cta{ margin-top:9px; margin-left:0; font-size:12px; padding:6px 13px; box-shadow:none; }
 .home-nudge-close{ background:none; border:none; color:var(--muted); font-size:15px; line-height:1; padding:3px 5px; cursor:pointer; flex-shrink:0; font-family:inherit; }
 
@@ -205,6 +206,7 @@ p.sub{ color:var(--muted); font-size:14px; margin:0 0 16px; line-height:1.4; }
   box-shadow:0 14px 30px -10px rgba(91,141,239,.7), inset 0 1px 0 rgba(255,255,255,.4);
 }
 .primary-btn:active{ transform:scale(.98); }
+.primary-btn.sticky-cta{ position:sticky; bottom:0; z-index:3; margin-top:16px; }
 .ghost-btn{
   background:transparent; border:1px solid rgba(255,255,255,.14); color:#cdd3e6;
   border-radius:18px; padding:14px; font-size:15px; font-weight:700; font-family:inherit; margin-top:10px;
@@ -351,10 +353,10 @@ p.sub{ color:var(--muted); font-size:14px; margin:0 0 16px; line-height:1.4; }
   position:fixed; left:50%; transform:translateX(-50%); bottom:calc(env(safe-area-inset-bottom,0px) + 16px);
   width:calc(100% - 20px); max-width:480px; height:64px; border-radius:24px;
   background:rgba(18,22,40,.86); backdrop-filter:blur(18px); -webkit-backdrop-filter:blur(18px);
-  border:1px solid rgba(255,255,255,.08); display:flex; align-items:center; justify-content:space-around;
+  border:1px solid rgba(255,255,255,.08); display:flex; align-items:stretch; justify-content:space-around;
   box-shadow:0 20px 40px -20px rgba(0,0,0,.9); padding:0 2px; z-index:50;
 }
-.nav-btn{ flex:1; min-width:0; background:none; border:none; color:var(--faint); display:flex; flex-direction:column; align-items:center; gap:3px; font-size:8.8px; font-weight:700; font-family:inherit; padding:4px 1px; white-space:nowrap; }
+.nav-btn{ flex:1; min-width:0; background:none; border:none; color:var(--faint); display:flex; flex-direction:column; align-items:center; justify-content:center; gap:3px; font-size:8.8px; font-weight:700; font-family:inherit; padding:4px 1px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
 .nav-btn .ic{ width:19px; height:19px; }
 .nav-btn.active{ color:var(--blue-2); }
 .nav-btn.fab{ width:46px; height:46px; border-radius:16px; margin-top:-22px; flex:0 0 auto; justify-content:center;
@@ -676,6 +678,7 @@ if("serviceWorker" in navigator){
       <div class="home-nudge-txt">
         <b>You've been practicing a lot!</b>
         <p>Grammar, conjugation drills, and more are waiting — free samples in every section.</p>
+        <p class="home-nudge-urgency" id="home-nudge-urgency" style="display:none;"></p>
         <button class="home-cta home-nudge-cta" onclick="go('grammar')">Take a look</button>
       </div>
       <button class="home-nudge-close" onclick="dismissHomeNudge()" aria-label="Close">✕</button>
@@ -706,7 +709,7 @@ if("serviceWorker" in navigator){
       <input type="range" id="flash-session-slider" min="1" max="10" value="1" oninput="setFlashSessionCustom(this.value)" style="flex:1;accent-color:var(--blue-2);">
       <span id="flash-session-slider-value" style="font-weight:800;min-width:28px;text-align:right;">1</span>
     </div>
-    <button class="primary-btn" style="margin-top:16px;" onclick="startFlash()">Start (<span id="flash-count">0</span> words)</button>
+    <button class="primary-btn sticky-cta" onclick="startFlash()">Start (<span id="flash-count">0</span> words)</button>
   </section>
 
   <!-- FLASHCARDS PLAY -->
@@ -761,6 +764,7 @@ if("serviceWorker" in navigator){
       <div class="home-nudge-txt">
         <b id="flash-session-nudge-title">Nice session!</b>
         <p id="flash-session-nudge-body">Grammar, verbs, and conjugation drills have free samples too, same level as your flashcards.</p>
+        <p class="home-nudge-urgency" id="flash-session-nudge-urgency" style="display:none;"></p>
         <button class="home-cta home-nudge-cta" id="flash-session-nudge-cta" onclick="go('grammar')">Take a peek</button>
       </div>
     </div>
@@ -779,7 +783,7 @@ if("serviceWorker" in navigator){
     <div class="pill-row" id="drill-level-pills"></div>
     <div class="section-label">Session length</div>
     <div class="pill-row" id="drill-session-pills"></div>
-    <button class="primary-btn" onclick="startDrill()">Start</button>
+    <button class="primary-btn sticky-cta" onclick="startDrill()">Start</button>
   </section>
 
   <!-- DRILL PLAY -->
@@ -972,7 +976,20 @@ if("serviceWorker" in navigator){
     <p class="sub" style="margin-top:14px;">ใช้งานได้แม้ปิดแอป jing jing อยู่ สำหรับ iPhone ให้เพิ่ม jing jing ที่หน้าจอโฮมก่อน (กด Share แล้วเลือก "Add to Home Screen") จากนั้นเปิดใช้งานจากแอปที่ติดตั้งแล้ว</p>
 
     <div class="section-label" style="margin-top:24px;">การซื้อ</div>
-    <div class="rate-card">
+    <div class="rate-card" id="settings-buy-block" style="display:none;">
+      <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;">
+        <div>
+          <b style="font-size:15px;display:block;">ปลดล็อกทุกฟีเจอร์ ตลอดชีพ</b>
+          <span class="sub" id="settings-buy-price" style="margin:2px 0 0;display:block;font-size:12.5px;">249 บาท ชำระครั้งเดียว</span>
+        </div>
+        <button class="ghost-btn" style="flex-shrink:0;white-space:nowrap;color:var(--blue-2);border-color:rgba(91,141,239,.35);" onclick="goPaywall('settings')">ปลดล็อก</button>
+      </div>
+      <p class="sub home-nudge-urgency" id="settings-buy-urgency" style="display:none;margin:10px 0 0;font-size:12.5px;"></p>
+    </div>
+    <div class="rate-card" id="settings-unlocked-badge" style="display:none;align-items:center;gap:8px;">
+      <b style="font-size:15px;color:var(--good-fg);display:flex;align-items:center;gap:7px;">✓ ปลดล็อกครบทุกฟีเจอร์แล้ว</b>
+    </div>
+    <div class="rate-card" style="margin-top:10px;">
       <div style="display:flex;align-items:center;justify-content:space-between;">
         <b style="font-size:15px;">ซื้อไปแล้วแต่เครื่องนี้ล็อกอยู่?</b>
         <button class="ghost-btn" onclick="go('restore')">กู้คืน</button>
@@ -4942,6 +4959,10 @@ const PAYWALL_CONTEXT = {
     title: "ฝึกออกเสียงได้ครบทุกเสียง",
     desc: "คุณเพิ่งลองฝึกเสียง R กับ L ไปแล้ว เวอร์ชันเต็มปลดล็อกทุกเสียงที่คนไทยมักออกเสียงยาก",
   },
+  settings: {
+    title: "ปลดล็อกทุกฟีเจอร์ ตลอดชีพ",
+    desc: "ไวยากรณ์ครบ A1–B1, Drill ทุก tense, ทุกเสียงที่ออกยาก และพจนานุกรมกริยาทั้งหมด จ่ายครั้งเดียวใช้ได้ตลอดไป",
+  },
 };
 let paywallContext = null;
 function goPaywall(context){
@@ -4964,6 +4985,23 @@ function renderPaywallContext(){
 }
 let unlockVerified = false;
 function isUnlocked(){ return unlockVerified === true; }
+let trainerPriceData = null;
+/* Short urgency line reused wherever we want to surface the discount
+   deadline outside the paywall screen itself (home nudge, session nudge,
+   settings). Returns "" when there's no active discount to talk about. */
+function nudgeUrgencyText(){
+  if(!trainerPriceData || !trainerPriceData.discountActive || !trainerPriceData.discountDeadline) return "";
+  const days = Math.ceil((new Date(trainerPriceData.discountDeadline).getTime() - Date.now()) / 86400000);
+  if(days <= 0) return "";
+  return `⏳ เหลืออีก ${days} วัน ก่อนราคาขึ้นเป็น ${trainerPriceData.compareAtPriceThb} บาท`;
+}
+function applyNudgeUrgency(elId){
+  const el = document.getElementById(elId);
+  if(!el) return;
+  const text = nudgeUrgencyText();
+  el.textContent = text;
+  el.style.display = text ? "block" : "none";
+}
 function go(name, opts){
   gjCloseWordNote();
   if(!FREE_SCREENS.has(name) && !isUnlocked() && !(opts && opts.bypassLock)){
@@ -5039,6 +5077,27 @@ function renderSettings(){
   document.getElementById("settings-goal-label").textContent = goalLabel(dailyGoalMin);
   document.getElementById("settings-reminder-time").value = reminderTime;
   renderReminderUI();
+  renderSettingsPurchaseCta();
+}
+/* Settings is reachable by any user, purchased or not — engaged free users
+   who came in to tweak playback speed or their daily goal previously had
+   no way to buy from here at all, only "restore" for people who'd already
+   paid. This surfaces a live-priced unlock CTA to the ones who haven't. */
+function renderSettingsPurchaseCta(){
+  const buyBlock = document.getElementById("settings-buy-block");
+  const unlockedBadge = document.getElementById("settings-unlocked-badge");
+  if(!buyBlock || !unlockedBadge) return;
+  if(isUnlocked()){
+    buyBlock.style.display = "none";
+    unlockedBadge.style.display = "flex";
+    return;
+  }
+  unlockedBadge.style.display = "none";
+  buyBlock.style.display = "block";
+  if(trainerPriceData && trainerPriceData.priceThb){
+    document.getElementById("settings-buy-price").textContent = trainerPriceData.priceThb + " บาท ชำระครั้งเดียว";
+  }
+  applyNudgeUrgency("settings-buy-urgency");
 }
 function goalLabel(mins){ return mins>=60 ? "1 ชั่วโมง" : mins+" นาที"; }
 function setDailyGoal(v){
@@ -5275,7 +5334,10 @@ function shouldShowHomeNudge(){
 }
 function renderHomeNudge(){
   const el = document.getElementById("home-nudge");
-  if(el) el.style.display = shouldShowHomeNudge() ? "flex" : "none";
+  if(!el) return;
+  const show = shouldShowHomeNudge();
+  el.style.display = show ? "flex" : "none";
+  if(show) applyNudgeUrgency("home-nudge-urgency");
 }
 function dismissHomeNudge(){
   LS.set("et_nudge_dismissed_at", Date.now());
@@ -5468,6 +5530,15 @@ function renderFlashSessionNudge(){
   cta.textContent = target.cta;
   cta.onclick = () => go(target.screen);
   el.style.display = "flex";
+  applyNudgeUrgency("flash-session-nudge-urgency");
+}
+/* Called when fresh price data arrives after this nudge is already on
+   screen (loadTrainerPrice is async and can resolve after render) — updates
+   the urgency line only, without re-running the once-per-session trigger
+   logic in renderFlashSessionNudge(). */
+function refreshFlashSessionNudgeUrgency(){
+  const el = document.getElementById("flash-session-nudge");
+  if(el && el.style.display !== "none") applyNudgeUrgency("flash-session-nudge-urgency");
 }
 
 /* =========================================================
@@ -11100,6 +11171,7 @@ async function loadTrainerPrice(){
   try{
     const res = await fetch("/api/trainer-price");
     const data = await res.json();
+    trainerPriceData = data;
     const label = document.getElementById("paywall-price-label");
     const strike = document.getElementById("paywall-price-strike");
     const deadlineEl = document.getElementById("paywall-discount-deadline");
@@ -11116,7 +11188,10 @@ async function loadTrainerPrice(){
       if(data.discountActive && data.discountDeadline){
         const d = new Date(data.discountDeadline);
         const thaiDate = d.toLocaleDateString("th-TH-u-ca-buddhist", { day:"numeric", month:"long", year:"numeric", timeZone:"Asia/Bangkok" });
-        deadlineEl.textContent = `ราคานี้ถึง ${thaiDate} เท่านั้น`;
+        const days = Math.ceil((d.getTime() - Date.now()) / 86400000);
+        deadlineEl.textContent = days > 0
+          ? `ราคานี้ถึง ${thaiDate} เท่านั้น (เหลืออีก ${days} วัน)`
+          : `ราคานี้ถึง ${thaiDate} เท่านั้น`;
         deadlineEl.style.display = "";
       } else {
         deadlineEl.style.display = "none";
@@ -11124,6 +11199,9 @@ async function loadTrainerPrice(){
     }
     const addonBtn = document.getElementById("device-addon-btn");
     if(addonBtn && data.deviceAddonPriceThb) addonBtn.textContent = `Add this device (${data.deviceAddonPriceThb} THB)`;
+    renderHomeNudge();
+    refreshFlashSessionNudgeUrgency();
+    renderSettingsPurchaseCta();
   }catch(e){ /* keep the default label */ }
 }
 function sleep(ms){ return new Promise(r => setTimeout(r, ms)); }

@@ -68,8 +68,9 @@
 .priceRow{ display:flex; align-items:baseline; justify-content:center; gap:10px; margin:6px 0 4px; }
 .priceStrike{ font-size:16px; color:var(--faint); text-decoration:line-through; }
 .priceNow{ font-size:32px; font-weight:800; }
-.priceUnit{ font-size:13px; color:var(--muted); margin-bottom:18px; }
-.priceDeadline{ font-size:12.5px; color:var(--thai); margin-bottom:18px; }
+.priceUnit{ font-size:13px; color:var(--muted); margin-bottom:14px; }
+.priceCountdown{ display:inline-flex; align-items:center; gap:6px; font-size:12.5px; font-weight:700; color:var(--orange-2); background:rgba(255,166,87,.12); border:1px solid rgba(255,166,87,.3); border-radius:999px; padding:6px 14px; margin-bottom:10px; }
+.priceDeadline{ font-size:12.5px; color:var(--faint); margin-bottom:18px; }
 .priceBullets{ text-align:left; max-width:340px; margin:0 auto 22px; display:flex; flex-direction:column; gap:8px; }
 .priceBullets li{ font-size:13.5px; color:var(--muted); list-style:none; display:flex; gap:8px; }
 .priceBullets li::before{ content:"✓"; color:var(--green-2); font-weight:800; flex-shrink:0; }
