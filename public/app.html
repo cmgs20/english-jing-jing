@@ -641,6 +641,32 @@ if("serviceWorker" in navigator){
     navigator.serviceWorker.register("/sw-reminder.js").catch(function(){});
   });
 }
+/* iOS standalone PWAs (added to Home Screen) still let the native
+   WKWebView elastically bounce the whole document on an overscroll
+   gesture even though html/body have overflow:hidden — that CSS only
+   stops document *scrolling*, not the WebKit-level bounce. The bounce
+   drags position:fixed/sticky elements (the topbar, the unlock
+   celebration overlay) out of sync for a frame, which is what looks
+   like the screen shifting and text/overlays flashing behind the
+   header. Only iOS WebKit does this; Android/desktop Chrome are
+   unaffected. Fix: block touchmove at the document level unless the
+   gesture started inside an element that's actually scrollable, so
+   real scrolling (inside .screen, carousels, etc.) still works. */
+function ejjTouchTargetScrolls(el){
+  while(el && el !== document.body){
+    var cs = getComputedStyle(el);
+    if(/(auto|scroll)/.test(cs.overflowY + cs.overflowX) && el.scrollHeight > el.clientHeight) return true;
+    el = el.parentElement;
+  }
+  return false;
+}
+var ejjAllowTouchScroll = true;
+document.addEventListener("touchstart", function(e){
+  ejjAllowTouchScroll = ejjTouchTargetScrolls(e.target);
+}, {passive:true});
+document.addEventListener("touchmove", function(e){
+  if(!ejjAllowTouchScroll) e.preventDefault();
+}, {passive:false});
 </script>
 <div id="app">
 

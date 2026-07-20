@@ -32,6 +32,16 @@ function buildNotificationPayload() {
   return { title: 'ฝึกภาษาอังกฤษต่อได้เลย', body, url: '/app.html?open=paywall' }
 }
 
+// iOS Safari's <input type="time"> doesn't reliably honor step="300", so a
+// stored reminder_time isn't guaranteed to land on a 5-minute mark like the
+// cron cadence does — floor it the same way so e.g. "12:48" still matches
+// the "12:45" cron tick instead of never matching any tick, ever.
+function floorTo5(hhmm: string) {
+  const [h, m] = hhmm.split(':').map(Number)
+  const flooredMinute = String(Math.floor(m / 5) * 5).padStart(2, '0')
+  return `${String(h).padStart(2, '0')}:${flooredMinute}`
+}
+
 // Local wall-clock time for a given IANA zone, rounded down to the nearest
 // 5 minutes so it lines up with the cron cadence that calls this route.
 function localTimeParts(timezone: string) {
@@ -92,7 +102,7 @@ async function handleReminders() {
     } catch (e) {
       continue // invalid/unknown timezone string, skip this row
     }
-    if (local.hhmm !== row.reminder_time) continue
+    if (local.hhmm !== floorTo5(row.reminder_time)) continue
     if (row.last_sent_date === local.date) continue
 
     const showPriceNudge = !unlockedDeviceIds.has(row.device_id) && discountActive
