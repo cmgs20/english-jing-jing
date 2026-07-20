@@ -85,6 +85,14 @@ body{
   color:var(--text);
   font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","Segoe UI",Roboto,sans-serif;
   overscroll-behavior:none; -webkit-user-select:none; user-select:none;
+  /* iOS standalone PWAs still let WKWebView elastically bounce/pan the
+     document on a horizontal or diagonal drag even with overflow:hidden
+     above — that CSS only clips, it doesn't stop WebKit's own gesture
+     recognizer. touch-action tells the recognizer itself not to hand
+     WebKit a pannable gesture here, which is what was letting the whole
+     app shift left/right and desync the sticky header/overlays on iPhone
+     (Android Chrome never had this gesture in the first place). */
+  touch-action:none;
 }
 .ic{ width:18px; height:18px; stroke:currentColor; stroke-width:2.4; fill:none; vertical-align:middle; flex-shrink:0; }
 #app{
@@ -98,7 +106,7 @@ body{
    never scrolls under it — the nav's clearance is already excluded via
    #app's padding-bottom. min-height:0 lets the flex:1 item actually shrink
    and scroll instead of growing past its allotted space. */
-.screen{ padding:14px 18px; flex:1; min-height:0; display:none; flex-direction:column; overflow-y:auto; -webkit-overflow-scrolling:touch; overscroll-behavior:contain; }
+.screen{ padding:14px 18px; flex:1; min-height:0; display:none; flex-direction:column; overflow-y:auto; -webkit-overflow-scrolling:touch; overscroll-behavior:contain; touch-action:pan-y; }
 .screen.active{ display:flex; }
 /* Screens with a sticky-cta footer button need extra bottom padding so the
    last list item can scroll clear of the button instead of sitting under it. */
@@ -424,7 +432,7 @@ p.sub{ color:var(--muted); font-size:14px; margin:0 0 16px; line-height:1.4; }
 .splash-spin{ width:26px; height:26px; border:3px solid rgba(var(--hairline-rgb),.15); border-top-color:var(--blue-2); border-radius:50%; animation:btn-spin .7s linear infinite; }
 
 /* Onboarding preview carousel */
-.onb-carousel{ display:flex; overflow-x:auto; overflow-y:hidden; scroll-snap-type:x mandatory; scrollbar-width:none; -webkit-overflow-scrolling:touch; width:100%; }
+.onb-carousel{ display:flex; overflow-x:auto; overflow-y:hidden; scroll-snap-type:x mandatory; scrollbar-width:none; -webkit-overflow-scrolling:touch; width:100%; touch-action:pan-x; }
 .onb-carousel::-webkit-scrollbar{ display:none; }
 .onb-slide{ flex:0 0 100%; scroll-snap-align:center; box-sizing:border-box; padding:0 4px; display:flex; flex-direction:column; align-items:center; gap:14px; }
 .onb-mock{ width:100%; max-width:280px; margin:0 auto; border-radius:26px; padding:22px 20px; text-align:center; background:linear-gradient(160deg,var(--card2),var(--card)); border:1px solid rgba(var(--hairline-rgb),.08); box-sizing:border-box; }
@@ -593,7 +601,7 @@ p.sub{ color:var(--muted); font-size:14px; margin:0 0 16px; line-height:1.4; }
 .gj-step-label{ font-size:13px; font-weight:800; letter-spacing:.4px; color:var(--text); }
 .gj-step-th{ font-size:12px; color:var(--thai); font-weight:600; }
 
-.gj-practice-carousel{ display:flex; align-items:flex-start; overflow-x:auto; overflow-y:hidden; scroll-snap-type:x mandatory; scrollbar-width:none; -webkit-overflow-scrolling:touch; margin:0 -18px; transition:height .2s ease; }
+.gj-practice-carousel{ display:flex; align-items:flex-start; overflow-x:auto; overflow-y:hidden; scroll-snap-type:x mandatory; scrollbar-width:none; -webkit-overflow-scrolling:touch; margin:0 -18px; transition:height .2s ease; touch-action:pan-x; }
 .gj-practice-carousel::-webkit-scrollbar{ display:none; }
 .gj-practice-slide{ flex:0 0 100%; scroll-snap-align:center; box-sizing:border-box; padding:0 18px; }
 .gj-practice-dots{ display:flex; justify-content:center; gap:6px; margin:14px 0 2px; }
@@ -641,32 +649,6 @@ if("serviceWorker" in navigator){
     navigator.serviceWorker.register("/sw-reminder.js").catch(function(){});
   });
 }
-/* iOS standalone PWAs (added to Home Screen) still let the native
-   WKWebView elastically bounce the whole document on an overscroll
-   gesture even though html/body have overflow:hidden — that CSS only
-   stops document *scrolling*, not the WebKit-level bounce. The bounce
-   drags position:fixed/sticky elements (the topbar, the unlock
-   celebration overlay) out of sync for a frame, which is what looks
-   like the screen shifting and text/overlays flashing behind the
-   header. Only iOS WebKit does this; Android/desktop Chrome are
-   unaffected. Fix: block touchmove at the document level unless the
-   gesture started inside an element that's actually scrollable, so
-   real scrolling (inside .screen, carousels, etc.) still works. */
-function ejjTouchTargetScrolls(el){
-  while(el && el !== document.body){
-    var cs = getComputedStyle(el);
-    if(/(auto|scroll)/.test(cs.overflowY + cs.overflowX) && el.scrollHeight > el.clientHeight) return true;
-    el = el.parentElement;
-  }
-  return false;
-}
-var ejjAllowTouchScroll = true;
-document.addEventListener("touchstart", function(e){
-  ejjAllowTouchScroll = ejjTouchTargetScrolls(e.target);
-}, {passive:true});
-document.addEventListener("touchmove", function(e){
-  if(!ejjAllowTouchScroll) e.preventDefault();
-}, {passive:false});
 </script>
 <div id="app">
 
@@ -5038,6 +5020,13 @@ function warnStorageFailure(){
   showBanner("Your progress isn't saving on this device right now (private browsing or storage full). It'll still work this session, but won't be remembered next time.");
 }
 function showUnlockCelebration(){
+  // Guards against re-showing the confetti on every future app open. Without
+  // this, any code path that re-verifies an already-unlocked device (e.g. a
+  // stale ?code= baked into an iOS "Add to Home Screen" icon's launch URL,
+  // which iOS keeps using forever regardless of later history.replaceState
+  // calls) re-plays the celebration on every single launch instead of once.
+  if(LS.get("et_unlock_celebrated", false)) return;
+  LS.set("et_unlock_celebrated", true);
   haptic([25,50,25,50,80]);
   const overlay = document.getElementById("unlock-overlay");
   overlay.querySelectorAll(".confetti-piece").forEach(el=>{
