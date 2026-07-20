@@ -61,6 +61,16 @@ function localTimeParts(timezone: string) {
 export async function POST(request: NextRequest) {
   const auth = request.headers.get('authorization')
   if (auth !== `Bearer ${process.env.CRON_SECRET}`) {
+    // TEMPORARY diagnostic — remove after confirming the mismatch cause.
+    // Server-side log only (Vercel Runtime Logs), never returned to the
+    // caller — lengths/prefixes only, never the actual secret value.
+    console.error('[send-reminders] auth mismatch', {
+      hasEnvSecret: !!process.env.CRON_SECRET,
+      envSecretLength: process.env.CRON_SECRET?.length ?? 0,
+      receivedAuthLength: auth?.length ?? 0,
+      receivedAuthPrefix: auth?.slice(0, 10) ?? null,
+      receivedAuthSuffix: auth?.slice(-6) ?? null,
+    })
     return NextResponse.json({ ok: false, reason: 'unauthorized' }, { status: 401 })
   }
 
