@@ -3000,7 +3000,7 @@ const VOCAB = [
 ["อย่างโดดเด่น","distinctively","B1","Adverbs"],["อย่างชัดเจน","distinctly","B1","Adverbs"],["อย่างเป็นทุกข์","distressfully","B1","Adverbs"],
 ["อย่างน่าเป็นทุกข์","distressingly","B1","Adverbs"],
 // Arts & Crafts (A-D list)
-["รวมบทประพันธ์","anthology","B1","Arts & Crafts"],["ศิลปะ","art","A1","Arts & Crafts"],["ดินเหนียว","clay","A2","Arts & Crafts"],
+["รวมบทประพันธ์","anthology","B1","Newsagent"],["ศิลปะ","art","A1","Arts & Crafts"],["ดินเหนียว","clay","A2","Arts & Crafts"],
 ["งานฝีมือ","craft","A2","Arts & Crafts"],
 // Baby Goods (A-D list)
 ["ผ้าอ้อม","diaper","A2","Baby Goods"],
@@ -3020,7 +3020,7 @@ const VOCAB = [
 // Beach (A-D list)
 ["ขึ้นฝั่ง / เกยตื้น","ashore","B1","Beach"],["ทุ่นลอยน้ำ","buoy","B1","Beach"],
 // Beauty & Hygiene (A-D list)
-["แปรง","brush","A1","Beauty & Hygiene"],["รังแค","dandruff","A2","Beauty & Hygiene"],
+["แปรง","brush","A1","Beauty & Hygiene"],["รังแค","dandruff","A2","Illness"],
 // Body (A-D list)
 ["กายวิภาคศาสตร์","anatomy","B1","Body"],["เครา","beard","A2","Body"],["ร่างกาย","body","A1","Body"],
 ["ลมหายใจ","breath","A2","Body"],["เส้นเลือดฝอย","capillary","B1","Body"],["หน้าอก","chest","A2","Body"],
@@ -3041,8 +3041,8 @@ const VOCAB = [
 ["กระท่อม / ห้องโดยสาร","cabin","A2","Camping"],["ตั้งแคมป์ / ค่ายพัก","camp","A2","Camping"],["เข็มทิศ","compass","A2","Camping"],
 ["กระท่อม","cottage","A2","Camping"],
 // Celebrations (A-D list)
-["รางวัล / มอบรางวัล","award","A2","Celebrations"],["งานเลี้ยง","banquet","B1","Celebrations"],["เทียน","candle","A1","Celebrations"],
-["พิธีการ","ceremony","A2","Celebrations"],
+["รางวัล / มอบรางวัล","award","A2","Abstract"],["งานเลี้ยง","banquet","B1","Evenings Out"],["เทียน","candle","A1","House"],
+["พิธีการ","ceremony","A2","Abstract"],
 // Clothes (A-D list)
 ["รองเท้าบูท","boot","A2","Clothes"],["หมวกแก๊ป","cap","A1","Clothes"],["ลำลอง / ไม่เป็นทางการ","casual","A2","Clothes"],
 ["ผ้า","cloth","A2","Clothes"],
@@ -3058,7 +3058,7 @@ const VOCAB = [
 ["หน้าปัด","dial","A2","Communication & IT"],["ดิจิทัล","digital","A2","Communication & IT"],["แผ่นดิสก์","disc","A2","Communication & IT"],
 ["แสดง / จอแสดงผล","display","A2","Communication & IT"],["อาณาเขต / โดเมน","domain","B1","Communication & IT"],["จุด","dot","A1","Communication & IT"],
 // Cycling (A-D list)
-["วงจร / ปั่นจักรยาน","cycle","A2","Cycling"],
+["วงจร / ปั่นจักรยาน","cycle","A2","Abstract"],
 // Dentist (A-D list)
 ["ฟันผุ / โพรง","cavity","A2","Dentist"],["เกี่ยวกับฟัน","dental","A2","Dentist"],
 // Eating Out (A-D list)
@@ -3085,7 +3085,7 @@ const VOCAB = [
 // Farm Animals (A-D list)
 ["ฝูงวัวควาย","cattle","A2","Farm Animals"],["ไก่ตัวผู้","cock","A2","Farm Animals"],["พืชผล","crop","A2","Farm Animals"],
 // Festivals (A-D list)
-["งานรื่นเริง","carnival","A2","Festivals"],
+["งานรื่นเริง","carnival","A2","Evenings Out"],
 // Food (A-D list)
 ["กลิ่นหอม","aroma","B1","Food"],["เครื่องดื่ม","beverage","A2","Food"],["ลูกกวาด","candy","A1","Food"],
 ["อาหารประจำชาติ","cuisine","B1","Food"],["ของหวาน","dessert","A1","Food"],
@@ -3113,7 +3113,7 @@ const VOCAB = [
 ["ผงซักฟอก","detergent","A2","Housework"],["สิ่งสกปรก","dirt","A2","Housework"],["ฝุ่น","dust","A2","Housework"],
 // Illness (A-D list)
 ["ปวด / ความเจ็บปวด","ache","A2","Illness"],["มะเร็ง","cancer","B1","Illness"],["อหิวาตกโรค","cholera","B1","Illness"],
-["เรื้อรัง","chronic","B1","Illness"],["ไอ","cough","A1","Illness"],["ภาวะซึมเศร้า","depression","B1","Illness"],
+["เรื้อรัง","chronic","B1","Adjectives"],["ไอ","cough","A1","Illness"],["ภาวะซึมเศร้า","depression","B1","Illness"],
 ["ท้องเสีย","diarrhea","A2","Illness"],["โรค","disease","A2","Illness"],
 // Insects (A-D list)
 ["แมลง / ข้อบกพร่อง","bug","A2","Insects"],
@@ -3129,17 +3129,17 @@ const VOCAB = [
 // Leisure (A-D list)
 ["การผจญภัย","adventure","A2","Leisure"],["ลายเซ็น","autograph","B1","Leisure"],["สโมสร","club","A2","Leisure"],
 // Life Events (A-D list)
-["เจ้าสาว","bride","A2","Life Events"],["โลงศพ","coffin","B1","Life Events"],["ความตาย","death","A2","Life Events"],
+["เจ้าสาว","bride","A2","Family"],["โลงศพ","coffin","B1","Abstract"],["ความตาย","death","A2","Life Events"],
 // Music (A-D list)
 ["เพลงชาติ","anthem","B1","Music"],["ตลับเทป","cassette","B1","Music"],["การร้องประสานเสียง","chorus","B1","Music"],
 ["เพลงคู่","duet","B1","Music"],
 // Nature (A-D list)
-["ความสูง (จากระดับน้ำทะเล)","altitude","B1","Nature"],["น้ำ","aqua","A2","Nature"],["เถ้าถ่าน","ash","B1","Nature"],
-["อ่าว","bay","A2","Nature"],["เปลวไฟลุกโพลง","blaze","B1","Nature"],["คลอง","canal","A2","Nature"],
-["หุบเขาลึก","canyon","B1","Nature"],["แหลม / เสื้อคลุม","cape","B1","Nature"],["คาร์บอน","carbon","B1","Nature"],
-["สภาพภูมิอากาศ","climate","B1","Nature"],["ถ่านหิน","coal","A2","Nature"],["ทวีป","continent","A2","Nature"],
+["ความสูง (จากระดับน้ำทะเล)","altitude","B1","Abstract"],["น้ำ","aqua","A2","Abstract"],["เถ้าถ่าน","ash","B1","Abstract"],
+["อ่าว","bay","A2","Nature"],["เปลวไฟลุกโพลง","blaze","B1","Abstract"],["คลอง","canal","A2","Nature"],
+["หุบเขาลึก","canyon","B1","Nature"],["แหลม / เสื้อคลุม","cape","B1","Nature"],["คาร์บอน","carbon","B1","Abstract"],
+["สภาพภูมิอากาศ","climate","B1","Nature"],["ถ่านหิน","coal","A2","Tools & DIY"],["ทวีป","continent","A2","Nature"],
 ["ชนบท","countryside","A2","Nature"],["เขื่อน","dam","A2","Nature"],["สามเหลี่ยมปากแม่น้ำ","delta","B1","Nature"],
-["น้ำท่วมใหญ่","deluge","B1","Nature"],
+["น้ำท่วมใหญ่","deluge","B1","Weather"],
 // Newsagent (A-D list)
 ["บทความ / มาตรา","article","A2","Newsagent"],["ชีวประวัติ","biography","B1","Newsagent"],["บท","chapter","A2","Newsagent"],
 ["คอลัมน์ / เสา","column","A2","Newsagent"],
@@ -3152,11 +3152,11 @@ const VOCAB = [
 ["สมุดบันทึก","diary","A2","Office"],["สมุดรายชื่อ","directory","A2","Office"],["เอกสาร","document","A2","Office"],
 ["ทำซ้ำ / สำเนา","duplicate","B1","Office"],
 // Pets (A-D list)
-["เพาะพันธุ์ / สายพันธุ์","breed","B1","Pets"],
+["เพาะพันธุ์ / สายพันธุ์","breed","B1","Abstract"],
 // Pharmacy (A-D list)
 ["ยา","drug","A2","Pharmacy"],
 // Photography (A-D list)
-["คำบรรยายภาพ","caption","B1","Photography"],
+["คำบรรยายภาพ","caption","B1","Communication & IT"],
 // Places (A-D list)
 ["ต่างประเทศ","abroad","A2","Places"],["พื้นที่","area","A2","Places"],["พรมแดน / ขอบ","border","A2","Places"],
 ["เมืองหลวง / เงินทุน","capital","A2","Places"],
@@ -3305,6 +3305,236 @@ const VOCAB = [
 ["โบนัส","bonus","A2","Work"],["หัวหน้า / เจ้านาย","boss","A1","Work"],["ผู้สมัคร","candidate","B1","Work"],
 ["อาชีพการงาน","career","A2","Work"],["หัวหน้า","chief","A2","Work"],["ผู้ได้รับการแต่งตั้ง","designee","B1","Work"],
 ["ผู้อำนวยการ","director","A2","Work"],["หน้าที่","duty","A2","Work"],
+// ---- Core word list E-H (added from the E-H vocabulary list) ----
+// Abstract (E-H list)
+["ขอบ","edge","A2","Abstract"],["ผลกระทบ","effect","A2","Abstract"],["ความพยายาม","effort","A2","Abstract"],
+["อัตตา / ความถือตัว","ego","B1","Abstract"],["ขั้วไฟฟ้า","electrode","B1","Abstract"],["องค์ประกอบ","element","B1","Abstract"],
+["ชนชั้นนำ","elite","B1","Abstract"],["อารมณ์ / ความรู้สึก","emotion","B1","Abstract"],["จักรพรรดิ","emperor","B1","Abstract"],
+["การเน้นย้ำ","emphasis","B1","Abstract"],["จักรวรรดิ","empire","B1","Abstract"],["จบ / ตอนจบ","end","A1","Abstract"],
+["ความพยายาม","endeavor","B1","Abstract"],["ศัตรู","enemy","A2","Abstract"],["ปริศนา","enigma","B1","Abstract"],
+["ดุลยภาพ","equilibrium","B1","Abstract"],["แก่นแท้ / สาระสำคัญ","essence","B1","Abstract"],["ที่ดิน / มรดก","estate","B1","Abstract"],
+["ความนับถือ","esteem","B1","Abstract"],["จริยธรรม","ethics","B1","Abstract"],["หลักฐาน","evidence","B1","Abstract"],
+["ส่วนที่เกิน","excess","B1","Abstract"],["การเนรเทศ","exile","B1","Abstract"],["ความจริง","fact","A2","Abstract"],
+["ก๊ก / กลุ่มย่อย","faction","B1","Abstract"],["ปัจจัย","factor","B1","Abstract"],["ศรัทธา","faith","B1","Abstract"],
+["ชื่อเสียง","fame","B1","Abstract"],["ทุพภิกขภัย / ความอดอยาก","famine","B1","Abstract"],["จินตนาการ / ความเพ้อฝัน","fantasy","B1","Abstract"],
+["โชคชะตา","fate","B1","Abstract"],["ข้อผิดพลาด / ความผิด","fault","A2","Abstract"],["ความช่วยเหลือ / ความกรุณา","favor","A2","Abstract"],
+["ความกลัว","fear","A2","Abstract"],["เพื่อนร่วม","fellow","B1","Abstract"],["เพศหญิง","female","A2","Abstract"],
+["รูปร่าง / ตัวเลข","figure","A2","Abstract"],["การแตกตัว","fission","B1","Abstract"],["ด้านข้าง","flank","B1","Abstract"],
+["ของเหลว","fluid","B1","Abstract"],["ฟลุ๊ก / ความบังเอิญ","fluke","B1","Abstract"],["ฟอง","foam","A2","Abstract"],
+["คนโง่","fool","A2","Abstract"],["โชคลาภ / ทรัพย์สมบัติ","fortune","B1","Abstract"],["ชิ้นส่วนที่แตก","fragment","B1","Abstract"],
+["การฉ้อโกง","fraud","B1","Abstract"],["แรงเสียดทาน","friction","B1","Abstract"],["ความตกใจกลัว","fright","B1","Abstract"],
+["ผู้หลบหนี","fugitive","B1","Abstract"],["การบรรลุเป้าหมาย","fulfillment","B1","Abstract"],["แก๊ง / กลุ่ม","gang","A2","Abstract"],
+["ช่องว่าง","gap","A2","Abstract"],["เพศ","gender","B1","Abstract"],["อัจฉริยะ","genius","A2","Abstract"],
+["ผี","ghost","A2","Abstract"],["ความรุ่งโรจน์","glory","B1","Abstract"],["พระเจ้า","god","A2","Abstract"],
+["การนินทา","gossip","A2","Abstract"],["ความงดงามสง่า","grace","B1","Abstract"],["ความกตัญญู","gratitude","B1","Abstract"],
+["ความโลภ","greed","B1","Abstract"],["ตะแกรง / ตาราง","grid","B1","Abstract"],["กลุ่ม","group","A1","Abstract"],
+["กองโจร","guerrilla","B1","Abstract"],["ความรู้สึกผิด","guilt","B1","Abstract"],["ปืน","gun","A2","Abstract"],
+["นิสัย","habit","A2","Abstract"],["การหยุดชั่วคราว","halt","B1","Abstract"],["ความหายนะ","havoc","B1","Abstract"],
+["สวรรค์","heaven","A2","Abstract"],["นรก","hell","A2","Abstract"],["วีรบุรุษ","hero","A2","Abstract"],
+["การจี้เครื่องบิน","hijack","B1","Abstract"],["การพูดเป็นนัย / คำใบ้","hint","A2","Abstract"],["เกียรติยศ","honor","B1","Abstract"],
+["ตัวประกัน","hostage","B1","Abstract"],["ศูนย์กลาง","hub","B1","Abstract"],["มนุษย์","human","A2","Abstract"],
+["อารมณ์ขัน","humor","A2","Abstract"],
+// Accessories (E-H list)
+["ทองคำ","gold","A1","Tools & DIY"],
+// Adjectives (E-H list)
+["กระตือรือร้น","eager","B1","Adjectives"],["ประหลาด / นอกคอก","eccentric","B1","Adjectives"],["เกี่ยวกับเศรษฐกิจ","economic","B1","Adjectives"],
+["กินได้","edible","B1","Adjectives"],["ง่ายดาย / ไม่ต้องออกแรง","effortless","B1","Adjectives"],["ยืดหยุ่น","elastic","A2","Adjectives"],
+["สูงวัย","elderly","A2","Adjectives"],["เกี่ยวกับไฟฟ้า","electric","A2","Adjectives"],["สง่างาม","elegant","B1","Adjectives"],
+["มีคุณสมบัติเหมาะสม","eligible","B1","Adjectives"],["ว่างเปล่า","empty","A1","Adjectives"],["ใหญ่มหึมา","enormous","A2","Adjectives"],
+["เพียงพอ","enough","A1","Adjectives"],["กระตือรือร้น","enthusiastic","B1","Adjectives"],["ทั้งหมด","entire","A2","Adjectives"],
+["เท่าเทียมกัน","equal","A2","Adjectives"],["เทียบเท่ากัน","equivalent","B1","Adjectives"],["เป็นพิเศษ","especial","B1","Adjectives"],
+["ชั่วนิรันดร์","eternal","B1","Adjectives"],["ชั่วร้าย","evil","B1","Adjectives"],["แม่นยำ / ถูกต้องเป๊ะ","exact","A2","Adjectives"],
+["ยอดเยี่ยม","excellent","A2","Adjectives"],["ยอดเยี่ยม / เป็นข้อยกเว้น","exceptional","B1","Adjectives"],["พิเศษเฉพาะ","exclusive","B1","Adjectives"],
+["ได้รับการยกเว้น","exempt","B1","Adjectives"],["แปลกถิ่น / มาจากต่างแดน","exotic","B1","Adjectives"],["ซึ่งเปิดโล่ง","exposed","B1","Adjectives"],
+["ภายนอก","external","B1","Adjectives"],["สูญพันธุ์","extinct","B1","Adjectives"],["พิเศษ / เพิ่มเติม","extra","A1","Adjectives"],
+["สุดขั้ว","extreme","B1","Adjectives"],["ยอดเยี่ยม / เหลือเชื่อ","fabulous","A2","Adjectives"],["ยุติธรรม","fair","A2","Adjectives"],
+["ปลอม","fake","A2","Adjectives"],["ซึ่งผิดพลาดได้","fallible","B1","Adjectives"],["เท็จ / ผิด","false","A2","Adjectives"],
+["คุ้นเคย","familiar","A2","Adjectives"],["หิวโซ","famished","B1","Adjectives"],["มีชื่อเสียง","famous","A1","Adjectives"],
+["หรูหรา / ไม่ธรรมดา","fancy","A2","Adjectives"],["มหัศจรรย์ / เยี่ยมมาก","fantastic","A2","Adjectives"],["ถึงแก่ชีวิต","fatal","B1","Adjectives"],
+["หวาดกลัว","fearful","B1","Adjectives"],["ซึ่งเป็นไปได้","feasible","B1","Adjectives"],["แห่งสหพันธรัฐ","federal","B1","Adjectives"],
+["อุดมสมบูรณ์","fertile","B1","Adjectives"],["ดุร้าย","fierce","B1","Adjectives"],["ทางการเงิน","financial","B1","Adjectives"],
+["ดีเยี่ยม / ค่าปรับ","fine","A1","Adjectives"],["มีขอบเขตจำกัด","finite","B1","Adjectives"],["เกี่ยวกับการคลัง","fiscal","B1","Adjectives"],
+["แบน / ราบ","flat","A2","Adjectives"],["ไร้ที่ติ","flawless","B1","Adjectives"],["ยืดหยุ่น","flexible","A2","Adjectives"],
+["ส่วนหน้า","fore","B1","Adjectives"],["เกี่ยวกับต่างประเทศ","foreign","A2","Adjectives"],["สำคัญที่สุด","foremost","B1","Adjectives"],
+["เป็นทางการ","formal","A2","Adjectives"],["คนก่อน / อดีต","former","B1","Adjectives"],["โชคดี","fortunate","B1","Adjectives"],
+["เปราะบาง / แตกง่าย","fragile","A2","Adjectives"],["ตรงไปตรงมา","frank","B1","Adjectives"],["ประหลาด","freak","B1","Adjectives"],
+["ฟรี / อิสระ","free","A1","Adjectives"],["บ่อยครั้ง","frequent","A2","Adjectives"],["สด / สดชื่น","fresh","A1","Adjectives"],
+["ได้ผลดี / อุดมสมบูรณ์","fruitful","B1","Adjectives"],["เต็ม / อิ่ม","full","A1","Adjectives"],["สนุก","fun","A1","Adjectives"],
+["พื้นฐาน","fundamental","B1","Adjectives"],["ไร้ผล / เปล่าประโยชน์","futile","B1","Adjectives"],["ทั่วไป","general","A2","Adjectives"],
+["ทั่วไป / ไม่มียี่ห้อ","generic","B1","Adjectives"],["เกี่ยวกับพันธุกรรม","genetic","B1","Adjectives"],["อ่อนโยน","gentle","A2","Adjectives"],
+["แท้จริง / จริงใจ","genuine","B1","Adjectives"],["มหึมา / ยักษ์","giant","A2","Adjectives"],["ดีใจ","glad","A1","Adjectives"],
+["ใหญ่โต / หรูหรา","grand","B1","Adjectives"],["รู้สึกขอบคุณ","grateful","B1","Adjectives"],["ยอดเยี่ยม","great","A1","Adjectives"],
+["ละโมบ","greedy","B1","Adjectives"],["น่าขยะแขยง / ยอดรวม","gross","B1","Adjectives"],["สะดวก / มีประโยชน์","handy","A2","Adjectives"],
+["หล่อ","handsome","A1","Adjectives"],["ยาก / แข็ง","hard","A1","Adjectives"],["ซึ่งเป็นอันตราย","harmful","B1","Adjectives"],
+["ไร้ที่พึ่ง / ช่วยตัวเองไม่ได้","helpless","B1","Adjectives"],["สูง","high","A1","Adjectives"],["กลวง / เป็นโพรง","hollow","B1","Adjectives"],
+["ศักดิ์สิทธิ์","holy","B1","Adjectives"],["เหมือนกันทั้งหมด","homogeneous","B1","Adjectives"],["สิ้นหวัง","hopeless","B1","Adjectives"],
+["น่ากลัว / แย่มาก","horrible","A2","Adjectives"],["ซึ่งเป็นปฏิปักษ์","hostile","B1","Adjectives"],["ใหญ่โตมโหฬาร","huge","A2","Adjectives"],
+["ถ่อมตัว","humble","B1","Adjectives"],["ลูกผสม","hybrid","B1","Adjectives"],
+// Adverbs (E-H list)
+["โดยเฉพาะอย่างยิ่ง","especially","A2","Adverbs"],["ในที่สุด","eventually","A2","Adverbs"],["เคย / ตลอดมา","ever","A1","Adverbs"],
+["อย่างแน่นอน","exactly","A2","Adverbs"],["อย่างกว้างขวาง","extensively","B1","Adverbs"],["ในทางการเงิน","financially","B1","Adverbs"],
+["ตลอดไป","forever","A2","Adverbs"],["ไปข้างหน้า","forth","B1","Adverbs"],["ไปข้างหน้า","forward","A2","Adverbs"],
+["บ่อยๆ","frequently","A2","Adverbs"],["โดยพื้นฐานแล้ว","fundamentally","B1","Adverbs"],["เพิ่มเติม / ไกลกว่า","further","A2","Adverbs"],
+["อย่างหนัก","heavily","A2","Adverbs"],["ดังนั้น","hence","B1","Adverbs"],["ที่นี่","here","A1","Adverbs"],
+["อย่างน่ากลัว","horribly","B1","Adverbs"],
+// Alternative Therapies (E-H list)
+["สมุนไพร","herb","A2","Plants"],
+// Arts & Crafts (E-H list)
+["กรอบ / โครง","frame","A2","Tools & DIY"],["กาว","glue","A2","Tools & DIY"],["หัตถกรรม","handicraft","B1","Arts & Crafts"],
+// Bank (E-H list)
+["แลกเปลี่ยน","exchange","A2","Bank"],["กองทุน / เงินทุน","fund","B1","Bank"],["ของค้ำประกัน","gage","B1","Bank"],
+// Basics (E-H list)
+["แต่ละ","each","A1","Basics"],["อย่างใดอย่างหนึ่ง","either","A2","Basics"],["อื่นๆ / อย่างอื่น","else","A1","Basics"],
+["ทุกๆ","every","A1","Basics"],["ข้อแก้ตัว","excuse","A2","Basics"],["น้อย / ไม่กี่","few","A1","Basics"],
+// Bathroom (E-H list)
+["กดชักโครก / หน้าแดง","flush","A2","Bathroom"],
+// Beauty & Hygiene (E-H list)
+["สุขอนามัย","hygiene","B1","Abstract"],
+// Body (E-H list)
+["กำปั้น","fist","A2","Body"],["เนื้อ","flesh","B1","Body"],
+// Business (E-H list)
+["การห้ามค้าขาย","embargo","B1","Business"],["ว่าจ้าง","employ","A2","Business"],["กิจการ / วิสาหกิจ","enterprise","B1","Business"],
+["ความเป็นธรรม / ส่วนของผู้ถือหุ้น","equity","B1","Business"],["ค่าใช้จ่าย","expense","A2","Business"],["ความเป็นไปได้","feasibility","B1","Business"],
+["การเงิน","finance","B1","Business"],["บริษัท / มั่นคง","firm","A2","Business"],["การประมง","fishery","B1","Business"],
+["แฟรนไชส์","franchise","B1","Business"],["กลเม็ดเรียกความสนใจ","gimmick","B1","Business"],["สินค้า","goods","A2","Business"],
+// Camping (E-H list)
+["กระท่อม","hut","A2","Camping"],
+// Celebrations (E-H list)
+["เหตุการณ์","event","A2","Abstract"],["เจ้าภาพ / พิธีกร","host","A2","Jobs"],
+// Clothes (E-H list)
+["เสื้อผ้า","garment","B1","Clothes"],
+// Colors (E-H list)
+["สีเทา","gray","A1","Colors"],
+// Communication & IT (E-H list)
+["แก้ไข","edit","A2","Communication & IT"],["ลักษณะเด่น / ฟีเจอร์","feature","B1","Communication & IT"],["แฟ้ม / ไฟล์","file","A1","Communication & IT"],
+["เวทีสนทนา","forum","B1","Communication & IT"],["หน้าที่ / การทำงาน","function","A2","Communication & IT"],
+// Cycling (E-H list)
+["เกียร์ / อุปกรณ์","gear","A2","Transport"],
+// Eating Out (E-H list)
+["ส้อม","fork","A1","Eating Out"],
+// Education (E-H list)
+["วิศวกรรมศาสตร์","engineering","B1","Education"],["สมการ","equation","B1","Education"],["เรียงความ","essay","A2","Education"],
+["ตัวอย่าง","example","A1","Education"],["การทดลอง","experiment","A2","Education"],["คณะ (มหาวิทยาลัย)","faculty","B1","Education"],
+["สูตร","formula","B1","Education"],["ภูมิศาสตร์","geography","A2","Education"],["เรขาคณิต","geometry","B1","Education"],
+["เกรด / ระดับ","grade","A2","Education"],["หอประชุม","hall","A2","Education"],["ส่ง (งาน)","hand in","A2","Education"],
+["ประวัติศาสตร์","history","A2","Education"],
+// Evenings Out (E-H list)
+["มุกตลก","gag","B1","Evenings Out"],
+// Family (E-H list)
+["เด็กผู้หญิง","girl","A1","Family"],["ผู้ชาย / หมอนั่น","guy","A1","Family"],["ทายาท","heir","B1","Family"],
+// Farm Animals (E-H list)
+["เก็บเกี่ยว","harvest","A2","Verbs"],
+// Festivals (E-H list)
+["วันก่อนเทศกาล","eve","A2","Festivals"],
+// Food (E-H list)
+["รสชาติ","flavor","A2","Food"],["อาหาร","food","A1","Food"],["หมากฝรั่ง","gum","A1","Food"],
+["น้ำผึ้ง","honey","A1","Food"],
+// Fruit & Veg (E-H list)
+["ขิง","ginger","A1","Fruit & Veg"],["องุ่น","grape","A1","Fruit & Veg"],
+// Games (E-H list)
+["เสี่ยงโชค / เล่นพนัน","gamble","B1","Games"],["เกม / การแข่งขัน","game","A1","Games"],
+// Garden (E-H list)
+["รั้ว","fence","A2","Garden"],["ประตูรั้ว","gate","A1","Garden"],
+// Greetings (E-H list)
+["การกล่าวอำลา","farewell","B1","Greetings"],
+// Gym & Wellbeing (E-H list)
+["พอดี / ฟิต","fit","A2","Gym & Wellbeing"],["ความยืดหยุ่น","flexibility","B1","Gym & Wellbeing"],
+// Health (E-H list)
+["ภาวะฉุกเฉิน","emergency","A2","Health"],["ความอ่อนล้า","fatigue","B1","Health"],["ฮอร์โมน","hormone","B1","Health"],
+// Hotel (E-H list)
+["แขก","guest","A2","Hotel"],["การต้อนรับขับสู้","hospitality","B1","Hotel"],
+// House (E-H list)
+["พัดลม / แฟนคลับ","fan","A1","House"],["บ้าน","home","A1","House"],
+// Housework (E-H list)
+["ขยะ","garbage","A1","Housework"],
+// Illness (E-H list)
+["เป็นลม / จางๆ","faint","A2","Illness"],
+// Jobs (E-H list)
+["ผู้ว่าการ","governor","B1","Jobs"],
+// Kitchen (E-H list)
+["เครื่องกรอง / ตัวกรอง","filter","A2","Kitchen"],
+// Life Events (E-H list)
+["หลุมศพ","grave","B1","Town"],
+// Marine Life (E-H list)
+["ครีบปลา","fin","A2","Marine Life"],
+// Nature (E-H list)
+["โลก","earth","A1","Nature"],["เสียงสะท้อน","echo","A2","Abstract"],["สุริยุปราคา / จันทรุปราคา","eclipse","B1","Abstract"],
+["ระบบนิเวศ","ecology","B1","Abstract"],["พลังงาน","energy","A2","Nature"],["ทุ่งนา / สนาม","field","A2","Nature"],
+["ไฟ / เปลวไฟ","fire","A1","Nature"],["เปลวไฟ","flame","A2","Nature"],["ซากดึกดำบรรพ์","fossil","B1","Abstract"],
+["ดาราจักร","galaxy","B1","Abstract"],["ลูกโลก","globe","A2","Abstract"],["พื้นดิน / สนาม","ground","A2","Nature"],
+["อ่าว","gulf","A2","Nature"],["ถิ่นที่อยู่อาศัย","habitat","B1","Abstract"],["เส้นขอบฟ้า","horizon","B1","Nature"],
+// Newsagent (E-H list)
+["นวนิยาย / เรื่องแต่ง","fiction","A2","Newsagent"],
+// Numbers (E-H list)
+["รูปวงรี","ellipse","B1","Numbers"],["เลขคู่ / ราบเรียบ","even","A2","Numbers"],["ที่หนึ่ง / แรก","first","A1","Numbers"],
+["หนึ่งกำมือ","fistful","B1","Numbers"],["เศษส่วน","fraction","B1","Numbers"],["แกลลอน","gallon","A2","Numbers"],
+["ครึ่งหนึ่ง","half","A1","Numbers"],
+// Office (E-H list)
+["อุปกรณ์","equipment","A2","Office"],["สำเนา / โทรสาร","facsimile","B1","Office"],["แบบฟอร์ม / รูปแบบ","form","A2","Office"],
+// Photography (E-H list)
+["แสงวาบ / แฟลช","flash","A2","Photography"],
+// Places (E-H list)
+["ทิศตะวันออก","east","A1","Places"],["ชายแดน","frontier","B1","Places"],
+// Plants (E-H list)
+["พรรณพืชประจำถิ่น","flora","B1","Plants"],
+// Pregnancy (E-H list)
+["ตัวอ่อน","embryo","B1","Pregnancy"],
+// Prepositions (E-H list)
+["ยกเว้น","except","A2","Prepositions"],["สำหรับ","for","A1","Prepositions"],["จาก","from","A1","Prepositions"],
+["ด้านหน้า","front","A1","Prepositions"],
+// Shopping (E-H list)
+["รับประกัน","guarantee","A2","Shopping"],
+// Shops & Places (E-H list)
+["ร้านขายของชำ","grocery","A2","Shops & Places"],
+// Sightseeing (E-H list)
+["จัดแสดง","exhibit","B1","Sightseeing"],["ธง","flag","A1","Sightseeing"],["หอศิลป์","gallery","A2","Sightseeing"],
+["ไกด์ / แนะนำ","guide","A2","Sightseeing"],
+// Time (E-H list)
+["ยุคสมัย","era","B1","Time"],["อนาคต","future","A1","Time"],
+// Tools & DIY (E-H list)
+["ตะขอ / เกี่ยว","hook","A2","Tools & DIY"],
+// Town (E-H list)
+["ทางออก","exit","A1","Town"],
+// Transport (E-H list)
+["เครื่องยนต์","engine","A2","Transport"],["ค่าโดยสาร","fare","A2","Transport"],["กองเรือ","fleet","B1","Transport"],
+["เชื้อเพลิง","fuel","A2","Transport"],["แก๊ส / น้ำมันเชื้อเพลิง","gas","A2","Transport"],
+// Verbs (E-H list)
+["บรรเทา / ทำให้ง่ายขึ้น","ease","B1","Verbs"],["ให้การศึกษา","educate","B1","Verbs"],["ดีดออก / ขับออก","eject","B1","Verbs"],
+["เลือกตั้ง","elect","B1","Verbs"],["ยกระดับขึ้น","elevate","B1","Verbs"],["ขจัด / กำจัด","eliminate","B1","Verbs"],
+["โอบกอด","embrace","B1","Verbs"],["โผล่ออกมา / ปรากฏขึ้น","emerge","B1","Verbs"],["ให้อำนาจ","empower","B1","Verbs"],
+["ทำให้เป็นไปได้","enable","B1","Verbs"],["ออกกฎหมาย","enact","B1","Verbs"],["ทำให้หลงใหล","enchant","B1","Verbs"],
+["ห่อหุ้ม / แนบมาด้วย","enclose","B1","Verbs"],["ให้กำลังใจ","encourage","A2","Verbs"],["รับรอง / สนับสนุน","endorse","B1","Verbs"],
+["อดทน","endure","B1","Verbs"],["บังคับใช้","enforce","B1","Verbs"],["มีส่วนร่วม","engage","B1","Verbs"],
+["ทำให้ดีขึ้น","enhance","B1","Verbs"],["ทำให้ใหญ่ขึ้น","enlarge","B1","Verbs"],["สอบถาม","enquire","B1","Verbs"],
+["ทำให้แน่ใจ","ensure","B1","Verbs"],["ทำให้เพลิดเพลิน","entertain","A2","Verbs"],["ให้สิทธิ์ / ตั้งชื่อเรื่อง","entitle","B1","Verbs"],
+["ห่อหุ้ม","envelop","B1","Verbs"],["ลบออก","erase","A2","Verbs"],["กัดเซาะ","erode","B1","Verbs"],
+["ปะทุ / ระเบิด","erupt","B1","Verbs"],["ทวีความรุนแรงขึ้น","escalate","B1","Verbs"],["หลบหนี","escape","A2","Verbs"],
+["ก่อตั้ง","establish","B1","Verbs"],["ประมาณการ","estimate","B1","Verbs"],["อพยพ","evacuate","B1","Verbs"],
+["ประเมินผล","evaluate","B1","Verbs"],["ระเหย","evaporate","B1","Verbs"],["ค่อยๆ พัฒนา","evolve","B1","Verbs"],
+["หลบเลี่ยง","evade","B1","Verbs"],["พูดเกินจริง","exaggerate","B1","Verbs"],["ตรวจสอบ / พิจารณา","examine","A2","Verbs"],
+["เกินกว่า","exceed","B1","Verbs"],["ทำให้ตื่นเต้น","excite","A2","Verbs"],["ร้องอุทาน","exclaim","B1","Verbs"],
+["ไม่รวม / กันออกไป","exclude","B1","Verbs"],["ดำเนินการ","execute","B1","Verbs"],["ใช้จนหมด / ไอเสีย","exhaust","B1","Verbs"],
+["มีอยู่","exist","A2","Verbs"],["ขยายตัว","expand","B1","Verbs"],["คาดหวัง","expect","A2","Verbs"],
+["ใช้จ่าย","expend","B1","Verbs"],["ระเบิด","explode","A2","Verbs"],["เอาเปรียบ / ใช้ประโยชน์","exploit","B1","Verbs"],
+["สำรวจ","explore","A2","Verbs"],["เปิดเผย","expose","B1","Verbs"],["แสดงออก","express","A2","Verbs"],
+["ขยายออก / ต่อเวลา","extend","B1","Verbs"],["กุเรื่อง / ประดิษฐ์ขึ้น","fabricate","B1","Verbs"],["จางหาย / เลือน","fade","B1","Verbs"],
+["ล้มเหลว / สอบตก","fail","A2","Verbs"],["ทำให้หลงใหล","fascinate","B1","Verbs"],["ให้อาหาร","feed","A2","Verbs"],
+["ค้นพบ / สืบรู้","find out","A2","Verbs"],["หนีเอาตัวรอด","flee","B1","Verbs"],["ลอย","float","A2","Verbs"],
+["ผันผวน","fluctuate","B1","Verbs"],["เพ่งสมาธิ / โฟกัส","focus","A2","Verbs"],["ห้าม","forbid","B1","Verbs"],
+["บังคับ / กำลัง","force","B1","Verbs"],["อุปถัมภ์ / เลี้ยงดู","foster","B1","Verbs"],["ก่อตั้ง","found","B1","Verbs"],
+["ทำให้บรรลุผล","fulfill","B1","Verbs"],["ตกแต่งด้วยเฟอร์นิเจอร์","furnish","B1","Verbs"],["ได้รับ / เพิ่มขึ้น","gain","A2","Verbs"],
+["รวมตัวกัน","gather","A2","Verbs"],["สร้างขึ้น / ผลิต","generate","B1","Verbs"],["ยอมแพ้ / เลิก","give up","A2","Verbs"],
+["ชำเลืองมอง","glance","B1","Verbs"],["ลดลง","go down","A2","Verbs"],["ปกครอง","govern","B1","Verbs"],
+["คว้า / ฉวย","grab","A2","Verbs"],["อนุมัติ / เงินสนับสนุน","grant","B1","Verbs"],["คว้าจับ / เข้าใจ","grasp","B1","Verbs"],
+["ทักทาย","greet","A1","Verbs"],["ย่าง","grill","A2","Verbs"],["คุ้มกัน / ยาม","guard","A2","Verbs"],
+["เดา","guess","A1","Verbs"],["รังควาน / คุกคาม","harass","B1","Verbs"],["ทำร้าย","harm","A2","Verbs"],
+["หลอกหลอน","haunt","B1","Verbs"],["รักษาให้หาย","heal","A2","Verbs"],["ใส่ใจ / เชื่อฟัง","heed","B1","Verbs"],
+["ลังเล","hesitate","B1","Verbs"],["กอด","hug","A1","Verbs"],["ทำให้ขายหน้า","humiliate","B1","Verbs"],
+["ล่าสัตว์ / ค้นหา","hunt","A2","Verbs"],["ขว้างแรงๆ","hurl","B1","Verbs"],
+// Weather (E-H list)
+["น้ำท่วม","flood","A2","Weather"],["หมอก","fog","A2","Weather"],
+// Work (E-H list)
+["ผู้เชี่ยวชาญ","expert","A2","Work"],["จ้าง / เช่า","hire","A2","Work"],
 ];
 
 /* =========================================================
@@ -3395,7 +3625,7 @@ const IRREGULAR = [
 ["hide","ซ่อน","A2","hid","hidden"],
 ["hit","ตี","A2","hit","hit"],
 ["hold","ถือ","A2","held","held"],
-["hurt","ทำเจ็บ","A2","hurt","hurt"],
+["hurt","ทำให้เจ็บ","A2","hurt","hurt"],
 ["keep","เก็บ / รักษา","A1","kept","kept"],
 ["know","รู้","A1","knew","known"],
 ["lay","วาง","B1","laid","laid"],
@@ -5284,6 +5514,178 @@ const EXAMPLES = {
   "expiry date":"Check the expiry date before you eat it.",
   "net weight":"The net weight of this bag is five hundred grams.",
 };
+Object.assign(EXAMPLES, {
+  "chronic":"He suffers from chronic back pain.", "actual":"What was the actual cost of the trip?",
+  "absent":"Three students were absent today.", "asleep":"The baby is asleep in the next room.",
+  "dead":"The battery in my phone is dead.", "alive":"The fish is still alive.",
+  "awake":"I was awake most of the night.", "alone":"She lives alone near the market.",
+  "huge":"They live in a huge house by the river.", "great":"We had a great time in Chiang Mai.",
+});
+/* Curated examples for the A-H word list additions. Without these, the
+   generic templates in generateExample produce sentences that are wrong
+   for function words ("Hence is very useful in everyday life.") and for
+   adjectives that can't describe a person ("She is very edible."). */
+Object.assign(EXAMPLES, {
+  // ---- Adverbs ----
+  "again":"Could you say that again, please?", "ago":"We met about three years ago.",
+  "ahead":"There is a petrol station just ahead.", "almost":"It's almost eight o'clock.",
+  "also":"She speaks French and also Thai.", "altogether":"That will be 500 baht altogether.",
+  "apart":"The two houses are 10 metres apart.", "apparently":"Apparently the shop is closed today.",
+  "aside":"He put some money aside for the trip.", "away":"My sister lives far away.",
+  "awhile":"Let's rest here awhile.", "certainly":"I will certainly be there on time.",
+  "clearly":"Please speak clearly on the phone.", "courageously":"She spoke up courageously in the meeting.",
+  "currently":"I am currently learning English.", "dangerously":"He was driving dangerously fast.",
+  "dearly":"She loves her family dearly.", "decidedly":"The second option is decidedly better.",
+  "deeply":"I am deeply grateful for your help.", "delightfully":"The room was delightfully quiet.",
+  "desperately":"We desperately need more time.", "devilishly":"The puzzle was devilishly difficult.",
+  "devotedly":"He cared for his mother devotedly.", "diplomatically":"She answered the question diplomatically.",
+  "directly":"Please come directly to my office.", "disgustingly":"The kitchen was disgustingly dirty.",
+  "dissentingly":"He shook his head dissentingly.", "distinctively":"Her voice sounds distinctively Thai.",
+  "distinctly":"I distinctly remember locking the door.", "distressfully":"She cried distressfully after the news.",
+  "distressingly":"The film was distressingly sad.", "especially":"I love fruit, especially mango.",
+  "eventually":"We eventually found the hotel.", "ever":"Have you ever been to Japan?",
+  "exactly":"The train leaves at exactly six o'clock.", "extensively":"He has travelled extensively in Asia.",
+  "financially":"They are doing well financially.", "forever":"I can't wait forever.",
+  "forth":"He walked back and forth in the room.", "forward":"Please move forward a little.",
+  "frequently":"She frequently works late.", "fundamentally":"The two plans are fundamentally different.",
+  "further":"Do you have any further questions?", "heavily":"It rained heavily all night.",
+  "hence":"The shop was closed, hence we went home.", "here":"Please sit here next to me.",
+  "horribly":"The meeting went horribly wrong.",
+  // ---- Prepositions ----
+  "about":"We talked about the weather.", "above":"The clock is above the door.",
+  "across":"There is a bank across the street.", "against":"He leaned the bike against the wall.",
+  "along":"We walked along the beach.", "amid":"She stayed calm amid the noise.",
+  "among":"He was among the first to arrive.", "around":"There are trees around the house.",
+  "at":"I will meet you at the station.", "below":"The temperature is below zero.",
+  "beneath":"The cat is sleeping beneath the table.", "beside":"Come and sit beside me.",
+  "beyond":"The mountains are just beyond the river.", "by":"The letter was written by my father.",
+  "despite":"We went out despite the rain.", "during":"He fell asleep during the film.",
+  "except":"Everyone came except John.", "for":"This present is for you.",
+  "from":"I come from Thailand.", "front":"Please wait in front of the hotel.",
+  // ---- Basics / connectors ----
+  "all":"All the students passed the exam.", "alright":"Don't worry, everything is alright.",
+  "although":"Although it was late, we kept working.", "amen":"Everyone said amen at the end of the prayer.",
+  "and":"I bought rice and vegetables.", "another":"Can I have another cup of tea?",
+  "any":"Do you have any questions?", "anyone":"Does anyone know the answer?",
+  "apology":"Please accept my apology for being late.", "as":"We stayed home as it was raining.",
+  "both":"Both of my brothers live in Bangkok.", "but":"I wanted to come, but I was busy.",
+  "can":"I can speak a little English.", "each":"Each student needs a notebook.",
+  "either":"You can take either the bus or the train.", "else":"Is there anything else you need?",
+  "every":"I go swimming every Sunday.", "excuse":"That is no excuse for being late.",
+  "few":"I have only a few minutes.",
+  // ---- Numbers / measures ----
+  "acre":"The farm covers about ten acres.", "amount":"We need a large amount of water.",
+  "angle":"Cut the paper at a 45 degree angle.", "average":"The average price is 200 baht.",
+  "billion":"The country has a billion baht in reserves.", "cube":"Add two cubes of ice, please.",
+  "diameter":"The pipe has a diameter of five centimetres.", "digit":"Your password needs at least one digit.",
+  "double":"I'd like a double room, please.", "ellipse":"The planet moves in an ellipse around the sun.",
+  "even":"Two, four and six are even numbers.", "first":"She was the first to finish the race.",
+  "fistful":"He grabbed a fistful of rice.", "fraction":"Only a small fraction of the class was absent.",
+  "gallon":"The car needs about ten gallons of fuel.", "half":"I ate half of the cake.",
+  // ---- Time ----
+  "aeon":"These rocks were formed aeons ago.", "century":"The temple was built in the last century.",
+  "date":"What is the date of the meeting?", "dawn":"We left the house at dawn.",
+  "era":"This was the beginning of a new era.", "future":"I hope to travel more in the future.",
+  // ---- Adjectives that don't describe a person ----
+  "ablaze":"The whole building was ablaze within minutes.",
+  "abnormal":"The test results were abnormal.", "absolute":"That is the absolute truth.",
+  "abstract":"This is quite an abstract idea.", "abundant":"Fresh fruit is abundant in this region.",
+  "adaptive":"The software is adaptive to your habits.", "additional":"There is an additional charge for luggage.",
+  "adequate":"The room is adequate for two people.", "adjacent":"Our office is adjacent to the bank.",
+  "adrift":"The small boat was left adrift.", "advantageous":"The new contract is advantageous for us.",
+  "affordable":"We are looking for an affordable hotel.", "alike":"The two sisters look very much alike.",
+  "ancient":"We visited an ancient temple in Ayutthaya.", "annual":"The annual meeting is in March.",
+  "anticlockwise":"Turn the handle anticlockwise to open it.",
+  "appropriate":"Please wear appropriate clothes for the interview.",
+  "approximate":"The approximate cost is 3,000 baht.", "artificial":"The drink contains artificial flavours.",
+  "authentic":"This restaurant serves authentic Thai food.", "automatic":"The doors are automatic.",
+  "auxiliary":"The boat has an auxiliary engine.", "bare":"Don't walk on the hot sand with bare feet.",
+  "best":"This is the best coffee in town.", "bitter":"The medicine has a bitter taste.",
+  "blank":"Please leave that line blank.", "bleak":"The weather was cold and bleak.",
+  "blur":"The photo came out blurred.", "bright":"The kitchen is bright in the morning.",
+  "broad":"The river is very broad here.", "bulky":"This suitcase is too bulky for the plane.",
+  "certain":"I am certain that I locked the door.", "circular":"The table has a circular shape.",
+  "civil":"He works as a civil engineer.", "clear":"The water in the lake is very clear.",
+  "clockwise":"Turn the key clockwise to lock the door.",
+  "coincident":"The two events were purely coincident.", "colorful":"The market is full of colorful fruit.",
+  "common":"Rain is common in this season.", "compact":"We rented a compact car for the trip.",
+  "compatible":"This charger is compatible with my phone.", "complete":"The work is now complete.",
+  "complex":"This is a complex problem.", "compulsive":"He is a compulsive shopper.",
+  "consecutive":"It rained for five consecutive days.", "considerable":"They spent a considerable amount of money.",
+  "consistent":"Her work is always consistent.", "constant":"The noise from the road is constant.",
+  "contemporary":"The gallery shows contemporary art.", "conventional":"They chose a conventional design.",
+  "cool":"The evening air is cool and pleasant.", "correct":"That is the correct answer.",
+  "corrective":"The teacher gave some corrective feedback.", "costly":"Repairing the roof was very costly.",
+  "countless":"I have watched this film countless times.", "critical":"His condition is critical.",
+  "crucial":"This meeting is crucial for the project.", "cumulative":"The cumulative effect is quite large.",
+  "current":"What is the current price of gold?", "customary":"It is customary to remove your shoes.",
+  "dark":"The room was too dark to read in.", "decided":"There was a decided improvement in her work.",
+  "deep":"The lake is very deep in the middle.", "defective":"The shop replaced the defective phone.",
+  "defrosted":"Just stay defrosted and think it through.",
+  "deleterious":"Smoking has a deleterious effect on health.",
+  "delightful":"We spent a delightful afternoon by the river.",
+  "dense":"The fog was so dense we could not drive.", "dependent":"The result is dependent on the weather.",
+  "depressing":"The news this week has been depressing.", "depressive":"He is being treated for a depressive illness.",
+  "descendent":"These families are descendent from one village.",
+  "deserted":"The beach was completely deserted.", "detectable":"The change was barely detectable.",
+  "determinate":"The contract has a determinate end date.",
+  "determinative":"Her answer was determinative for the whole case.",
+  "devalued":"The devalued currency made imports expensive.",
+  "different":"This is different from what I expected.", "dim":"The light in the corridor is very dim.",
+  "diminutive":"She lives in a diminutive flat near the market.",
+  "diplomatic":"He gave a very diplomatic answer.", "disappointing":"The film was quite disappointing.",
+  "dispensable":"None of these documents is dispensable.", "displaced":"Thousands of displaced families need help.",
+  "disruptive":"The building work is very disruptive.", "dissenting":"There were three dissenting votes.",
+  "dissolvent":"This powder is dissolvent in warm water.", "distinct":"There is a distinct smell of coffee.",
+  "distinctive":"Her handwriting is very distinctive.", "distressing":"The report makes distressing reading.",
+  "distressful":"It was a distressful situation for everyone.",
+  "divergent":"The two reports reach divergent conclusions.",
+  "domestic":"The airline runs domestic flights only.", "doubtful":"It is doubtful that he will come.",
+  "dramatic":"There was a dramatic change in the weather.",
+  "drastic":"The company took drastic measures.", "dual":"The car has a dual fuel system.",
+  "ductile":"Copper is a ductile metal.", "due":"The report is due on Friday.",
+  "durable":"These shoes are cheap but durable.", "dynamic":"Bangkok is a dynamic city.",
+  "dynamical":"The team has a dynamical way of working.",
+  "economic":"The government announced new economic measures.",
+  "edible":"Are these mushrooms edible?", "effortless":"Her English sounds completely effortless.",
+  "elastic":"The waistband is elastic and comfortable.", "electric":"We bought an electric kettle.",
+  "eligible":"Are you eligible for a student discount?", "empty":"The bottle is empty.",
+  "enormous":"They live in an enormous house.", "enough":"There is enough rice for everyone.",
+  "entire":"I spent the entire day cleaning.", "equal":"Cut the cake into equal pieces.",
+  "equivalent":"One mile is equivalent to 1.6 kilometres.",
+  "especial":"He took especial care with the details.", "eternal":"They promised eternal friendship.",
+  "exact":"Can you give me the exact time?", "excellent":"The food here is excellent.",
+  "exclusive":"This offer is exclusive to members.", "exempt":"Children are exempt from the fee.",
+  "exotic":"The market sells exotic fruit.", "exposed":"The house is very exposed to the wind.",
+  "external":"Please use the external door.", "extinct":"That bird has been extinct for 50 years.",
+  "extra":"Would you like an extra pillow?", "extreme":"The heat today is extreme.",
+  "fake":"He was selling fake watches.", "fallible":"Even experts are fallible.",
+  "false":"That statement is completely false.", "familiar":"This street looks familiar to me.",
+  "fancy":"We went to a fancy restaurant for our anniversary.",
+  "fantastic":"The view from the hotel is fantastic.", "fatal":"The accident was almost fatal.",
+  "feasible":"Is that plan feasible in one month?", "federal":"This is a federal law.",
+  "fertile":"The soil here is very fertile.", "financial":"We are having financial problems.",
+  "fine":"The weather should be fine tomorrow.", "finite":"We have a finite amount of time.",
+  "fiscal":"The fiscal year ends in September.", "flat":"The land around here is very flat.",
+  "flawless":"Her performance was flawless.", "flexible":"My working hours are flexible.",
+  "fore":"The captain stood at the fore deck.", "foreign":"I would like to learn a foreign language.",
+  "foremost":"She is the foremost expert in this field.", "formal":"Please wear formal clothes to the ceremony.",
+  "former":"He is a former teacher at this school.", "fortunate":"We were fortunate with the weather.",
+  "fragile":"Please be careful, the box is fragile.", "frank":"Let me be frank with you.",
+  "freak":"A freak storm damaged the roof.", "free":"Entry to the museum is free on Sunday.",
+  "frequent":"He is a frequent visitor to Thailand.", "fresh":"I bought fresh vegetables at the market.",
+  "fruitful":"It was a fruitful discussion.", "full":"The train was completely full.",
+  "fun":"The party was really fun.", "fundamental":"There is a fundamental difference between them.",
+  "futile":"It was futile to argue with him.", "general":"The general opinion is positive.",
+  "generic":"The pharmacy sells the generic version.", "genetic":"The illness has a genetic cause.",
+  "genuine":"Is this a genuine leather bag?", "giant":"A giant tree fell across the road.",
+  "grand":"They stayed in a grand old hotel.", "gross":"The gross weight is 20 kilos.",
+  "handy":"This little tool is very handy.", "hard":"This exercise is hard for beginners.",
+  "harmful":"Too much sugar is harmful.", "high":"The mountain is very high.",
+  "hollow":"The tree trunk is hollow inside.", "holy":"This is a holy place for many people.",
+  "homogeneous":"Mix it until it becomes homogeneous.", "horrible":"The weather was horrible all week.",
+  "hybrid":"They bought a hybrid car.",
+});
 function withArticle(w){
   if(/^(a|an|the|some|to)\s/i.test(w)) return w;
   return (/^[aeiou]/i.test(w)?"an ":"a ")+w;
