@@ -4654,11 +4654,24 @@ VOCAB.forEach(([th,en])=>{ DICT[en.toLowerCase()] = th; });
 VERBS.forEach(v=>{
   [v.b, v.s, v.ing, v.past, v.pastAlt, v.pp, v.ppAlt].forEach(f=>{ if(f) DICT[f.toLowerCase()] = v.th; });
 });
-const ALL_CARDS = [
+// A handful of words appear in more than one source list (e.g. a VOCAB entry
+// and a VERBS base form sharing the same th/en pair). Since cardState is
+// keyed by "th|en", an un-deduped list would let that one word show up
+// twice in the same flashcard session and get double-counted in "due" totals.
+const ALL_CARDS = dedupeCards([
   ...VOCAB.map(([th,en,lvl,cat])=>({th,en,lvl,cat,ex:null})),
   ...IDIOMS.map(([th,en,lvl,cat,ex])=>({th,en,lvl,cat,ex})),
   ...VERBS.map(v=>({th:v.th, en:v.b, lvl:v.lvl, cat:"Verbs", ex:null})),
-];
+]);
+function dedupeCards(cards){
+  const seen = new Set();
+  return cards.filter(c=>{
+    const key = c.th+"|"+c.en;
+    if(seen.has(key)) return false;
+    seen.add(key);
+    return true;
+  });
+}
 Object.assign(DICT, {
   "coming":"มาจาก (ที่มาของความคิด)", "took":"เอาไป (อดีตของ take)", "words":"คำพูด", "mouth":"ปาก",
   "deal":"เรื่อง / ข้อตกลง", "agree":"เห็นด้วย", "disagree":"ไม่เห็นด้วย", "couldn't":"ไม่สามารถ",
@@ -11440,7 +11453,7 @@ let dailyGoalMin = LS.get("et_daily_goal_min", 60);
 let reminderEnabled = LS.get("et_reminder_enabled", false);
 let reminderTime = LS.get("et_reminder_time", "18:00");
 
-let flashState = { level:"all", cat:"all", mode:"all", sessionSize:"all", deck:[], idx:0, flipped:false, sessionKnown:0, sessionUnknown:0 };
+let flashState = { level:"all", cat:"all", mode:"all", sessionSize:"all", deck:[], total:0, idx:0, flipped:false, sessionKnown:0, sessionUnknown:0 };
 let drillState = { tenses:{}, types:{aff:true,neg:true,q:true}, verbType:"all", level:"all", sessionSize:15, sessionGoal:15, sessionIndex:0, sessionCorrect:0, pool:[], current:null, revealed:false };
 let drillStats = LS.get("et_drill_stats", { total:0, correct:0, byTense:{} });
 let drillMistakes = LS.get("et_drill_mistakes", {});
@@ -11869,7 +11882,7 @@ function renderFlashProgress(){
   // "Mastered" = recalled correctly at least twice in a row (graduated past
   // the first two SM-2 steps), a rough analogue of the old known===true flag.
   const knownCount = keys.filter(k=>cardState[k].reps>=2).length;
-  const reviewKeys = keys.filter(k=>isCardDue(k)).sort();
+  const reviewKeys = keys.filter(k=>isDueForReview(k)).sort();
   document.getElementById("fc-stat-total").textContent = total;
   document.getElementById("fc-stat-known").textContent = total? Math.round(knownCount/total*100)+"%" : "–";
   document.getElementById("fc-stat-review").textContent = reviewKeys.length;
@@ -12063,7 +12076,7 @@ function startFlash(){
   if(deck.length===0){ alert("No words match these filters."); return; }
   deck = shuffleArray(deck.slice());
   if(flashState.sessionSize!=="all") deck = deck.slice(0, flashState.sessionSize);
-  flashState.deck = deck; flashState.idx=0; flashState.flipped=false;
+  flashState.deck = deck; flashState.total = deck.length; flashState.idx=0; flashState.flipped=false;
   flashState.sessionKnown=0; flashState.sessionUnknown=0;
   document.getElementById("flash-complete").style.display="none";
   document.getElementById("flash-complete-btns").style.display="none";
@@ -12088,8 +12101,14 @@ function renderFlashCard(){
   document.getElementById("fc-lvl-front").textContent = c.lvl;
   document.getElementById("fc-lvl-back").textContent = c.lvl;
   document.getElementById("fc-cat-front").textContent = c.cat || "";
-  document.getElementById("flash-progress").textContent = (flashState.idx+1)+" / "+flashState.deck.length;
-  document.getElementById("flash-progress-fill").style.width = Math.round((flashState.idx+1)/flashState.deck.length*100)+"%";
+  // Cards missed via markCard() get requeued a few slots later in the same
+  // session (see markCard), which grows deck.length past the session size the
+  // learner actually chose and picked "Start" on. The counter stays anchored
+  // to that original total instead, so it never shows a bigger number than
+  // what was promised on the setup screen.
+  const shown = Math.min(flashState.idx+1, flashState.total);
+  document.getElementById("flash-progress").textContent = shown+" / "+flashState.total;
+  document.getElementById("flash-progress-fill").style.width = Math.round(shown/flashState.total*100)+"%";
   renderClickableExample(cardExample(c), "fc-example", "fc-thai-pop");
   document.getElementById("fc-thai-pop").innerHTML = icon('hand')+" tap a word for its Thai translation";
   if(wasFlipped){
