@@ -570,7 +570,7 @@ p.sub{ color:var(--muted); font-size:14px; margin:0 0 16px; line-height:1.4; }
 .searchbar .ic{ color:var(--faint); flex-shrink:0; }
 .searchbar input{ flex:1; background:none; border:none; color:var(--text); font-size:16px; font-family:inherit; padding:14px 0; }
 .searchbar input:focus{ outline:none; }
-.verb-row{ display:flex; align-items:center; gap:13px; background:var(--card2); border:1px solid rgba(var(--hairline-rgb),.06); border-radius:16px; padding:13px 15px; margin-bottom:9px; transition:transform .15s; }
+.verb-row{ display:flex; align-items:center; gap:13px; background:var(--card2); border:1px solid rgba(var(--hairline-rgb),.06); border-radius:16px; padding:13px 15px; margin-bottom:9px; transition:transform .15s; cursor:pointer; }
 .verb-row:active{ transform:scale(.99); }
 .verb-row .row-icon{ width:40px; height:40px; border-radius:13px; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
 .verb-row .row-icon .ic{ width:20px; height:20px; color:#fff; }
@@ -579,6 +579,15 @@ p.sub{ color:var(--muted); font-size:14px; margin:0 0 16px; line-height:1.4; }
 .verb-row .en .ic{ width:14px; height:14px; color:var(--orange-2); }
 .verb-row .th{ font-size:12.5px; color:var(--thai); margin-top:2px; }
 .verb-row .lvl{ font-size:11px; font-weight:800; color:var(--faint); background:var(--inset); padding:5px 9px; border-radius:8px; flex-shrink:0; }
+.fav-star-btn{ background:none; border:none; padding:6px; margin:-6px; display:flex; align-items:center; justify-content:center; color:var(--faint); flex-shrink:0; cursor:pointer; }
+.fav-star-btn .ic{ width:19px; height:19px; transition:transform .15s; }
+.fav-star-btn:active .ic{ transform:scale(.8); }
+.fav-star-btn.active{ color:var(--orange-2); }
+.fav-star-btn.active .ic{ fill:var(--orange-2); }
+.back-btn.fav-toggle-btn.active{ color:var(--orange-2); }
+.back-btn.fav-toggle-btn.active .ic{ fill:var(--orange-2); }
+#verb-fav-filter-pill .ic{ margin-right:4px; }
+#verb-fav-filter-pill.active .ic{ fill:currentColor; }
 .conj-block{ background:var(--card); border-radius:20px; padding:18px; margin-bottom:12px; border:1px solid rgba(var(--hairline-rgb),.06); }
 .conj-block h3{ margin:0 0 10px; font-size:14px; color:var(--orange-2); }
 .conj-row{ display:flex; padding:6px 0; font-size:14.5px; border-bottom:1px solid rgba(var(--hairline-rgb),.05); }
@@ -1029,6 +1038,9 @@ if("serviceWorker" in navigator){
       <svg class="ic" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
       <input id="verbdict-search" type="text" placeholder="Search a verb (English or Thai)…" autocapitalize="off" autocomplete="off" autocorrect="off" spellcheck="false" oninput="renderVerbList()">
     </div>
+    <div class="pill-row">
+      <button class="pill small" id="verb-fav-filter-pill" onclick="toggleVerbFavOnly()"><svg class="ic" viewBox="0 0 24 24" style="width:13px;height:13px;"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>Favorites<span id="verb-fav-count"></span></button>
+    </div>
     <p class="sub" id="verbs-free-note" style="display:none;">โหมดทดลองฟรี: 10 คำกริยาพื้นฐานที่มีเครื่องหมายกุญแจ ปลดล็อกเพื่อดูกริยาทั้งหมด</p>
     <button class="ghost-btn" style="margin-top:0;margin-bottom:14px;display:flex;align-items:center;justify-content:center;gap:8px;" onclick="go('irregular-ref')"><svg class="ic" viewBox="0 0 24 24"><path d="M3 12h.01"/><path d="M3 18h.01"/><path d="M3 6h.01"/><path d="M8 12h13"/><path d="M8 18h13"/><path d="M8 6h13"/></svg> Irregular verbs reference <span class="lock-badge" id="irregular-ref-lock" style="display:none;"></span></button>
     <div id="verbdict-list" style="flex:1;"></div>
@@ -1036,7 +1048,7 @@ if("serviceWorker" in navigator){
 
   <!-- VERB DETAIL -->
   <section class="screen" id="screen-verb-detail">
-    <div class="topbar"><button class="back-btn" aria-label="Back" onclick="go('verbs')"><svg class="ic" viewBox="0 0 24 24"><path d="m15 18-6-6 6-6"/></svg></button><h1 id="verb-detail-title">Verb</h1><div style="width:36px"></div></div>
+    <div class="topbar"><button class="back-btn" aria-label="Back" onclick="go('verbs')"><svg class="ic" viewBox="0 0 24 24"><path d="m15 18-6-6 6-6"/></svg></button><h1 id="verb-detail-title">Verb</h1><button class="back-btn fav-toggle-btn" id="verb-detail-fav-btn" aria-label="Toggle favorite" onclick="toggleVerbFavorite(verbDetailBase)"><svg class="ic" viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></button></div>
     <div id="verb-detail-body" style="flex:1;"></div>
   </section>
 
@@ -1359,6 +1371,7 @@ const ICONS={
   headphones:`<path d="M3 14h3a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-7a9 9 0 0 1 18 0v7a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3" />`,
   play:`<polygon points="6 3 20 12 6 21 6 3" />`,
   pause:`<rect x="6" y="4" width="4" height="16" rx="1" /> <rect x="14" y="4" width="4" height="16" rx="1" />`,
+  star:`<polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />`,
 };
 function icon(name,cls){ return `<svg class="ic ${cls||''}" viewBox="0 0 24 24">${ICONS[name]||''}</svg>`; }
 const ROW_COLORS = [["var(--blue-2)","var(--blue)"],["var(--orange-2)","var(--orange)"],["var(--violet-2)","var(--violet)"],["var(--green-2)","var(--green)"]];
@@ -12678,21 +12691,51 @@ const DICT_TENSES = [
   { key:"presentPerfectCont", label:"Present Perfect Continuous", form:(s,v)=> `${s.p} ${s.have} been ${v.ing}` },
   { key:"future", label:"Future (will)", form:(s,v)=> `${s.p} will ${v.b}` },
 ];
+let verbFavorites = new Set(LS.get("et_verb_favorites", []));
+let verbFavOnly = false;
+let verbDetailBase = null;
+function saveVerbFavorites(){ LS.set("et_verb_favorites", [...verbFavorites]); }
+function toggleVerbFavorite(base){
+  if(!base) return;
+  if(verbFavorites.has(base)) verbFavorites.delete(base);
+  else verbFavorites.add(base);
+  saveVerbFavorites();
+  renderVerbList();
+  if(verbDetailBase === base) updateVerbDetailFavButton(base);
+}
+function toggleVerbFavOnly(){
+  verbFavOnly = !verbFavOnly;
+  renderVerbList();
+}
+function updateVerbDetailFavButton(base){
+  const btn = document.getElementById("verb-detail-fav-btn");
+  if(btn) btn.classList.toggle("active", verbFavorites.has(base));
+}
 function renderVerbList(){
   const q = (document.getElementById("verbdict-search").value||"").trim().toLowerCase();
-  const list = VERBS.filter(v=> !q || v.b.includes(q) || v.th.includes(q)).sort((a,b)=>a.b.localeCompare(b.b));
+  let list = VERBS.filter(v=> !q || v.b.includes(q) || v.th.includes(q));
+  if(verbFavOnly) list = list.filter(v=>verbFavorites.has(v.b));
+  list = list.sort((a,b)=>a.b.localeCompare(b.b));
   const wrap = document.getElementById("verbdict-list");
   const locked = !isUnlocked();
   const freeNote = document.getElementById("verbs-free-note");
   if(freeNote) freeNote.style.display = locked ? "block" : "none";
+  const favPill = document.getElementById("verb-fav-filter-pill");
+  if(favPill){
+    favPill.classList.toggle("active", verbFavOnly);
+    const cnt = document.getElementById("verb-fav-count");
+    if(cnt) cnt.textContent = verbFavorites.size ? ` (${verbFavorites.size})` : "";
+  }
   wrap.innerHTML = list.map((v,i)=>{
     const vLocked = locked && !FREE_VERBS.has(v.b);
-    return `<button class="verb-row" style="width:100%;border:none;font-family:inherit;text-align:left;" onclick="openVerbDetail('${v.b}')">
+    const isFav = verbFavorites.has(v.b);
+    return `<div class="verb-row" onclick="openVerbDetail('${v.b}')">
       <div class="row-icon" style="background:${rowGrad(i)}">${icon('corner_down_right')}</div>
       <div class="info"><div class="en">${v.b}${v.irregular?icon('zap'):""}${vLocked?` <span class="lock-badge">${icon('lock','')}</span>`:""}</div><div class="th">${v.th}</div></div>
+      <button class="fav-star-btn${isFav?" active":""}" aria-label="${isFav?"Remove from favorites":"Add to favorites"}" onclick="event.stopPropagation();toggleVerbFavorite('${v.b}')">${icon('star')}</button>
       <span class="lvl">${v.lvl}</span>
-    </button>`;
-  }).join("") || `<p class="sub">No verb found.</p>`;
+    </div>`;
+  }).join("") || `<p class="sub">${verbFavOnly ? "No favorite verbs yet. Tap the star on a verb to add it here." : "No verb found."}</p>`;
   const irregLock = document.getElementById("irregular-ref-lock");
   if(irregLock){
     irregLock.style.display = locked ? "inline-flex" : "none";
@@ -12703,7 +12746,9 @@ function openVerbDetail(base){
   const v = VERBS.find(x=>x.b===base);
   if(!v) return;
   if(!isUnlocked() && !FREE_VERBS.has(base)){ goPaywall("verbs"); return; }
+  verbDetailBase = base;
   document.getElementById("verb-detail-title").textContent = v.b;
+  updateVerbDetailFavButton(base);
   const body = document.getElementById("verb-detail-body");
   let html = `<div class="conj-block"><h3>${v.b}: ${v.th}${v.irregular? " (กริยาอปกติ / irregular)":" (กริยาปกติ / regular)"}</h3>`;
   html += `<div class="conj-row"><span class="subj"></span><span>base: <b>${v.b}</b> · -s: <b>${v.s}</b> · -ing: <b>${v.ing}</b> · past: <b>${v.past}${v.pastAlt?"/"+v.pastAlt:""}</b> · past participle: <b>${v.pp}${v.ppAlt?"/"+v.ppAlt:""}</b></span></div></div>`;
