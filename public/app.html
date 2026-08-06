@@ -110,9 +110,12 @@ body{
    and scroll instead of growing past its allotted space. */
 .screen{ padding:14px 18px; flex:1; min-height:0; display:none; flex-direction:column; overflow-y:auto; -webkit-overflow-scrolling:touch; overscroll-behavior:contain; touch-action:pan-y; }
 .screen.active{ display:flex; }
-/* Screens with a sticky-cta footer button need extra bottom padding so the
-   last list item can scroll clear of the button instead of sitting under it. */
-.screen.has-sticky-cta{ padding-bottom:calc(14px + 74px); }
+/* Screens with a sticky-cta footer button aren't themselves scrollable:
+   .setup-scroll (their one child besides the button) is the scroll container
+   instead, so the button is a normal flex sibling that never overlaps
+   whatever pill row happens to be at the bottom of the visible content. */
+.screen.has-sticky-cta{ padding:0; overflow:hidden; }
+.screen.has-sticky-cta .setup-scroll{ flex:1; min-height:0; overflow-y:auto; -webkit-overflow-scrolling:touch; overscroll-behavior:contain; touch-action:pan-y; padding:14px 18px; }
 .screen.anim-forward{ animation:screen-in-forward .22s ease; }
 .screen.anim-back{ animation:screen-in-back .22s ease; }
 @keyframes screen-in-forward{ from{opacity:0; transform:translateX(14px);} to{opacity:1; transform:none;} }
@@ -279,7 +282,7 @@ p.sub{ color:var(--muted); font-size:14px; margin:0 0 16px; line-height:1.4; }
   box-shadow:0 14px 30px -10px rgba(91,141,239,.7), inset 0 1px 0 rgba(255,255,255,.4);
 }
 .primary-btn:active{ transform:scale(.98); }
-.primary-btn.sticky-cta{ position:sticky; bottom:0; z-index:3; margin-top:16px; }
+.screen.has-sticky-cta .primary-btn.sticky-cta{ flex-shrink:0; margin:0 18px 14px; }
 .ghost-btn{
   background:transparent; border:1px solid rgba(var(--hairline-rgb),.14); color:var(--text);
   border-radius:18px; padding:14px; font-size:15px; font-weight:700; font-family:inherit; margin-top:10px;
@@ -821,6 +824,7 @@ if("serviceWorker" in navigator){
 
   <!-- FLASHCARDS SETUP -->
   <section class="screen has-sticky-cta" id="screen-flash-setup">
+    <div class="setup-scroll">
     <div class="topbar"><button class="back-btn" aria-label="Back" onclick="go('home')"><svg class="ic" viewBox="0 0 24 24"><path d="m15 18-6-6 6-6"/></svg></button><h1>Flashcards</h1><div style="width:36px"></div></div>
     <div class="section-label">Level</div>
     <div class="pill-row" id="flash-level-pills"></div>
@@ -833,6 +837,7 @@ if("serviceWorker" in navigator){
     <div id="flash-session-slider-row" style="display:none;align-items:center;gap:12px;margin:2px 0 16px;">
       <input type="range" id="flash-session-slider" min="1" max="10" value="1" oninput="setFlashSessionCustom(this.value)" style="flex:1;accent-color:var(--blue-2);">
       <span id="flash-session-slider-value" style="font-weight:800;min-width:28px;text-align:right;">1</span>
+    </div>
     </div>
     <button class="primary-btn sticky-cta" onclick="startFlash()">Start (<span id="flash-count">0</span> words)</button>
   </section>
@@ -897,6 +902,7 @@ if("serviceWorker" in navigator){
 
   <!-- DRILL SETUP -->
   <section class="screen has-sticky-cta" id="screen-drill-setup">
+    <div class="setup-scroll">
     <div class="topbar"><button class="back-btn" aria-label="Back" onclick="go('home')"><svg class="ic" viewBox="0 0 24 24"><path d="m15 18-6-6 6-6"/></svg></button><h1>Conjugation Drill</h1><div style="width:36px"></div></div>
     <p class="sub" id="drill-free-note" style="display:none;">โหมดทดลองฟรี: Present Simple 5 ประโยค ปลดล็อกเพื่อฝึกได้ทุก tense ไม่จำกัด</p>
     <div class="section-label">Tenses to practice</div>
@@ -908,6 +914,7 @@ if("serviceWorker" in navigator){
     <div class="pill-row" id="drill-level-pills"></div>
     <div class="section-label">Session length</div>
     <div class="pill-row" id="drill-session-pills"></div>
+    </div>
     <button class="primary-btn sticky-cta" onclick="startDrill()">Start</button>
   </section>
 
@@ -11399,6 +11406,18 @@ function isCardDue(key){
   const s = cardState[key];
   return !s || s.due <= Date.now();
 }
+// Cards only enter "Review only" once the learner has actually clicked
+// "Review" on them (a never-touched card is new, not due) or once a
+// previously-known card's long-term SM-2 interval has lapsed. reps===0 on an
+// existing card means the last mark was "Review" (sm2Update resets reps to 0
+// on q<3), so that case surfaces immediately instead of waiting for its
+// 1-day due date, matching what the learner just asked for on-screen.
+function isDueForReview(key){
+  const s = cardState[key];
+  if(!s) return false;
+  if(s.reps===0) return true;
+  return isCardDue(key);
+}
 // One-time migration for existing installs: et_known only recorded a
 // last-marked true/false, no scheduling — approximate it as a first
 // successful review (due tomorrow) or an overdue one (due now).
@@ -12014,14 +12033,14 @@ function dueVocabCount(){
   return ALL_CARDS.filter(c=>{
     if(flashState.level!=="all" && c.lvl!==flashState.level) return false;
     if(flashState.cat!=="all" && CAT_TO_GROUP[c.cat]!==flashState.cat) return false;
-    return isCardDue(c.th+"|"+c.en);
+    return isDueForReview(c.th+"|"+c.en);
   }).length;
 }
 function filteredVocab(){
   return ALL_CARDS.filter(c=>{
     if(flashState.level!=="all" && c.lvl!==flashState.level) return false;
     if(flashState.cat!=="all" && CAT_TO_GROUP[c.cat]!==flashState.cat) return false;
-    if(flashState.mode==="unknown" && !isCardDue(c.th+"|"+c.en)) return false;
+    if(flashState.mode==="unknown" && !isDueForReview(c.th+"|"+c.en)) return false;
     return true;
   });
 }
