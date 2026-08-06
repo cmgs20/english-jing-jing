@@ -17685,6 +17685,7 @@ const GRAMMAR_CURRIC = [
       practice:[
         { kind:'pick', label:'had or would', prompt:'“I’d have helped” means:', options:['I would have helped','I had helped'], answer:0 },
         { kind:'pick', label:'had or would', prompt:'“If they’d left” means:', options:['If they had left','If they would leave'], answer:0 },
+        { kind:'pick', label:'had or would', prompt:'“She’d have called” means:', options:['She would have called','She had called'], answer:0 },
       ],
     },
     {
@@ -17706,6 +17707,7 @@ const GRAMMAR_CURRIC = [
         { kind:'pick', label:'would + base', prompt:'If he had saved money, he ___ now.', options:['would have a car','would have had a car'], answer:0 },
         { kind:'build', label:'Word order', prompt:'Build:', target:'If she had studied medicine, she would be a doctor now.',
           slots:[{role:'aux'},{role:'verb'},{role:'aux'},{role:'verb'},{role:'adv'}], answer:['If she','had studied medicine,','she would','be a doctor','now'], distractors:['studied','would have been'] },
+        { kind:'pick', label:'would + base', prompt:'If they had left earlier, they ___ stuck in traffic now.', options:['wouldn’t be','wouldn’t have been'], answer:0 },
       ],
     },
     {
@@ -17719,6 +17721,7 @@ const GRAMMAR_CURRIC = [
       practice:[
         { kind:'pick', label:'Past regret', prompt:'If only I ___ that message before I sent it.', options:['had read','read'], answer:0 },
         { kind:'pick', label:'Present wish', prompt:'If only I ___ more time today.', options:['had','have'], answer:0 },
+        { kind:'pick', label:'Present wish', prompt:'If only I ___ more patient right now.', options:['were','was'], answer:0 },
       ],
     },
     {
@@ -17804,6 +17807,7 @@ const GRAMMAR_CURRIC = [
       practice:[
         { kind:'pick', label:'Base form', prompt:'It is necessary that the team ___ ready by Monday.', options:['be','is'], answer:0 },
         { kind:'pick', label:'Base form', prompt:'It is important that everyone ___ their own ticket.', options:['keep','keeps'], answer:0 },
+        { kind:'pick', label:'Base form', prompt:'It’s crucial that she ___ informed immediately.', options:['be','is'], answer:0 },
       ],
     },
     {
@@ -17823,6 +17827,7 @@ const GRAMMAR_CURRIC = [
       practice:[
         { kind:'pick', label:'were for all', prompt:'She wishes she ___ more patient.', options:['were','is'], answer:0 },
         { kind:'pick', label:'Present wish', prompt:'I wish I ___ how to drive.', options:['knew','know'], answer:0 },
+        { kind:'pick', label:'Present wish', prompt:'He wishes he ___ a bigger apartment.', options:['had','has'], answer:0 },
       ],
     },
     {
@@ -17835,6 +17840,9 @@ const GRAMMAR_CURRIC = [
       quiz:{ q:'“I wish I ___ so much last night.”', qTh:'“I wish I ___ so much last night.”', options:['hadn’t eaten','didn’t eat'], answer:0 },
       practice:[
         { kind:'pick', label:'Regret', prompt:'They wish they ___ earlier for the trip.', options:['had booked','booked'], answer:0 },
+        { kind:'pick', label:'Past regret', prompt:'She wishes she ___ that email before sending it.', options:['had reread','reread'], answer:0 },
+        { kind:'build', label:'Word order', prompt:'Build:', target:'I wish I had studied harder.',
+          slots:[{role:'subject'},{role:'verb'},{role:'subject'},{role:'aux'},{role:'verb'}], answer:['I','wish','I','had','studied harder'], distractors:['wished','studies'] },
       ],
     },
     {
@@ -17854,6 +17862,7 @@ const GRAMMAR_CURRIC = [
       practice:[
         { kind:'pick', label:'Unreal now', prompt:'They speak English as if it ___ their first language.', options:['were','is'], answer:0 },
         { kind:'pick', label:'Unreal past', prompt:'He looked as if he ___ all night.', options:['had studied','studied'], answer:0 },
+        { kind:'pick', label:'Unreal past', prompt:'She spoke as if she ___ the whole plan already.', options:['had known','knew'], answer:0 },
       ],
     },
     {
@@ -17866,6 +17875,8 @@ const GRAMMAR_CURRIC = [
       quiz:{ q:'“I’d rather you ___ so loudly.”', qTh:'“I’d rather you ___ so loudly.”', options:['didn’t talk','don’t talk'], answer:0 },
       practice:[
         { kind:'pick', label:'Someone else', prompt:'I’d rather he ___ before 9pm.', options:['left','leaves'], answer:0 },
+        { kind:'pick', label:'Someone else', prompt:'I’d rather you ___ me before visiting.', options:['texted','text'], answer:0 },
+        { kind:'pick', label:'Someone else', prompt:'She’d rather he ___ the dishes tonight.', options:['washed','washes'], answer:0 },
       ],
     },
     {
@@ -17950,6 +17961,7 @@ const GRAMMAR_CURRIC = [
       practice:[
         { kind:'pick', label:'Matching form', prompt:'She is both smart and ___.', options:['funny','funnily'], answer:0 },
         { kind:'pick', label:'either...or', prompt:'You can either call me or ___ a message.', options:['send','sending'], answer:0 },
+        { kind:'pick', label:'not only...but also', prompt:'The plan is not only risky but also ___.', options:['expensive','expensively'], answer:0 },
       ],
     },
     {
@@ -17962,6 +17974,9 @@ const GRAMMAR_CURRIC = [
       quiz:{ q:'“Cooking at home is cheaper than ___ out.”', qTh:'“Cooking at home is cheaper than ___ out.”', options:['eating','to eat'], answer:0 },
       practice:[
         { kind:'pick', label:'Same form', prompt:'She would rather read than ___ TV.', options:['watch','watching'], answer:0 },
+        { kind:'pick', label:'as...as', prompt:'Learning online can be as effective as ___ in person.', options:['learning','to learn'], answer:0 },
+        { kind:'build', label:'Word order', prompt:'Build:', target:'I would rather walk than drive.',
+          slots:[{role:'subject'},{role:'aux'},{role:'verb'},{role:'aux'},{role:'verb'}], answer:['I','would rather','walk','than','drive'], distractors:['walking','drove'] },
       ],
     },
     {
@@ -17974,6 +17989,8 @@ const GRAMMAR_CURRIC = [
       quiz:{ q:'“To travel is ___ new perspectives.”', qTh:'“To travel is ___ new perspectives.”', options:['to gain','gaining'], answer:0 },
       practice:[
         { kind:'pick', label:'Match the form', prompt:'Winning the award felt ___ and unexpected.', options:['exciting','excitingly'], answer:0 },
+        { kind:'pick', label:'Match the form', prompt:'The soup smelled ___ and looked delicious.', options:['spicy','spicily'], answer:0 },
+        { kind:'pick', label:'Match the form', prompt:'His plan seemed ___ but risky.', options:['clever','cleverly'], answer:0 },
       ],
     },
     {
