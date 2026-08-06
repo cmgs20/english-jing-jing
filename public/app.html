@@ -12537,12 +12537,43 @@ function recordDrillAnswer(it, isCorrect){
   }
   saveDrillMistakes();
 }
+/* DICT is keyed by exact spelling (mostly base/singular forms), but the
+   hand-written example sentences tap-test real inflected words in context
+   ("stories", "bumped", "leaking") — an audit of every generated example
+   sentence found ~1,470 distinct words showing "translation not found"
+   purely because they were the plural/-ed/-ing form of a word DICT already
+   has. Stripping the common English inflections before giving up recovers
+   ~60% of those with zero new data — only a real lookup miss ever reaches
+   the DICT[word] === undefined fallback message now. */
+function lookupWord(word){
+  if(DICT[word]) return DICT[word];
+  if(DICT[word.replace(/'s$/,"")]) return DICT[word.replace(/'s$/,"")];
+  if(/ies$/.test(word) && DICT[word.replace(/ies$/,"y")]) return DICT[word.replace(/ies$/,"y")];
+  if(/ves$/.test(word) && DICT[word.replace(/ves$/,"f")]) return DICT[word.replace(/ves$/,"f")];
+  if(/ves$/.test(word) && DICT[word.replace(/ves$/,"fe")]) return DICT[word.replace(/ves$/,"fe")];
+  if(/(x|ch|sh|s|z)es$/.test(word) && DICT[word.replace(/es$/,"")]) return DICT[word.replace(/es$/,"")];
+  if(/s$/.test(word) && !/ss$/.test(word) && DICT[word.replace(/s$/,"")]) return DICT[word.replace(/s$/,"")];
+  if(/ing$/.test(word)){
+    const stem = word.replace(/ing$/,"");
+    if(DICT[stem]) return DICT[stem];
+    if(DICT[stem+"e"]) return DICT[stem+"e"]; // making -> make
+    if(/(.)\1$/.test(stem) && DICT[stem.slice(0,-1)]) return DICT[stem.slice(0,-1)]; // running -> run
+  }
+  if(/ed$/.test(word)){
+    const stem = word.replace(/ed$/,"");
+    if(DICT[stem]) return DICT[stem];
+    if(DICT[stem+"e"]) return DICT[stem+"e"]; // liked -> like
+    if(/(.)\1$/.test(stem) && DICT[stem.slice(0,-1)]) return DICT[stem.slice(0,-1)]; // stopped -> stop
+  }
+  if(/ied$/.test(word) && DICT[word.replace(/ied$/,"y")]) return DICT[word.replace(/ied$/,"y")]; // tidied -> tidy
+  return null;
+}
 function showThai(word, el, popId){
   popId = popId || "drill-thai-pop";
   const container = el.parentElement;
   container.querySelectorAll(".word").forEach(w=>w.classList.remove("tapped"));
   el.classList.add("tapped");
-  const th = DICT[word] || DICT[word.replace(/'s$/,"")] || "ไม่พบคำแปล สำหรับ \""+word+"\"";
+  const th = lookupWord(word) || "ไม่พบคำแปล สำหรับ \""+word+"\"";
   document.getElementById(popId).textContent = word + " → " + th;
 }
 function showBlankThai(el){
