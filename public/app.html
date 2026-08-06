@@ -19249,9 +19249,11 @@ function listeningVoiceFor(speakerIdx){
   }
   const alt = voices.find(v=>v.lang && v.lang.startsWith("en") && (!base || v.name!==base.name));
   if(alt) return { voice:alt, pitch:1.0, rate:1.0 };
-  // Only one voice available on this device: fake a second speaker with a clearly lower, slightly slower pitch/rate
-  // instead of the old +22% pitch bump, which just sounded like the same voice sped up.
-  return { voice:base, pitch:0.72, rate:0.94 };
+  // Some Android system TTS engines (common on budget/MIUI phones) expose exactly one
+  // English voice through the Web Speech API, so there's no real second voice to pick.
+  // Push pitch and rate further apart than a subtle bump, since Android engines often
+  // apply pitch weakly — rate tends to be respected more reliably, so lean on both.
+  return { voice:base, pitch:0.62, rate:0.86 };
 }
 function stopListeningPlayback(){
   listeningPlayToken++;
