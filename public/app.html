@@ -43,6 +43,7 @@
   --violet:#7245cf; --violet-2:#8e5bef;
   --green:#1f8a52; --green-2:#2fa868;
   --red:#c23a4c; --red-2:#d94f61;
+  --teal:#1a8f8f; --teal-2:#26aaaa;
   --bg:#f4f5fa; --card:#ffffff; --card2:#eef0f7; --inset:#eceef6;
   --text:#161a2c; --muted:#585e77; --faint:#666c88;
   --good-bg:#e1f4e9; --good-fg:#1c7a49; --bad-bg:#fbe6ea; --bad-fg:#b8324a;
@@ -59,6 +60,7 @@
     --violet:#7245cf; --violet-2:#8e5bef;
     --green:#1f8a52; --green-2:#2fa868;
     --red:#c23a4c; --red-2:#d94f61;
+    --teal:#1a8f8f; --teal-2:#26aaaa;
     --bg:#f4f5fa; --card:#ffffff; --card2:#eef0f7; --inset:#eceef6;
     --text:#161a2c; --muted:#585e77; --faint:#666c88;
     --good-bg:#e1f4e9; --good-fg:#1c7a49; --bad-bg:#fbe6ea; --bad-fg:#b8324a;
@@ -206,6 +208,9 @@ p.sub{ color:var(--muted); font-size:14px; margin:0 0 16px; line-height:1.4; }
 .big-btn:nth-of-type(5){ background:linear-gradient(100deg,rgba(224,97,107,.26),rgba(224,97,107,.05)); }
 .big-btn:nth-of-type(5) .emoji{ background:linear-gradient(150deg,var(--red-2),var(--red)); }
 .big-btn:nth-of-type(5) .mini .ic{ color:var(--red); }
+.big-btn:nth-of-type(6){ background:linear-gradient(100deg,rgba(43,179,179,.26),rgba(43,179,179,.05)); }
+.big-btn:nth-of-type(6) .emoji{ background:linear-gradient(150deg,var(--teal-2),var(--teal)); }
+.big-btn:nth-of-type(6) .mini .ic{ color:var(--teal); }
 
 .home-tracker{
   border-radius:24px; padding:16px 18px; margin-top:auto; position:relative; overflow:hidden;
@@ -555,6 +560,16 @@ p.sub{ color:var(--muted); font-size:14px; margin:0 0 16px; line-height:1.4; }
 .gj-gap{ display:inline-block; min-width:34px; text-align:center; margin:0 3px; border-bottom:2px solid var(--blue); color:var(--blue-2); font-weight:800; }
 .gj-gap.done{ border-color:var(--good); color:var(--good-fg); }
 
+.listening-play-circle{ width:76px; height:76px; border-radius:50%; margin:6px auto 18px; background:linear-gradient(150deg,var(--blue-2),var(--blue)); color:#fff; border:none; display:flex; align-items:center; justify-content:center; box-shadow:0 14px 30px -10px rgba(91,141,239,.55); flex-shrink:0; }
+.listening-play-circle:active{ transform:scale(.96); }
+.listening-play-circle .ic{ width:30px; height:30px; margin-left:3px; }
+.listening-play-circle.playing{ animation:listening-pulse 1.1s ease-in-out infinite; }
+@keyframes listening-pulse{ 0%,100%{ box-shadow:0 14px 30px -10px rgba(91,141,239,.55); } 50%{ box-shadow:0 14px 34px -6px rgba(91,141,239,.85); } }
+.listening-turn{ display:flex; gap:10px; padding:11px 0; border-bottom:1px solid rgba(var(--hairline-rgb),.06); }
+.listening-turn:last-child{ border-bottom:none; }
+.listening-turn-who{ font-size:11.5px; font-weight:800; color:var(--accent2); flex-shrink:0; width:74px; }
+.listening-turn-text{ font-size:14px; color:var(--text); line-height:1.5; }
+
 .gj-formula-card{ background:var(--inset); border:1px solid rgba(76,175,125,.27); border-radius:18px; padding:16px 15px; margin-top:11px; }
 .gj-formula-label{ font-size:11px; font-weight:800; letter-spacing:.6px; color:var(--good); text-transform:uppercase; margin-bottom:11px; display:flex; align-items:center; gap:6px; }
 .gj-formula-label .ic{ width:14px; height:14px; }
@@ -764,6 +779,12 @@ if("serviceWorker" in navigator){
       <div class="chev"><svg class="ic" viewBox="0 0 24 24"><path d="m9 18 6-6-6-6"/></svg></div>
     </button>
 
+    <button class="big-btn" onclick="go('listening')">
+      <div class="emoji"><svg class="ic" viewBox="0 0 24 24"><path d="M3 14h3a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-7a9 9 0 0 1 18 0v7a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3"/></svg></div>
+      <div><div class="label">Listening <span class="lock-badge" id="lock-listening" style="display:none;"></span></div><div class="desc"><span class="desc-th">ฟังบทสนทนาจริง แล้วตอบคำถาม 5 ข้อ</span><span class="desc-en">Real-life audio + 5 comprehension questions</span></div></div>
+      <div class="chev"><svg class="ic" viewBox="0 0 24 24"><path d="m9 18 6-6-6-6"/></svg></div>
+    </button>
+
     <div class="home-nudge" id="home-nudge" style="display:none;">
       <div class="home-nudge-txt">
         <b>You've been practicing a lot! · คุณฝึกมาเยอะแล้ว!</b>
@@ -948,6 +969,21 @@ if("serviceWorker" in navigator){
   <section class="screen" id="screen-grammar-detail">
     <div class="topbar"><button class="back-btn" aria-label="Back" onclick="go('grammar')"><svg class="ic" viewBox="0 0 24 24"><path d="m15 18-6-6 6-6"/></svg></button><h1 id="grammar-detail-title">Grammar</h1><div style="width:36px"></div></div>
     <div id="grammar-detail-body" style="flex:1;"></div>
+  </section>
+
+  <!-- LISTENING: EXERCISE LIST -->
+  <section class="screen" id="screen-listening">
+    <div class="topbar"><button class="back-btn" aria-label="Back" onclick="go('home')"><svg class="ic" viewBox="0 0 24 24"><path d="m15 18-6-6 6-6"/></svg></button><h1>Listening</h1><div style="width:36px"></div></div>
+    <p class="sub">Listen to a real-life audio, then answer 5 questions to check what you understood.</p>
+    <p class="sub" id="listening-free-note" style="display:none;">โหมดทดลองฟรี: บทฟังแรกฟรี ปลดล็อกเพื่อฟังได้ครบทุกบท</p>
+    <div class="pill-row" id="listening-level-pills"></div>
+    <div id="listening-list" style="flex:1;margin-top:10px;"></div>
+  </section>
+
+  <!-- LISTENING: EXERCISE DETAIL (listen / quiz / results) -->
+  <section class="screen" id="screen-listening-detail">
+    <div class="topbar"><button class="back-btn" aria-label="Back" onclick="go('listening')"><svg class="ic" viewBox="0 0 24 24"><path d="m15 18-6-6 6-6"/></svg></button><h1 id="listening-detail-title">Listening</h1><div style="width:36px"></div></div>
+    <div id="listening-detail-body" style="flex:1;"></div>
   </section>
 
   <!-- PRONUNCIATION: CATEGORY LIST -->
@@ -1238,6 +1274,8 @@ const ICONS={
   hand:`<path d="M18 11V6a2 2 0 0 0-2-2a2 2 0 0 0-2 2" /> <path d="M14 10V4a2 2 0 0 0-2-2a2 2 0 0 0-2 2v2" /> <path d="M10 10.5V6a2 2 0 0 0-2-2a2 2 0 0 0-2 2v8" /> <path d="M18 8a2 2 0 1 1 4 0v6a8 8 0 0 1-8 8h-2c-2.8 0-4.5-.86-5.99-2.34l-3.6-3.6a2 2 0 0 1 2.83-2.82L7 15" />`,
   zap:`<path d="M4 14a1 1 0 0 1-.78-1.63l9.9-10.2a.5.5 0 0 1 .86.46l-1.92 6.02A1 1 0 0 0 13 10h7a1 1 0 0 1 .78 1.63l-9.9 10.2a.5.5 0 0 1-.86-.46l1.92-6.02A1 1 0 0 0 11 14z" />`,
   lock:`<rect width="18" height="11" x="3" y="11" rx="2" ry="2" /> <path d="M7 11V7a5 5 0 0 1 10 0v4" />`,
+  headphones:`<path d="M3 14h3a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-7a9 9 0 0 1 18 0v7a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3" />`,
+  play:`<polygon points="6 3 20 12 6 21 6 3" />`,
 };
 function icon(name,cls){ return `<svg class="ic ${cls||''}" viewBox="0 0 24 24">${ICONS[name]||''}</svg>`; }
 const ROW_COLORS = [["var(--blue-2)","var(--blue)"],["var(--orange-2)","var(--orange)"],["var(--violet-2)","var(--violet)"],["var(--green-2)","var(--green)"]];
@@ -11382,7 +11420,7 @@ function saveDrillMistakes(){ LS.set("et_drill_mistakes", drillMistakes); }
 /* =========================================================
    NAVIGATION
    ========================================================= */
-const FREE_SCREENS = new Set(["home","onboarding","flash-setup","flash-play","tracker","settings","paywall","restore","drill-setup","verbs","grammar","pron-setup"]);
+const FREE_SCREENS = new Set(["home","onboarding","flash-setup","flash-play","tracker","settings","paywall","restore","drill-setup","verbs","grammar","pron-setup","listening"]);
 const SCREEN_DEPTH = {
   onboarding:0, home:0,
   "flash-setup":1, "flash-play":2,
@@ -11390,6 +11428,7 @@ const SCREEN_DEPTH = {
   verbs:1, "verb-detail":2, "irregular-ref":2,
   grammar:1, "grammar-detail":2,
   "pron-setup":1, "pron-practice":2,
+  listening:1, "listening-detail":2,
   tracker:1, settings:1, paywall:1, restore:2,
 };
 let lastScreenName = "home";
@@ -11423,6 +11462,10 @@ const PAYWALL_CONTEXT = {
   settings: {
     title: "ปลดล็อกทุกฟีเจอร์ ตลอดชีพ",
     desc: "ไวยากรณ์ครบ 198 บท, Drill ครบ 7 tense, เสียงยาก 24 เสียง และพจนานุกรมกริยา 233 คำ จ่ายครั้งเดียวใช้ได้ตลอดไป",
+  },
+  listening: {
+    title: "ฟังได้ครบทุกบทสนทนา",
+    desc: "คุณเพิ่งลองฟังตัวอย่างแรกไปแล้ว เวอร์ชันเต็มปลดล็อกบทฟังทั้งหมด ตั้งแต่ระดับ A1 ถึง B1 พร้อมคำถามตรวจความเข้าใจ",
   },
 };
 let paywallContext = null;
@@ -11496,6 +11539,7 @@ function go(name, opts){
   if(name==="verbs") renderVerbList();
   if(name==="irregular-ref") renderIrregularRef();
   if(name==="grammar") renderGrammarList();
+  if(name==="listening") renderListeningList();
   if(name==="settings") renderSettings();
   if(name==="pron-setup") renderPronCategoryList();
   if(name==="onboarding") onbCarouselInit();
@@ -11835,7 +11879,7 @@ setInterval(()=>{
 function renderHome(){
   updateTrackerUI();
   const locked = !isUnlocked();
-  ["lock-drill-setup","lock-verbs","lock-grammar","lock-pron-setup"].forEach(id=>{
+  ["lock-drill-setup","lock-verbs","lock-grammar","lock-pron-setup","lock-listening"].forEach(id=>{
     const el = document.getElementById(id);
     if(!el) return;
     el.style.display = locked ? "inline-flex" : "none";
@@ -12469,6 +12513,207 @@ const GJ_ROLE = {
   comp:   { c:'#8e5bef', bg:'rgba(142,91,239,.18)',  label:'comparative' },
   sup:    { c:'#b07bff', bg:'rgba(176,123,255,.18)', label:'superlative' },
 };
+
+const FREE_LISTENING_ID = 'airport-boarding';
+const LISTENING_EX = [
+  {
+    id:'airport-boarding', level:'A1', type:'monologue',
+    title:'Airport boarding announcement', titleTh:'ประกาศขึ้นเครื่องที่สนามบิน',
+    speakers:['Announcer'],
+    script:[
+      { who:'Announcer', text:"Good afternoon, passengers. This is the final boarding call for flight BA249 to London. Boarding is now at gate 14. Please have your boarding pass and passport ready. The flight will depart at 3:45 pm. Thank you." },
+    ],
+    questions:[
+      { q:"What is the flight number?", qTh:'หมายเลขเที่ยวบินคืออะไร', options:['BA249','BA429','BA294'], answer:0 },
+      { q:"Where is the flight going?", qTh:'เครื่องบินลำนี้ไปที่ไหน', options:['London','Paris','Rome'], answer:0 },
+      { q:"Which gate is boarding?", qTh:'ขึ้นเครื่องที่ประตูใด', options:['Gate 14','Gate 4','Gate 40'], answer:0 },
+      { q:"What time does the flight depart?", qTh:'เที่ยวบินออกเวลาใด', options:['3:45 pm','4:35 pm','3:15 pm'], answer:0 },
+      { q:"What should passengers have ready?", qTh:'ผู้โดยสารควรเตรียมอะไรให้พร้อม', options:['Boarding pass and passport','Only passport','Only boarding pass'], answer:0 },
+    ],
+  },
+  {
+    id:'cafe-order', level:'A1', type:'dialogue',
+    title:'Ordering food at a café', titleTh:'สั่งอาหารที่ร้านกาแฟ',
+    speakers:['Waiter','Customer'],
+    script:[
+      { who:'Waiter', text:"Hi there! What can I get for you today?" },
+      { who:'Customer', text:"Hi. Can I have a cappuccino and a chocolate croissant, please?" },
+      { who:'Waiter', text:"Sure. Is that for here or to take away?" },
+      { who:'Customer', text:"For here, please." },
+      { who:'Waiter', text:"No problem. That's six dollars fifty." },
+      { who:'Customer', text:"Here you go. Oh, can I also get a glass of water?" },
+      { who:'Waiter', text:"Of course, no charge for that." },
+      { who:'Customer', text:"Thank you!" },
+    ],
+    questions:[
+      { q:"What drink does the customer order?", qTh:'ลูกค้าสั่งเครื่องดื่มอะไร', options:['A cappuccino','A tea','An orange juice'], answer:0 },
+      { q:"What food does the customer order?", qTh:'ลูกค้าสั่งอาหารอะไร', options:['A chocolate croissant','A sandwich','A muffin'], answer:0 },
+      { q:"Is the order for here or to take away?", qTh:'ลูกค้ารับประทานที่ร้านหรือสั่งกลับบ้าน', options:['For here','To take away','Not mentioned'], answer:0 },
+      { q:"How much does the order cost?", qTh:'อาหารทั้งหมดราคาเท่าไหร่', options:['$6.50','$5.60','$6.15'], answer:0 },
+      { q:"What extra thing does the customer ask for?", qTh:'ลูกค้าขออะไรเพิ่มเติม', options:['A glass of water','A second coffee','A napkin'], answer:0 },
+    ],
+  },
+  {
+    id:'weather-forecast', level:'A1', type:'monologue',
+    title:'Radio weather forecast', titleTh:'พยากรณ์อากาศทางวิทยุ',
+    speakers:['Presenter'],
+    script:[
+      { who:'Presenter', text:"Good morning! Here is today's weather. It's going to be sunny this morning with a temperature of twenty-two degrees. In the afternoon, clouds will arrive and it may rain around four o'clock. Tonight will be cool, around fourteen degrees. Don't forget your umbrella if you go out after lunch! That's all for today's forecast." },
+    ],
+    questions:[
+      { q:"What is the weather like this morning?", qTh:'อากาศตอนเช้าเป็นอย่างไร', options:['Sunny','Rainy','Cloudy'], answer:0 },
+      { q:"What is the morning temperature?", qTh:'อุณหภูมิตอนเช้าเท่าไหร่', options:['22 degrees','12 degrees','20 degrees'], answer:0 },
+      { q:"What time might it rain?", qTh:'ฝนอาจจะตกช่วงเวลาใด', options:['Around 4 o’clock','Around 2 o’clock','Around 6 o’clock'], answer:0 },
+      { q:"What is tonight's temperature?", qTh:'อุณหภูมิตอนกลางคืนเท่าไหร่', options:['14 degrees','24 degrees','40 degrees'], answer:0 },
+      { q:"What should people bring after lunch?", qTh:'ควรพกอะไรไปหลังอาหารเที่ยง', options:['An umbrella','A jacket','Sunglasses'], answer:0 },
+    ],
+  },
+  {
+    id:'train-ticket', level:'A2', type:'dialogue',
+    title:'Buying a ticket at a train station', titleTh:'ซื้อตั๋วที่เคาน์เตอร์สถานีรถไฟ',
+    speakers:['Clerk','Passenger'],
+    script:[
+      { who:'Clerk', text:"Good morning. How can I help you?" },
+      { who:'Passenger', text:"Hi, I'd like a ticket to Manchester, please." },
+      { who:'Clerk', text:"One way or return?" },
+      { who:'Passenger', text:"Return, please. I'm coming back on Sunday." },
+      { who:'Clerk', text:"Okay. There's a train leaving at 10:15 from platform 3. It arrives at 12:40." },
+      { who:'Passenger', text:"That's perfect. How much is it?" },
+      { who:'Clerk', text:"That'll be thirty-eight pounds for the return ticket." },
+      { who:'Passenger', text:"Can I pay by card?" },
+      { who:'Clerk', text:"Yes, of course. Here's your ticket — the train leaves in twenty minutes, so you'd better hurry." },
+      { who:'Passenger', text:"Thanks a lot!" },
+    ],
+    questions:[
+      { q:"Where does the passenger want to go?", qTh:'ผู้โดยสารต้องการไปที่ไหน', options:['Manchester','London','Liverpool'], answer:0 },
+      { q:"What type of ticket does the passenger buy?", qTh:'ผู้โดยสารซื้อตั๋วประเภทใด', options:['Return','One way','Weekly pass'], answer:0 },
+      { q:"What platform does the train leave from?", qTh:'รถไฟออกจากชานชาลาใด', options:['Platform 3','Platform 13','Platform 30'], answer:0 },
+      { q:"How much does the ticket cost?", qTh:'ตั๋วราคาเท่าไหร่', options:['£38','£83','£18'], answer:0 },
+      { q:"How does the passenger pay?", qTh:'ผู้โดยสารจ่ายเงินด้วยวิธีใด', options:['By card','In cash','By phone'], answer:0 },
+    ],
+  },
+  {
+    id:'platform-announcement', level:'A2', type:'monologue',
+    title:'Train station platform announcement', titleTh:'ประกาศเปลี่ยนชานชาลาที่สถานีรถไฟ',
+    speakers:['Announcer'],
+    script:[
+      { who:'Announcer', text:"Attention, passengers. The 11:20 train to Bristol will now depart from platform 7 instead of platform 2. We're sorry to announce that this service is also delayed by fifteen minutes due to a signal problem. The next train to Bristol, at 12:00, is running on time. We apologize for any inconvenience and thank you for your patience." },
+    ],
+    questions:[
+      { q:"Which city is the train going to?", qTh:'รถไฟขบวนนี้ไปเมืองใด', options:['Bristol','Brighton','Bath'], answer:0 },
+      { q:"Which platform will the train now leave from?", qTh:'รถไฟจะออกจากชานชาลาใหม่หมายเลขใด', options:['Platform 7','Platform 2','Platform 17'], answer:0 },
+      { q:"How long is the delay?", qTh:'รถไฟล่าช้ากี่นาที', options:['15 minutes','50 minutes','5 minutes'], answer:0 },
+      { q:"Why is the train delayed?", qTh:'เหตุใดรถไฟจึงล่าช้า', options:['A signal problem','Bad weather','A strike'], answer:0 },
+      { q:"What time is the next train to Bristol?", qTh:'รถไฟขบวนถัดไปไปบริสตอลออกเวลาใด', options:['12:00','11:20','12:15'], answer:0 },
+    ],
+  },
+  {
+    id:'hotel-checkin', level:'A2', type:'dialogue',
+    title:'Checking in at a hotel reception', titleTh:'เช็คอินที่แผนกต้อนรับโรงแรม',
+    speakers:['Receptionist','Guest'],
+    script:[
+      { who:'Receptionist', text:"Good evening, welcome to the Riverside Hotel. Do you have a reservation?" },
+      { who:'Guest', text:"Yes, under the name Somsak, for two nights." },
+      { who:'Receptionist', text:"Let me check... yes, here it is. A double room with a city view." },
+      { who:'Guest', text:"Great. Is breakfast included?" },
+      { who:'Receptionist', text:"Yes, breakfast is served from seven to ten in the morning, on the second floor." },
+      { who:'Guest', text:"Perfect. What's the wifi password?" },
+      { who:'Receptionist', text:"It's on the card in your room key folder. Your room is 305, on the third floor. Here's your key." },
+      { who:'Guest', text:"Thank you very much." },
+    ],
+    questions:[
+      { q:"How many nights is the guest staying?", qTh:'แขกพักกี่คืน', options:['Two nights','Three nights','One night'], answer:0 },
+      { q:"What kind of room does the guest have?", qTh:'แขกได้ห้องพักแบบใด', options:['A double room with a city view','A single room','A room with a sea view'], answer:0 },
+      { q:"What time is breakfast served?", qTh:'อาหารเช้าเสิร์ฟเวลาใด', options:['From 7 to 10 am','From 6 to 9 am','From 8 to 11 am'], answer:0 },
+      { q:"Where is breakfast served?", qTh:'อาหารเช้าเสิร์ฟที่ชั้นใด', options:['On the second floor','In the lobby','On the third floor'], answer:0 },
+      { q:"What is the guest's room number?", qTh:'หมายเลขห้องพักของแขกคือเลขใด', options:['305','350','503'], answer:0 },
+    ],
+  },
+  {
+    id:'street-directions', level:'A2', type:'dialogue',
+    title:'Asking for directions in the street', titleTh:'ถามทางบนถนน',
+    speakers:['Tourist','Local'],
+    script:[
+      { who:'Tourist', text:"Excuse me, could you help me? I'm looking for the museum." },
+      { who:'Local', text:"Sure! Go straight ahead for two blocks, then turn left at the bank." },
+      { who:'Tourist', text:"Turn left at the bank, okay." },
+      { who:'Local', text:"Then walk past the park, and the museum is on your right, next to the library." },
+      { who:'Tourist', text:"How long does it take to walk there?" },
+      { who:'Local', text:"About ten minutes." },
+      { who:'Tourist', text:"Great, thank you so much!" },
+      { who:'Local', text:"You're welcome. Enjoy your visit!" },
+    ],
+    questions:[
+      { q:"What is the tourist looking for?", qTh:'นักท่องเที่ยวกำลังหาสถานที่ใด', options:['The museum','The library','The park'], answer:0 },
+      { q:"Where should the tourist turn left?", qTh:'นักท่องเที่ยวควรเลี้ยวซ้ายที่ใด', options:['At the bank','At the park','At the library'], answer:0 },
+      { q:"What is the museum next to?", qTh:'พิพิธภัณฑ์อยู่ติดกับสถานที่ใด', options:['The library','The bank','The park'], answer:0 },
+      { q:"How long is the walk?", qTh:'เดินไปใช้เวลาประมาณเท่าไหร่', options:['About 10 minutes','About 20 minutes','About 5 minutes'], answer:0 },
+      { q:"What does the tourist walk past?", qTh:'นักท่องเที่ยวเดินผ่านสถานที่ใด', options:['The park','The bank','The school'], answer:0 },
+    ],
+  },
+  {
+    id:'voicemail-delay', level:'B1', type:'monologue',
+    title:'Voicemail message about a delayed meeting', titleTh:'ข้อความฝากไว้เรื่องประชุมล่าช้า',
+    speakers:['Claire'],
+    script:[
+      { who:'Claire', text:"Hi, this is Claire calling for James. I'm really sorry, but I'm stuck in traffic on the highway and I don't think I'll make it to our two o'clock meeting on time. There's been an accident and everything's at a standstill. I think I'll be about thirty minutes late. Could we possibly push the meeting to two thirty instead? If that doesn't work for you, please call me back and we can reschedule for tomorrow morning. Sorry again for the inconvenience. Talk soon, bye." },
+    ],
+    questions:[
+      { q:"Who is the message for?", qTh:'ข้อความนี้ฝากถึงใคร', options:['James','Claire','Both of them'], answer:0 },
+      { q:"Why is Claire going to be late?", qTh:'เหตุใดแคลร์จึงจะมาสาย', options:["She's stuck in traffic",'Her car broke down','She overslept'], answer:0 },
+      { q:"What time was the meeting supposed to start?", qTh:'เดิมทีประชุมนัดไว้เวลาใด', options:['2:00','2:30','3:00'], answer:0 },
+      { q:"How late does Claire think she'll be?", qTh:'แคลร์คิดว่าจะมาสายประมาณเท่าไหร่', options:['About 30 minutes','About 10 minutes','About an hour'], answer:0 },
+      { q:"What does Claire suggest as an alternative?", qTh:'แคลร์เสนอทางเลือกอะไร', options:['Rescheduling for tomorrow morning','Cancelling the meeting','Meeting online instead'], answer:0 },
+    ],
+  },
+  {
+    id:'job-interview', level:'B1', type:'dialogue',
+    title:'Job interview: first questions', titleTh:'สัมภาษณ์งาน: คำถามแรกๆ',
+    speakers:['Interviewer','Candidate'],
+    script:[
+      { who:'Interviewer', text:"Thanks for coming in today. So, tell me a little about yourself." },
+      { who:'Candidate', text:"Sure. I've been working as a marketing assistant for three years, mostly focusing on social media campaigns." },
+      { who:'Interviewer', text:"Great. And why are you interested in this position?" },
+      { who:'Candidate', text:"I'm looking for a role with more responsibility, and I really admire the work your company does with small businesses." },
+      { who:'Interviewer', text:"That's good to hear. What would you say is your biggest strength?" },
+      { who:'Candidate', text:"I'd say it's my attention to detail — I always double-check my work before a deadline." },
+      { who:'Interviewer', text:"And is there anything you're working on improving?" },
+      { who:'Candidate', text:"Public speaking. I've actually just joined a club to practice it." },
+      { who:'Interviewer', text:"That's a great step. When would you be available to start?" },
+      { who:'Candidate', text:"I could start in two weeks." },
+    ],
+    questions:[
+      { q:"What has the candidate been working as?", qTh:'ผู้สมัครเคยทำงานตำแหน่งใด', options:['A marketing assistant','A sales manager','A graphic designer'], answer:0 },
+      { q:"How long has the candidate been in that role?", qTh:'ผู้สมัครทำงานตำแหน่งนั้นมานานเท่าไหร่', options:['Three years','Five years','One year'], answer:0 },
+      { q:"What does the candidate say is their biggest strength?", qTh:'ผู้สมัครบอกว่าจุดแข็งที่สุดของตนคืออะไร', options:['Attention to detail','Public speaking','Time management'], answer:0 },
+      { q:"What is the candidate working on improving?", qTh:'ผู้สมัครกำลังพัฒนาเรื่องใด', options:['Public speaking','Attention to detail','Team work'], answer:0 },
+      { q:"When could the candidate start?", qTh:'ผู้สมัครสามารถเริ่มงานได้เมื่อใด', options:['In two weeks','Immediately','In two months'], answer:0 },
+    ],
+  },
+  {
+    id:'doctor-appointment', level:'B1', type:'dialogue',
+    title:"Doctor's appointment: describing symptoms", titleTh:'นัดพบแพทย์: การบอกอาการ',
+    speakers:['Doctor','Patient'],
+    script:[
+      { who:'Doctor', text:"Good morning. What seems to be the problem today?" },
+      { who:'Patient', text:"I've had a sore throat and a headache since yesterday, and I feel a bit dizzy too." },
+      { who:'Doctor', text:"Do you have a fever?" },
+      { who:'Patient', text:"I checked this morning — it was 38.2 degrees." },
+      { who:'Doctor', text:"Have you been coughing at all?" },
+      { who:'Patient', text:"A little, mostly in the evening." },
+      { who:'Doctor', text:"Okay. It sounds like a common cold, but let's check your throat just to be sure... Yes, it's a bit red. I'll prescribe something for the fever and the sore throat. Drink plenty of water and rest for a couple of days." },
+      { who:'Patient', text:"Should I come back if it doesn't get better?" },
+      { who:'Doctor', text:"Yes, come back in three days if you're not feeling better, or sooner if the fever gets worse." },
+    ],
+    questions:[
+      { q:"What symptoms does the patient mention first?", qTh:'ผู้ป่วยบอกอาการอะไรก่อน', options:['Sore throat and headache','Cough and fever','Stomach ache'], answer:0 },
+      { q:"What was the patient's temperature?", qTh:'อุณหภูมิร่างกายของผู้ป่วยเท่าไหร่', options:['38.2 degrees','37.2 degrees','39.2 degrees'], answer:0 },
+      { q:"When does the patient mostly cough?", qTh:'ผู้ป่วยไอมากช่วงเวลาใด', options:['In the evening','In the morning','All day'], answer:0 },
+      { q:"What does the doctor think it is?", qTh:'แพทย์คิดว่าผู้ป่วยเป็นอะไร', options:['A common cold','The flu','An allergy'], answer:0 },
+      { q:"When should the patient come back if not feeling better?", qTh:'ผู้ป่วยควรกลับมาพบแพทย์อีกครั้งเมื่อใดหากยังไม่ดีขึ้น', options:['In three days','In one week','The next day'], answer:0 },
+    ],
+  },
+];
 
 const GRAMMAR_CURRIC = [
 {
@@ -17074,6 +17319,217 @@ function renderGrammarList(){
   document.getElementById("grammar-list").innerHTML = html;
 }
 function setGrammarLevel(l){ grammarLevel = l; renderGrammarList(); }
+
+/* =========================================================
+   LISTENING
+   ========================================================= */
+let listeningLevel = "A1";
+let listeningIdx = 0;
+let listeningStage = "quiz"; // 'quiz' | 'results'
+let listeningShowTranscript = false;
+let listeningPlaying = false;
+let listeningPlayedOnce = false; // gates the transcript button — no peeking before a full first listen
+let listeningQIdx = 0;
+let listeningShuffled = null; // per-exercise: [{ options:[...], answer:idx }]
+let listeningAnswers = [];    // chosen option index per question, in shuffled order
+let listeningPicked = null;   // option index picked for the current question (null = not yet answered)
+
+function isListeningLocked(ex){ return !isUnlocked() && ex.id!==FREE_LISTENING_ID; }
+function listeningResult(id){ return (LS.get("et_listening_scores", {}) || {})[id]; }
+function shuffleListeningQuestions(ex){
+  return ex.questions.map(q=>{
+    const order = q.options.map((_,i)=>i);
+    for(let i=order.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [order[i],order[j]]=[order[j],order[i]]; }
+    return { options: order.map(i=>q.options[i]), answer: order.indexOf(q.answer) };
+  });
+}
+
+function renderListeningList(){
+  const freeNote = document.getElementById("listening-free-note");
+  if(freeNote) freeNote.style.display = isUnlocked() ? "none" : "block";
+  const levels = [...new Set(LISTENING_EX.map(e=>e.level))];
+  if(!levels.includes(listeningLevel)) listeningLevel = levels[0];
+  const pillsEl = document.getElementById("listening-level-pills");
+  pillsEl.innerHTML = levels.map(l=>`<button class="pill ${listeningLevel===l?'active':''}" onclick="setListeningLevel('${l}')">${l}</button>`).join("");
+
+  const items = LISTENING_EX.filter(e=>e.level===listeningLevel);
+  document.getElementById("listening-list").innerHTML = `<div class="gj-lesson-list">${items.map(ex=>{
+    const idx = LISTENING_EX.findIndex(x=>x.id===ex.id);
+    const locked = isListeningLocked(ex);
+    const result = listeningResult(ex.id);
+    const done = !!result;
+    return `<button class="gj-lesson-row" onclick="openListeningExercise(${idx})">
+      <div class="gj-lesson-badge${done?' done':''}">${done?icon('check'):(ex.type==='dialogue'?icon('layers'):icon('volume_2'))}</div>
+      <div class="info">
+        <div class="title">${ex.title}${locked?` <span class="lock-badge">${icon('lock','')}</span>`:""}</div>
+        <div class="title-th">${ex.titleTh}</div>
+      </div>
+      <span class="gj-lesson-status${done?' done':''}">${done?result.score+'/'+result.total:(ex.type==='dialogue'?'Dialogue':'Monologue')}</span>
+    </button>`;
+  }).join("")}</div>`;
+}
+function setListeningLevel(l){ listeningLevel = l; renderListeningList(); }
+
+function openListeningExercise(idx){
+  const ex = LISTENING_EX[idx];
+  if(isListeningLocked(ex)){ goPaywall("listening"); return; }
+  if("speechSynthesis" in window) speechSynthesis.cancel();
+  listeningIdx = idx;
+  resetListeningAttempt();
+  go("listening-detail", {bypassLock:true});
+  renderListeningDetail();
+}
+function resetListeningAttempt(){
+  const ex = LISTENING_EX[listeningIdx];
+  listeningStage = "quiz";
+  listeningShowTranscript = false;
+  listeningPlaying = false;
+  listeningPlayedOnce = false;
+  listeningQIdx = 0;
+  listeningShuffled = shuffleListeningQuestions(ex);
+  listeningAnswers = [];
+  listeningPicked = null;
+}
+
+function listeningVoiceFor(speakerIdx){
+  if(!("speechSynthesis" in window)) return { voice:null, pitch:1.0 };
+  const base = pickSoftVoice("en-US");
+  if(speakerIdx===0) return { voice:base, pitch:1.0 };
+  const voices = speechSynthesis.getVoices();
+  const alt = voices.find(v=>v.lang && v.lang.startsWith("en") && (!base || v.name!==base.name));
+  return alt ? { voice:alt, pitch:1.0 } : { voice:base, pitch:1.22 };
+}
+function playListening(){
+  const ex = LISTENING_EX[listeningIdx];
+  if(!ex || !("speechSynthesis" in window)) return;
+  speechSynthesis.cancel();
+  listeningPlaying = true;
+  updateListeningPlayUI();
+  const speakerIdx = {};
+  (ex.speakers||[]).forEach((s,i)=>{ speakerIdx[s] = i; });
+  let i = 0;
+  function next(){
+    if(i>=ex.script.length){
+      listeningPlaying = false;
+      const justFinishedFirstListen = !listeningPlayedOnce;
+      listeningPlayedOnce = true;
+      if(justFinishedFirstListen) renderListeningDetail(); else updateListeningPlayUI();
+      return;
+    }
+    const turn = ex.script[i];
+    const v = listeningVoiceFor(speakerIdx[turn.who] || 0);
+    const u = new SpeechSynthesisUtterance(turn.text);
+    u.lang = "en-US"; u.rate = speechRate; u.pitch = v.pitch;
+    if(v.voice) u.voice = v.voice;
+    u.onend = ()=>{ i++; setTimeout(next, ex.script.length>1 ? 350 : 0); };
+    speechSynthesis.speak(u);
+  }
+  next();
+}
+function listeningStatusHtml(){
+  if(listeningPlaying) return `<div>Playing…</div><div style="color:var(--thai);">กำลังเล่น…</div>`;
+  if(listeningPlayedOnce) return `<div>Tap to listen again</div><div style="color:var(--thai);">แตะเพื่อฟังอีกครั้ง</div>`;
+  return `<div>Tap to listen</div><div style="color:var(--thai);">แตะเพื่อฟัง</div>`;
+}
+function updateListeningPlayUI(){
+  const btn = document.getElementById("listening-play-btn");
+  if(btn) btn.classList.toggle("playing", listeningPlaying);
+  const status = document.getElementById("listening-play-status");
+  if(status) status.innerHTML = listeningStatusHtml();
+}
+function toggleListeningTranscript(){
+  listeningShowTranscript = !listeningShowTranscript;
+  renderListeningDetail();
+}
+function chooseListeningAnswer(oIdx){
+  if(listeningPicked!==null) return;
+  listeningPicked = oIdx;
+  const q = listeningShuffled[listeningQIdx];
+  if(oIdx===q.answer){ haptic(20); announce("Correct"); } else { haptic([30,40,30]); announce("Not quite"); }
+  renderListeningDetail();
+}
+function nextListeningQuestion(){
+  listeningAnswers.push(listeningPicked);
+  listeningPicked = null;
+  listeningQIdx++;
+  const ex = LISTENING_EX[listeningIdx];
+  if(listeningQIdx>=ex.questions.length){ finishListeningQuiz(); } else { renderListeningDetail(); }
+}
+function finishListeningQuiz(){
+  const ex = LISTENING_EX[listeningIdx];
+  const score = listeningAnswers.reduce((n,a,i)=> n + (a===listeningShuffled[i].answer ? 1 : 0), 0);
+  const scores = LS.get("et_listening_scores", {}) || {};
+  scores[ex.id] = { score, total:ex.questions.length, at:Date.now() };
+  LS.set("et_listening_scores", scores);
+  listeningStage = "results";
+  renderListeningDetail();
+}
+function replayListeningAudio(){
+  resetListeningAttempt();
+  renderListeningDetail();
+}
+function listeningBackToList(){ go("listening"); }
+
+function renderListeningDetail(){
+  const ex = LISTENING_EX[listeningIdx];
+  document.getElementById("listening-detail-title").textContent = ex.title;
+  const body = document.getElementById("listening-detail-body");
+  const typeLabel = ex.type==='dialogue' ? 'Dialogue' : 'Monologue';
+  const typeLabelTh = ex.type==='dialogue' ? 'บทสนทนา' : 'พูดคนเดียว';
+
+  if(listeningStage==="quiz"){
+    const q = listeningShuffled[listeningQIdx];
+    const answered = listeningPicked!==null;
+    const playerHtml = `
+      <div style="text-align:center;">
+        <span class="gj-role-tag" style="color:var(--blue-2);background:rgba(91,141,239,.14);border-color:rgba(91,141,239,.4);">${ex.level} · ${typeLabel}</span>
+        <div style="font-size:13px;color:var(--thai);margin-top:8px;">${typeLabelTh} · ${ex.titleTh}</div>
+        <button class="listening-play-circle${listeningPlaying?' playing':''}" id="listening-play-btn" onclick="playListening()" aria-label="Play">${icon('play')}</button>
+        <div id="listening-play-status" style="font-size:12px;color:var(--muted);">${listeningStatusHtml()}</div>
+        ${listeningPlayedOnce ? `<button class="ghost-btn small" style="margin-top:14px;" onclick="toggleListeningTranscript()">${listeningShowTranscript?'Hide transcript · ซ่อนบทสนทนา':'Show transcript · แสดงบทสนทนา'}</button>` : ""}
+      </div>
+      ${listeningShowTranscript ? `<div class="stat-card" style="margin-top:12px;">${ex.script.map(t=>`
+        <div class="listening-turn"><div class="listening-turn-who">${t.who}</div><div class="listening-turn-text">${t.text}</div></div>
+      `).join("")}</div>` : ""}
+    `;
+    body.innerHTML = `
+      ${playerHtml}
+      <div class="card-counter" style="margin-top:24px;">Question ${listeningQIdx+1} / ${ex.questions.length} <span style="color:var(--thai);">· ข้อที่ ${listeningQIdx+1} จาก ${ex.questions.length}</span></div>
+      <div class="progress-bar"><div class="progress-fill" style="width:${Math.round(listeningQIdx/ex.questions.length*100)}%"></div></div>
+      <div class="stat-card" style="margin-top:16px;">
+        <div style="font-size:15px;font-weight:700;color:var(--text);line-height:1.5;">${ex.questions[listeningQIdx].q}</div>
+        <div style="font-size:13px;color:var(--thai);margin-top:5px;">${ex.questions[listeningQIdx].qTh}</div>
+        <div class="gj-choice-opts">
+          ${q.options.map((opt,i)=>{
+            const letter = String.fromCharCode(65+i);
+            let cls = "";
+            if(answered && i===q.answer) cls = " right";
+            else if(answered && i===listeningPicked) cls = " wrong";
+            return `<button class="gj-choice-btn${cls}" onclick="chooseListeningAnswer(${i})" ${answered?'disabled':''}><span class="gj-choice-letter">${letter}</span>${opt}</button>`;
+          }).join("")}
+        </div>
+      </div>
+      ${answered ? `<button class="primary-btn" style="margin-top:16px;" onclick="nextListeningQuestion()">${listeningQIdx+1>=ex.questions.length?'See my score · ดูคะแนน':'Next question · ข้อถัดไป'} ›</button>` : ""}
+    `;
+    return;
+  }
+
+  // results
+  const result = listeningResult(ex.id);
+  const score = result ? result.score : 0;
+  const total = result ? result.total : ex.questions.length;
+  const great = score>=Math.ceil(total*0.8);
+  body.innerHTML = `
+    <div class="stat-card" style="text-align:center;${great?'border-color:var(--good);background:var(--good-bg);':''}">
+      <div style="font-size:34px;">${great?'🎉':'💪'}</div>
+      <div style="font-size:22px;font-weight:800;color:${great?'var(--good-fg)':'var(--text)'};margin-top:6px;">${score} / ${total}</div>
+      <div style="font-size:13px;color:var(--muted);margin-top:4px;">${great?'Great listening!':'Listen again to catch what you missed.'}</div>
+      <div style="font-size:12px;color:var(--thai);margin-top:2px;">${great?'ฟังเก่งมาก!':'ลองฟังอีกครั้งเพื่อจับสิ่งที่พลาดไป'}</div>
+      <button class="primary-btn" style="margin:14px auto 0;display:block;width:fit-content;-webkit-appearance:none;appearance:none;" onclick="replayListeningAudio()">Listen again · ฟังอีกครั้ง ›</button>
+      <button class="ghost-btn" style="margin:10px auto 0;display:block;width:fit-content;-webkit-appearance:none;appearance:none;" onclick="listeningBackToList()">Back to Listening · กลับไปหน้ารายการ</button>
+    </div>
+  `;
+}
 
 /* ---------- shared render helpers ---------- */
 function gjChip(c, big){

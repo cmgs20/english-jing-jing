@@ -12,6 +12,7 @@
   --violet:#8e5bef; --violet-2:#a97bff;
   --green:#4caf7d; --green-2:#63d29a;
   --red:#e0616b; --red-2:#ff8a9c;
+  --teal:#2bb3b3; --teal-2:#4fd1d1;
   --bg:#0a0c16; --card:#161a2e; --card2:#1b2036; --inset:#10142a;
   --text:#f2f3f7; --muted:#9aa0b4; --faint:#6b7288; --thai:#ffb877;
   --line:rgba(255,255,255,.08);
@@ -27,6 +28,7 @@
     --violet:#7245cf; --violet-2:#8e5bef;
     --green:#1f8a52; --green-2:#2fa868;
     --red:#c23a4c; --red-2:#d94f61;
+    --teal:#1a8f8f; --teal-2:#26aaaa;
     --bg:#f4f5fa; --card:#ffffff; --card2:#eef0f7; --inset:#eceef6;
     --text:#161a2c; --muted:#585e77; --faint:#666c88; --thai:#94510f;
     --line:rgba(20,22,38,.08);
