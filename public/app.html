@@ -14312,6 +14312,7 @@ const GRAMMAR_CURRIC = [
       practice:[
         { kind:'pick', label:'State', prompt:'She ___ the answer.', options:['knows','is knowing'], answer:0 },
         { kind:'pick', label:'State', prompt:'I ___ this song.', options:['love','am loving'], answer:0 },
+        { kind:'pick', label:'State', prompt:'He ___ this bag; it’s not his.', options:['doesn’t own','isn’t owning'], answer:0 },
       ],
     },
     {
@@ -14324,6 +14325,8 @@ const GRAMMAR_CURRIC = [
       quiz:{ q:'Timetable future:', qTh:'อนาคตแบบตารางเวลา:', options:['The film starts at 8','The film is starting because I say so'], answer:0 },
       practice:[
         { kind:'pick', label:'Schedule', prompt:'The shop ___ at 9 am.', options:['opens','is opening'], answer:0 },
+        { kind:'pick', label:'Schedule', prompt:'The plane ___ at noon.', options:['departs','is departing'], answer:0 },
+        { kind:'pick', label:'Timetable', prompt:'What time ___ the movie start?', options:['does','is'], answer:0 },
       ],
     },
     {
@@ -14336,6 +14339,8 @@ const GRAMMAR_CURRIC = [
       quiz:{ q:'Temporary (these days):', qTh:'ชั่วคราว (ช่วงนี้):', options:['She is working in Paris this month','She works in Paris always'], answer:0 },
       practice:[
         { kind:'pick', label:'Temporary', prompt:'He ___ a lot these days.', options:['is travelling','travels'], answer:0 },
+        { kind:'pick', label:'Temporary', prompt:'I ___ Spanish this semester.', options:['am studying','study'], answer:0 },
+        { kind:'pick', label:'These days', prompt:'She ___ from home this week.', options:['is working','works'], answer:0 },
       ],
     },
     {
@@ -14348,6 +14353,9 @@ const GRAMMAR_CURRIC = [
       quiz:{ q:'A fixed arrangement:', qTh:'นัดหมายที่แน่นอน:', options:['We are flying to Tokyo on Friday','We fly whenever'], answer:0 },
       practice:[
         { kind:'pick', label:'Arrangement', prompt:'They ___ dinner at 8 tonight.', options:['are having','have'], answer:0 },
+        { kind:'pick', label:'Arrangement', prompt:'We ___ friends for dinner on Saturday.', options:['are meeting','meet'], answer:0 },
+        { kind:'build', label:'Word order', prompt:'Build:', target:'I am seeing the dentist tomorrow.',
+          slots:[{role:'subject'},{role:'aux'},{role:'verb'},{role:'adv'}], answer:['I','am','seeing the dentist','tomorrow'], distractors:['see','yesterday'] },
       ],
     },
     {
@@ -14362,6 +14370,7 @@ const GRAMMAR_CURRIC = [
       practice:[
         { kind:'pick', label:'Arrangement', prompt:'Tomorrow I ___ the doctor.', options:['am seeing','see'], answer:0 },
         { kind:'pick', label:'Permanent', prompt:'Water ___ at 100°.', options:['boils','is boiling'], answer:0 },
+        { kind:'pick', label:'Habit vs now', prompt:'Look, it ___!', options:['is snowing','snows'], answer:0 },
       ],
     },
     {
@@ -14410,6 +14419,7 @@ const GRAMMAR_CURRIC = [
       practice:[
         { kind:'pick', label:'Promise', prompt:'I ___ be late again.', options:['won’t','don’t'], answer:0 },
         { kind:'pick', label:'Offer', prompt:'That bag looks heavy, I ___ help.', options:['’ll','am'], answer:0 },
+        { kind:'pick', label:'Refusal', prompt:'I ___ apologize, I did nothing wrong.', options:['won’t','don’t'], answer:0 },
       ],
     },
     {
@@ -14422,6 +14432,8 @@ const GRAMMAR_CURRIC = [
       quiz:{ q:'Prediction from evidence:', qTh:'ทำนายจากหลักฐาน:', options:['He’s driving too fast, he’s going to crash','I think it will be nice someday'], answer:0 },
       practice:[
         { kind:'pick', label:'Evidence', prompt:'The sky is black. It ___ rain.', options:['is going to','will'], answer:0 },
+        { kind:'pick', label:'Evidence', prompt:'He’s so tired, he ___ fall asleep on the sofa.', options:['is going to','will'], answer:0 },
+        { kind:'pick', label:'Evidence', prompt:'She’s studied so hard, she ___ pass.', options:['is going to','will'], answer:0 },
       ],
     },
     {
@@ -14436,6 +14448,7 @@ const GRAMMAR_CURRIC = [
       practice:[
         { kind:'pick', label:'Evidence', prompt:'Look at those clouds, it ___ storm.', options:['is going to','will'], answer:0 },
         { kind:'pick', label:'Offer', prompt:'You look tired, I ___ drive.', options:['’ll','am going to'], answer:0 },
+        { kind:'pick', label:'Plan already made', prompt:'We ___ to Japan next spring, the tickets are booked.', options:['are going','will go'], answer:0 },
       ],
     },
     {
@@ -14552,6 +14565,8 @@ const GRAMMAR_CURRIC = [
       quiz:{ q:'participle of “study”', qTh:'กริยาช่อง 3 ของ “study”', options:['studied','studyed'], answer:0 },
       practice:[
         { kind:'pick', label:'Double', prompt:'participle of “stop”', options:['stopped','stoped'], answer:0 },
+        { kind:'pick', label:'-ied', prompt:'participle of “carry”', options:['carried','carryed'], answer:0 },
+        { kind:'pick', label:'Double letter', prompt:'participle of “plan”', options:['planned','planed'], answer:0 },
       ],
     },
     {
@@ -14580,6 +14595,7 @@ const GRAMMAR_CURRIC = [
       practice:[
         { kind:'pick', label:'Experience', prompt:'___ you ever met her?', options:['Have','Did'], answer:0 },
         { kind:'pick', label:'Visiting places', prompt:'I ___ been to Korea twice.', options:['have','did'], answer:0 },
+        { kind:'pick', label:'Never', prompt:'We ___ never tried durian.', options:['have','did'], answer:0 },
       ],
     },
     {
@@ -14593,6 +14609,8 @@ const GRAMMAR_CURRIC = [
       quiz:{ q:'“He’s ___ to the shop, he’ll be back soon.”', qTh:'“He’s ___ to the shop, he’ll be back soon.”', options:['gone','been'], answer:0 },
       practice:[
         { kind:'pick', label:'Came back', prompt:'I have ___ to London twice.', options:['been','gone'], answer:0 },
+        { kind:'pick', label:'Still there', prompt:'Where’s Tom? He’s ___ to the bank.', options:['gone','been'], answer:0 },
+        { kind:'pick', label:'Came back', prompt:'They have ___ to Italy three times.', options:['been','gone'], answer:0 },
       ],
     },
     {
@@ -14607,6 +14625,7 @@ const GRAMMAR_CURRIC = [
       practice:[
         { kind:'pick', label:'No time', prompt:'___ you ever broken a bone?', options:['Have','Did'], answer:0 },
         { kind:'pick', label:'Finished time', prompt:'She ___ in 2019.', options:['graduated','has graduated'], answer:0 },
+        { kind:'pick', label:'Unfinished time', prompt:'I ___ my homework already.', options:['have finished','finished'], answer:0 },
       ],
     },
     {
@@ -14718,6 +14737,7 @@ const GRAMMAR_CURRIC = [
       practice:[
         { kind:'pick', label:'New', prompt:'There’s ___ dog in the garden.', options:['a','the'], answer:0 },
         { kind:'pick', label:'Known', prompt:'Close ___ door, please. (the only one)', options:['the','a'], answer:0 },
+        { kind:'pick', label:'Known', prompt:'Can you pass ___ salt? (the only one on the table)', options:['the','a'], answer:0 },
       ],
     },
     {
@@ -14731,6 +14751,8 @@ const GRAMMAR_CURRIC = [
       quiz:{ q:'“I met a man. ___ man was kind.”', qTh:'“I met a man. ___ man was kind.”', options:['The','A'], answer:0 },
       practice:[
         { kind:'pick', label:'Second mention', prompt:'She has a cat. ___ cat is grey.', options:['The','A'], answer:0 },
+        { kind:'pick', label:'First mention', prompt:'I saw ___ movie last night.', options:['a','the'], answer:0 },
+        { kind:'pick', label:'Already mentioned', prompt:'I read a book. ___ book was long.', options:['The','A'], answer:0 },
       ],
     },
     {
@@ -14744,6 +14766,8 @@ const GRAMMAR_CURRIC = [
       quiz:{ q:'General statement:', qTh:'พูดทั่วไป:', options:['Cats are independent','The cats are independent'], answer:0 },
       practice:[
         { kind:'pick', label:'General', prompt:'___ coffee is popular in Thailand.', options:['(none)','The'], answer:0 },
+        { kind:'pick', label:'General', prompt:'___ Children need lots of sleep.', options:['(none)','The'], answer:0 },
+        { kind:'pick', label:'General', prompt:'I don’t like ___ spicy food.', options:['(none)','the'], answer:0 },
       ],
     },
     {
@@ -14758,6 +14782,7 @@ const GRAMMAR_CURRIC = [
       practice:[
         { kind:'pick', label:'Plural country', prompt:'They’re visiting ___ United States.', options:['the','(none)'], answer:0 },
         { kind:'pick', label:'No article', prompt:'She works in ___ Vietnam.', options:['(none)','the'], answer:0 },
+        { kind:'pick', label:'Plural country', prompt:'He works in ___ Netherlands.', options:['the','(none)'], answer:0 },
       ],
     },
     {
@@ -14824,6 +14849,7 @@ const GRAMMAR_CURRIC = [
       practice:[
         { kind:'pick', label:'No + noun', prompt:'There are ___ seats left.', options:['no','none'], answer:0 },
         { kind:'pick', label:'None alone', prompt:'“How many are left?” “___.”', options:['None','No'], answer:0 },
+        { kind:'pick', label:'No + noun', prompt:'I have ___ questions.', options:['no','none'], answer:0 },
       ],
     },
     {
@@ -14838,6 +14864,7 @@ const GRAMMAR_CURRIC = [
       practice:[
         { kind:'pick', label:'Each', prompt:'___ of us has a key.', options:['Each','All'], answer:0 },
         { kind:'pick', label:'All + plural', prompt:'___ the shops close at 6.', options:['All','Every'], answer:0 },
+        { kind:'pick', label:'Every', prompt:'___ child gets a prize.', options:['Every','All'], answer:0 },
       ],
     },
     {
@@ -14883,6 +14910,8 @@ const GRAMMAR_CURRIC = [
       quiz:{ q:'“He’s a colleague of ___.” (belongs to me)', qTh:'“He’s a colleague of ___.” (ของฉัน)', options:['mine','my'], answer:0 },
       practice:[
         { kind:'pick', label:'Double genitive', prompt:'She’s a cousin of ___.', options:['his','him'], answer:0 },
+        { kind:'pick', label:'Double genitive', prompt:'He’s a friend of ___.', options:['ours','we'], answer:0 },
+        { kind:'pick', label:'Named possessor', prompt:'That’s an old car of ___.', options:['my dad’s','my dad'], answer:0 },
       ],
     },
     {
@@ -14897,6 +14926,7 @@ const GRAMMAR_CURRIC = [
       practice:[
         { kind:'pick', label:'Singular', prompt:'I need a pen. Do you have ___?', options:['one','it'], answer:0 },
         { kind:'pick', label:'Plural', prompt:'These bags are small. I want bigger ___.', options:['ones','one'], answer:0 },
+        { kind:'pick', label:'Ones', prompt:'These apples are sour. Try the sweet ___.', options:['ones','one'], answer:0 },
       ],
     },
     {
@@ -14926,6 +14956,7 @@ const GRAMMAR_CURRIC = [
       practice:[
         { kind:'pick', label:'Everything', prompt:'___ is ready.', options:['Everything','Nothing'], answer:0 },
         { kind:'pick', label:'Nowhere', prompt:'There’s ___ to sit.', options:['nowhere','everywhere'], answer:0 },
+        { kind:'pick', label:'Nothing', prompt:'There’s ___ in the fridge.', options:['nothing','anything'], answer:0 },
       ],
     },
     {
@@ -14975,6 +15006,8 @@ const GRAMMAR_CURRIC = [
       quiz:{ q:'“Send it ___ Monday.” (deadline)', qTh:'“Send it ___ Monday.” (เส้นตาย)', options:['by','until'], answer:0 },
       practice:[
         { kind:'pick', label:'Deadline', prompt:'The shop is open ___ 9 pm.', options:['until','by'], answer:0 },
+        { kind:'pick', label:'Continuing', prompt:'We danced ___ midnight.', options:['until','by'], answer:0 },
+        { kind:'pick', label:'Deadline', prompt:'Please reply ___ Friday.', options:['by','until'], answer:0 },
       ],
     },
     {
@@ -15004,6 +15037,7 @@ const GRAMMAR_CURRIC = [
       practice:[
         { kind:'pick', label:'afraid', prompt:'afraid ___ spiders', options:['of','from'], answer:0 },
         { kind:'pick', label:'interested', prompt:'interested ___ art', options:['in','of'], answer:0 },
+        { kind:'pick', label:'married', prompt:'married ___ her college sweetheart', options:['to','with'], answer:0 },
       ],
     },
     {
@@ -15018,6 +15052,7 @@ const GRAMMAR_CURRIC = [
       practice:[
         { kind:'pick', label:'agree', prompt:'agree ___ someone', options:['with','to'], answer:0 },
         { kind:'pick', label:'apply', prompt:'apply ___ a job', options:['for','to'], answer:0 },
+        { kind:'pick', label:'depend', prompt:'It depends ___ the weather.', options:['on','of'], answer:0 },
       ],
     },
     {
@@ -15031,6 +15066,8 @@ const GRAMMAR_CURRIC = [
       quiz:{ q:'“a relationship ___ my sister”', qTh:'“a relationship ___ my sister”', options:['with','of'], answer:0 },
       practice:[
         { kind:'pick', label:'need', prompt:'a need ___ change', options:['for','of'], answer:0 },
+        { kind:'pick', label:'solution', prompt:'a solution ___ the problem', options:['to','for'], answer:0 },
+        { kind:'pick', label:'relationship', prompt:'a good relationship ___ my boss', options:['with','of'], answer:0 },
       ],
     },
     {
@@ -15084,6 +15121,9 @@ const GRAMMAR_CURRIC = [
       quiz:{ q:'“If I were rich, I ___ buy a house.”', qTh:'“If I were rich, I ___ buy a house.”', options:['would','will'], answer:0 },
       practice:[
         { kind:'pick', label:'Imaginary', prompt:'If she called, I ___ answer.', options:['would','will'], answer:0 },
+        { kind:'pick', label:'Imaginary', prompt:'If I ___ more time, I would learn guitar.', options:['had','have'], answer:0 },
+        { kind:'build', label:'Word order', prompt:'Build:', target:'I would help if I could.',
+          slots:[{role:'subject'},{role:'aux'},{role:'verb'},{role:'aux'},{role:'verb'}], answer:['I','would','help','if I','could'], distractors:['will','can'] },
       ],
     },
     {
@@ -15097,6 +15137,8 @@ const GRAMMAR_CURRIC = [
       quiz:{ q:'Strong obligation:', qTh:'ข้อบังคับที่หนักแน่น:', options:['You must wear a seatbelt','You can wear a seatbelt'], answer:0 },
       practice:[
         { kind:'pick', label:'Obligation', prompt:'We ___ leave now.', options:['have got to','could'], answer:0 },
+        { kind:'pick', label:'Obligation', prompt:'You ___ show your passport at the border.', options:['must','could'], answer:0 },
+        { kind:'pick', label:'Speech', prompt:'I’ve got ___ finish this today.', options:['to','for'], answer:0 },
       ],
     },
     {
@@ -15110,6 +15152,8 @@ const GRAMMAR_CURRIC = [
       quiz:{ q:'Forbidden:', qTh:'ห้าม:', options:['You mustn’t park here','You don’t have to park here'], answer:0 },
       practice:[
         { kind:'pick', label:'Not necessary', prompt:'You ___ pay, it’s free.', options:['don’t have to','mustn’t'], answer:0 },
+        { kind:'pick', label:'Forbidden', prompt:'You ___ touch the paintings.', options:['mustn’t','don’t have to'], answer:0 },
+        { kind:'pick', label:'Not necessary', prompt:'You ___ bring anything, we have everything.', options:['don’t have to','mustn’t'], answer:0 },
       ],
     },
     {
@@ -15122,6 +15166,8 @@ const GRAMMAR_CURRIC = [
       quiz:{ q:'Weak possibility:', qTh:'ความเป็นไปได้ต่ำ:', options:['I might come, I’m not sure','I will come'], answer:0 },
       practice:[
         { kind:'pick', label:'Possibility', prompt:'She ___ be at the party.', options:['might','must'], answer:0 },
+        { kind:'pick', label:'Possibility', prompt:'We ___ go to the beach, we haven’t decided.', options:['might','will'], answer:0 },
+        { kind:'pick', label:'Negative possibility', prompt:'She ___ come, she’s very busy.', options:['might not','doesn’t'], answer:0 },
       ],
     },
     {
@@ -15135,6 +15181,8 @@ const GRAMMAR_CURRIC = [
       quiz:{ q:'An offer:', qTh:'การเสนอ:', options:['Shall I carry that?','I carry that always'], answer:0 },
       practice:[
         { kind:'pick', label:'Suggestion', prompt:'___ we go now?', options:['Shall','Do'], answer:0 },
+        { kind:'pick', label:'Offer', prompt:'___ I close the window?', options:['Shall','Must'], answer:0 },
+        { kind:'pick', label:'Suggestion', prompt:'___ we try the new café?', options:['Shall','Should'], answer:0 },
       ],
     },
     {
@@ -15147,6 +15195,9 @@ const GRAMMAR_CURRIC = [
       quiz:{ q:'Advice:', qTh:'คำแนะนำ:', options:['You should drink more water','You must drink more water'], answer:0 },
       practice:[
         { kind:'pick', label:'Advice', prompt:'You ___ study more.', options:['should','must'], answer:0 },
+        { kind:'pick', label:'Negative advice', prompt:'You ___ skip breakfast.', options:['shouldn’t','mustn’t not'], answer:0 },
+        { kind:'build', label:'Word order', prompt:'Build:', target:'You should call your mother.',
+          slots:[{role:'subject'},{role:'aux'},{role:'verb'},{role:'object'}], answer:['You','should','call','your mother'], distractors:['must to','calls'] },
       ],
     },
     {
@@ -15198,6 +15249,8 @@ const GRAMMAR_CURRIC = [
       quiz:{ q:'“It’s hard ___ understand.”', qTh:'“It’s hard ___ understand.”', options:['to','for'], answer:0 },
       practice:[
         { kind:'pick', label:'adj + to', prompt:'I’m glad ___ see you.', options:['to','for'], answer:0 },
+        { kind:'pick', label:'adj + to', prompt:'It’s difficult ___ explain.', options:['to','for'], answer:0 },
+        { kind:'pick', label:'adj + to', prompt:'She was surprised ___ see him.', options:['to','for'], answer:0 },
       ],
     },
     {
@@ -15213,6 +15266,7 @@ const GRAMMAR_CURRIC = [
       practice:[
         { kind:'pick', label:'-er', prompt:'A car is ___ than a bike.', options:['faster','more fast'], answer:0 },
         { kind:'pick', label:'than', prompt:'She is taller ___ him.', options:['than','then'], answer:0 },
+        { kind:'pick', label:'-er', prompt:'This bag is ___ than that one.', options:['heavier','more heavy'], answer:0 },
       ],
     },
     {
@@ -15225,6 +15279,8 @@ const GRAMMAR_CURRIC = [
       quiz:{ q:'comparative of “beautiful”', qTh:'ขั้นกว่าของ “beautiful”', options:['more beautiful','beautifuler'], answer:0 },
       practice:[
         { kind:'pick', label:'more', prompt:'This is ___ interesting.', options:['more','most'], answer:0 },
+        { kind:'pick', label:'more', prompt:'This app is ___ than the old one.', options:['more convenient','convenienter'], answer:0 },
+        { kind:'pick', label:'more', prompt:'She’s ___ than her sister.', options:['more careful','carefuller'], answer:0 },
       ],
     },
     {
@@ -15238,6 +15294,8 @@ const GRAMMAR_CURRIC = [
       quiz:{ q:'comparative of “big”', qTh:'ขั้นกว่าของ “big”', options:['bigger','biger'], answer:0 },
       practice:[
         { kind:'pick', label:'-ier', prompt:'comparative of “easy”', options:['easier','easyer'], answer:0 },
+        { kind:'pick', label:'-ier', prompt:'comparative of “heavy”', options:['heavier','heavyer'], answer:0 },
+        { kind:'pick', label:'Double letter', prompt:'comparative of “hot”', options:['hotter','hoter'], answer:0 },
       ],
     },
     {
@@ -15250,6 +15308,8 @@ const GRAMMAR_CURRIC = [
       quiz:{ q:'comparative of “good”', qTh:'ขั้นกว่าของ “good”', options:['better','gooder'], answer:0 },
       practice:[
         { kind:'pick', label:'bad', prompt:'Today is ___ than yesterday.', options:['worse','worser'], answer:0 },
+        { kind:'pick', label:'far', prompt:'comparative of “far”', options:['further','farer'], answer:0 },
+        { kind:'pick', label:'good', prompt:'This year is ___ than last year.', options:['better','gooder'], answer:0 },
       ],
     },
     {
@@ -15263,6 +15323,8 @@ const GRAMMAR_CURRIC = [
       quiz:{ q:'Small difference:', qTh:'ต่างกันนิดหน่อย:', options:['a bit better','much better'], answer:0 },
       practice:[
         { kind:'pick', label:'Big difference', prompt:'This car is ___ faster.', options:['much','a bit'], answer:0 },
+        { kind:'pick', label:'Small difference', prompt:'It’s only ___ different.', options:['a bit','a lot'], answer:0 },
+        { kind:'pick', label:'Big difference', prompt:'She’s ___ older than me.', options:['a lot','a bit'], answer:0 },
       ],
     },
     {
@@ -15275,6 +15337,9 @@ const GRAMMAR_CURRIC = [
       quiz:{ q:'“He is ___ tall ___ his brother.”', qTh:'“He is ___ tall ___ his brother.”', options:['as … as','more … than'], answer:0 },
       practice:[
         { kind:'pick', label:'Equal', prompt:'It’s ___ as before.', options:['as good','better'], answer:0 },
+        { kind:'pick', label:'Negative equal', prompt:'This test isn’t ___ the last one.', options:['as hard as','more hard than'], answer:0 },
+        { kind:'build', label:'Word order', prompt:'Build:', target:'She is as smart as her brother.',
+          slots:[{role:'subject'},{role:'be'},{role:'comp'},{role:'object'}], answer:['She','is','as smart as','her brother'], distractors:['smarter','than'] },
       ],
     },
     {
@@ -15296,6 +15361,7 @@ const GRAMMAR_CURRIC = [
         { kind:'pick', label:'the -est', prompt:'It’s the ___ mountain.', options:['highest','high'], answer:0 },
         { kind:'build', label:'Word order', prompt:'Build:', target:'She is the tallest.',
           slots:[{role:'subject'},{role:'be'},{role:'art'},{role:'sup'}], answer:['She','is','the','tallest'], distractors:['taller','a'] },
+        { kind:'pick', label:'the -est', prompt:'This is the ___ street in the city.', options:['shortest','short'], answer:0 },
       ],
     },
     {
@@ -15309,6 +15375,7 @@ const GRAMMAR_CURRIC = [
       practice:[
         { kind:'pick', label:'the most', prompt:'the ___ beautiful city', options:['most','more'], answer:0 },
         { kind:'pick', label:'bad', prompt:'It was the ___ day.', options:['worst','baddest'], answer:0 },
+        { kind:'pick', label:'the most', prompt:'It’s the ___ decision I’ve made.', options:['most important','importantest'], answer:0 },
       ],
     },
     {
@@ -15322,6 +15389,8 @@ const GRAMMAR_CURRIC = [
       quiz:{ q:'“She’s ___ best student.”', qTh:'“She’s ___ best student.”', options:['my','the my'], answer:0 },
       practice:[
         { kind:'pick', label:'With possessive', prompt:'He’s ___ oldest son.', options:['her','the her'], answer:0 },
+        { kind:'pick', label:'With possessive', prompt:'This is ___ biggest achievement.', options:['their','the their'], answer:0 },
+        { kind:'pick', label:'With the', prompt:'It’s ___ tallest tower in Asia.', options:['the','(none)'], answer:0 },
       ],
     },
     {
@@ -15335,6 +15404,8 @@ const GRAMMAR_CURRIC = [
       quiz:{ q:'“the tallest ___ the class”', qTh:'“the tallest ___ the class”', options:['in','of'], answer:0 },
       practice:[
         { kind:'pick', label:'Group', prompt:'the biggest ___ the two', options:['of','in'], answer:0 },
+        { kind:'pick', label:'Place', prompt:'the best restaurant ___ town', options:['in','of'], answer:0 },
+        { kind:'pick', label:'Group', prompt:'the youngest ___ the five siblings', options:['of','in'], answer:0 },
       ],
     },
     {
@@ -15416,6 +15487,8 @@ const GRAMMAR_CURRIC = [
       quiz:{ q:'“He ___ works late.”', qTh:'“He ___ works late.”', options:['often','works often'], answer:0 },
       practice:[
         { kind:'pick', label:'Mid position', prompt:'I ___ drink coffee.', options:['usually','usually drink'], answer:0 },
+        { kind:'pick', label:'Mid position', prompt:'She ___ eats meat.', options:['never','eats never'], answer:0 },
+        { kind:'pick', label:'After be', prompt:'He is ___ busy on Mondays.', options:['usually','usually is'], answer:0 },
       ],
     },
     {
@@ -15430,6 +15503,7 @@ const GRAMMAR_CURRIC = [
       practice:[
         { kind:'pick', label:'Sequence', prompt:'___, add the eggs.', options:['Next','Personally'], answer:0 },
         { kind:'pick', label:'Viewpoint', prompt:'___, I think she’s right.', options:['Personally','Finally'], answer:0 },
+        { kind:'pick', label:'Sequencing', prompt:'___, mix the flour and sugar.', options:['First','Apparently'], answer:0 },
       ],
     },
     {
@@ -15443,6 +15517,8 @@ const GRAMMAR_CURRIC = [
       quiz:{ q:'“I ___ agree.”', qTh:'“I ___ agree.”', options:['definitely','am definitely'], answer:0 },
       practice:[
         { kind:'pick', label:'Certainty', prompt:'She’s ___ tired.', options:['probably','probably is'], answer:0 },
+        { kind:'pick', label:'Certainty', prompt:'They will ___ be late.', options:['probably','probably will'], answer:0 },
+        { kind:'pick', label:'After be', prompt:'He’s ___ the best player on the team.', options:['certainly','certainly is'], answer:0 },
       ],
     },
     {
@@ -15457,6 +15533,7 @@ const GRAMMAR_CURRIC = [
         { kind:'pick', label:'Order', prompt:'He worked ___.', options:['hard in the office today','today hard in the office'], answer:0 },
         { kind:'build', label:'Word order', prompt:'Build:', target:'She sang beautifully.',
           slots:[{role:'subject'},{role:'verb'},{role:'adv'}], answer:['She','sang','beautifully'], distractors:['sings','beautiful'] },
+        { kind:'pick', label:'Order', prompt:'They danced ___.', options:['joyfully at the party all night','all night joyfully at the party'], answer:0 },
       ],
     },
     {
@@ -15506,6 +15583,11 @@ const GRAMMAR_CURRIC = [
       quiz:{ q:'Emphatic: “I ___ believe you.”', qTh:'เน้นย้ำ: “I ___ believe you.”', options:['do','am'], answer:0 },
       practice:[
         { kind:'pick', label:'Emphasis', prompt:'He ___ try hard.', options:['does','is'], answer:0 },
+      
+        
+        { kind:'pick', label:'Emphasis', prompt:'They ___ enjoy the class.', options:['do','are'], answer:0 },
+        { kind:'build', label:'Word order', prompt:'Build:', target:'She does care about you.',
+          slots:[{role:'subject'},{role:'aux'},{role:'verb'},{role:'object'}], answer:['She','does','care','about you'], distractors:['is','cares'] },
       ],
     },
     {
@@ -15518,6 +15600,10 @@ const GRAMMAR_CURRIC = [
       quiz:{ q:'“She’s ___ interrupting me.”', qTh:'“She’s ___ interrupting me.”', options:['always','ever'], answer:0 },
       practice:[
         { kind:'pick', label:'Habit', prompt:'They are ___ arriving late.', options:['always','yet'], answer:0 },
+      
+        
+        { kind:'pick', label:'Annoying habit', prompt:'My brother is ___ borrowing my clothes without asking.', options:['always','never'], answer:0 },
+        { kind:'pick', label:'-ing form', prompt:'She’s always ___ about the weather.', options:['complaining','complains'], answer:0 },
       ],
     },
     {
@@ -15531,6 +15617,10 @@ const GRAMMAR_CURRIC = [
       quiz:{ q:'“I wish I ___ taller.”', qTh:'“I wish I ___ taller.”', options:['were','am'], answer:0 },
       practice:[
         { kind:'pick', label:'wish + past', prompt:'I wish I ___ swim.', options:['could','can'], answer:0 },
+      
+        
+        { kind:'pick', label:'wish + would', prompt:'I wish he ___ stop shouting.', options:['would','will'], answer:0 },
+        { kind:'pick', label:'wish + past', prompt:'She wishes she ___ more free time.', options:['had','has'], answer:0 },
       ],
     },
     {
@@ -15547,6 +15637,9 @@ const GRAMMAR_CURRIC = [
         { kind:'pick', label:'Question', prompt:'Did she ___ work here?', options:['use to','used to'], answer:0 },
         { kind:'build', label:'Word order', prompt:'Build:', target:'I used to live here.',
           slots:[{role:'subject'},{role:'aux'},{role:'verb'}], answer:['I','used to','live here'], distractors:['use to','lived'] },
+      
+        
+        { kind:'pick', label:'Negative', prompt:'He ___ eat meat, but now he does.', options:['didn’t use to','doesn’t used to'], answer:0 },
       ],
     },
     {
@@ -15559,6 +15652,11 @@ const GRAMMAR_CURRIC = [
       quiz:{ q:'Ordered actions use:', qTh:'เหตุการณ์เรียงลำดับใช้:', options:['past simple','past continuous'], answer:0 },
       practice:[
         { kind:'pick', label:'Order', prompt:'She entered and ___ down.', options:['sat','was sitting'], answer:0 },
+      
+        
+        { kind:'pick', label:'Sequence', prompt:'He opened the door and ___ inside.', options:['walked','was walking'], answer:0 },
+        { kind:'build', label:'Word order', prompt:'Build:', target:'She showered, dressed and left.',
+          slots:[{role:'subject'},{role:'verb'}], answer:['She','showered, dressed and left'], distractors:['showers','leaving'] },
       ],
     },
     {
@@ -15612,6 +15710,8 @@ const GRAMMAR_CURRIC = [
       practice:[
         { kind:'pick', label:'Period', prompt:'___ three weeks', options:['for','since'], answer:0 },
         { kind:'pick', label:'Start', prompt:'___ last year', options:['since','for'], answer:0 },
+        { kind:'build', label:'Word order', prompt:'Build:', target:'I have known him for years.',
+          slots:[{role:'subject'},{role:'aux'},{role:'verb'},{role:'prep'},{role:'noun'}], answer:['I','have','known him','for','years'], distractors:['knew','since'] },
       ],
     },
     {
@@ -15626,6 +15726,7 @@ const GRAMMAR_CURRIC = [
       practice:[
         { kind:'pick', label:'A moment ago', prompt:'She has ___ left.', options:['just','yet'], answer:0 },
         { kind:'pick', label:'Sooner', prompt:'They’ve ___ arrived.', options:['already','yet'], answer:0 },
+        { kind:'pick', label:'Question', prompt:'Have you finished ___?', options:['yet','already'], answer:0 },
       ],
     },
     {
@@ -15642,6 +15743,7 @@ const GRAMMAR_CURRIC = [
       practice:[
         { kind:'pick', label:'Unfinished', prompt:'I ___ never been to Japan.', options:['have','did'], answer:0 },
         { kind:'pick', label:'Finished time', prompt:'We ___ in 2010.', options:['met','have met'], answer:0 },
+        { kind:'pick', label:'Finished time', prompt:'She ___ the report last Friday.', options:['sent','has sent'], answer:0 },
       ],
     },
     {
@@ -15699,6 +15801,9 @@ const GRAMMAR_CURRIC = [
       quiz:{ q:'“They ___ playing.”', qTh:'“They ___ playing.”', options:['were','was'], answer:0 },
       practice:[
         { kind:'pick', label:'-ing', prompt:'She was ___.', options:['cooking','cooked'], answer:0 },
+        { kind:'pick', label:'Negative', prompt:'They ___ listening.', options:['weren’t','wasn’t'], answer:0 },
+        { kind:'build', label:'Word order', prompt:'Build:', target:'We were watching TV.',
+          slots:[{role:'subject'},{role:'be'},{role:'verb'}], answer:['We','were','watching TV'], distractors:['was','watch'] },
       ],
     },
     {
@@ -15713,6 +15818,7 @@ const GRAMMAR_CURRIC = [
         { kind:'pick', label:'Interruption', prompt:'They were eating when I ___.', options:['arrived','were arriving'], answer:0 },
         { kind:'build', label:'Word order', prompt:'Build:', target:'I was reading when she came.',
           slots:[{role:'subject'},{role:'be'},{role:'verb'},{role:'verb'}], answer:['I','was','reading','when she came'], distractors:['read','were'] },
+        { kind:'pick', label:'Background', prompt:'She ___ when the lights went out.', options:['was cooking','cooked'], answer:0 },
       ],
     },
     {
@@ -15725,6 +15831,8 @@ const GRAMMAR_CURRIC = [
       quiz:{ q:'“He was ___ forgetting.”', qTh:'“He was ___ forgetting.”', options:['always','yet'], answer:0 },
       practice:[
         { kind:'pick', label:'Habit', prompt:'They were ___ arguing.', options:['always','ever'], answer:0 },
+        { kind:'pick', label:'Habit', prompt:'She was ___ changing her mind.', options:['always','still'], answer:0 },
+        { kind:'pick', label:'Annoying past habit', prompt:'He was always ___ his bike in the hallway.', options:['leaving','left'], answer:0 },
       ],
     },
     {
@@ -15737,6 +15845,9 @@ const GRAMMAR_CURRIC = [
       quiz:{ q:'“We ___ going to leave.”', qTh:'“We ___ going to leave.”', options:['were','are'], answer:0 },
       practice:[
         { kind:'pick', label:'Past plan', prompt:'He ___ going to help, but forgot.', options:['was','is'], answer:0 },
+        { kind:'pick', label:'Past plan (unfinished)', prompt:'They ___ going to paint the fence, but it rained.', options:['were','are'], answer:0 },
+        { kind:'build', label:'Word order', prompt:'Build:', target:'I was going to call you.',
+          slots:[{role:'subject'},{role:'aux'},{role:'verb'}], answer:['I','was going to','call you'], distractors:['am going to','called'] },
       ],
     },
     {
@@ -15785,6 +15896,9 @@ const GRAMMAR_CURRIC = [
       quiz:{ q:'“This time tomorrow I ___ working.”', qTh:'“This time tomorrow I ___ working.”', options:['will be','will'], answer:0 },
       practice:[
         { kind:'pick', label:'-ing', prompt:'She will be ___.', options:['studying','study'], answer:0 },
+        { kind:'pick', label:'Negative', prompt:'I ___ be sleeping at midnight.', options:['won’t','don’t'], answer:0 },
+        { kind:'build', label:'Word order', prompt:'Build:', target:'They will be traveling tomorrow.',
+          slots:[{role:'subject'},{role:'aux'},{role:'verb'}], answer:['They','will be','traveling'], distractors:['travel','are'] },
       ],
     },
     {
@@ -15800,6 +15914,7 @@ const GRAMMAR_CURRIC = [
       practice:[
         { kind:'pick', label:'Activity', prompt:'Why tired? I ___ running.', options:['have been','have'], answer:0 },
         { kind:'pick', label:'Duration', prompt:'It’s been raining ___ noon.', options:['since','for'], answer:0 },
+        { kind:'pick', label:'Question', prompt:'How long ___ you been waiting?', options:['have','has'], answer:0 },
       ],
     },
     {
@@ -15821,6 +15936,7 @@ const GRAMMAR_CURRIC = [
         { kind:'pick', label:'Earlier action', prompt:'The train ___ left when we got there.', options:['had','has'], answer:0 },
         { kind:'build', label:'Word order', prompt:'Build:', target:'She had already gone.',
           slots:[{role:'subject'},{role:'aux'},{role:'adv'},{role:'verb'}], answer:['She','had','already','gone'], distractors:['has','went'] },
+        { kind:'pick', label:'Negative', prompt:'She ___ finished when I called.', options:['hadn’t','didn’t'], answer:0 },
       ],
     },
     {
@@ -15833,6 +15949,8 @@ const GRAMMAR_CURRIC = [
       quiz:{ q:'“By 2010 she ___ worked there for a decade.”', qTh:'“By 2010 she ___ worked there for a decade.”', options:['had','has'], answer:0 },
       practice:[
         { kind:'pick', label:'Up to then', prompt:'They ___ known each other since school.', options:['had','have'], answer:0 },
+        { kind:'pick', label:'Up to then', prompt:'By the time he retired, he ___ taught there for 30 years.', options:['had','has'], answer:0 },
+        { kind:'pick', label:'for / since', prompt:'She had been waiting ___ an hour when the bus finally came.', options:['for','since'], answer:0 },
       ],
     },
     {
@@ -15880,6 +15998,9 @@ const GRAMMAR_CURRIC = [
       quiz:{ q:'Subject question:', qTh:'คำถามประธาน:', options:['Who wrote this?','Who did you meet?'], answer:0 },
       practice:[
         { kind:'pick', label:'Object Q', prompt:'What ___ you want?', options:['do','(none)'], answer:0 },
+        { kind:'pick', label:'Subject Q', prompt:'___ made this cake?', options:['Who','Who did'], answer:0 },
+        { kind:'build', label:'Word order', prompt:'Build:', target:'What did you buy?',
+          slots:[{role:'aux'},{role:'subject'},{role:'verb'}], answer:['What did','you','buy'], distractors:['What','bought'] },
       ],
     },
     {
@@ -15894,6 +16015,7 @@ const GRAMMAR_CURRIC = [
       practice:[
         { kind:'pick', label:'Positive → neg tag', prompt:'It’s cold, ___?', options:['isn’t it','is it'], answer:0 },
         { kind:'pick', label:'Neg → positive tag', prompt:'You didn’t go, ___?', options:['did you','didn’t you'], answer:0 },
+        { kind:'pick', label:'Modal tag', prompt:'You can drive, ___?', options:['can’t you','can you'], answer:0 },
       ],
     },
     {
@@ -15908,6 +16030,7 @@ const GRAMMAR_CURRIC = [
       practice:[
         { kind:'pick', label:'Positive', prompt:'“I’m tired.” “___ am I.”', options:['So','Neither'], answer:0 },
         { kind:'pick', label:'Negative', prompt:'“I can’t swim.” “___ can I.”', options:['Neither','So'], answer:0 },
+        { kind:'pick', label:'Negative', prompt:'“I haven’t eaten.” “___ have I.”', options:['Neither','So'], answer:0 },
       ],
     },
     {
@@ -15960,6 +16083,9 @@ const GRAMMAR_CURRIC = [
       quiz:{ q:'“They let us ___.”', qTh:'“They let us ___.”', options:['go','to go'], answer:0 },
       practice:[
         { kind:'pick', label:'No to', prompt:'It made her ___.', options:['cry','to cry'], answer:0 },
+        { kind:'pick', label:'No to', prompt:'Let me ___ that for you.', options:['carry','to carry'], answer:0 },
+        { kind:'build', label:'Word order', prompt:'Build:', target:'The film made everyone cry.',
+          slots:[{role:'subject'},{role:'verb'},{role:'object'}], answer:['The film','made','everyone cry'], distractors:['makes','to cry'] },
       ],
     },
     {
@@ -15974,6 +16100,7 @@ const GRAMMAR_CURRIC = [
         { kind:'pick', label:'to + verb', prompt:'We want you ___ come.', options:['to','(none)'], answer:0 },
         { kind:'build', label:'Word order', prompt:'Build:', target:'I asked him to stay.',
           slots:[{role:'subject'},{role:'verb'},{role:'object'},{role:'verb'}], answer:['I','asked','him','to stay'], distractors:['stay','to him'] },
+        { kind:'pick', label:'to + verb', prompt:'He advised me ___ rest.', options:['to','(none)'], answer:0 },
       ],
     },
     {
@@ -15987,6 +16114,8 @@ const GRAMMAR_CURRIC = [
       quiz:{ q:'“Send ___.”', qTh:'“Send ___.”', options:['me the file','the file me'], answer:0 },
       practice:[
         { kind:'pick', label:'to + person', prompt:'He offered the job ___ me.', options:['to','for'], answer:0 },
+        { kind:'pick', label:'Two objects', prompt:'She showed ___.', options:['me the photo','the photo me'], answer:0 },
+        { kind:'pick', label:'for + person', prompt:'He bought a gift ___ his mom.', options:['for','to'], answer:0 },
       ],
     },
     {
@@ -16039,6 +16168,8 @@ const GRAMMAR_CURRIC = [
       quiz:{ q:'“The scissors ___ sharp.”', qTh:'“The scissors ___ sharp.”', options:['are','is'], answer:0 },
       practice:[
         { kind:'pick', label:'Plural verb', prompt:'Where ___ my glasses?', options:['are','is'], answer:0 },
+        { kind:'pick', label:'Pair of', prompt:'I need a new ___ of trousers.', options:['pair','piece'], answer:0 },
+        { kind:'pick', label:'Plural verb', prompt:'These scissors ___ blunt.', options:['are','is'], answer:0 },
       ],
     },
     {
@@ -16051,6 +16182,8 @@ const GRAMMAR_CURRIC = [
       quiz:{ q:'As one unit: “The family ___ big.”', qTh:'มองเป็นกลุ่ม: “The family ___ big.”', options:['is','are'], answer:0 },
       practice:[
         { kind:'pick', label:'Unit', prompt:'The government ___ decided.', options:['has','have'], answer:0 },
+        { kind:'pick', label:'Individuals', prompt:'The team ___ arguing among themselves.', options:['are','is'], answer:0 },
+        { kind:'pick', label:'Unit', prompt:'My family ___ small.', options:['is','are'], answer:0 },
       ],
     },
     {
@@ -16064,6 +16197,8 @@ const GRAMMAR_CURRIC = [
       quiz:{ q:'“___ cup, please.” (one more)', qTh:'“___ cup, please.” (อีกหนึ่ง)', options:['Another','Other'], answer:0 },
       practice:[
         { kind:'pick', label:'Plural', prompt:'___ people disagree.', options:['Other','Another'], answer:0 },
+        { kind:'pick', label:'The remaining one', prompt:'One shoe is here; where’s ___ one?', options:['the other','another'], answer:0 },
+        { kind:'pick', label:'One more', prompt:'Could I have ___ slice of cake?', options:['another','other'], answer:0 },
       ],
     },
     {
@@ -16077,6 +16212,8 @@ const GRAMMAR_CURRIC = [
       quiz:{ q:'“___ Himalayas”', qTh:'“___ Himalayas”', options:['the','(none)'], answer:0 },
       practice:[
         { kind:'pick', label:'Country', prompt:'She lives in ___ Italy.', options:['(none)','the'], answer:0 },
+        { kind:'pick', label:'River', prompt:'They live near ___ Mekong.', options:['the','(none)'], answer:0 },
+        { kind:'pick', label:'City', prompt:'She was born in ___ Bangkok.', options:['(none)','the'], answer:0 },
       ],
     },
     {
@@ -16089,6 +16226,8 @@ const GRAMMAR_CURRIC = [
       quiz:{ q:'General: “___ Happiness matters.”', qTh:'ทั่วไป: “___ Happiness matters.”', options:['(none)','The'], answer:0 },
       practice:[
         { kind:'pick', label:'Specific', prompt:'___ history of Rome', options:['The','(none)'], answer:0 },
+        { kind:'pick', label:'General', prompt:'___ Music brings people together.', options:['(none)','The'], answer:0 },
+        { kind:'pick', label:'Specific', prompt:'I loved ___ music of that film.', options:['the','(none)'], answer:0 },
       ],
     },
     {
@@ -16145,6 +16284,9 @@ const GRAMMAR_CURRIC = [
       quiz:{ q:'“___ nice weather!”', qTh:'“___ nice weather!”', options:['such','such a'], answer:0 },
       practice:[
         { kind:'pick', label:'Singular', prompt:'It’s ___ big house.', options:['such a','such'], answer:0 },
+        { kind:'pick', label:'Plural', prompt:'They are ___ generous people.', options:['such','such a'], answer:0 },
+        { kind:'build', label:'Word order', prompt:'Build:', target:'It was such a long day.',
+          slots:[{role:'subject'},{role:'be'},{role:'art'},{role:'adj'}], answer:['It','was','such a','long day'], distractors:['such','short'] },
       ],
     },
     {
@@ -16157,6 +16299,8 @@ const GRAMMAR_CURRIC = [
       quiz:{ q:'“Either answer ___ correct.”', qTh:'“Either answer ___ correct.”', options:['is','are'], answer:0 },
       practice:[
         { kind:'pick', label:'Singular', prompt:'Either road ___ you there.', options:['takes','take'], answer:0 },
+        { kind:'pick', label:'Question', prompt:'Is ___ of them free tonight?', options:['either','both'], answer:0 },
+        { kind:'pick', label:'Verb agreement', prompt:'Either bus ___ you to the station.', options:['gets','get'], answer:0 },
       ],
     },
     {
@@ -16169,6 +16313,9 @@ const GRAMMAR_CURRIC = [
       quiz:{ q:'“Both cats ___ black.”', qTh:'“Both cats ___ black.”', options:['are','is'], answer:0 },
       practice:[
         { kind:'pick', label:'Plural', prompt:'Both books ___ good.', options:['are','is'], answer:0 },
+        { kind:'pick', label:'Word order', prompt:'She speaks ___ French and Spanish.', options:['both','either'], answer:0 },
+        { kind:'build', label:'Word order', prompt:'Build:', target:'Both parents agree.',
+          slots:[{role:'art'},{role:'subject'},{role:'verb'}], answer:['Both','parents','agree'], distractors:['Either','agrees'] },
       ],
     },
     {
@@ -16226,6 +16373,7 @@ const GRAMMAR_CURRIC = [
         { kind:'pick', label:'Participle', prompt:'The letter was ___.', options:['sent','send'], answer:0 },
         { kind:'build', label:'Word order', prompt:'Build:', target:'The cake was eaten.',
           slots:[{role:'subject'},{role:'be'},{role:'verb'}], answer:['The cake','was','eaten'], distractors:['ate','is'] },
+        { kind:'pick', label:'Present passive', prompt:'This bread ___ made fresh every morning.', options:['is','does'], answer:0 },
       ],
     },
     {
@@ -16238,6 +16386,9 @@ const GRAMMAR_CURRIC = [
       quiz:{ q:'“The song was sung ___ her.”', qTh:'“The song was sung ___ her.”', options:['by','from'], answer:0 },
       practice:[
         { kind:'pick', label:'Doer', prompt:'painted ___ an artist', options:['by','with'], answer:0 },
+        { kind:'pick', label:'Left out', prompt:'The bridge was built in 1932___', options:['. (no by)','by workers.'], answer:0 },
+        { kind:'build', label:'Word order', prompt:'Build:', target:'It was written by Orwell.',
+          slots:[{role:'subject'},{role:'be'},{role:'verb'},{role:'prep'},{role:'noun'}], answer:['It','was','written','by','Orwell'], distractors:['wrote','from'] },
       ],
     },
     {
@@ -16250,6 +16401,8 @@ const GRAMMAR_CURRIC = [
       quiz:{ q:'“It needs to ___ cleaned.”', qTh:'“It needs to ___ cleaned.”', options:['be','being'], answer:0 },
       practice:[
         { kind:'pick', label:'be + pp', prompt:'This is going to ___ repaired.', options:['be','been'], answer:0 },
+        { kind:'pick', label:'have to', prompt:'The car has to ___ fixed.', options:['be','being'], answer:0 },
+        { kind:'pick', label:'need to', prompt:'These forms need to ___ signed.', options:['be','been'], answer:0 },
       ],
     },
     {
@@ -16306,6 +16459,9 @@ const GRAMMAR_CURRIC = [
       quiz:{ q:'“I like it” → She said she ___ it.', qTh:'“I like it” → She said she ___ it.', options:['liked','likes'], answer:0 },
       practice:[
         { kind:'pick', label:'will → would', prompt:'“I’ll go” → He said he ___ go.', options:['would','will'], answer:0 },
+        { kind:'pick', label:'can → could', prompt:'“I can help” → She said she ___ help.', options:['could','can'], answer:0 },
+        { kind:'build', label:'Word order', prompt:'Build:', target:'He said he was busy.',
+          slots:[{role:'subject'},{role:'verb'},{role:'subject'},{role:'be'},{role:'adj'}], answer:['He','said','he','was','busy'], distractors:['says','is'] },
       ],
     },
     {
@@ -16320,6 +16476,7 @@ const GRAMMAR_CURRIC = [
       practice:[
         { kind:'pick', label:'No person', prompt:'She ___ she was busy.', options:['said','told'], answer:0 },
         { kind:'pick', label:'With person', prompt:'He ___ us the news.', options:['told','said'], answer:0 },
+        { kind:'pick', label:'No person', prompt:'He ___ goodbye and left.', options:['said','told'], answer:0 },
       ],
     },
     {
@@ -16333,6 +16490,9 @@ const GRAMMAR_CURRIC = [
       quiz:{ q:'Yes/no report uses:', qTh:'เล่าคำถาม yes/no ใช้:', options:['if','that'], answer:0 },
       practice:[
         { kind:'pick', label:'Statement order', prompt:'She asked what time it ___.', options:['was','was it'], answer:0 },
+        { kind:'pick', label:'if / whether', prompt:'She asked ___ I was coming.', options:['if','that'], answer:0 },
+        { kind:'build', label:'Word order', prompt:'Build:', target:'He asked where she lived.',
+          slots:[{role:'subject'},{role:'verb'},{role:'subject'},{role:'verb'}], answer:['He','asked where','she','lived'], distractors:['did she live','asks'] },
       ],
     },
     {
@@ -16347,6 +16507,8 @@ const GRAMMAR_CURRIC = [
       practice:[
         { kind:'build', label:'Word order', prompt:'Build:', target:'She told me to wait.',
           slots:[{role:'subject'},{role:'verb'},{role:'object'},{role:'verb'}], answer:['She','told','me','to wait'], distractors:['said','wait'] },
+        { kind:'pick', label:'Negative order', prompt:'She told him ___ be late.', options:['not to','to not'], answer:0 },
+        { kind:'pick', label:'Request', prompt:'He asked her ___ open the window.', options:['to','that'], answer:0 },
       ],
     },
     {
@@ -16359,6 +16521,8 @@ const GRAMMAR_CURRIC = [
       quiz:{ q:'“now” becomes:', qTh:'“now” เปลี่ยนเป็น:', options:['then','soon'], answer:0 },
       practice:[
         { kind:'pick', label:'today', prompt:'“today” →', options:['that day','this day'], answer:0 },
+        { kind:'pick', label:'today', prompt:'“today” →', options:['that day','this day'], answer:0 },
+        { kind:'pick', label:'yesterday', prompt:'“yesterday” →', options:['the day before','last day'], answer:0 },
       ],
     },
     {
@@ -16416,6 +16580,9 @@ const GRAMMAR_CURRIC = [
       quiz:{ q:'Sure it’s false: “It ___ be true.”', qTh:'มั่นใจว่าไม่จริง: “It ___ be true.”', options:['can’t','mustn’t'], answer:0 },
       practice:[
         { kind:'pick', label:'Sure true', prompt:'He ___ be rich, nice car!', options:['must','can’t'], answer:0 },
+        { kind:'pick', label:'Sure false', prompt:'He ___ be at work, I just saw him at home.', options:['can’t','must'], answer:0 },
+        { kind:'build', label:'Word order', prompt:'Build:', target:'She must be exhausted.',
+          slots:[{role:'subject'},{role:'aux'},{role:'adj'}], answer:['She','must be','exhausted'], distractors:['is','can’t'] },
       ],
     },
     {
@@ -16428,6 +16595,8 @@ const GRAMMAR_CURRIC = [
       quiz:{ q:'Possible, not sure:', qTh:'เป็นไปได้ ไม่แน่ใจ:', options:['might','must'], answer:0 },
       practice:[
         { kind:'pick', label:'Possibility', prompt:'It ___ rain later.', options:['could','can’t'], answer:0 },
+        { kind:'pick', label:'Possibility', prompt:'He ___ know the answer, ask him.', options:['may','must'], answer:0 },
+        { kind:'pick', label:'Negative possibility', prompt:'We ___ have enough time.', options:['might not','mustn’t'], answer:0 },
       ],
     },
     {
@@ -16440,6 +16609,9 @@ const GRAMMAR_CURRIC = [
       quiz:{ q:'Advice: “You ___ rest.”', qTh:'คำแนะนำ: “You ___ rest.”', options:['should','must'], answer:0 },
       practice:[
         { kind:'pick', label:'ought to', prompt:'We ought ___ leave now.', options:['to','(none)'], answer:0 },
+        { kind:'pick', label:'Negative advice', prompt:'You ___ eat so much sugar.', options:['shouldn’t','don’t should'], answer:0 },
+        { kind:'build', label:'Word order', prompt:'Build:', target:'You ought to call her.',
+          slots:[{role:'subject'},{role:'aux'},{role:'verb'}], answer:['You','ought to','call her'], distractors:['should to','calls'] },
       ],
     },
     {
@@ -16452,6 +16624,8 @@ const GRAMMAR_CURRIC = [
       quiz:{ q:'“We’re ___ to start at 9.”', qTh:'“We’re ___ to start at 9.”', options:['supposed','suppose'], answer:0 },
       practice:[
         { kind:'pick', label:'Expected', prompt:'You’re not ___ to smoke here.', options:['supposed','supposing'], answer:0 },
+        { kind:'pick', label:'Question', prompt:'___ we supposed to bring food?', options:['Are','Do'], answer:0 },
+        { kind:'pick', label:'Expected', prompt:'The bus was supposed ___ leave at six.', options:['to','(none)'], answer:0 },
       ],
     },
     {
@@ -16471,6 +16645,8 @@ const GRAMMAR_CURRIC = [
       quiz:{ q:'Accustomed now: “I’m used to ___.”', qTh:'คุ้นเคยตอนนี้: “I’m used to ___.”', options:['getting up early','get up early'], answer:0 },
       practice:[
         { kind:'pick', label:'-ing', prompt:'He’s used to ___ hard.', options:['working','work'], answer:0 },
+        { kind:'pick', label:'Already accustomed', prompt:'I’m used to ___ up at 5am now.', options:['getting','get'], answer:0 },
+        { kind:'pick', label:'used to (past habit)', prompt:'She ___ eat meat, but she doesn’t anymore.', options:['used to','is used to'], answer:0 },
       ],
     },
     {
@@ -16483,6 +16659,9 @@ const GRAMMAR_CURRIC = [
       quiz:{ q:'Most polite:', qTh:'สุภาพที่สุด:', options:['Could you…','Can you…'], answer:0 },
       practice:[
         { kind:'pick', label:'Polite', prompt:'___ I have the bill?', options:['May','Will'], answer:0 },
+        { kind:'pick', label:'Polite offer', prompt:'___ I get you something to drink?', options:['Would','Will'], answer:0 },
+        { kind:'build', label:'Word order', prompt:'Build:', target:'Would you mind waiting?',
+          slots:[{role:'aux'},{role:'subject'},{role:'verb'},{role:'verb'}], answer:['Would','you','mind','waiting'], distractors:['Will','wait'] },
       ],
     },
     {
@@ -16547,6 +16726,9 @@ const GRAMMAR_CURRIC = [
       quiz:{ q:'“the woman ___ helped me”', qTh:'“the woman ___ helped me”', options:['who','which'], answer:0 },
       practice:[
         { kind:'pick', label:'Thing', prompt:'the car ___ broke down', options:['which','who'], answer:0 },
+        { kind:'pick', label:'Person', prompt:'the teacher ___ taught me', options:['who','which'], answer:0 },
+        { kind:'build', label:'Word order', prompt:'Build:', target:'the book which I read',
+          slots:[{role:'noun'},{role:'aux'},{role:'subject'},{role:'verb'}], answer:['the book','which','I','read'], distractors:['who','reads'] },
       ],
     },
     {
@@ -16559,6 +16741,8 @@ const GRAMMAR_CURRIC = [
       quiz:{ q:'Non-defining uses:', qTh:'ขยายเพิ่มเติมใช้:', options:['commas','no commas'], answer:0 },
       practice:[
         { kind:'pick', label:'Extra info', prompt:'Paris, ___ is in France, is lovely.', options:['which','that'], answer:0 },
+        { kind:'pick', label:'Defining', prompt:'The waiter ___ served us was friendly.', options:['who',', who,'], answer:0 },
+        { kind:'pick', label:'No commas', prompt:'People ___ exercise regularly feel better.', options:['who',', who,'], answer:0 },
       ],
     },
     {
@@ -16571,6 +16755,8 @@ const GRAMMAR_CURRIC = [
       quiz:{ q:'Droppable when the pronoun is the:', qTh:'ละได้เมื่อคำสรรพนามเป็น:', options:['object','subject'], answer:0 },
       practice:[
         { kind:'pick', label:'Can drop', prompt:'the man ___ I met', options:['(that)','who'], answer:0 },
+        { kind:'pick', label:'Object, can drop', prompt:'the song ___ I love', options:['(that)','who'], answer:0 },
+        { kind:'pick', label:'Subject, cannot drop', prompt:'the man ___ lives next door', options:['who','(that)'], answer:0 },
       ],
     },
     {
@@ -16583,6 +16769,8 @@ const GRAMMAR_CURRIC = [
       quiz:{ q:'Object, formal:', qTh:'กรรม ทางการ:', options:['whom','who'], answer:0 },
       practice:[
         { kind:'pick', label:'Subject', prompt:'the girl ___ won', options:['who','whom'], answer:0 },
+        { kind:'pick', label:'Formal object', prompt:'the guest ___ we invited', options:['whom','who'], answer:0 },
+        { kind:'pick', label:'Subject', prompt:'the doctor ___ treated me', options:['who','whom'], answer:0 },
       ],
     },
     {
@@ -16595,6 +16783,9 @@ const GRAMMAR_CURRIC = [
       quiz:{ q:'Possession:', qTh:'ความเป็นเจ้าของ:', options:['whose','who’s'], answer:0 },
       practice:[
         { kind:'pick', label:'Possessive', prompt:'a friend ___ house is huge', options:['whose','who'], answer:0 },
+        { kind:'pick', label:'Whose vs who’s', prompt:'the boy ___ ball broke the window', options:['whose','who’s'], answer:0 },
+        { kind:'build', label:'Word order', prompt:'Build:', target:'the woman whose car is red',
+          slots:[{role:'noun'},{role:'poss'},{role:'noun'},{role:'be'},{role:'adj'}], answer:['the woman','whose','car','is','red'], distractors:['who','was'] },
       ],
     },
     {
@@ -16607,6 +16798,8 @@ const GRAMMAR_CURRIC = [
       quiz:{ q:'“the year ___ I was born”', qTh:'“the year ___ I was born”', options:['when','where'], answer:0 },
       practice:[
         { kind:'pick', label:'Place', prompt:'the house ___ I grew up', options:['where','when'], answer:0 },
+        { kind:'pick', label:'Time', prompt:'the moment ___ I saw her', options:['when','where'], answer:0 },
+        { kind:'pick', label:'Place', prompt:'the city ___ she was born', options:['where','when'], answer:0 },
       ],
     },
     {
@@ -16667,6 +16860,9 @@ const GRAMMAR_CURRIC = [
       quiz:{ q:'“He cut ___.”', qTh:'“He cut ___.”', options:['himself','him'], answer:0 },
       practice:[
         { kind:'pick', label:'Reflexive', prompt:'I made it ___.', options:['myself','me'], answer:0 },
+        { kind:'pick', label:'Reflexive', prompt:'She burned ___ on the stove.', options:['herself','her'], answer:0 },
+        { kind:'build', label:'Word order', prompt:'Build:', target:'They introduced themselves.',
+          slots:[{role:'subject'},{role:'verb'},{role:'object'}], answer:['They','introduced','themselves'], distractors:['introduce','them'] },
       ],
     },
     {
@@ -16679,6 +16875,8 @@ const GRAMMAR_CURRIC = [
       quiz:{ q:'Mutual action:', qTh:'การกระทำต่อกัน:', options:['each other','themselves'], answer:0 },
       practice:[
         { kind:'pick', label:'Two-way', prompt:'They emailed ___.', options:['each other','ourselves'], answer:0 },
+        { kind:'pick', label:'Two-way', prompt:'The neighbors help ___.', options:['each other','themselves'], answer:0 },
+        { kind:'pick', label:'Mutual', prompt:'We haven’t seen ___ in years.', options:['each other','ourselves'], answer:0 },
       ],
     },
     {
@@ -16691,6 +16889,9 @@ const GRAMMAR_CURRIC = [
       quiz:{ q:'“I travelled ___.” (alone)', qTh:'“I travelled ___.” (ลำพัง)', options:['by myself','myself'], answer:0 },
       practice:[
         { kind:'pick', label:'Alone', prompt:'He fixed it ___.', options:['by himself','himself'], answer:0 },
+        { kind:'pick', label:'Alone', prompt:'She raised her kids ___.', options:['by herself','herself'], answer:0 },
+        { kind:'build', label:'Word order', prompt:'Build:', target:'I painted the room by myself.',
+          slots:[{role:'subject'},{role:'verb'},{role:'object'},{role:'adv'}], answer:['I','painted','the room','by myself'], distractors:['paint','myself'] },
       ],
     },
     {
@@ -16744,6 +16945,9 @@ const GRAMMAR_CURRIC = [
       quiz:{ q:'Always-true fact uses:', qTh:'ความจริงเสมอใช้:', options:['zero conditional','second conditional'], answer:0 },
       practice:[
         { kind:'pick', label:'present', prompt:'If you mix blue and yellow, you ___ green.', options:['get','will get'], answer:0 },
+        { kind:'pick', label:'Fact', prompt:'If you ___ water to 100°C, it boils.', options:['heat','will heat'], answer:0 },
+        { kind:'build', label:'Word order', prompt:'Build:', target:'If you press this, the light turns on.',
+          slots:[{role:'aux'},{role:'verb'},{role:'verb'}], answer:['If you','press this,','the light turns on'], distractors:['pressed','will turn'] },
       ],
     },
     {
@@ -16758,6 +16962,8 @@ const GRAMMAR_CURRIC = [
       practice:[
         { kind:'build', label:'Word order', prompt:'Build:', target:'If it rains I will stay.',
           slots:[{role:'aux'},{role:'verb'},{role:'aux'},{role:'verb'}], answer:['If it','rains','I will','stay'], distractors:['rained','would'] },
+        { kind:'pick', label:'First conditional', prompt:'If she calls, I ___ answer.', options:['will','would'], answer:0 },
+        { kind:'pick', label:'if + present', prompt:'If it ___ tomorrow, we’ll cancel.', options:['rains','will rain'], answer:0 },
       ],
     },
     {
@@ -16770,6 +16976,9 @@ const GRAMMAR_CURRIC = [
       quiz:{ q:'“I’ll be late ___ I leave now.”', qTh:'“I’ll be late ___ I leave now.”', options:['unless','if'], answer:0 },
       practice:[
         { kind:'pick', label:'if not', prompt:'___ you ask, no one helps.', options:['Unless','If'], answer:0 },
+        { kind:'build', label:'Word order', prompt:'Build:', target:'Unless you hurry, you’ll miss it.',
+          slots:[{role:'aux'},{role:'verb'},{role:'aux'},{role:'verb'}], answer:['Unless you','hurry,','you’ll','miss it'], distractors:['If','won’t'] },
+        { kind:'pick', label:'if not', prompt:'We’ll be late ___ we leave now.', options:['unless','if'], answer:0 },
       ],
     },
     {
@@ -16789,6 +16998,9 @@ const GRAMMAR_CURRIC = [
       quiz:{ q:'“If I ___ you, I’d rest.”', qTh:'“If I ___ you, I’d rest.”', options:['were','am'], answer:0 },
       practice:[
         { kind:'pick', label:'would', prompt:'If I won, I ___ celebrate.', options:['would','will'], answer:0 },
+        { kind:'pick', label:'Imaginary', prompt:'If I ___ you, I’d apologize.', options:['were','am'], answer:0 },
+        { kind:'build', label:'Word order', prompt:'Build:', target:'If she had time, she would travel.',
+          slots:[{role:'aux'},{role:'verb'},{role:'aux'},{role:'verb'}], answer:['If she','had time,','she would','travel'], distractors:['has','will'] },
       ],
     },
     {
@@ -16801,6 +17013,8 @@ const GRAMMAR_CURRIC = [
       quiz:{ q:'“If she ___ taller…”', qTh:'“If she ___ taller…”', options:['were','was'], answer:0 },
       practice:[
         { kind:'pick', label:'Standard', prompt:'If I ___ rich…', options:['were','was'], answer:0 },
+        { kind:'pick', label:'Standard', prompt:'If it ___ up to me, I’d say yes.', options:['were','was'], answer:0 },
+        { kind:'pick', label:'Standard', prompt:'If he ___ taller, he’d play basketball.', options:['were','was'], answer:0 },
       ],
     },
     {
@@ -16813,6 +17027,8 @@ const GRAMMAR_CURRIC = [
       quiz:{ q:'“…if not, ___ next week.”', qTh:'“…if not, ___ next week.”', options:['then','so'], answer:0 },
       practice:[
         { kind:'pick', label:'Refers back', prompt:'Coming? ___, let me know.', options:['If so','If were'], answer:0 },
+        { kind:'pick', label:'if not', prompt:'Did you save the file? ___, we’ll lose it.', options:['If not','If were'], answer:0 },
+        { kind:'pick', label:'if so', prompt:'Is he coming? ___, tell him to bring snacks.', options:['If so','If not'], answer:0 },
       ],
     },
     {
@@ -16867,6 +17083,9 @@ const GRAMMAR_CURRIC = [
       quiz:{ q:'Correct order:', qTh:'ลำดับที่ถูก:', options:['a big blue box','a blue big box'], answer:0 },
       practice:[
         { kind:'pick', label:'Order', prompt:'an ___ jacket', options:['old leather','leather old'], answer:0 },
+        { kind:'pick', label:'Order', prompt:'a ___ coat', options:['warm woolen grey','grey warm woolen'], answer:0 },
+        { kind:'build', label:'Word order', prompt:'Build:', target:'a beautiful small French village',
+          slots:[{role:'art'},{role:'adj'},{role:'noun'}], answer:['a','beautiful small French','village'], distractors:['French beautiful small','villages'] },
       ],
     },
     {
@@ -16879,6 +17098,8 @@ const GRAMMAR_CURRIC = [
       quiz:{ q:'“It’s bigger ___ I remembered.”', qTh:'“It’s bigger ___ I remembered.”', options:['than','then'], answer:0 },
       practice:[
         { kind:'pick', label:'than + clause', prompt:'harder ___ it looks', options:['than','that'], answer:0 },
+        { kind:'pick', label:'than + clause', prompt:'The exam was easier ___ we expected.', options:['than','then'], answer:0 },
+        { kind:'pick', label:'than + clause', prompt:'She’s smarter ___ people think.', options:['than','that'], answer:0 },
       ],
     },
     {
@@ -16891,6 +17112,8 @@ const GRAMMAR_CURRIC = [
       quiz:{ q:'Growing change:', qTh:'เปลี่ยนขึ้นเรื่อย ๆ:', options:['bigger and bigger','big and big'], answer:0 },
       practice:[
         { kind:'pick', label:'Repeat', prompt:'It’s getting ___.', options:['colder and colder','cold and cold'], answer:0 },
+        { kind:'pick', label:'Repeat', prompt:'The traffic got ___.', options:['worse and worse','worse than worse'], answer:0 },
+        { kind:'pick', label:'Repeat comparative', prompt:'She’s becoming ___ confident.', options:['more and more','much more'], answer:0 },
       ],
     },
     {
@@ -16903,6 +17126,9 @@ const GRAMMAR_CURRIC = [
       quiz:{ q:'“the best book I’ve ___ read”', qTh:'“the best book I’ve ___ read”', options:['ever','never'], answer:0 },
       practice:[
         { kind:'pick', label:'Ever', prompt:'the tastiest meal I’ve ___ eaten', options:['ever','yet'], answer:0 },
+        { kind:'pick', label:'All-time best', prompt:'This is the ___ pizza I’ve ever had.', options:['best','better'], answer:0 },
+        { kind:'build', label:'Word order', prompt:'Build:', target:'It’s the worst film I’ve ever seen.',
+          slots:[{role:'subject'},{role:'be'},{role:'sup'},{role:'verb'}], answer:['It’s','the','worst film','I’ve ever seen'], distractors:['bad','never'] },
       ],
     },
     {
@@ -16915,6 +17141,8 @@ const GRAMMAR_CURRIC = [
       quiz:{ q:'Correct:', qTh:'ข้อถูก:', options:['The cat is alive','the alive cat'], answer:0 },
       practice:[
         { kind:'pick', label:'After verb', prompt:'She was ___.', options:['afraid','the afraid'], answer:0 },
+        { kind:'pick', label:'Predicative only', prompt:'The children were ___.', options:['asleep','the asleep'], answer:0 },
+        { kind:'pick', label:'Predicative only', prompt:'He lives ___.', options:['alone','the alone'], answer:0 },
       ],
     },
     {
@@ -16927,6 +17155,9 @@ const GRAMMAR_CURRIC = [
       quiz:{ q:'Compound adjective:', qTh:'คำคุณศัพท์ประสม:', options:['a two-hour film','a two hours film'], answer:0 },
       practice:[
         { kind:'pick', label:'Hyphen', prompt:'a ___ boy', options:['six-year-old','six-years-old'], answer:0 },
+        { kind:'pick', label:'Hyphen', prompt:'a ___ writer', options:['well-known','well known writer'], answer:0 },
+        { kind:'build', label:'Word order', prompt:'Build:', target:'a ten-minute break',
+          slots:[{role:'art'},{role:'adj'},{role:'noun'}], answer:['a','ten-minute','break'], distractors:['ten-minutes','breaks'] },
       ],
     },
     {
@@ -16982,6 +17213,9 @@ const GRAMMAR_CURRIC = [
       quiz:{ q:'Surprising focus:', qTh:'เน้นความน่าแปลกใจ:', options:['even','still'], answer:0 },
       practice:[
         { kind:'pick', label:'Focus', prompt:'He works ___ on Sundays.', options:['even','yet'], answer:0 },
+        { kind:'pick', label:'Focus', prompt:'___ my grandmother uses a smartphone now.', options:['Even','Still'], answer:0 },
+        { kind:'build', label:'Word order', prompt:'Build:', target:'Even the manager was surprised.',
+          slots:[{role:'adv'},{role:'noun'},{role:'be'},{role:'adj'}], answer:['Even','the manager','was','surprised'], distractors:['Still','is'] },
       ],
     },
     {
@@ -16994,6 +17228,8 @@ const GRAMMAR_CURRIC = [
       quiz:{ q:'Singles one out:', qTh:'ชี้เฉพาะสิ่งหนึ่ง:', options:['especially','even'], answer:0 },
       practice:[
         { kind:'pick', label:'Emphasis', prompt:'It’s cold, ___ at night.', options:['particularly','still'], answer:0 },
+        { kind:'pick', label:'Singles out', prompt:'I enjoy sports, ___ swimming.', options:['especially','even'], answer:0 },
+        { kind:'pick', label:'Particularly', prompt:'The traffic is bad, ___ in the morning.', options:['particularly','even'], answer:0 },
       ],
     },
     {
@@ -17006,6 +17242,9 @@ const GRAMMAR_CURRIC = [
       quiz:{ q:'Continues:', qTh:'ยังคงดำเนิน:', options:['still','yet'], answer:0 },
       practice:[
         { kind:'pick', label:'Continuing', prompt:'Are you ___ here?', options:['still','already'], answer:0 },
+        { kind:'pick', label:'Continues', prompt:'Do you ___ live with your parents?', options:['still','yet'], answer:0 },
+        { kind:'build', label:'Word order', prompt:'Build:', target:'She still calls me every week.',
+          slots:[{role:'subject'},{role:'adv'},{role:'verb'},{role:'object'}], answer:['She','still','calls','me every week'], distractors:['yet','call'] },
       ],
     },
     {
@@ -17018,6 +17257,8 @@ const GRAMMAR_CURRIC = [
       quiz:{ q:'Stopped:', qTh:'หยุดแล้ว:', options:['any more','still'], answer:0 },
       practice:[
         { kind:'pick', label:'No longer', prompt:'She doesn’t smoke ___.', options:['any longer','yet'], answer:0 },
+        { kind:'pick', label:'Stopped', prompt:'He doesn’t play football ___.', options:['any more','still'], answer:0 },
+        { kind:'pick', label:'Stopped', prompt:'We don’t talk ___.', options:['any longer','yet'], answer:0 },
       ],
     },
     {
@@ -17030,6 +17271,9 @@ const GRAMMAR_CURRIC = [
       quiz:{ q:'Starts a new sentence:', qTh:'ขึ้นประโยคใหม่:', options:['However,','Although'], answer:0 },
       practice:[
         { kind:'pick', label:'Contrast', prompt:'___ he was tired, he kept going.', options:['Although','However'], answer:0 },
+        { kind:'pick', label:'Joins clauses', prompt:'___ she was nervous, she gave a great speech.', options:['Though','However'], answer:0 },
+        { kind:'build', label:'Word order', prompt:'Build:', target:'Although it was late, we kept working.',
+          slots:[{role:'aux'},{role:'verb'},{role:'subject'},{role:'verb'}], answer:['Although it','was late,','we','kept working'], distractors:['However','keep'] },
       ],
     },
     {
@@ -17042,6 +17286,8 @@ const GRAMMAR_CURRIC = [
       quiz:{ q:'Formal result:', qTh:'ผลลัพธ์แบบทางการ:', options:['therefore','so'], answer:0 },
       practice:[
         { kind:'pick', label:'Result', prompt:'It rained, ___ we stayed in.', options:['so','because'], answer:0 },
+        { kind:'pick', label:'Informal', prompt:'I was hungry, ___ I made a sandwich.', options:['so','therefore'], answer:0 },
+        { kind:'pick', label:'Formal', prompt:'The results were unclear; ___, we repeated the test.', options:['therefore','so'], answer:0 },
       ],
     },
     {
@@ -17055,6 +17301,8 @@ const GRAMMAR_CURRIC = [
       quiz:{ q:'+ noun:', qTh:'+ คำนาม:', options:['because of','because'], answer:0 },
       practice:[
         { kind:'pick', label:'+ clause', prompt:'___ it was late, we left.', options:['Since','Because of'], answer:0 },
+        { kind:'pick', label:'+ clause', prompt:'___ he was tired, he went to bed early.', options:['As','Because of'], answer:0 },
+        { kind:'pick', label:'+ noun', prompt:'The trip was cancelled ___ the storm.', options:['because of','because'], answer:0 },
       ],
     },
     {
@@ -17067,6 +17315,9 @@ const GRAMMAR_CURRIC = [
       quiz:{ q:'Prefer to:', qTh:'อยากจะมากกว่า:', options:['would rather','rather than'], answer:0 },
       practice:[
         { kind:'pick', label:'Preference', prompt:'I’d ___ stay home.', options:['rather','rather than'], answer:0 },
+        { kind:'pick', label:'Instead of', prompt:'She chose tea ___ coffee.', options:['rather than','would rather'], answer:0 },
+        { kind:'build', label:'Word order', prompt:'Build:', target:'I’d rather stay than go.',
+          slots:[{role:'subject'},{role:'aux'},{role:'verb'},{role:'aux'},{role:'verb'}], answer:['I’d','rather','stay','than','go'], distractors:['would','went'] },
       ],
     },
     {
@@ -17128,6 +17379,8 @@ const GRAMMAR_CURRIC = [
       quiz:{ q:'“She looks ___ her sister.”', qTh:'“She looks ___ her sister.”', options:['like','as'], answer:0 },
       practice:[
         { kind:'pick', label:'Role', prompt:'I used it ___ a hammer.', options:['as','like'], answer:0 },
+        { kind:'pick', label:'Similar', prompt:'This tastes ___ chicken.', options:['like','as'], answer:0 },
+        { kind:'pick', label:'Role', prompt:'He worked ___ a translator for years.', options:['as','like'], answer:0 },
       ],
     },
     {
@@ -17141,6 +17394,8 @@ const GRAMMAR_CURRIC = [
       quiz:{ q:'Tool:', qTh:'เครื่องมือ:', options:['with','by'], answer:0 },
       practice:[
         { kind:'pick', label:'Method', prompt:'pay ___ card', options:['by','with'], answer:0 },
+        { kind:'pick', label:'Method', prompt:'She sent it ___ email.', options:['by','with'], answer:0 },
+        { kind:'pick', label:'Tool', prompt:'He opened the can ___ a spoon.', options:['with','by'], answer:0 },
       ],
     },
     {
@@ -17153,6 +17408,9 @@ const GRAMMAR_CURRIC = [
       quiz:{ q:'Purpose: “a pan ___ frying”', qTh:'จุดประสงค์: “a pan ___ frying”', options:['for','to'], answer:0 },
       practice:[
         { kind:'pick', label:'Purpose', prompt:'glasses ___ reading', options:['for','by'], answer:0 },
+        { kind:'pick', label:'Purpose', prompt:'a bag ___ carrying groceries', options:['for','to'], answer:0 },
+        { kind:'build', label:'Word order', prompt:'Build:', target:'scissors for cutting paper',
+          slots:[{role:'noun'},{role:'prep'},{role:'verb'}], answer:['scissors','for','cutting paper'], distractors:['to','cut'] },
       ],
     },
     {
@@ -17165,6 +17423,8 @@ const GRAMMAR_CURRIC = [
       quiz:{ q:'Purpose: “___ university”', qTh:'จุดประสงค์: “___ university”', options:['at','in'], answer:0 },
       practice:[
         { kind:'pick', label:'Inside', prompt:'It’s cold ___ the building.', options:['in','at'], answer:0 },
+        { kind:'pick', label:'Purpose', prompt:'The kids are ___ school right now.', options:['at','in'], answer:0 },
+        { kind:'pick', label:'Physically inside', prompt:'It smells like paint ___ the classroom.', options:['in','at'], answer:0 },
       ],
     },
     {
@@ -17178,6 +17438,8 @@ const GRAMMAR_CURRIC = [
       quiz:{ q:'Punctual:', qTh:'ตรงเวลาเป๊ะ:', options:['on time','in time'], answer:0 },
       practice:[
         { kind:'pick', label:'Not too late', prompt:'We got there ___ to eat.', options:['in time','on time'], answer:0 },
+        { kind:'pick', label:'Punctual', prompt:'The meeting started ___.', options:['on time','in time'], answer:0 },
+        { kind:'pick', label:'Not late', prompt:'We arrived ___ to see the fireworks start.', options:['in time','on time'], answer:0 },
       ],
     },
     {
@@ -17191,6 +17453,8 @@ const GRAMMAR_CURRIC = [
       quiz:{ q:'Finally:', qTh:'ในที่สุด:', options:['in the end','at the end'], answer:0 },
       practice:[
         { kind:'pick', label:'Final point', prompt:'___ of the road', options:['at the end','in the end'], answer:0 },
+        { kind:'pick', label:'Final point', prompt:'___ of the book, the hero dies.', options:['At the end','In the end'], answer:0 },
+        { kind:'pick', label:'Finally', prompt:'___, they decided to cancel the trip.', options:['In the end','At the end'], answer:0 },
       ],
     },
     {
@@ -17205,6 +17469,7 @@ const GRAMMAR_CURRIC = [
       practice:[
         { kind:'pick', label:'Adjective', prompt:'afraid ___ spiders', options:['of','from'], answer:0 },
         { kind:'pick', label:'Verb', prompt:'listen ___ music', options:['to','at'], answer:0 },
+        { kind:'pick', label:'Noun', prompt:'the reason ___ the delay', options:['for','of'], answer:0 },
       ],
     },
     {
@@ -17279,6 +17544,7 @@ const GRAMMAR_CURRIC = [
       practice:[
         { kind:'pick', label:'will have + V3', prompt:'By the end of the year, we ___ the project.', options:['will have finished','will finish'], answer:0 },
         { kind:'pick', label:'Marker', prompt:'“By the time” usually signals:', options:['future perfect','present continuous'], answer:0 },
+        { kind:'pick', label:'Negative', prompt:'By Friday, she ___ finished the report.', options:['will have','will'], answer:0 },
       ],
     },
     {
@@ -17298,6 +17564,9 @@ const GRAMMAR_CURRIC = [
       quiz:{ q:'“By June, he will have been working here for ten years.” This sentence emphasizes:', qTh:'“By June, he will have been working here for ten years.” ประโยคนี้เน้นอะไร:', options:['duration','completion'], answer:0 },
       practice:[
         { kind:'pick', label:'Duration up to a future point', prompt:'By midnight, we ___ for six hours straight.', options:['will have been driving','will have driven'], answer:0 },
+        { kind:'pick', label:'Duration', prompt:'By 2030, they ___ here for twenty years.', options:['will have been living','will have lived'], answer:0 },
+        { kind:'build', label:'Word order', prompt:'Build:', target:'She will have been studying for hours.',
+          slots:[{role:'subject'},{role:'aux'},{role:'verb'},{role:'adv'}], answer:['She','will have been','studying','for hours'], distractors:['has been','since'] },
       ],
     },
     {
@@ -17319,6 +17588,7 @@ const GRAMMAR_CURRIC = [
         { kind:'pick', label:'Explains a result', prompt:'The ground was wet because it ___.', options:['had been raining','had rained'], answer:0 },
         { kind:'build', label:'Word order', prompt:'Build:', target:'She had been waiting for an hour.',
           slots:[{role:'subject'},{role:'aux'},{role:'verb'},{role:'adv'}], answer:['She','had been','waiting','for an hour'], distractors:['has been','since'] },
+        { kind:'pick', label:'Ongoing then', prompt:'They were exhausted because they ___ for hours.', options:['had been hiking','had hiked'], answer:0 },
       ],
     },
     {
@@ -17337,6 +17607,8 @@ const GRAMMAR_CURRIC = [
       quiz:{ q:'“By the time she ___, we will have left.”', qTh:'“By the time she ___, we will have left.”', options:['gets here','will get here'], answer:0 },
       practice:[
         { kind:'pick', label:'No will in time clause', prompt:'As soon as the rain ___, they will have set up the tent.', options:['stops','will stop'], answer:0 },
+        { kind:'pick', label:'No will', prompt:'When she ___ home, dinner will have been made.', options:['gets','will get'], answer:0 },
+        { kind:'pick', label:'No will', prompt:'Before the movie ___, we will have found our seats.', options:['starts','will start'], answer:0 },
       ],
     },
     {
