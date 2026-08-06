@@ -19233,12 +19233,22 @@ function resetListeningAttempt(){
 }
 
 function listeningVoiceFor(speakerIdx){
-  if(!("speechSynthesis" in window)) return { voice:null, pitch:1.0 };
+  if(!("speechSynthesis" in window)) return { voice:null, pitch:1.0, rate:1.0 };
   const base = pickSoftVoice("en-US");
-  if(speakerIdx===0) return { voice:base, pitch:1.0 };
+  if(speakerIdx===0) return { voice:base, pitch:1.0, rate:1.0 };
   const voices = speechSynthesis.getVoices();
+  const contrastNames = ["Daniel","Alex","Fred","Aaron","Oliver","Arthur","Gordon","Rishi",
+    "Google UK English Male","Microsoft Guy Online (Natural) - English (United States)",
+    "Microsoft David Online (Natural) - English (United States)","Microsoft Christopher Online (Natural) - English (United States)","Microsoft Ryan Online (Natural) - English (United Kingdom)"];
+  for(const name of contrastNames){
+    const v = voices.find(v=>v.name===name);
+    if(v) return { voice:v, pitch:1.0, rate:1.0 };
+  }
   const alt = voices.find(v=>v.lang && v.lang.startsWith("en") && (!base || v.name!==base.name));
-  return alt ? { voice:alt, pitch:1.0 } : { voice:base, pitch:1.22 };
+  if(alt) return { voice:alt, pitch:1.0, rate:1.0 };
+  // Only one voice available on this device: fake a second speaker with a clearly lower, slightly slower pitch/rate
+  // instead of the old +22% pitch bump, which just sounded like the same voice sped up.
+  return { voice:base, pitch:0.72, rate:0.94 };
 }
 function stopListeningPlayback(){
   listeningPlayToken++;
@@ -19259,29 +19269,35 @@ function playListeningFromChunk(startIdx){
   updateListeningProgressUI();
   const speakerIdx = {};
   (ex.speakers||[]).forEach((s,i)=>{ speakerIdx[s] = i; });
-  function step(i){
-    if(myToken!==listeningPlayToken) return; // superseded by a pause/seek/reset since this chain started
-    if(i>=listeningChunks.length){
-      listeningPlaying = false;
-      listeningFinished = true;
-      listeningChunkIdx = listeningChunks.length-1;
-      const justFinishedFirstListen = !listeningPlayedOnce;
-      listeningPlayedOnce = true;
-      updateListeningProgressUI();
-      if(justFinishedFirstListen) renderListeningDetail(); else updateListeningPlayUI();
-      return;
-    }
-    listeningChunkIdx = i;
-    updateListeningProgressUI();
+  // Queue every remaining utterance up front rather than waiting for each one's onend before
+  // speaking the next: speechSynthesis plays a queue back-to-back with far less dead air than
+  // a JS-driven speak-then-wait-then-speak chain, which is what made playback feel choppy.
+  const lastIdx = listeningChunks.length-1;
+  for(let i=listeningChunkIdx; i<=lastIdx; i++){
     const chunk = listeningChunks[i];
     const v = listeningVoiceFor(speakerIdx[chunk.who] || 0);
     const u = new SpeechSynthesisUtterance(chunk.text);
-    u.lang = "en-US"; u.rate = speechRate; u.pitch = v.pitch;
+    u.lang = "en-US"; u.rate = speechRate * (v.rate || 1); u.pitch = v.pitch;
     if(v.voice) u.voice = v.voice;
-    u.onend = ()=>{ if(myToken===listeningPlayToken) setTimeout(()=>step(i+1), listeningChunks.length>1 ? 220 : 0); };
+    u.onstart = ()=>{
+      if(myToken!==listeningPlayToken) return;
+      listeningChunkIdx = i;
+      updateListeningProgressUI();
+    };
+    if(i===lastIdx){
+      u.onend = ()=>{
+        if(myToken!==listeningPlayToken) return;
+        listeningPlaying = false;
+        listeningFinished = true;
+        listeningChunkIdx = lastIdx;
+        const justFinishedFirstListen = !listeningPlayedOnce;
+        listeningPlayedOnce = true;
+        updateListeningProgressUI();
+        if(justFinishedFirstListen) renderListeningDetail(); else updateListeningPlayUI();
+      };
+    }
     speechSynthesis.speak(u);
   }
-  step(startIdx);
 }
 function pauseListening(){
   listeningPlayToken++;
