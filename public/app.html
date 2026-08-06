@@ -11317,7 +11317,12 @@ function cardExample(card){ return card.ex || generateExample(card.en, card.cat)
 function wordsToSpansHTML(text, popId){
   const words = text.split(" ");
   return words.map(w=>{
-    const clean = w.replace(/^["']+|["']+$/g,"").replace(/[.,!?"]/g,"").toLowerCase();
+    /* Order matters: a word like "swimming'." (closing a quoted sign, e.g.
+       'No swimming'.) has punctuation AFTER the trailing quote, so stripping
+       quotes first left the apostrophe stranded once the period came off in
+       the second pass ("swimming'" never resolved to the "swimming" entry).
+       Stripping terminal punctuation first, then quotes, handles that. */
+    const clean = w.replace(/[.,!?;"]/g,"").replace(/^["']+|["']+$/g,"").toLowerCase();
     if(!clean) return w;
     const safeClean = clean.replace(/'/g,"\\'");
     return `<span class="word" role="button" tabindex="0" aria-label="Show Thai translation" onclick="event.stopPropagation(); showThai('${safeClean}', this, '${popId}')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();event.stopPropagation();showThai('${safeClean}', this, '${popId}');}">${w}</span>`;
