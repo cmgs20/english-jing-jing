@@ -279,6 +279,27 @@ p.sub{ color:var(--muted); font-size:14px; margin:0 0 16px; line-height:1.4; }
   .home-ring-inner b{ font-size:15px; }
 }
 
+/* Tablets and desktop browsers: the 480px phone-width column was wasting
+   most of the screen either side of it. Widen the shell in two steps and
+   let the module grid pick up a third column once there's room, instead of
+   just stretching two big square cards across the extra width. Forcing
+   #app to always be 100dvh tall (fine on a phone, where that's the whole
+   screen) would otherwise leave a huge dead gap below a 2-row grid on a
+   1024px-tall tablet, so past this width the app becomes a capped-height
+   card centered on the page instead of a full-bleed column. */
+@media (min-width:700px){
+  body{ display:flex; align-items:center; justify-content:center; }
+  #app{
+    width:100%; max-width:640px; height:min(760px,88vh);
+    border-radius:32px; overflow:hidden;
+    box-shadow:0 50px 100px -30px rgba(0,0,0,.35), 0 0 0 1px rgba(var(--hairline-rgb),.06);
+  }
+  .home-grid{ grid-template-columns:repeat(3,1fr); }
+}
+@media (min-width:1000px){
+  #app{ max-width:820px; }
+}
+
 .progress-row{ display:flex; align-items:center; gap:10px; margin-top:10px; }
 .progress-bar{ flex:1; height:10px; background:var(--inset); border-radius:6px; overflow:hidden; }
 .progress-fill{ height:100%; background:linear-gradient(90deg,var(--accent),var(--good)); border-radius:6px; transition:width .3s; }
