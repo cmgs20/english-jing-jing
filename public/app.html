@@ -100,14 +100,13 @@ body{
 #app{
   max-width:480px; margin:0 auto; height:100vh; height:100dvh; overflow:hidden;
   padding-top:calc(env(safe-area-inset-top,0px) + 10px);
-  padding-bottom:calc(env(safe-area-inset-bottom,0px) + 96px);
+  padding-bottom:calc(env(safe-area-inset-bottom,0px) + 14px);
   display:flex; flex-direction:column; position:relative;
 }
-/* Each screen is its own scroll container (not the document) so the fixed
-   bottom-nav never jitters from mobile browser chrome resizing, and content
-   never scrolls under it — the nav's clearance is already excluded via
-   #app's padding-bottom. min-height:0 lets the flex:1 item actually shrink
-   and scroll instead of growing past its allotted space. */
+/* Each screen is its own scroll container (not the document) so mobile
+   browser chrome resizing never jitters the layout. min-height:0 lets the
+   flex:1 item actually shrink and scroll instead of growing past its
+   allotted space. */
 .screen{ padding:14px 18px; flex:1; min-height:0; display:none; flex-direction:column; overflow-y:auto; -webkit-overflow-scrolling:touch; overscroll-behavior:contain; touch-action:pan-y; }
 .screen.active{ display:flex; }
 /* Screens with a sticky-cta footer button aren't themselves scrollable:
@@ -428,20 +427,6 @@ p.sub{ color:var(--muted); font-size:14px; margin:0 0 16px; line-height:1.4; }
 .mistake-item .info div{ font-size:12px; color:var(--muted); margin-top:2px; }
 .mistake-item .miss-count{ background:rgba(224,97,107,.13); color:var(--red-2); font-size:11.5px; font-weight:800; padding:5px 9px; border-radius:8px; }
 
-.bottom-nav{
-  position:fixed; left:50%; transform:translateX(-50%); bottom:calc(env(safe-area-inset-bottom,0px) + 16px);
-  width:calc(100% - 20px); max-width:480px; height:64px; border-radius:24px;
-  background:rgba(18,22,40,.86); backdrop-filter:blur(18px); -webkit-backdrop-filter:blur(18px);
-  border:1px solid rgba(var(--hairline-rgb),.08); display:flex; align-items:stretch; justify-content:space-around;
-  box-shadow:0 20px 40px -20px rgba(0,0,0,.9); padding:0 2px; z-index:50;
-}
-.nav-btn{ flex:1; min-width:0; background:none; border:none; color:rgba(255,255,255,.55); display:flex; flex-direction:column; align-items:center; justify-content:center; gap:3px; font-size:8.8px; font-weight:700; font-family:inherit; padding:4px 1px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
-.nav-btn .ic{ width:19px; height:19px; }
-.nav-btn.active{ color:var(--blue-2); }
-.nav-btn.fab{ width:46px; height:46px; border-radius:16px; margin-top:-22px; flex:0 0 auto; justify-content:center;
-  background:linear-gradient(160deg,var(--blue-2),var(--violet)); box-shadow:0 14px 30px -8px rgba(91,141,239,.8); color:#fff; }
-.nav-btn.fab .ic{ width:23px; height:23px; }
-.bottom-nav.hidden{ display:none; }
 .btn-spin{ display:inline-block; width:14px; height:14px; border:2px solid rgba(255,255,255,.35); border-top-color:#fff; border-radius:50%; animation:btn-spin .6s linear infinite; margin-right:8px; vertical-align:-2px; }
 @keyframes btn-spin{ to{ transform:rotate(360deg); } }
 .restore-link{ background:none; border:none; color:var(--muted); font-family:inherit; font-size:13px; font-weight:700; text-decoration:underline; padding:6px; cursor:pointer; }
@@ -1240,15 +1225,6 @@ if("serviceWorker" in navigator){
       <p class="sub" id="resend-link-msg" style="margin:12px 0 0;" aria-live="polite"></p>
     </div>
   </section>
-
-  <!-- BOTTOM NAV -->
-  <nav class="bottom-nav">
-    <button class="nav-btn active" data-nav="home" onclick="go('home')"><svg class="ic" viewBox="0 0 24 24"><path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8"/><path d="M3 10a2 2 0 0 1 .709-1.528l7-5.999a2 2 0 0 1 2.582 0l7 5.999A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>Home</button>
-    <button class="nav-btn" data-nav="flash-setup" onclick="go('flash-setup')"><svg class="ic" viewBox="0 0 24 24"><path d="m12.83 2.18a2 2 0 0 0-1.66 0L2.6 6.08a1 1 0 0 0 0 1.83l8.58 3.91a2 2 0 0 0 1.66 0l8.58-3.9a1 1 0 0 0 0-1.83Z"/><path d="m22 17.65-9.17 4.16a2 2 0 0 1-1.66 0L2 17.65"/><path d="m22 12.65-9.17 4.16a2 2 0 0 1-1.66 0L2 12.65"/></svg>Cards</button>
-    <button class="nav-btn fab" data-nav="drill-setup" onclick="go('drill-setup')"><svg class="ic" viewBox="0 0 24 24"><path d="M12 20h9"/><path d="M16.376 3.622a1 1 0 0 1 3.002 3.002L7.368 18.635a2 2 0 0 1-.855.506l-2.872.838a.5.5 0 0 1-.62-.62l.838-2.872a2 2 0 0 1 .506-.854z"/></svg></button>
-    <button class="nav-btn" data-nav="tracker" onclick="go('tracker')"><svg class="ic" viewBox="0 0 24 24"><path d="M3 3v16a2 2 0 0 0 2 2h16"/><path d="M18 17V9"/><path d="M13 17V5"/><path d="M8 17v-3"/></svg>Track</button>
-    <button class="nav-btn" data-nav="settings" onclick="go('settings')"><svg class="ic" viewBox="0 0 24 24"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/></svg>Settings</button>
-  </nav>
 
   <!-- UNLOCK CELEBRATION -->
   <div class="unlock-overlay" id="unlock-overlay">
@@ -5088,7 +5064,12 @@ const OBJECT_BUCKETS = {
   HIDE: [["the money","เงิน"],["the key","กุญแจ"],["a present","ของขวัญ"],["the truth","ความจริง"]],
   KEEP: [["a secret","ความลับ"],["the change","เงินทอน"],["his promise","สัญญาของเขา"],["a diary","ไดอารี่"]],
   LEND: [["some money","เงินจำนวนหนึ่ง"],["his car","รถของเขา"],["a book","หนังสือเล่มหนึ่ง"],["his umbrella","ร่มของเขา"]],
-  LOSE: [["his keys","กุญแจของเขา"],["the game","เกม"],["some weight","น้ำหนัก"],["his temper","อารมณ์ของเขา"]],
+  /* "his temper" only makes sense reflexively (you can only lose YOUR OWN
+     temper, never someone else's on their behalf) — unlike "his keys" (a
+     physical object literally anyone could be holding), it broke for every
+     subject except "he" ("Do we lose his temper?", "Lose his temper,
+     please!"). Swapped for something losable regardless of who's involved. */
+  LOSE: [["his keys","กุญแจของเขา"],["the game","เกม"],["some weight","น้ำหนัก"],["an argument","การโต้เถียง"]],
   SELL: [["a new car","รถคันใหม่"],["a house","บ้าน"],["his old bike","จักรยานเก่าของเขา"],["some furniture","เฟอร์นิเจอร์"]],
   SPEND: [["some money","เงินจำนวนหนึ่ง"],["the weekend","สุดสัปดาห์"],["a lot of time","เวลามาก"],["his savings","เงินออมของเขา"]],
   STEAL: [["some money","เงินจำนวนหนึ่ง"],["his wallet","กระเป๋าสตางค์ของเขา"],["a car","รถ"],["an idea","ไอเดีย"]],
