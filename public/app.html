@@ -212,6 +212,15 @@ p.sub{ color:var(--muted); font-size:14px; margin:0 0 16px; line-height:1.4; }
 .big-btn:nth-of-type(6) .emoji{ background:linear-gradient(150deg,var(--teal-2),var(--teal)); }
 .big-btn:nth-of-type(6) .mini .ic{ color:var(--teal); }
 
+.home-grid{ display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:14px; }
+.home-grid .big-btn{
+  flex-direction:column; align-items:center; justify-content:center; text-align:center;
+  gap:8px; padding:16px 12px; margin-bottom:0; aspect-ratio:1/1;
+}
+.home-grid .big-btn .emoji{ width:50px; height:50px; }
+.home-grid .big-btn .label{ font-size:14px; line-height:1.25; }
+.home-grid .big-btn .desc-th{ font-size:11px; margin-top:0; }
+
 .home-tracker{
   border-radius:24px; padding:16px 18px; margin-top:auto; position:relative; overflow:hidden;
   background:linear-gradient(135deg,rgba(91,141,239,.18),rgba(142,91,239,.14)); border:1px solid rgba(var(--hairline-rgb),.08);
@@ -749,41 +758,43 @@ if("serviceWorker" in navigator){
       </div>
     </div>
 
-    <button class="big-btn" onclick="go('flash-setup')">
-      <div class="emoji"><svg class="ic" viewBox="0 0 24 24"><path d="m12.83 2.18a2 2 0 0 0-1.66 0L2.6 6.08a1 1 0 0 0 0 1.83l8.58 3.91a2 2 0 0 0 1.66 0l8.58-3.9a1 1 0 0 0 0-1.83Z"/><path d="m22 17.65-9.17 4.16a2 2 0 0 1-1.66 0L2 17.65"/><path d="m22 12.65-9.17 4.16a2 2 0 0 1-1.66 0L2 12.65"/></svg></div>
-      <div><div class="label">Flashcards</div><div class="desc"><span class="desc-th">คำศัพท์ A1–B1 ไทย → อังกฤษ ไม่จำกัดจำนวน</span><span class="desc-en">Vocabulary A1–B1 · Thai → English</span></div></div>
-      <div class="chev"><svg class="ic" viewBox="0 0 24 24"><path d="m9 18 6-6-6-6"/></svg></div>
-    </button>
+    <div class="home-grid">
+      <button class="big-btn" onclick="go('flash-setup')">
+        <div class="emoji"><svg class="ic" viewBox="0 0 24 24"><path d="m12.83 2.18a2 2 0 0 0-1.66 0L2.6 6.08a1 1 0 0 0 0 1.83l8.58 3.91a2 2 0 0 0 1.66 0l8.58-3.9a1 1 0 0 0 0-1.83Z"/><path d="m22 17.65-9.17 4.16a2 2 0 0 1-1.66 0L2 17.65"/><path d="m22 12.65-9.17 4.16a2 2 0 0 1-1.66 0L2 12.65"/></svg></div>
+        <div class="label">Flashcards</div>
+        <div class="desc-th">คำศัพท์ A1–B1</div>
+      </button>
 
-    <button class="big-btn" onclick="go('drill-setup')">
-      <div class="emoji"><svg class="ic" viewBox="0 0 24 24"><path d="M12 20h9"/><path d="M16.376 3.622a1 1 0 0 1 3.002 3.002L7.368 18.635a2 2 0 0 1-.855.506l-2.872.838a.5.5 0 0 1-.62-.62l.838-2.872a2 2 0 0 1 .506-.854z"/></svg></div>
-      <div><div class="label">Conjugation Drill <span class="lock-badge" id="lock-drill-setup" style="display:none;"></span></div><div class="desc"><span class="desc-th">ฝึกผันกริยาทุก tense พร้อมเฉลยทันที</span><span class="desc-en">Tenses, verbs, questions, modals…</span></div></div>
-      <div class="chev"><svg class="ic" viewBox="0 0 24 24"><path d="m9 18 6-6-6-6"/></svg></div>
-    </button>
+      <button class="big-btn" onclick="go('drill-setup')">
+        <div class="emoji"><svg class="ic" viewBox="0 0 24 24"><path d="M12 20h9"/><path d="M16.376 3.622a1 1 0 0 1 3.002 3.002L7.368 18.635a2 2 0 0 1-.855.506l-2.872.838a.5.5 0 0 1-.62-.62l.838-2.872a2 2 0 0 1 .506-.854z"/></svg></div>
+        <div class="label">Conjugation Drill <span class="lock-badge" id="lock-drill-setup" style="display:none;"></span></div>
+        <div class="desc-th">ฝึกผันกริยา</div>
+      </button>
 
-    <button class="big-btn" onclick="go('pron-setup')">
-      <div class="emoji"><svg class="ic" viewBox="0 0 24 24"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" x2="12" y1="19" y2="22"/></svg></div>
-      <div><div class="label">Pronunciation <span class="lock-badge" id="lock-pron-setup" style="display:none;"></span></div><div class="desc"><span class="desc-th">เสียงที่คนไทยออกเสียงยาก เช่น R vs L</span><span class="desc-en">Sounds that are tricky for Thai speakers</span></div></div>
-      <div class="chev"><svg class="ic" viewBox="0 0 24 24"><path d="m9 18 6-6-6-6"/></svg></div>
-    </button>
+      <button class="big-btn" onclick="go('pron-setup')">
+        <div class="emoji"><svg class="ic" viewBox="0 0 24 24"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" x2="12" y1="19" y2="22"/></svg></div>
+        <div class="label">Pronunciation <span class="lock-badge" id="lock-pron-setup" style="display:none;"></span></div>
+        <div class="desc-th">เสียง R vs L</div>
+      </button>
 
-    <button class="big-btn" onclick="go('verbs')">
-      <div class="emoji"><svg class="ic" viewBox="0 0 24 24"><path d="M12 7v14"/><path d="M16 12h2"/><path d="M16 8h2"/><path d="M3 18a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h5a4 4 0 0 1 4 4 4 4 0 0 1 4-4h5a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1h-6a3 3 0 0 0-3 3 3 3 0 0 0-3-3z"/><path d="M6 12h2"/><path d="M6 8h2"/></svg></div>
-      <div><div class="label">Verb Dictionary <span class="lock-badge" id="lock-verbs" style="display:none;"></span></div><div class="desc"><span class="desc-th">ค้นการผันกริยาแบบเต็มของคำใดก็ได้</span><span class="desc-en">Look up any verb's full conjugation</span></div></div>
-      <div class="chev"><svg class="ic" viewBox="0 0 24 24"><path d="m9 18 6-6-6-6"/></svg></div>
-    </button>
+      <button class="big-btn" onclick="go('verbs')">
+        <div class="emoji"><svg class="ic" viewBox="0 0 24 24"><path d="M12 7v14"/><path d="M16 12h2"/><path d="M16 8h2"/><path d="M3 18a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h5a4 4 0 0 1 4 4 4 4 0 0 1 4-4h5a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1h-6a3 3 0 0 0-3 3 3 3 0 0 0-3-3z"/><path d="M6 12h2"/><path d="M6 8h2"/></svg></div>
+        <div class="label">Verb Dictionary <span class="lock-badge" id="lock-verbs" style="display:none;"></span></div>
+        <div class="desc-th">พจนานุกรมกริยา</div>
+      </button>
 
-    <button class="big-btn" onclick="go('grammar')">
-      <div class="emoji"><svg class="ic" viewBox="0 0 24 24"><path d="M21.42 10.922a1 1 0 0 0-.019-1.838L12.83 5.18a2 2 0 0 0-1.66 0L2.6 9.08a1 1 0 0 0 0 1.832l8.57 3.908a2 2 0 0 0 1.66 0z"/><path d="M22 10v6"/><path d="M6 12.5V16a6 3 0 0 0 12 0v-3.5"/></svg></div>
-      <div><div class="label">Grammar <span class="lock-badge" id="lock-grammar" style="display:none;"></span></div><div class="desc"><span class="desc-th">บทเรียนทีละขั้น: กฎ เปรียบเทียบ ฝึกใช้</span><span class="desc-en">Step-by-step lessons: rule, compare, practice</span></div></div>
-      <div class="chev"><svg class="ic" viewBox="0 0 24 24"><path d="m9 18 6-6-6-6"/></svg></div>
-    </button>
+      <button class="big-btn" onclick="go('grammar')">
+        <div class="emoji"><svg class="ic" viewBox="0 0 24 24"><path d="M21.42 10.922a1 1 0 0 0-.019-1.838L12.83 5.18a2 2 0 0 0-1.66 0L2.6 9.08a1 1 0 0 0 0 1.832l8.57 3.908a2 2 0 0 0 1.66 0z"/><path d="M22 10v6"/><path d="M6 12.5V16a6 3 0 0 0 12 0v-3.5"/></svg></div>
+        <div class="label">Grammar <span class="lock-badge" id="lock-grammar" style="display:none;"></span></div>
+        <div class="desc-th">ไวยากรณ์ทีละขั้น</div>
+      </button>
 
-    <button class="big-btn" onclick="go('listening')">
-      <div class="emoji"><svg class="ic" viewBox="0 0 24 24"><path d="M3 14h3a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-7a9 9 0 0 1 18 0v7a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3"/></svg></div>
-      <div><div class="label">Listening <span class="lock-badge" id="lock-listening" style="display:none;"></span></div><div class="desc"><span class="desc-th">ฟังบทสนทนาจริง แล้วตอบคำถาม 5 ข้อ</span><span class="desc-en">Real-life audio + 5 comprehension questions</span></div></div>
-      <div class="chev"><svg class="ic" viewBox="0 0 24 24"><path d="m9 18 6-6-6-6"/></svg></div>
-    </button>
+      <button class="big-btn" onclick="go('listening')">
+        <div class="emoji"><svg class="ic" viewBox="0 0 24 24"><path d="M3 14h3a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-7a9 9 0 0 1 18 0v7a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3"/></svg></div>
+        <div class="label">Listening <span class="lock-badge" id="lock-listening" style="display:none;"></span></div>
+        <div class="desc-th">ฟังแล้วตอบคำถาม</div>
+      </button>
+    </div>
 
     <div class="home-nudge" id="home-nudge" style="display:none;">
       <div class="home-nudge-txt">
