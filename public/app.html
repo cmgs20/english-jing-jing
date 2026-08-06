@@ -19258,6 +19258,7 @@ function stopListeningPlayback(){
 function playListeningFromChunk(startIdx){
   const ex = LISTENING_EX[listeningIdx];
   if(!ex || !("speechSynthesis" in window) || !listeningChunks.length) return;
+  if(!Number.isFinite(startIdx)) startIdx = listeningChunkIdx || 0; // defensive: never let a bad index silently blackhole playback
   listeningPlayToken++;
   const myToken = listeningPlayToken;
   speechSynthesis.cancel();
@@ -19342,7 +19343,12 @@ function listeningProgressPointerMove(e){
   const bar = document.getElementById("listening-progress");
   if(!bar) return;
   const rect = bar.getBoundingClientRect();
-  const clientX = (e.touches && e.touches[0]) ? e.touches[0].clientX : e.clientX;
+  // On touchend, e.touches is already empty (the lifted finger only shows up in
+  // changedTouches) and TouchEvent has no clientX of its own, so falling back to
+  // e.clientX gave NaN there and silently killed playback for the rest of the session.
+  const touch = (e.touches && e.touches[0]) || (e.changedTouches && e.changedTouches[0]);
+  const clientX = touch ? touch.clientX : e.clientX;
+  if(!Number.isFinite(clientX)) return;
   const ratio = Math.min(1, Math.max(0, (clientX-rect.left)/rect.width));
   const total = listeningChunks.length;
   const idx = total<=1 ? 0 : Math.round(ratio*(total-1));
