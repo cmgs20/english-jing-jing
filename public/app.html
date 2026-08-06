@@ -114,7 +114,13 @@ body{
    instead, so the button is a normal flex sibling that never overlaps
    whatever pill row happens to be at the bottom of the visible content. */
 .screen.has-sticky-cta{ padding:0; overflow:hidden; }
-.screen.has-sticky-cta .setup-scroll{ flex:1; min-height:0; overflow-y:auto; -webkit-overflow-scrolling:touch; overscroll-behavior:contain; touch-action:pan-y; padding:14px 18px; }
+.screen.has-sticky-cta .setup-scroll{ flex:1; min-height:0; overflow-y:auto; -webkit-overflow-scrolling:touch; overscroll-behavior:contain; touch-action:pan-y; padding:14px 18px; display:flex; flex-direction:column; }
+/* setup-fields wraps everything below the topbar so justify-content:safe
+   center can vertically center a short pill list instead of stranding a
+   dead gap above the sticky button on tall phones, without also dragging
+   the (sticky) topbar down. "safe" falls back to top-aligned/scrollable
+   once content is long enough to overflow, so nothing clips on short phones. */
+.setup-fields{ flex:1; min-height:0; display:flex; flex-direction:column; justify-content:safe center; }
 .screen.anim-forward{ animation:screen-in-forward .22s ease; }
 .screen.anim-back{ animation:screen-in-back .22s ease; }
 @keyframes screen-in-forward{ from{opacity:0; transform:translateX(14px);} to{opacity:1; transform:none;} }
@@ -254,6 +260,24 @@ p.sub{ color:var(--muted); font-size:14px; margin:0 0 16px; line-height:1.4; }
 .home-nudge-txt p.home-nudge-urgency{ color:var(--orange-2); font-weight:700; }
 .home-nudge-cta{ margin-top:9px; margin-left:0; font-size:12px; padding:6px 13px; box-shadow:none; }
 .home-nudge-close{ background:none; border:none; color:var(--muted); font-size:15px; line-height:1; padding:3px 5px; cursor:pointer; flex-shrink:0; font-family:inherit; }
+
+/* On phones with less usable viewport height (small screens, or a tall
+   aspect ratio eaten up by the on-screen nav bar / address bar), the square
+   module cards push the tracker card below the fold. Trim the module grid
+   and tracker card so the whole home screen tends to fit without scrolling. */
+@media (max-height:740px){
+  .home-hdr{ margin-bottom:12px; }
+  .home-grid{ gap:8px; margin-bottom:10px; }
+  .home-grid .big-btn{ aspect-ratio:1.3/1; padding:10px 8px; gap:5px; }
+  .home-grid .big-btn .emoji{ width:38px; height:38px; border-radius:14px; }
+  .home-grid .big-btn .emoji .ic{ width:20px; height:20px; }
+  .home-grid .big-btn .label{ font-size:12.5px; }
+  .home-grid .big-btn .desc-th{ font-size:10px; }
+  .home-tracker{ padding:12px 14px; gap:12px; }
+  .home-ring{ width:56px; height:56px; }
+  .home-ring-inner{ width:44px; height:44px; }
+  .home-ring-inner b{ font-size:15px; }
+}
 
 .progress-row{ display:flex; align-items:center; gap:10px; margin-top:10px; }
 .progress-bar{ flex:1; height:10px; background:var(--inset); border-radius:6px; overflow:hidden; }
@@ -824,6 +848,7 @@ if("serviceWorker" in navigator){
   <section class="screen has-sticky-cta" id="screen-flash-setup">
     <div class="setup-scroll">
     <div class="topbar"><button class="back-btn" aria-label="Back" onclick="go('home')"><svg class="ic" viewBox="0 0 24 24"><path d="m15 18-6-6 6-6"/></svg></button><h1>Flashcards</h1><div style="width:36px"></div></div>
+    <div class="setup-fields">
     <div class="section-label">Level</div>
     <div class="pill-row" id="flash-level-pills"></div>
     <div class="section-label">Category</div>
@@ -835,6 +860,7 @@ if("serviceWorker" in navigator){
     <div id="flash-session-slider-row" style="display:none;align-items:center;gap:12px;margin:2px 0 16px;">
       <input type="range" id="flash-session-slider" min="1" max="10" value="1" oninput="setFlashSessionCustom(this.value)" style="flex:1;accent-color:var(--blue-2);">
       <span id="flash-session-slider-value" style="font-weight:800;min-width:28px;text-align:right;">1</span>
+    </div>
     </div>
     </div>
     <button class="primary-btn sticky-cta" onclick="startFlash()">Start (<span id="flash-count">0</span> words)</button>
@@ -902,6 +928,7 @@ if("serviceWorker" in navigator){
   <section class="screen has-sticky-cta" id="screen-drill-setup">
     <div class="setup-scroll">
     <div class="topbar"><button class="back-btn" aria-label="Back" onclick="go('home')"><svg class="ic" viewBox="0 0 24 24"><path d="m15 18-6-6 6-6"/></svg></button><h1>Conjugation Drill</h1><div style="width:36px"></div></div>
+    <div class="setup-fields">
     <p class="sub" id="drill-free-note" style="display:none;">โหมดทดลองฟรี: Present Simple 5 ประโยค ปลดล็อกเพื่อฝึกได้ทุก tense ไม่จำกัด</p>
     <div class="section-label">Tenses to practice</div>
     <div id="drill-tense-list"></div>
@@ -912,6 +939,7 @@ if("serviceWorker" in navigator){
     <div class="pill-row" id="drill-level-pills"></div>
     <div class="section-label">Session length</div>
     <div class="pill-row" id="drill-session-pills"></div>
+    </div>
     </div>
     <button class="primary-btn sticky-cta" onclick="startDrill()">Start</button>
   </section>
