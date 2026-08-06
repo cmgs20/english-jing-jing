@@ -1,5 +1,6 @@
 import { NextResponse, type NextRequest } from 'next/server'
 import { createServiceClient } from '@/lib/supabase-service'
+import { checkRateLimit } from '@/lib/rate-limit'
 
 export const runtime = 'nodejs'
 
@@ -15,6 +16,9 @@ const ALLOWED_EVENTS = new Set([
 ])
 
 export async function POST(request: NextRequest) {
+  const rateLimited = await checkRateLimit(request, 'track-event', 60)
+  if (rateLimited) return rateLimited
+
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   let body: any
   try {

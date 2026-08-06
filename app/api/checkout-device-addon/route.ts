@@ -1,6 +1,7 @@
 import { NextResponse, type NextRequest } from 'next/server'
 import { getTrainerDeviceAddonPriceThb } from '@/lib/trainer'
 import { createServiceClient } from '@/lib/supabase-service'
+import { checkRateLimit } from '@/lib/rate-limit'
 
 export const runtime = 'nodejs'
 
@@ -25,6 +26,9 @@ async function createStripeSession(params: Record<string, string>): Promise<{ ur
 }
 
 export async function POST(request: NextRequest) {
+  const rateLimited = await checkRateLimit(request, 'checkout-device-addon', 10)
+  if (rateLimited) return rateLimited
+
   try {
     const { purchaseId } = await request.json()
     if (!purchaseId || typeof purchaseId !== 'string' || !UUID_RE.test(purchaseId)) {

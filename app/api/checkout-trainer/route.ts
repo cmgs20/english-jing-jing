@@ -1,5 +1,6 @@
-import { NextResponse } from 'next/server'
+import { NextResponse, type NextRequest } from 'next/server'
 import { getTrainerPriceThb } from '@/lib/trainer'
+import { checkRateLimit } from '@/lib/rate-limit'
 
 export const runtime = 'nodejs'
 
@@ -21,7 +22,10 @@ async function createStripeSession(params: Record<string, string>): Promise<{ ur
   return data
 }
 
-export async function POST(request: Request) {
+export async function POST(request: NextRequest) {
+  const rateLimited = await checkRateLimit(request, 'checkout-trainer', 10)
+  if (rateLimited) return rateLimited
+
   try {
     const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'
     const priceThb = getTrainerPriceThb()
