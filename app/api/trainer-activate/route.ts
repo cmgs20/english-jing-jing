@@ -24,7 +24,7 @@ export async function POST(request: NextRequest) {
 
     if (error) {
       console.error('[trainer-activate] rpc failed:', error)
-      return NextResponse.json({ ok: false, reason: 'server_error', debug: error }, { status: 500 })
+      return NextResponse.json({ ok: false, reason: 'server_error' }, { status: 500 })
     }
 
     const result = data as { ok: boolean; reason?: string }
@@ -32,6 +32,6 @@ export async function POST(request: NextRequest) {
     return NextResponse.json(result, { status })
   } catch (err) {
     console.error('[trainer-activate] error:', err)
-    return NextResponse.json({ ok: false, reason: 'server_error', debug: String(err) }, { status: 500 })
+    return NextResponse.json({ ok: false, reason: 'server_error' }, { status: 500 })
   }
 }
