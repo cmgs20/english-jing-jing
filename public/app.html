@@ -4719,11 +4719,11 @@ Object.assign(DICT, {
   "do":"(คำช่วยทำคำถาม/ปฏิเสธ)", "does":"(คำช่วยทำคำถาม/ปฏิเสธ)", "did":"(คำช่วยทำคำถาม/ปฏิเสธ ในอดีต)",
   "have":"มี / (คำช่วย)", "has":"มี / (คำช่วย)", "had":"มี / (คำช่วย ในอดีต)",
   "not":"ไม่", "don't":"ไม่ (ปัจจุบัน)", "doesn't":"ไม่ (ปัจจุบัน)", "didn't":"ไม่ (อดีต)",
-  "will":"จะ", "won't":"จะไม่", "would":"จะ (สุภาพ/สมมติ)", "can":"สามารถ", "can't":"ไม่สามารถ",
+  "will":"จะ", "won't":"จะไม่", "would":"จะ (สุภาพ/สมมติ)", "wouldn't":"จะไม่ (สุภาพ/สมมติ)", "can":"สามารถ", "can't":"ไม่สามารถ",
   "could":"สามารถ (อดีต/สุภาพ)", "should":"ควร", "shouldn't":"ไม่ควร", "must":"ต้อง", "mustn't":"ห้าม",
   "may":"อาจจะ", "might":"อาจจะ", "being":"กำลังถูก...", "been":"(เคย/แล้ว)", "by":"โดย", "let's":"มา...กันเถอะ",
   "a":"(คำนำหน้านาม)", "an":"(คำนำหน้านาม)", "the":"(คำนำหน้านามเฉพาะ)", "his":"ของเขา (ผู้ชาย)", "her":"ของเขา (ผู้หญิง)",
-  "my":"ของฉัน", "your":"ของคุณ", "our":"ของเรา", "their":"ของพวกเขา", "some":"บ้าง/บางส่วน", "every":"ทุกๆ",
+  "my":"ของฉัน", "your":"ของคุณ", "our":"ของเรา", "their":"ของพวกเขา", "some":"บ้าง/บางส่วน", "something":"บางสิ่ง", "every":"ทุกๆ",
   "right":"เดี๋ยวนี้ (right now)", "now":"ตอนนี้", "since":"ตั้งแต่", "for":"เป็นเวลา", "ago":"ที่แล้ว",
   "last":"ที่แล้ว (last week)", "yesterday":"เมื่อวาน", "tomorrow":"พรุ่งนี้", "already":"แล้ว", "yet":"ยัง", "just":"เพิ่งจะ",
   "always":"เสมอ", "usually":"โดยปกติ", "often":"บ่อยๆ", "sometimes":"บางครั้ง", "never":"ไม่เคย",
@@ -5070,7 +5070,14 @@ const OBJECT_BUCKETS = {
   STICK: [["a stamp","แสตมป์"],["a poster","โปสเตอร์"],["the label","ฉลาก"]],
   REACH: [["the top shelf","ชั้นบนสุด"],["an agreement","ข้อตกลง"],["the airport","สนามบิน"]],
   SEARCH: [["the house","บ้าน"],["the area","พื้นที่"],["his bag","กระเป๋าของเขา"]],
-  BODY: [["your knees","เข่าของคุณ"],["your legs","ขาของคุณ"],["your arms","แขนของคุณ"],["your back","หลังของคุณ"]],
+  /* "your" only reads naturally when the subject IS "you" ("Bend your
+     knees!"); every other subject produces an address mismatch ("She
+     stretches your legs" — whose legs, the reader's?). "his" stays coherent
+     for every subject, including the default reflexive reading when the
+     subject is "he" ("He stretches his legs"). "back" is also swapped for
+     "elbows": "bend ... back" reads as an injury regardless of whose back it
+     is (a real fitness cue would say "arch your back", not "bend" it). */
+  BODY: [["his knees","เข่าของเขา"],["his legs","ขาของเขา"],["his arms","แขนของเขา"],["his elbows","ข้อศอกของเขา"]],
   BRING: [["an umbrella","ร่ม"],["some snacks","ขนมจำนวนหนึ่ง"],["his laptop","แล็ปท็อปของเขา"],["a gift","ของขวัญ"]],
   BUILD: [["a house","บ้าน"],["a new website","เว็บไซต์ใหม่"],["a treehouse","บ้านต้นไม้"],["a sandcastle","ปราสาททราย"]],
   BUY: [["a new car","รถคันใหม่"],["a house","บ้าน"],["a ticket","ตั๋ว"],["a gift","ของขวัญ"]],
@@ -5119,18 +5126,33 @@ const OBJECT_BUCKETS = {
      outside", "wondering here") — they need their own natural complements. */
   BECOME: [["a doctor","หมอ"],["a teacher","ครู"],["very popular","เป็นที่นิยมมาก"],["more confident","มั่นใจมากขึ้น"]],
   TRY: [["something new","อะไรใหม่ๆ"],["a new restaurant","ร้านอาหารใหม่"],["a different approach","วิธีที่ต่างออกไป"],["harder","หนักขึ้น"]],
-  WONDER: [["about the future","เกี่ยวกับอนาคต"],["about her decision","เกี่ยวกับการตัดสินใจของเธอ"],["about the result","เกี่ยวกับผลลัพธ์"],["about his intentions","เกี่ยวกับความตั้งใจของเขา"]],
-  HOPE: [["for the best","ให้ดีที่สุด"],["for a better future","เพื่ออนาคตที่ดีกว่า"],["for good news","ให้มีข่าวดี"],["for a quick recovery","ให้หายเร็วๆ"]],
-  REPLY: [["to the email","ตอบอีเมล"],["to the message","ตอบข้อความ"],["to her question","ตอบคำถามของเธอ"],["to the invitation","ตอบรับคำเชิญ"]],
-  WORRY: [["about the exam","เกี่ยวกับการสอบ"],["about the future","เกี่ยวกับอนาคต"],["about the result","เกี่ยวกับผลลัพธ์"],["about money","เกี่ยวกับเงิน"]],
+  /* go/come are also intransitive-only, and the same generic ADVERBIALS pool
+     breaks on them worse than on become/try/wonder: English drops "to" before
+     "home" after a motion verb ("go home", never "go AT home"), so the plain
+     "at home" adverbial produced "going at home" / "coming at home". */
+  GO: [["home","บ้าน"],["to school","ไปโรงเรียน"],["to work","ไปทำงาน"],["to the market","ไปตลาด"]],
+  COME: [["home","บ้าน"],["here","ที่นี่"],["early","แต่เช้า"],["with me","กับฉัน"]],
+  /* Stored without their leading preposition — wonder/hope/reply/worry are in
+     VERB_PREP below, which prepends it for every tense the normal way. The
+     old baked-in-string version ("about the future" as one bucket entry)
+     bypassed that prepending, so the passive builder's isTransitive() check
+     saw a normal-looking noun and let these into the passive pool — with the
+     preposition still stuck to the front, that produced "About the future
+     was wondered by the students." VERB_PREP already excludes prepositional
+     verbs from the passive drill entirely (same as listen/look/think/knock),
+     so this puts wonder/hope/reply/worry on the same footing. */
+  WONDER: [["the future","เกี่ยวกับอนาคต"],["her decision","เกี่ยวกับการตัดสินใจของเธอ"],["the result","เกี่ยวกับผลลัพธ์"],["his intentions","เกี่ยวกับความตั้งใจของเขา"]],
+  HOPE: [["the best","ให้ดีที่สุด"],["a better future","เพื่ออนาคตที่ดีกว่า"],["good news","ให้มีข่าวดี"],["a quick recovery","ให้หายเร็วๆ"]],
+  REPLY: [["the email","ตอบอีเมล"],["the message","ตอบข้อความ"],["her question","ตอบคำถามของเธอ"],["the invitation","ตอบรับคำเชิญ"]],
+  WORRY: [["the exam","เกี่ยวกับการสอบ"],["the future","เกี่ยวกับอนาคต"],["the result","เกี่ยวกับผลลัพธ์"],["money","เกี่ยวกับเงิน"]],
 };
 const PLURAL_OBJECTS = new Set([
   "the dishes","his keys","the students","new shoes","the stairs","your shoes",
-  "your knees","your legs","your arms","your skills","your grades","your hands",
+  "his knees","his legs","his arms","his elbows","your skills","your grades","your hands",
   "the instructions","mornings","the possibilities","the bricks","the windows",
   "the clothes","the towels","the leaves","the rules","some snacks","his savings",
   "the terms","a few words","the photos","her feelings","the results","some cookies",
-  "some photos","the ingredients","the colors",
+  "some photos","the ingredients","the colors","pets",
 ]);
 const VERB_BASES = new Set(VERBS.map(v=>v.b));
 Object.values(OBJECT_BUCKETS).forEach(list=>{
@@ -5188,7 +5210,7 @@ const VERB_BUCKET = {
   study:"STUDY", suggest:"SUGGEST", support:"SOCIAL", surprise:"SOCIAL", thank:"SOCIAL", touch:"TOUCH",
   use:"USE", visit:"SOCIAL", want:"WANT", wash:"WASH", watch:"MEDIA", return:"RETURN",
   match:"MATCH", add:"ADD", allow:"ALLOW", light:"LIGHT", spread:"SPREAD", stick:"STICK", reach:"REACH", ring:"RING",
-  become:"BECOME", try:"TRY", wonder:"WONDER", hope:"HOPE", reply:"REPLY", worry:"WORRY",
+  become:"BECOME", try:"TRY", wonder:"WONDER", hope:"HOPE", reply:"REPLY", worry:"WORRY", go:"GO", come:"COME",
 };
 function complement(v){
   const bucket = VERB_BUCKET[v.b];
@@ -5196,8 +5218,8 @@ function complement(v){
 }
 /* A few verbs need a preposition before their object ("listen TO the plan",
    not "listen the plan") — plain bucket objects would otherwise produce an
-   ungrammatical sentence for exactly these four. */
-const VERB_PREP = { listen:"to ", look:"at ", think:"about ", knock:"on " };
+   ungrammatical sentence for exactly these verbs. */
+const VERB_PREP = { listen:"to ", look:"at ", think:"about ", knock:"on ", wonder:"about ", hope:"for ", reply:"to ", worry:"about " };
 function complementText(v){ return (VERB_PREP[v.b]||"") + complement(v)[0]; }
 /* Standard English swaps "some" for "any" in negatives and questions
    ("I don't drink some tea" is a textbook ESL mistake — it must be "any
@@ -5354,7 +5376,16 @@ const TENSES = [
   { key:"present_perfect", label:"Present Perfect",
     build:(s,v,t)=>{
       const o = objectFor(v, t);
-      if(t==="aff") return { pre:`${s.p} `, ...affBlank(s.have, formOptions(v.pp, v.ppAlt)), post:` ${o} ${pick(PERFECT_TIME)[0]}.`, slot:"pp" };
+      if(t==="aff"){
+        const timeWord = pick(PERFECT_TIME)[0];
+        /* "just" sits between the auxiliary and the participle ("has just
+           finished"), never at the end of the sentence ("has finished... just"
+           is not valid English) — the other three time words (already/
+           recently/this month) are fine in end position, so only "just" needs
+           this special-cased placement inside the blank itself. */
+        if(timeWord === "just") return { pre:`${s.p} `, ...affBlank(s.have, formOptions(v.pp, v.ppAlt).map(f=>`just ${f}`)), post:` ${o}.`, slot:"pp" };
+        return { pre:`${s.p} `, ...affBlank(s.have, formOptions(v.pp, v.ppAlt)), post:` ${o} ${timeWord}.`, slot:"pp" };
+      }
       if(t==="neg"){
         const short = s.have==="has" ? "hasn't" : "haven't";
         return { pre:`${s.p} `, ...negBlank(`${s.have} not`, short, formOptions(v.pp, v.ppAlt)), post:` ${o} yet.`, slot:"pp" };
@@ -5363,13 +5394,23 @@ const TENSES = [
     }},
   { key:"present_perfect_continuous", label:"Present Perfect Continuous",
     build:(s,v,t)=>{
-      const o = objectFor(v, t);
-      if(t==="aff") return { pre:`${s.p} `, ...affBlank(`${s.have} been`, formOptions(v.ing)), post:` ${o} ${pick(PERFECT_CONT_TIME)[0]}.`, slot:"ing" };
+      /* This tense is defined by its duration phrase ("for two hours" / "since
+         Monday") — without one, a bare "I haven't been speaking Thai." or
+         "Have you been dancing?" reads as an unfinished thought, not a real
+         sentence. The affirmative already appended one; neg/question now do
+         too, for every branch alike. "again" is excluded from the generic
+         adverbial fallback here specifically because it doubles up on the
+         duration phrase ("sinking again for two hours" reads as contradictory:
+         a one-off repeat vs. a continuous stretch). */
+      let o = objectFor(v, t);
+      for(let i=0;i<5 && /(^|\s)again$/i.test(o);i++) o = objectFor(v, t);
+      const dur = pick(PERFECT_CONT_TIME)[0];
+      if(t==="aff") return { pre:`${s.p} `, ...affBlank(`${s.have} been`, formOptions(v.ing)), post:` ${o} ${dur}.`, slot:"ing" };
       if(t==="neg"){
         const short = s.have==="has" ? "hasn't been" : "haven't been";
-        return { pre:`${s.p} `, ...negBlank(`${s.have} not been`, short, formOptions(v.ing)), post:` ${o}.`, slot:"ing" };
+        return { pre:`${s.p} `, ...negBlank(`${s.have} not been`, short, formOptions(v.ing)), post:` ${o} ${dur}.`, slot:"ing" };
       }
-      return { pre:``, ...affBlank(null, formOptions(`${cap(s.have==="has"?"Has":"Have")} ${low(s)} been ${v.ing}`)), post:` ${o}?`, slot:"ing", subjectHint:s.p };
+      return { pre:``, ...affBlank(null, formOptions(`${cap(s.have==="has"?"Has":"Have")} ${low(s)} been ${v.ing}`)), post:` ${o} ${dur}?`, slot:"ing", subjectHint:s.p };
     }},
   { key:"passive", label:"Passive",
     build:(s,v,t)=>{
@@ -12294,9 +12335,32 @@ const PUNCTUAL_VERBS = new Set([
   "give","get","buy","sell","pay","deliver","rent","return","suggest","promise","say","show","ask",
   "remove","marry","add","light","stick","lay","set","shake","choose","hang","meet","put","send",
   "steal","take","borrow","forgive","introduce","invite","offer","order","park","pass","shout",
-  "surprise","thank","allow","finish","wake","begin",
+  "surprise","thank","allow","finish","wake","begin","become",
 ]);
-const NON_COMMANDABLE_VERBS = new Set(["like","love","want","need","hate","prefer","belong"]);
+/* "know" is on the same footing as like/want/need below: you can't decide to
+   know something on command any more than you can decide to like it, so
+   "Know his name!" / "Don't know his name!" are just as nonsensical as
+   "Need some help!" */
+const NON_COMMANDABLE_VERBS = new Set(["like","love","want","need","hate","prefer","belong","know"]);
+/* "become" has a VERB_BUCKET entry (so it can take "a teacher" / "more
+   confident" as a complement in the active voice) but it's a linking verb,
+   not a true transitive one — its complement is what the subject turns INTO,
+   not something the subject acts on. isTransitive() only checks "does this
+   verb have a bucket", so without this it slipped into the passive pool and
+   produced "Very popular has been become by the manager." */
+/* "try" also draws "harder" from its bucket (an adverb, not a noun — "Harder
+   has been tried by the students" isn't a sentence), and "say" draws "sorry"
+   / "hello" / "goodbye" (interjections, not nouns — same problem: "Sorry was
+   said by him" doesn't parse as a real passive subject). Their other bucket
+   items are fine, but since the bucket is shared across every tense, the
+   verb has to be excluded from passive wholesale rather than picking around
+   individual bad items. */
+/* go/come also just picked up a VERB_BUCKET entry (see GO/COME above) purely
+   so they get a sane active-voice complement — that alone makes
+   isTransitive() call them transitive, which would let them into the passive
+   pool too ("Home was gone by him" is not English). They're genuinely
+   intransitive motion verbs, so they're excluded here the same way. */
+const NON_PASSIVIZABLE_VERBS = new Set(["become","try","say","go","come"]);
 function drillVerbPool(){
   return VERBS.filter(v=>{
     if(DRILL_EXCLUDED.has(v.b)) return false;
@@ -12315,6 +12379,7 @@ function startDrill(){
     return;
   }
   drillState.pool = pool;
+  drillState.verbBag = [];
   drillState.tenseKeys = tenseKeys;
   drillState.typeKeys = typeKeys;
   drillState.count = LS.get("et_drill_count", 0);
@@ -12333,40 +12398,53 @@ function dueMistakeKeys(){
     return drillState.tenseKeys.includes(m.tenseKey) && drillState.pool.some(v=>v.b===m.verbBase);
   });
 }
+/* A plain pick(drillState.pool) on every question can hand back the same verb
+   several times before touching half the pool (confirmed by simulation: a B1
+   + Present Perfect Continuous session drew one verb 6 times in 30 questions).
+   A shuffled "bag" — draw without replacement, reshuffle once it's empty —
+   guarantees every verb in the pool is used once before any repeat, so a
+   session actually works through the full pool instead of resampling the
+   same handful at random.
+   filterFn (used for tenses that can't take every verb, e.g. no stative verbs
+   in a continuous tense) draws the first bag entry that satisfies it instead
+   of falling back to a fresh, bag-blind pick(): that fresh pick was exactly
+   what undid the bag's fairness for verb-restricted tenses, since it could
+   hand back a verb the bag had already dealt out this cycle. */
+function nextPoolVerb(filterFn){
+  if(!drillState.verbBag || !drillState.verbBag.length) drillState.verbBag = shuffleArray([...drillState.pool]);
+  if(!filterFn) return drillState.verbBag.pop();
+  for(let i=drillState.verbBag.length-1;i>=0;i--){
+    if(filterFn(drillState.verbBag[i])) return drillState.verbBag.splice(i,1)[0];
+  }
+  // this cycle's bag has nothing left that satisfies filterFn — start a fresh
+  // cycle from the full pool rather than ignoring the filter.
+  drillState.verbBag = shuffleArray([...drillState.pool]);
+  for(let i=drillState.verbBag.length-1;i>=0;i--){
+    if(filterFn(drillState.verbBag[i])) return drillState.verbBag.splice(i,1)[0];
+  }
+  return drillState.verbBag.pop(); // no verb in the whole pool satisfies filterFn
+}
 function generateDrillItem(){
   const dueKeys = dueMistakeKeys();
   let tenseDef, verb;
   if(dueKeys.length && Math.random()<0.4){
     const m = drillMistakes[pick(dueKeys)];
     tenseDef = TENSES.find(t=>t.key===m.tenseKey);
-    verb = drillState.pool.find(v=>v.b===m.verbBase) || pick(drillState.pool);
+    verb = drillState.pool.find(v=>v.b===m.verbBase) || nextPoolVerb();
   } else {
     tenseDef = pick(TENSES.filter(t=>drillState.tenseKeys.includes(t.key)));
-    verb = pick(drillState.pool);
-  }
-  if(tenseDef.key==="passive"){
-    const transitivePool = drillState.pool.filter(v=>isTransitive(v) && !VERB_PREP[v.b]);
-    if(transitivePool.length) verb = pick(transitivePool);
-  }
-  /* Stative verbs (know, like, want…) describe a state rather than an action,
-     so standard English avoids the -ing form for them ("I am knowing the
-     answer" is wrong) — swap in a different verb when a continuous tense
-     is picked for one of these. */
-  if(CONTINUOUS_TENSES.has(tenseDef.key) && STATIVE_VERBS.has(verb.b)){
-    const activePool = drillState.pool.filter(v=>!STATIVE_VERBS.has(v.b));
-    if(activePool.length) verb = pick(activePool);
-  }
-  if(tenseDef.key==="present_perfect_continuous" && PUNCTUAL_VERBS.has(verb.b)){
-    const durativePool = drillState.pool.filter(v=>!PUNCTUAL_VERBS.has(v.b) && !STATIVE_VERBS.has(v.b));
-    if(durativePool.length) verb = pick(durativePool);
-  }
-  /* You can't actually order someone to feel a certain way — "Don't like the
-     plan!" or "Need some help!" aren't real commands — so these swap out
-     just for the imperative, the one tense that's inherently about telling
-     someone to *do* something. */
-  if(tenseDef.key==="imperative" && NON_COMMANDABLE_VERBS.has(verb.b)){
-    const commandablePool = drillState.pool.filter(v=>!NON_COMMANDABLE_VERBS.has(v.b));
-    if(commandablePool.length) verb = pick(commandablePool);
+    /* Same restrictions as before (passive needs a transitive, prep-less verb;
+       continuous tenses skip stative verbs; present perfect continuous also
+       skips punctual, single-instant verbs; imperative skips verbs you can't
+       actually be ordered to do) — now resolved as a single bag draw instead
+       of a draw-then-maybe-override, so the bag's fairness holds for these
+       tenses too. */
+    let filterFn = null;
+    if(tenseDef.key==="passive") filterFn = v=>isTransitive(v) && !VERB_PREP[v.b] && !NON_PASSIVIZABLE_VERBS.has(v.b);
+    else if(tenseDef.key==="present_perfect_continuous") filterFn = v=>!STATIVE_VERBS.has(v.b) && !PUNCTUAL_VERBS.has(v.b);
+    else if(CONTINUOUS_TENSES.has(tenseDef.key)) filterFn = v=>!STATIVE_VERBS.has(v.b);
+    else if(tenseDef.key==="imperative") filterFn = v=>!NON_COMMANDABLE_VERBS.has(v.b);
+    verb = nextPoolVerb(filterFn);
   }
   let type = pick(drillState.typeKeys);
   if(tenseDef.key==="imperative" && type==="q") type = pick(["aff","neg"]);
