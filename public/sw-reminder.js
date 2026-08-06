@@ -22,16 +22,21 @@ self.addEventListener("fetch", (event) => {
   const url = new URL(request.url);
   if (url.origin !== self.location.origin || !PRECACHE_URLS.includes(url.pathname)) return;
 
+  // Network-first: an installed PWA has no address bar to pull-to-refresh,
+  // so a stale-cache-first strategy here means updates never show up until
+  // the app happens to reopen twice. Try the network so a connected phone
+  // always gets the latest shell; only fall back to the cache when offline.
   event.respondWith(
     caches.open(SHELL_CACHE).then(async (cache) => {
-      const cached = await cache.match(request);
-      const networkFetch = fetch(request)
-        .then((response) => {
-          if (response.ok) cache.put(request, response.clone());
-          return response;
-        })
-        .catch(() => cached);
-      return cached || networkFetch;
+      try {
+        const response = await fetch(request);
+        if (response.ok) cache.put(request, response.clone());
+        return response;
+      } catch (e) {
+        const cached = await cache.match(request);
+        if (cached) return cached;
+        throw e;
+      }
     })
   );
 });
