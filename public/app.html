@@ -156,7 +156,7 @@ p.sub{ color:var(--muted); font-size:14px; margin:0 0 16px; line-height:1.4; }
    one piece of it — falls back to top-aligned/scrollable ("safe") if a
    long home-nudge banner ever makes the content taller than the box. */
 #screen-home{ justify-content:safe center; }
-.home-hdr{ display:flex; justify-content:space-between; align-items:flex-start; padding:2px 2px 0; margin-bottom:clamp(12px, 2.67cqh - 5.3px, 20px); }
+.home-hdr{ display:flex; justify-content:space-between; align-items:flex-start; padding:2px 2px 0; margin-bottom:clamp(12px, 5.33cqh - 22.7px, 28px); }
 .home-hi{ font-size:14px; color:var(--faint); font-weight:600; }
 .home-hi b{ color:var(--text); }
 .home-wordmark{ font-size:23px; font-weight:800; letter-spacing:-.4px; margin-top:3px; }
@@ -233,7 +233,7 @@ p.sub{ color:var(--muted); font-size:14px; margin:0 0 16px; line-height:1.4; }
 .big-btn:nth-of-type(6) .emoji{ background:linear-gradient(150deg,var(--teal-2),var(--teal)); }
 .big-btn:nth-of-type(6) .mini .ic{ color:var(--teal); }
 
-.home-grid{ display:grid; grid-template-columns:1fr 1fr; gap:clamp(8px, 1.33cqh - .7px, 12px); margin-bottom:clamp(10px, 1.33cqh + 1.3px, 14px); }
+.home-grid{ display:grid; grid-template-columns:1fr 1fr; gap:clamp(8px, 3.33cqh - 13.7px, 18px); margin-bottom:clamp(10px, 3.33cqh - 11.7px, 20px); }
 /* No aspect-ratio here on purpose: forcing a card to be as tall as it is
    wide was the main reason the desktop 3-column grid (much wider cards)
    needed far more vertical room than the icon/label content actually
@@ -248,12 +248,12 @@ p.sub{ color:var(--muted); font-size:14px; margin:0 0 16px; line-height:1.4; }
    stop growing well before filling a card sized for a tall phone. */
 .home-grid .big-btn{
   flex-direction:column; align-items:center; justify-content:center; text-align:center;
-  gap:clamp(4px, 1.33cqh - 4.7px, 8px); padding:clamp(10px, 2cqh - 3px, 16px) clamp(12px, 2.2cqw, 20px); margin-bottom:0;
+  gap:clamp(4px, 2.67cqh - 13.3px, 12px); padding:clamp(10px, 4.67cqh - 20.3px, 24px) clamp(12px, 3cqw, 28px); margin-bottom:0;
 }
-.home-grid .big-btn .emoji{ width:clamp(36px, 4.67cqh + 5.7px, 50px); height:clamp(36px, 4.67cqh + 5.7px, 50px); }
-.home-grid .big-btn .emoji .ic{ width:clamp(20px, 2.67cqh + 2.7px, 28px); height:clamp(20px, 2.67cqh + 2.7px, 28px); }
-.home-grid .big-btn .label{ font-size:clamp(12.5px, .5cqh + 9.25px, 14px); line-height:1.25; }
-.home-grid .big-btn .desc-th{ font-size:clamp(10px, .33cqh + 7.83px, 11px); margin-top:0; }
+.home-grid .big-btn .emoji{ width:clamp(36px, 10.67cqh - 33.3px, 68px); height:clamp(36px, 10.67cqh - 33.3px, 68px); }
+.home-grid .big-btn .emoji .ic{ width:clamp(20px, 5.33cqh - 14.7px, 36px); height:clamp(20px, 5.33cqh - 14.7px, 36px); }
+.home-grid .big-btn .label{ font-size:clamp(12.5px, 1.5cqh + 2.75px, 17px); line-height:1.25; }
+.home-grid .big-btn .desc-th{ font-size:clamp(10px, 1cqh + 3.5px, 13px); margin-top:0; }
 
 /* #screen-home centers this whole block (see justify-content:safe center
    below) instead of the tracker pinning itself to the bottom with
@@ -262,14 +262,14 @@ p.sub{ color:var(--muted); font-size:14px; margin:0 0 16px; line-height:1.4; }
    any leftover height reads better as balanced margin around a
    normal-sized card than as one large gap stranded above the tracker. */
 .home-tracker{
-  border-radius:24px; padding:clamp(12px, 1.33cqh + 3.3px, 16px) clamp(18px, 2.5cqw, 26px); position:relative; overflow:hidden;
+  border-radius:24px; padding:clamp(12px, 4cqh - 14px, 24px) clamp(18px, 3.5cqw, 34px); position:relative; overflow:hidden;
   background:linear-gradient(135deg,rgba(91,141,239,.18),rgba(142,91,239,.14)); border:1px solid rgba(var(--hairline-rgb),.08);
-  display:flex; align-items:center; gap:clamp(10px, 2cqh - 3px, 16px); flex-shrink:0; flex-wrap:wrap;
+  display:flex; align-items:center; gap:clamp(10px, 4cqh - 16px, 22px); flex-shrink:0; flex-wrap:wrap;
 }
 .home-tracker::after{ content:""; position:absolute; right:-40px; top:-40px; width:140px; height:140px; border-radius:50%; background:radial-gradient(circle,rgba(122,168,255,.35),transparent 70%); pointer-events:none; }
-.home-ring{ width:clamp(52px, 6cqh + 13px, 70px); height:clamp(52px, 6cqh + 13px, 70px); border-radius:50%; flex-shrink:0; display:flex; align-items:center; justify-content:center; }
-.home-ring-inner{ width:clamp(40px, 5cqh + 7.5px, 55px); height:clamp(40px, 5cqh + 7.5px, 55px); border-radius:50%; background:var(--inset); display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; }
-.home-ring-inner b{ font-size:clamp(15px, 1cqh + 8.5px, 18px); font-weight:800; line-height:1; }
+.home-ring{ width:clamp(52px, 14.67cqh - 43.3px, 96px); height:clamp(52px, 14.67cqh - 43.3px, 96px); border-radius:50%; flex-shrink:0; display:flex; align-items:center; justify-content:center; }
+.home-ring-inner{ width:clamp(40px, 12cqh - 38px, 76px); height:clamp(40px, 12cqh - 38px, 76px); border-radius:50%; background:var(--inset); display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; }
+.home-ring-inner b{ font-size:clamp(15px, 3cqh - 4.5px, 24px); font-weight:800; line-height:1; }
 .home-ring-inner span{ font-size:8.5px; color:var(--faint); }
 .home-tracker-txt{ flex:1; z-index:1; }
 .home-tracker-txt b{ font-size:15px; font-weight:800; display:block; }
@@ -343,17 +343,17 @@ p.sub{ color:var(--muted); font-size:14px; margin:0 0 16px; line-height:1.4; }
      dead-space-above-the-tracker bug this file has fought twice
      already. Override every one of them to saturate at height≈800
      instead, matching the actual ceiling on this breakpoint. */
-  .home-hdr{ margin-bottom:clamp(12px, 5.33cqh - 22.7px, 20px); }
-  .home-grid{ gap:clamp(8px, 2.67cqh - 9.3px, 12px); margin-bottom:clamp(10px, 2.67cqh - 7.3px, 14px); }
-  .home-grid .big-btn{ gap:clamp(4px, 2.67cqh - 13.3px, 8px); padding:clamp(10px, 4cqh - 16px, 16px) clamp(12px, 2.2cqw, 20px); }
-  .home-grid .big-btn .emoji{ width:clamp(36px, 9.33cqh - 24.7px, 50px); height:clamp(36px, 9.33cqh - 24.7px, 50px); }
-  .home-grid .big-btn .emoji .ic{ width:clamp(20px, 5.33cqh - 14.7px, 28px); height:clamp(20px, 5.33cqh - 14.7px, 28px); }
-  .home-grid .big-btn .label{ font-size:clamp(12.5px, 1cqh + 6px, 14px); }
-  .home-grid .big-btn .desc-th{ font-size:clamp(10px, .67cqh + 5.67px, 11px); }
-  .home-tracker{ padding:clamp(12px, 2.67cqh - 5.3px, 16px) clamp(18px, 2.5cqw, 26px); gap:clamp(10px, 4cqh - 16px, 16px); }
-  .home-ring{ width:clamp(52px, 12cqh - 26px, 70px); height:clamp(52px, 12cqh - 26px, 70px); }
-  .home-ring-inner{ width:clamp(40px, 10cqh - 25px, 55px); height:clamp(40px, 10cqh - 25px, 55px); }
-  .home-ring-inner b{ font-size:clamp(15px, 2cqh + 2px, 18px); }
+  .home-hdr{ margin-bottom:clamp(12px, 10.67cqh - 57.3px, 28px); }
+  .home-grid{ gap:clamp(8px, 6.67cqh - 35.3px, 18px); margin-bottom:clamp(10px, 6.67cqh - 33.3px, 20px); }
+  .home-grid .big-btn{ gap:clamp(4px, 5.33cqh - 30.7px, 12px); padding:clamp(10px, 9.33cqh - 50.7px, 24px) clamp(12px, 3cqw, 28px); }
+  .home-grid .big-btn .emoji{ width:clamp(36px, 21.33cqh - 102.7px, 68px); height:clamp(36px, 21.33cqh - 102.7px, 68px); }
+  .home-grid .big-btn .emoji .ic{ width:clamp(20px, 10.67cqh - 49.3px, 36px); height:clamp(20px, 10.67cqh - 49.3px, 36px); }
+  .home-grid .big-btn .label{ font-size:clamp(12.5px, 3cqh - 7px, 17px); }
+  .home-grid .big-btn .desc-th{ font-size:clamp(10px, 2cqh - 3px, 13px); }
+  .home-tracker{ padding:clamp(12px, 8cqh - 40px, 24px) clamp(18px, 3.5cqw, 34px); gap:clamp(10px, 8cqh - 42px, 22px); }
+  .home-ring{ width:clamp(52px, 29.33cqh - 138.7px, 96px); height:clamp(52px, 29.33cqh - 138.7px, 96px); }
+  .home-ring-inner{ width:clamp(40px, 24cqh - 116px, 76px); height:clamp(40px, 24cqh - 116px, 76px); }
+  .home-ring-inner b{ font-size:clamp(15px, 6cqh - 24px, 24px); }
 }
 
 .progress-row{ display:flex; align-items:center; gap:10px; margin-top:10px; }
@@ -3040,7 +3040,7 @@ const VOCAB = [
 ["การเปรียบเทียบ / อุปมา","analogy","B1","Abstract"],["สมอเรือ / ผู้ประกาศข่าว","anchor","B1","Abstract"],["นางฟ้า / เทวดา","angel","A2","Abstract"],
 ["ความโกรธ","anger","A2","Abstract"],["การประกาศ","announcement","A2","Abstract"],["การแบ่งแยกสีผิว","apartheid","B1","Abstract"],
 ["ส่วนโค้ง","arc","B1","Abstract"],["การจัดเรียง","array","B1","Abstract"],["ลูกศร / ลูกธนู","arrow","A2","Abstract"],
-["การลอบวางเพลิง","arson","B1","Abstract"],["ความละอาย","ashamedness","B1","Abstract"],["แง่มุม / ลักษณะ","aspect","B1","Abstract"],
+["การลอบวางเพลิง","arson","B1","Abstract"],["แง่มุม / ลักษณะ","aspect","B1","Abstract"],
 ["ทำร้ายร่างกาย / การจู่โจม","assault","B1","Abstract"],["ยินยอม / การเห็นชอบ","assent","B1","Abstract"],["สมาคม / การรวมกลุ่ม","association","B1","Abstract"],
 ["การรับประกัน / ความมั่นใจ","assurance","B1","Abstract"],["ที่ลี้ภัย","asylum","B1","Abstract"],["ทัศนคติ","attitude","B1","Abstract"],
 ["คุณสมบัติ / ยกให้เป็นของ","attribute","B1","Abstract"],["รัศมี / บรรยากาศรอบตัว","aura","B1","Abstract"],["อำนาจ / เจ้าหน้าที่","authority","B1","Abstract"],
@@ -4096,7 +4096,7 @@ const VOCAB = [
 ["ตัวแทน","proxy","B1","Abstract"],["ความตรงต่อเวลา","punctuality","B1","Abstract"],["การลงโทษ","punishment","A2","Abstract"],
 ["จุดประสงค์","purpose","A2","Abstract"],["คุณภาพ","quality","A2","Abstract"],["ความรู้สึกไม่สบายใจ","qualm","B1","Abstract"],
 ["ภาวะกลืนไม่เข้าคายไม่ออก","quandary","B1","Abstract"],["ราชินี","queen","A1","Abstract"],["ผู้ปราบปราม","queller","B1","Abstract"],
-["การแสวงหา","quest","B1","Abstract"],["คนชอบเถียงเรื่องเล็กน้อย","quibbler","B1","Abstract"],["ปรอท","quicksilver","B1","Abstract"],
+["การแสวงหา","quest","B1","Abstract"],
 ["การยุติลง","quietus","B1","Abstract"],["คำพูดคมคาย","quip","B1","Abstract"],["ความประหลาดเฉพาะตัว","quirk","B1","Abstract"],
 ["ความแปลกเฉพาะตัว","quirkiness","B1","Abstract"],["ความเดือดดาล","rage","B1","Abstract"],["การจู่โจม","raid","B1","Abstract"],
 ["การอาละวาด","rampage","B1","Abstract"],["ช่วง / ขอบเขต","range","B1","Abstract"],["ยศ / อันดับ","rank","B1","Abstract"],
@@ -7520,7 +7520,6 @@ Object.assign(EXAMPLES, {
   "quibbler":"He is a quibbler about grammar.",
   "quick":"That was a quick answer.",
   "quicksand":"Stay off the beach, there is quicksand.",
-  "quicksilver":"Old thermometers contained quicksilver.",
   "quid":"The book cost me ten quid.",
   "quiet":"Please be quiet, the baby is sleeping.",
   "quieten":"Try to quieten the class down.",
@@ -8691,7 +8690,6 @@ Object.assign(EXAMPLES, {
 "arc":"The bridge forms a graceful arc over the river.",
 "array":"The shop offers a wide array of choices.",
 "arrow":"Follow the arrow to find the exit.",
-"ashamedness":"He felt a deep ashamedness after the mistake.",
 "aspect":"That is an interesting aspect of the story.",
 "assent":"The king gave his assent to the new law.",
 "association":"She joined a local sports association.",
