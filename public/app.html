@@ -151,7 +151,12 @@ body{
 h2{ font-size:22px; margin:6px 0 4px; }
 p.sub{ color:var(--muted); font-size:14px; margin:0 0 16px; line-height:1.4; }
 
-.home-hdr{ display:flex; justify-content:space-between; align-items:flex-start; padding:2px 2px 0; margin-bottom:clamp(12px, 5.33cqh - 22.7px, 20px); }
+/* safe center: on a screen tall enough that the header+grid+tracker
+   block doesn't fill it, center that block instead of stretching any
+   one piece of it — falls back to top-aligned/scrollable ("safe") if a
+   long home-nudge banner ever makes the content taller than the box. */
+#screen-home{ justify-content:safe center; }
+.home-hdr{ display:flex; justify-content:space-between; align-items:flex-start; padding:2px 2px 0; margin-bottom:clamp(12px, 2.67cqh - 5.3px, 20px); }
 .home-hi{ font-size:14px; color:var(--faint); font-weight:600; }
 .home-hi b{ color:var(--text); }
 .home-wordmark{ font-size:23px; font-weight:800; letter-spacing:-.4px; margin-top:3px; }
@@ -228,35 +233,43 @@ p.sub{ color:var(--muted); font-size:14px; margin:0 0 16px; line-height:1.4; }
 .big-btn:nth-of-type(6) .emoji{ background:linear-gradient(150deg,var(--teal-2),var(--teal)); }
 .big-btn:nth-of-type(6) .mini .ic{ color:var(--teal); }
 
-.home-grid{ display:grid; grid-template-columns:1fr 1fr; gap:clamp(8px, 2.67cqh - 9.3px, 12px); margin-bottom:clamp(10px, 2.67cqh - 7.3px, 14px); }
+.home-grid{ display:grid; grid-template-columns:1fr 1fr; gap:clamp(8px, 1.33cqh - .7px, 12px); margin-bottom:clamp(10px, 1.33cqh + 1.3px, 14px); }
 /* No aspect-ratio here on purpose: forcing a card to be as tall as it is
    wide was the main reason the desktop 3-column grid (much wider cards)
    needed far more vertical room than the icon/label content actually
    uses. Sizing to content, plus fluid padding/icon/font below keyed to
    #app's own box (cqh for the vertical budget, a little cqw so cards
    don't go thin-and-flat when they're just wide), is what lets the same
-   rules serve a short phone and a desktop card without a scrollbar —
-   and without the desktop card being sized so tall that this content
-   can't fill it (that's what the cqh formulas saturating by height≈800
-   is tuned for, matching the card's own max height below). */
+   rules serve any phone height without a scrollbar. These clamps
+   saturate to their max around height≈950 to match the tallest phones
+   (#app is 100dvh on mobile, uncapped) — the desktop card further down
+   overrides all of these to saturate at its own, much shorter, capped
+   height instead, since without that override desktop content would
+   stop growing well before filling a card sized for a tall phone. */
 .home-grid .big-btn{
   flex-direction:column; align-items:center; justify-content:center; text-align:center;
-  gap:clamp(4px, 2.67cqh - 13.3px, 8px); padding:clamp(10px, 4cqh - 16px, 16px) clamp(12px, 2.2cqw, 20px); margin-bottom:0;
+  gap:clamp(4px, 1.33cqh - 4.7px, 8px); padding:clamp(10px, 2cqh - 3px, 16px) clamp(12px, 2.2cqw, 20px); margin-bottom:0;
 }
-.home-grid .big-btn .emoji{ width:clamp(36px, 9.33cqh - 24.7px, 50px); height:clamp(36px, 9.33cqh - 24.7px, 50px); }
-.home-grid .big-btn .emoji .ic{ width:clamp(20px, 5.33cqh - 14.7px, 28px); height:clamp(20px, 5.33cqh - 14.7px, 28px); }
-.home-grid .big-btn .label{ font-size:clamp(12.5px, 1cqh + 6px, 14px); line-height:1.25; }
-.home-grid .big-btn .desc-th{ font-size:clamp(10px, 0.67cqh + 5.67px, 11px); margin-top:0; }
+.home-grid .big-btn .emoji{ width:clamp(36px, 4.67cqh + 5.7px, 50px); height:clamp(36px, 4.67cqh + 5.7px, 50px); }
+.home-grid .big-btn .emoji .ic{ width:clamp(20px, 2.67cqh + 2.7px, 28px); height:clamp(20px, 2.67cqh + 2.7px, 28px); }
+.home-grid .big-btn .label{ font-size:clamp(12.5px, .5cqh + 9.25px, 14px); line-height:1.25; }
+.home-grid .big-btn .desc-th{ font-size:clamp(10px, .33cqh + 7.83px, 11px); margin-top:0; }
 
+/* #screen-home centers this whole block (see justify-content:safe center
+   below) instead of the tracker pinning itself to the bottom with
+   margin-top:auto — on a very tall phone, 6 modest icon cards simply
+   don't have enough content to grow into without looking absurd, so
+   any leftover height reads better as balanced margin around a
+   normal-sized card than as one large gap stranded above the tracker. */
 .home-tracker{
-  border-radius:24px; padding:clamp(12px, 2.67cqh - 5.3px, 16px) clamp(18px, 2.5cqw, 26px); margin-top:auto; position:relative; overflow:hidden;
+  border-radius:24px; padding:clamp(12px, 1.33cqh + 3.3px, 16px) clamp(18px, 2.5cqw, 26px); position:relative; overflow:hidden;
   background:linear-gradient(135deg,rgba(91,141,239,.18),rgba(142,91,239,.14)); border:1px solid rgba(var(--hairline-rgb),.08);
-  display:flex; align-items:center; gap:clamp(10px, 4cqh - 16px, 16px); flex-shrink:0; flex-wrap:wrap;
+  display:flex; align-items:center; gap:clamp(10px, 2cqh - 3px, 16px); flex-shrink:0; flex-wrap:wrap;
 }
 .home-tracker::after{ content:""; position:absolute; right:-40px; top:-40px; width:140px; height:140px; border-radius:50%; background:radial-gradient(circle,rgba(122,168,255,.35),transparent 70%); pointer-events:none; }
-.home-ring{ width:clamp(52px, 12cqh - 26px, 70px); height:clamp(52px, 12cqh - 26px, 70px); border-radius:50%; flex-shrink:0; display:flex; align-items:center; justify-content:center; }
-.home-ring-inner{ width:clamp(40px, 10cqh - 25px, 55px); height:clamp(40px, 10cqh - 25px, 55px); border-radius:50%; background:var(--inset); display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; }
-.home-ring-inner b{ font-size:clamp(15px, 2cqh + 2px, 18px); font-weight:800; line-height:1; }
+.home-ring{ width:clamp(52px, 6cqh + 13px, 70px); height:clamp(52px, 6cqh + 13px, 70px); border-radius:50%; flex-shrink:0; display:flex; align-items:center; justify-content:center; }
+.home-ring-inner{ width:clamp(40px, 5cqh + 7.5px, 55px); height:clamp(40px, 5cqh + 7.5px, 55px); border-radius:50%; background:var(--inset); display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; }
+.home-ring-inner b{ font-size:clamp(15px, 1cqh + 8.5px, 18px); font-weight:800; line-height:1; }
 .home-ring-inner span{ font-size:8.5px; color:var(--faint); }
 .home-tracker-txt{ flex:1; z-index:1; }
 .home-tracker-txt b{ font-size:15px; font-weight:800; display:block; }
@@ -300,10 +313,10 @@ p.sub{ color:var(--muted); font-size:14px; margin:0 0 16px; line-height:1.4; }
    taller than that doesn't show more, it just adds dead space above the
    tracker (that card was 980px tall in an earlier version of this rule
    and looked exactly like that: two rows of small-looking cards adrift
-   over a blank lower half). The cqh formulas above are tuned to reach
-   their max size right at this same 800px, so a big monitor gets a
-   card that's both wider *and* fully using its height, not a bigger
-   empty box. */
+   over a blank lower half). The home-* overrides below re-tune the cqh
+   formulas to reach their max size right at this same 800px, so a big
+   monitor gets a card that's both wider *and* fully using its height,
+   not a bigger empty box. */
 @media (min-width:700px){
   body{ display:flex; align-items:center; justify-content:center; }
   #app{
@@ -322,6 +335,25 @@ p.sub{ color:var(--muted); font-size:14px; margin:0 0 16px; line-height:1.4; }
     border-radius:32px; overflow:hidden;
     box-shadow:0 50px 100px -30px rgba(0,0,0,.35), 0 0 0 1px rgba(var(--hairline-rgb),.06);
   }
+  /* The home-* cqh formulas above saturate to their max around
+     height≈950 to fit the tallest phones (#app is 100dvh there,
+     uncapped). Here #app is capped at 800px tall at most (right
+     above), so left alone those same formulas would still be short of
+     their max at that height and never fully use the card — the exact
+     dead-space-above-the-tracker bug this file has fought twice
+     already. Override every one of them to saturate at height≈800
+     instead, matching the actual ceiling on this breakpoint. */
+  .home-hdr{ margin-bottom:clamp(12px, 5.33cqh - 22.7px, 20px); }
+  .home-grid{ gap:clamp(8px, 2.67cqh - 9.3px, 12px); margin-bottom:clamp(10px, 2.67cqh - 7.3px, 14px); }
+  .home-grid .big-btn{ gap:clamp(4px, 2.67cqh - 13.3px, 8px); padding:clamp(10px, 4cqh - 16px, 16px) clamp(12px, 2.2cqw, 20px); }
+  .home-grid .big-btn .emoji{ width:clamp(36px, 9.33cqh - 24.7px, 50px); height:clamp(36px, 9.33cqh - 24.7px, 50px); }
+  .home-grid .big-btn .emoji .ic{ width:clamp(20px, 5.33cqh - 14.7px, 28px); height:clamp(20px, 5.33cqh - 14.7px, 28px); }
+  .home-grid .big-btn .label{ font-size:clamp(12.5px, 1cqh + 6px, 14px); }
+  .home-grid .big-btn .desc-th{ font-size:clamp(10px, .67cqh + 5.67px, 11px); }
+  .home-tracker{ padding:clamp(12px, 2.67cqh - 5.3px, 16px) clamp(18px, 2.5cqw, 26px); gap:clamp(10px, 4cqh - 16px, 16px); }
+  .home-ring{ width:clamp(52px, 12cqh - 26px, 70px); height:clamp(52px, 12cqh - 26px, 70px); }
+  .home-ring-inner{ width:clamp(40px, 10cqh - 25px, 55px); height:clamp(40px, 10cqh - 25px, 55px); }
+  .home-ring-inner b{ font-size:clamp(15px, 2cqh + 2px, 18px); }
 }
 
 .progress-row{ display:flex; align-items:center; gap:10px; margin-top:10px; }
