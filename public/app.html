@@ -892,9 +892,9 @@ if("serviceWorker" in navigator){
       <div class="onb-slide">
         <div class="onb-mock">
           <div class="onb-mock-grid">
-            <div class="onb-mock-mod"><div class="onb-mock-mod-icon" style="background:linear-gradient(150deg,var(--orange-2),var(--orange));color:var(--on-orange);"><svg class="ic" viewBox="0 0 24 24"><path d="M12 20h9"/><path d="M16.376 3.622a1 1 0 0 1 3.002 3.002L7.368 18.635a2 2 0 0 1-.855.506l-2.872.838a.5.5 0 0 1-.62-.62l.838-2.872a2 2 0 0 1 .506-.854z"/></svg></div><span class="onb-mock-mod-label">Drill</span><span class="onb-mock-free">ลองฟรี</span></div>
-            <div class="onb-mock-mod"><div class="onb-mock-mod-icon" style="background:linear-gradient(150deg,var(--violet-2),var(--violet));color:var(--on-violet);"><svg class="ic" viewBox="0 0 24 24"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" x2="12" y1="19" y2="22"/></svg></div><span class="onb-mock-mod-label">Sounds</span><span class="onb-mock-free">ลองฟรี</span></div>
-            <div class="onb-mock-mod"><div class="onb-mock-mod-icon" style="background:linear-gradient(150deg,var(--green-2),var(--green));color:var(--on-green);"><svg class="ic" viewBox="0 0 24 24"><path d="M12 7v14"/><path d="M16 12h2"/><path d="M16 8h2"/><path d="M3 18a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h5a4 4 0 0 1 4 4 4 4 0 0 1 4-4h5a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1h-6a3 3 0 0 0-3 3 3 3 0 0 0-3-3z"/><path d="M6 12h2"/><path d="M6 8h2"/></svg></div><span class="onb-mock-mod-label">Verbs</span><span class="onb-mock-free">ลองฟรี</span></div>
+            <div class="onb-mock-mod"><div class="onb-mock-mod-icon" style="background:linear-gradient(150deg,var(--orange-2),var(--orange));color:var(--on-orange);"><svg class="ic" viewBox="0 0 24 24"><path d="M12 20h9"/><path d="M16.376 3.622a1 1 0 0 1 3.002 3.002L7.368 18.635a2 2 0 0 1-.855.506l-2.872.838a.5.5 0 0 1-.62-.62l.838-2.872a2 2 0 0 1 .506-.854z"/></svg></div><span class="onb-mock-mod-label">Conjugation Drill</span><span class="onb-mock-free">ลองฟรี</span></div>
+            <div class="onb-mock-mod"><div class="onb-mock-mod-icon" style="background:linear-gradient(150deg,var(--violet-2),var(--violet));color:var(--on-violet);"><svg class="ic" viewBox="0 0 24 24"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" x2="12" y1="19" y2="22"/></svg></div><span class="onb-mock-mod-label">Pronunciation</span><span class="onb-mock-free">ลองฟรี</span></div>
+            <div class="onb-mock-mod"><div class="onb-mock-mod-icon" style="background:linear-gradient(150deg,var(--green-2),var(--green));color:var(--on-green);"><svg class="ic" viewBox="0 0 24 24"><path d="M12 7v14"/><path d="M16 12h2"/><path d="M16 8h2"/><path d="M3 18a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h5a4 4 0 0 1 4 4 4 4 0 0 1 4-4h5a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1h-6a3 3 0 0 0-3 3 3 3 0 0 0-3-3z"/><path d="M6 12h2"/><path d="M6 8h2"/></svg></div><span class="onb-mock-mod-label">Verb Dictionary</span><span class="onb-mock-free">ลองฟรี</span></div>
             <div class="onb-mock-mod"><div class="onb-mock-mod-icon" style="background:linear-gradient(150deg,var(--red-2),var(--red));color:var(--on-red);"><svg class="ic" viewBox="0 0 24 24"><path d="M21.42 10.922a1 1 0 0 0-.019-1.838L12.83 5.18a2 2 0 0 0-1.66 0L2.6 9.08a1 1 0 0 0 0 1.832l8.57 3.908a2 2 0 0 0 1.66 0z"/><path d="M22 10v6"/><path d="M6 12.5V16a6 3 0 0 0 12 0v-3.5"/></svg></div><span class="onb-mock-mod-label">Grammar</span><span class="onb-mock-free">ลองฟรี</span></div>
           </div>
         </div>
@@ -942,7 +942,7 @@ if("serviceWorker" in navigator){
   <section class="screen active" id="screen-home">
     <div class="home-hdr">
       <div>
-        <div class="home-hi">Welcome back · ยินดีต้อนรับกลับ</div>
+        <div class="home-hi" id="home-hi">Welcome back · ยินดีต้อนรับกลับ</div>
         <div class="home-wordmark">English <span class="jj">jing jing</span></div>
       </div>
       <div style="display:flex;align-items:center;gap:8px;">
@@ -11929,6 +11929,11 @@ function go(name, opts){
 }
 let onbLevel = null;
 let onbGoal = null;
+// Set true for exactly the one home render right after onboarding finishes,
+// so a brand-new user sees "Welcome" instead of the (factually wrong)
+// "Welcome back" — consumed and reset the moment renderHome() reads it, so
+// any later visit to home in the same session correctly says "back" again.
+let justOnboardedNow = false;
 function setOnbLevel(l){
   onbLevel = l;
   ["A1","A2","B1"].forEach(x=>document.getElementById("onb-lvl-"+x).classList.toggle("active", x===l));
@@ -11945,24 +11950,46 @@ function finishOnboarding(){
   }
   if(onbGoal) LS.set("et_goal", onbGoal);
   LS.set("et_onboarded", true);
+  justOnboardedNow = true;
   go("home");
 }
 const ONB_SLIDE_COUNT = 4;
+// Tracks the slide we've navigated TO, updated synchronously the moment a tap
+// is handled — not derived from scrollLeft. The old version read the "active"
+// index back off scroll position, which the smooth-scroll animation updates
+// asynchronously: a second tap fired before the first scroll settled would
+// read a stale index and silently re-target the slide it was already headed
+// to, dropping the tap. A plain counter has no such race.
+let onbIdx = 0;
 function onbCarouselInit(){
   const carousel = document.getElementById("onb-carousel");
   if(!carousel) return;
   carousel.scrollLeft = 0;
+  onbIdx = 0;
   document.querySelectorAll("#onb-dots .onb-dot").forEach((d,i)=>d.classList.toggle("active", i===0));
   updateOnbCta(0);
+  let onbSettleTimer = null;
   carousel.onscroll = ()=>{
     const idx = Math.round(carousel.scrollLeft / carousel.clientWidth);
     document.querySelectorAll("#onb-dots .onb-dot").forEach((d,i)=>d.classList.toggle("active", i===idx));
-    updateOnbCta(idx);
+    // A manual swipe (not a button tap) never calls onbScrollTo, so onbIdx
+    // would otherwise go stale — sync it once the scroll settles rather than
+    // on every scroll event, so a tap mid-swipe can't itself get raced.
+    clearTimeout(onbSettleTimer);
+    onbSettleTimer = setTimeout(()=>{ onbIdx = idx; updateOnbCta(idx); }, 120);
   };
 }
 function onbScrollTo(i){
   const carousel = document.getElementById("onb-carousel");
   if(!carousel) return;
+  // Only the target-tracking counter updates synchronously here — dots and
+  // the CTA label are deliberately left for the scroll handler to update,
+  // so they always reflect where the carousel visibly is, not where it's
+  // headed. Updating them eagerly here looked fine until the scroll
+  // animation was slow/interrupted: the dots would claim "slide 3" while
+  // slide 1 was still on screen, a worse, more confusing bug than the
+  // dropped tap this function exists to fix.
+  onbIdx = i;
   carousel.scrollTo({ left: i*carousel.clientWidth, behavior:"smooth" });
 }
 // The best conversion arguments (free trial in every module, streak/progress
@@ -11975,9 +12002,7 @@ function updateOnbCta(idx){
   btn.textContent = idx >= ONB_SLIDE_COUNT-1 ? "เริ่มเรียนเลย" : "ถัดไป →";
 }
 function onbCtaTap(){
-  const activeDot = document.querySelector("#onb-dots .onb-dot.active");
-  const idx = activeDot ? [...document.querySelectorAll("#onb-dots .onb-dot")].indexOf(activeDot) : 0;
-  if(idx < ONB_SLIDE_COUNT-1) onbScrollTo(idx+1);
+  if(onbIdx < ONB_SLIDE_COUNT-1) onbScrollTo(onbIdx+1);
   else finishOnboarding();
 }
 function renderSettings(){
@@ -12263,6 +12288,11 @@ setInterval(()=>{
    ========================================================= */
 function renderHome(){
   updateTrackerUI();
+  const hiEl = document.getElementById("home-hi");
+  if(hiEl){
+    hiEl.textContent = justOnboardedNow ? "Welcome · ยินดีต้อนรับ" : "Welcome back · ยินดีต้อนรับกลับ";
+    justOnboardedNow = false;
+  }
   const locked = !isUnlocked();
   ["lock-drill-setup","lock-verbs","lock-grammar","lock-pron-setup","lock-listening"].forEach(id=>{
     const el = document.getElementById(id);

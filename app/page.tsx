@@ -67,6 +67,11 @@ const MODULES = [
     desc: 'บทเรียนทีละขั้น: กฎ เปรียบเทียบ ฝึกใช้',
     path: 'M21.42 10.922a1 1 0 0 0-.019-1.838L12.83 5.18a2 2 0 0 0-1.66 0L2.6 9.08a1 1 0 0 0 0 1.838l8.57 3.908a2 2 0 0 0 1.66 0z M22 10v6 M6 12.5V16a6 3 0 0 0 12 0v-3.5',
   },
+  {
+    name: 'Listening', color: 'var(--teal)', tag: 'sample', tagLabel: 'ตัวอย่างฟรี',
+    desc: 'ฟังบทสนทนาแล้วตอบคำถามเพื่อทดสอบความเข้าใจ',
+    path: 'M3 14h3a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-7a9 9 0 0 1 18 0v7a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3',
+  },
 ]
 
 const GRAMMAR_SENTENCE = [
@@ -151,8 +156,8 @@ export default function LandingPage() {
 
         <section className={styles.section}>
           <div className={styles.sectionHead}>
-            <h2 className={styles.h2}>5 โหมดฝึก ครบทุกทักษะ</h2>
-            <p className={styles.h2Sub}>Five practice modes, every skill you need to go from A1 to B1.</p>
+            <h2 className={styles.h2}>6 โหมดฝึก ครบทุกทักษะ</h2>
+            <p className={styles.h2Sub}>Six practice modes, every skill you need to go from A1 to B1.</p>
           </div>
           <div className={styles.grid}>
             {MODULES.map((m) => (
