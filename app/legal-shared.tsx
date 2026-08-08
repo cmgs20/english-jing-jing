@@ -2,7 +2,7 @@ export const legalCss = `
 /* Color tokens (--bg, --text, --blue, etc.) come from /public/palette.css,
    linked site-wide in app/layout.tsx — see that file to change a brand color. */
 :root{
-  --thai-soft:rgba(255,184,119,.08);
+  --thai-soft:rgba(var(--orange-2-rgb),.08);
 }
 *{box-sizing:border-box;}
 body.legal{

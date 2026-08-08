@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import styles from './page.module.css'
+import StickyCta from './StickyCta'
 import {
   getTrainerPriceThb,
   getTrainerCompareAtPriceThb,
@@ -68,6 +69,34 @@ const MODULES = [
   },
 ]
 
+const GRAMMAR_SENTENCE = [
+  { word: 'She', role: 'subject', color: 'var(--blue)', bg: 'rgba(var(--blue-rgb),.16)' },
+  { word: "doesn't", role: 'not', color: '#d364c4', bg: 'rgba(211,100,196,.16)' },
+  { word: 'like', role: 'verb', color: 'var(--green)', bg: 'rgba(var(--green-rgb),.16)' },
+  { word: 'coffee', role: 'object', color: 'var(--orange)', bg: 'rgba(var(--orange-rgb),.16)' },
+]
+
+const WHY = [
+  {
+    color: 'var(--violet)', bg: 'rgba(var(--violet-rgb),.14)',
+    path: MODULES[2].path,
+    title: 'ฝึกออกเสียงที่คนไทยออกเสียงยากจริง ๆ',
+    body: 'Minimal-pair drills for the sounds Thai speakers specifically struggle with: B vs P, R vs L, and more, not generic pronunciation tips.',
+  },
+  {
+    color: 'var(--thai)', bg: 'rgba(var(--orange-2-rgb),.14)',
+    path: 'M8 3 4 7l4 4 M4 7h16 M16 21l4-4-4-4 M20 17H4',
+    title: 'คำแปลไทยควบคู่ทุกจุด',
+    body: 'Every word, sentence, and grammar rule shows the Thai translation alongside the English, so nothing is left to guess.',
+  },
+  {
+    color: 'var(--red)', bg: 'rgba(var(--red-rgb),.14)',
+    path: MODULES[4].path,
+    title: 'ไวยากรณ์แบบเทียบกับภาษาไทย',
+    body: 'Grammar lessons show the pattern, then how Thai flips it, so the rule makes sense against a language you already know.',
+  },
+]
+
 export default function LandingPage() {
   const priceThb = getTrainerPriceThb()
   const compareAtPriceThb = getTrainerCompareAtPriceThb()
@@ -107,6 +136,17 @@ export default function LandingPage() {
             <div className={styles.mockEn}>surprising</div>
             <div className={styles.mockEx}>&ldquo;The news was surprising.&rdquo;</div>
           </div>
+          <div className={styles.mockGrammar}>
+            <span className={styles.mockGrammarTag}>Grammar · ปลดล็อกด้วย {priceThb} บาท</span>
+            <div className={styles.mockSentence}>
+              {GRAMMAR_SENTENCE.map((w) => (
+                <span key={w.word} className={styles.posChip} style={{ color: w.color, background: w.bg }}>
+                  {w.word}
+                </span>
+              ))}
+            </div>
+            <div className={styles.mockGrammarTh}>เธอไม่ชอบกาแฟ</div>
+          </div>
         </div>
 
         <section className={styles.section}>
@@ -138,24 +178,17 @@ export default function LandingPage() {
             <p className={styles.h2Sub}>What makes this different from a generic language app.</p>
           </div>
           <div className={styles.whyList}>
-            <div className={styles.whyItem}>
-              <div>
-                <b>ฝึกออกเสียงที่คนไทยออกเสียงยากจริง ๆ</b>
-                <p>Minimal-pair drills for the sounds Thai speakers specifically struggle with: B vs P, R vs L, and more, not generic pronunciation tips.</p>
+            {WHY.map((w) => (
+              <div className={styles.whyItem} key={w.title}>
+                <div className={styles.whyIcon} style={{ color: w.color, background: w.bg }}>
+                  <Icon path={w.path} size={18} />
+                </div>
+                <div>
+                  <b>{w.title}</b>
+                  <p>{w.body}</p>
+                </div>
               </div>
-            </div>
-            <div className={styles.whyItem}>
-              <div>
-                <b>คำแปลไทยควบคู่ทุกจุด</b>
-                <p>Every word, sentence, and grammar rule shows the Thai translation alongside the English, so nothing is left to guess.</p>
-              </div>
-            </div>
-            <div className={styles.whyItem}>
-              <div>
-                <b>ไวยากรณ์แบบเทียบกับภาษาไทย</b>
-                <p>Grammar lessons show the pattern, then how Thai flips it, so the rule makes sense against a language you already know.</p>
-              </div>
-            </div>
+            ))}
           </div>
         </section>
 
@@ -206,6 +239,7 @@ export default function LandingPage() {
           © {new Date().getFullYear()} English jing jing
         </footer>
       </div>
+      <StickyCta priceThb={priceThb} />
     </div>
   )
 }

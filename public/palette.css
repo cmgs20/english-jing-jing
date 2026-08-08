@@ -17,6 +17,27 @@
   --text:#f2f3f7; --muted:#9aa0b4; --faint:#6b7288; --thai:#ffb877;
   --line:rgba(255,255,255,.08);
   --card-glow:#1d2138;
+  /* Text/icon color for content sitting directly on a hue's own gradient
+     (e.g. background:linear-gradient(var(--blue-2),var(--blue))) — white
+     fails contrast against the lighter "-2" stop in both themes (that stop
+     is a mid-tone, not a pastel). Each on-X is picked dark enough to clear
+     4.5:1 against the lightest stop either theme produces for that hue.
+     -soft is for secondary text on the same surface (kept to --on-blue's
+     family since blue/violet is the only surface with a two-tier CTA today). */
+  --on-blue:#071b33; --on-blue-soft:#17335a;
+  --on-orange:#3a2308; --on-violet:#200a38; --on-red:#330a12;
+  --on-green:#08210f; --on-teal:#06282a;
+  /* RGB triples (no alpha) for each hue above, so a translucent wash/glow/tint
+     can write rgba(var(--blue-rgb),.14) instead of a hardcoded rgba(91,141,239,.14)
+     — the hardcoded form freezes at this theme's numbers and stays wrong after
+     the text/border next to it (already on the var() token) flips to the other
+     theme's color. Keep each pair in sync with the hex token above it. */
+  --blue-rgb:91,141,239; --blue-2-rgb:122,168,255;
+  --orange-rgb:242,166,90; --orange-2-rgb:255,184,119;
+  --violet-rgb:142,91,239; --violet-2-rgb:169,123,255;
+  --green-rgb:76,175,125; --green-2-rgb:99,210,154;
+  --red-rgb:224,97,107; --red-2-rgb:255,138,156;
+  --teal-rgb:43,179,179; --teal-2-rgb:79,209,209;
 }
 /* System light mode — the landing page and legal pages have no manual
    theme toggle, so they follow the OS/browser preference (public/app.html
@@ -33,5 +54,11 @@
     --text:#161a2c; --muted:#585e77; --faint:#666c88; --thai:#94510f;
     --line:rgba(20,22,38,.08);
     --card-glow:#e9ebf5;
+    --blue-rgb:63,111,214; --blue-2-rgb:91,141,239;
+    --orange-rgb:201,122,31; --orange-2-rgb:224,138,43;
+    --violet-rgb:114,69,207; --violet-2-rgb:142,91,239;
+    --green-rgb:31,138,82; --green-2-rgb:47,168,104;
+    --red-rgb:194,58,76; --red-2-rgb:217,79,97;
+    --teal-rgb:26,143,143; --teal-2-rgb:38,170,170;
   }
 }
