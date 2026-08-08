@@ -36,6 +36,15 @@
   --scrim:rgba(6,8,16,.88);
   --glow1:#1a2140; --glow2:#241a3a;
   --surface-rgb:10,12,22;
+  /* Fluid screen padding, shared by every screen plus every full-bleed
+     header/carousel that cancels it with a negative margin (search
+     var(--pad-x) below) — they must move together or the bleed misaligns. */
+  --pad-x:clamp(14px, 1.33cqh + 5.33px, 18px);
+  --pad-y:clamp(10px, 1.33cqh + 1.33px, 14px);
+  /* Shared with the inline width:36px spacer divs that balance .back-btn
+     on the opposite side of every topbar so the centered <h1> title stays
+     centered — search var(--back-btn-w) below. */
+  --back-btn-w:clamp(32px, 2.67cqh + 14.67px, 40px);
 }
 :root[data-theme="light"]{
   --blue:#3f6fd6; --blue-2:#5b8def;
@@ -109,6 +118,20 @@ body{
   touch-action:none;
 }
 .ic{ width:18px; height:18px; stroke:currentColor; stroke-width:2.4; fill:none; vertical-align:middle; flex-shrink:0; }
+/* Fluid sizing convention used throughout every screen below (not just
+   home): clamp(min, S*cqh - O, max) where "max" is the size at a tall
+   phone (#app height ~950, the tallest phones get here uncapped) and
+   "min" is the size at a short one (#app height ~650, roughly an SE-class
+   phone once safe-area padding is subtracted) — the same two reference
+   heights the home-* rules above were tuned against, so every screen
+   saturates and floors at consistent points. "max" always equals this
+   rule's old fixed px value, so nothing changes size at a typical
+   phone height; only short phones shrink toward "min" and very tall
+   phones/the desktop card grow toward "max". Unlike the home-* block,
+   these aren't individually re-tuned for the desktop card's shorter
+   800px ceiling — on desktop they simply sit a bit below their max
+   instead of fully saturating, which is a fine trade for not doubling
+   every rule below into a second desktop-only override. */
 #app{
   max-width:480px; margin:0 auto; height:100vh; height:100dvh; overflow:hidden;
   padding-top:calc(env(safe-area-inset-top,0px) + 10px);
@@ -124,14 +147,14 @@ body{
    browser chrome resizing never jitters the layout. min-height:0 lets the
    flex:1 item actually shrink and scroll instead of growing past its
    allotted space. */
-.screen{ padding:14px 18px; flex:1; min-height:0; display:none; flex-direction:column; overflow-y:auto; -webkit-overflow-scrolling:touch; overscroll-behavior:contain; touch-action:pan-y; }
+.screen{ padding:var(--pad-y) var(--pad-x); flex:1; min-height:0; display:none; flex-direction:column; overflow-y:auto; -webkit-overflow-scrolling:touch; overscroll-behavior:contain; touch-action:pan-y; }
 .screen.active{ display:flex; }
 /* Screens with a sticky-cta footer button aren't themselves scrollable:
    .setup-scroll (their one child besides the button) is the scroll container
    instead, so the button is a normal flex sibling that never overlaps
    whatever pill row happens to be at the bottom of the visible content. */
 .screen.has-sticky-cta{ padding:0; overflow:hidden; }
-.screen.has-sticky-cta .setup-scroll{ flex:1; min-height:0; overflow-y:auto; -webkit-overflow-scrolling:touch; overscroll-behavior:contain; touch-action:pan-y; padding:14px 18px; display:flex; flex-direction:column; }
+.screen.has-sticky-cta .setup-scroll{ flex:1; min-height:0; overflow-y:auto; -webkit-overflow-scrolling:touch; overscroll-behavior:contain; touch-action:pan-y; padding:var(--pad-y) var(--pad-x); display:flex; flex-direction:column; }
 /* setup-fields wraps everything below the topbar so justify-content:safe
    center can vertically center a short pill list instead of stranding a
    dead gap above the sticky button on tall phones, without also dragging
@@ -147,22 +170,22 @@ body{
    reserves the notch/Dynamic Island inset once; adding it again here left a
    blank gap above the sticky title on notched phones once you scrolled. */
 .topbar{
-  display:flex; align-items:center; gap:12px; padding:2px 18px 10px; margin:0 -18px; position:sticky; top:0; z-index:9;
+  display:flex; align-items:center; gap:clamp(9px, 1cqh + 2.5px, 12px); padding:2px var(--pad-x) 10px; margin:0 calc(-1 * var(--pad-x)); position:sticky; top:0; z-index:9;
   background:
     radial-gradient(1200px 700px at 20% -5%, var(--glow1) 0%, transparent 55%),
     radial-gradient(1000px 600px at 90% 8%, var(--glow2) 0%, transparent 50%),
     var(--bg);
   background-attachment:fixed;
 }
-.topbar h1{ font-size:16px; margin:0; font-weight:800; letter-spacing:-.2px; flex:1; }
-.back-btn{ background:var(--card2); border:1px solid rgba(var(--hairline-rgb),.1); color:var(--text); width:40px;height:40px; border-radius:14px; font-size:18px; display:flex; align-items:center; justify-content:center; transition:transform .15s; flex-shrink:0; position:relative; }
+.topbar h1{ font-size:clamp(14px, 0.67cqh + 9.67px, 16px); margin:0; font-weight:800; letter-spacing:-.2px; flex:1; }
+.back-btn{ background:var(--card2); border:1px solid rgba(var(--hairline-rgb),.1); color:var(--text); width:var(--back-btn-w); height:var(--back-btn-w); border-radius:14px; font-size:18px; display:flex; align-items:center; justify-content:center; transition:transform .15s; flex-shrink:0; position:relative; }
 .back-btn:active{ transform:scale(.94); }
 .back-btn::before{ content:''; position:absolute; inset:-2px; }
-.tracker-chip{ background:var(--card); border-radius:14px; padding:6px 12px; font-size:13px; color:var(--muted); display:flex; align-items:center; gap:6px; }
+.tracker-chip{ background:var(--card); border-radius:14px; padding:6px 12px; font-size:clamp(11.5px, 0.5cqh + 8.25px, 13px); color:var(--muted); display:flex; align-items:center; gap:6px; }
 .tracker-chip b{ color:var(--good); }
 
-h2{ font-size:22px; margin:6px 0 4px; }
-p.sub{ color:var(--muted); font-size:14px; margin:0 0 16px; line-height:1.4; }
+h2{ font-size:clamp(18px, 1.33cqh + 9.33px, 22px); margin:6px 0 4px; }
+p.sub{ color:var(--muted); font-size:clamp(12.5px, 0.5cqh + 9.25px, 14px); margin:0 0 clamp(12px, 1.33cqh + 3.33px, 16px); line-height:1.4; }
 
 /* safe center: on a screen tall enough that the header+grid+tracker
    block doesn't fill it, center that block instead of stretching any
@@ -170,28 +193,28 @@ p.sub{ color:var(--muted); font-size:14px; margin:0 0 16px; line-height:1.4; }
    long home-nudge banner ever makes the content taller than the box. */
 #screen-home{ justify-content:safe center; }
 .home-hdr{ display:flex; justify-content:space-between; align-items:flex-start; padding:2px 2px 0; margin-bottom:clamp(12px, 5.33cqh - 22.7px, 28px); }
-.home-hi{ font-size:14px; color:var(--faint); font-weight:600; }
+.home-hi{ font-size:clamp(12.5px, 0.5cqh + 9.25px, 14px); color:var(--faint); font-weight:600; }
 .home-hi b{ color:var(--text); }
-.home-wordmark{ font-size:23px; font-weight:800; letter-spacing:-.4px; margin-top:3px; }
+.home-wordmark{ font-size:clamp(18px, 1.67cqh + 7.17px, 23px); font-weight:800; letter-spacing:-.4px; margin-top:3px; }
 .home-wordmark .jj{ color:var(--violet); }
-.streak-chip{ display:flex; align-items:center; gap:6px; padding:8px 12px; border-radius:999px; cursor:pointer; flex-shrink:0;
-  background:linear-gradient(180deg,rgba(var(--orange-rgb),.22),rgba(var(--orange-rgb),.08)); border:1px solid rgba(var(--orange-rgb),.35); color:var(--orange-2); font-weight:800; font-size:15px; }
-.streak-chip .ic{ width:17px; height:17px; }
-.gear-btn{ width:38px; height:38px; border-radius:999px; background:var(--card2); border:1px solid rgba(var(--hairline-rgb),.08); color:var(--faint); display:flex; align-items:center; justify-content:center; flex-shrink:0; position:relative; }
+.streak-chip{ display:flex; align-items:center; gap:6px; padding:clamp(6px, 0.67cqh + 1.67px, 8px) clamp(9px, 1cqh + 2.5px, 12px); border-radius:999px; cursor:pointer; flex-shrink:0;
+  background:linear-gradient(180deg,rgba(var(--orange-rgb),.22),rgba(var(--orange-rgb),.08)); border:1px solid rgba(var(--orange-rgb),.35); color:var(--orange-2); font-weight:800; font-size:clamp(13px, 0.67cqh + 8.67px, 15px); }
+.streak-chip .ic{ width:clamp(14px, 1cqh + 7.5px, 17px); height:clamp(14px, 1cqh + 7.5px, 17px); }
+.gear-btn{ width:clamp(30px, 2.67cqh + 12.67px, 38px); height:clamp(30px, 2.67cqh + 12.67px, 38px); border-radius:999px; background:var(--card2); border:1px solid rgba(var(--hairline-rgb),.08); color:var(--faint); display:flex; align-items:center; justify-content:center; flex-shrink:0; position:relative; }
 .gear-btn::before{ content:''; position:absolute; inset:-3px; }
-.gear-btn .ic{ width:18px; height:18px; }
+.gear-btn .ic{ width:clamp(15px, 1cqh + 8.5px, 18px); height:clamp(15px, 1cqh + 8.5px, 18px); }
 .gear-btn:active{ transform:scale(.94); }
 
-.rate-card{ background:var(--card); border:1px solid rgba(var(--hairline-rgb),.08); border-radius:22px; padding:18px 18px 20px; }
+.rate-card{ background:var(--card); border:1px solid rgba(var(--hairline-rgb),.08); border-radius:22px; padding:clamp(14px, 1.33cqh + 5.33px, 18px) clamp(14px, 1.33cqh + 5.33px, 18px) clamp(15px, 1.67cqh + 4.17px, 20px); }
 .rate-card .rate-head{ display:flex; justify-content:space-between; align-items:baseline; margin-bottom:10px; }
-.rate-card .rate-head b{ font-size:15px; }
-.rate-card .rate-head span{ font-size:18px; font-weight:800; color:var(--blue-2); }
+.rate-card .rate-head b{ font-size:clamp(13px, 0.67cqh + 8.67px, 15px); }
+.rate-card .rate-head span{ font-size:clamp(15px, 1cqh + 8.5px, 18px); font-weight:800; color:var(--blue-2); }
 .rate-slider{ width:100%; accent-color:var(--blue-2); height:6px; }
-.rate-scale{ display:flex; justify-content:space-between; font-size:11px; color:var(--faint); margin-top:6px; }
+.rate-scale{ display:flex; justify-content:space-between; font-size:clamp(10px, 0.33cqh + 7.83px, 11px); color:var(--faint); margin-top:6px; }
 
 .big-btn{
   position:relative; overflow:hidden; background:var(--card); border:1px solid rgba(var(--hairline-rgb),.08); border-radius:22px;
-  padding:15px 16px; margin-bottom:14px; display:flex; align-items:center; gap:14px;
+  padding:clamp(12px, 1cqh + 5.5px, 15px) clamp(13px, 1cqh + 6.5px, 16px); margin-bottom:clamp(11px, 1cqh + 4.5px, 14px); display:flex; align-items:center; gap:clamp(11px, 1cqh + 4.5px, 14px);
   color:var(--text); text-align:left; font-family:inherit; transition:transform .15s;
   flex-shrink:0;
 }
@@ -205,27 +228,27 @@ p.sub{ color:var(--muted); font-size:14px; margin:0 0 16px; line-height:1.4; }
 #paywall-buy-btn.buy-cta .label{ color:var(--on-blue); }
 #paywall-buy-btn.buy-cta .desc{ color:var(--on-blue-soft); }
 #paywall-buy-btn.buy-cta .price-strike{ color:var(--on-blue-soft); }
-.big-btn .emoji{ width:54px; height:54px; border-radius:18px; display:flex; align-items:center; justify-content:center; flex-shrink:0; box-shadow:inset 0 1px 0 rgba(255,255,255,.45); }
-.big-btn .emoji .ic{ width:28px; height:28px; color:#fff; stroke-width:2.2; }
-.big-btn .label{ font-size:17px; font-weight:800; letter-spacing:-.2px; }
-.big-btn .desc{ font-size:12px; color:var(--muted); margin-top:3px; }
+.big-btn .emoji{ width:clamp(42px, 4cqh + 16px, 54px); height:clamp(42px, 4cqh + 16px, 54px); border-radius:18px; display:flex; align-items:center; justify-content:center; flex-shrink:0; box-shadow:inset 0 1px 0 rgba(255,255,255,.45); }
+.big-btn .emoji .ic{ width:clamp(22px, 2cqh + 9px, 28px); height:clamp(22px, 2cqh + 9px, 28px); color:#fff; stroke-width:2.2; }
+.big-btn .label{ font-size:clamp(14.5px, 0.83cqh + 9.08px, 17px); font-weight:800; letter-spacing:-.2px; }
+.big-btn .desc{ font-size:clamp(11px, 0.33cqh + 8.83px, 12px); color:var(--muted); margin-top:3px; }
 .big-btn .desc-th{ display:block; color:var(--thai); }
-.big-btn .desc-en{ display:block; color:var(--faint); font-size:10.5px; margin-top:2px; }
+.big-btn .desc-en{ display:block; color:var(--faint); font-size:clamp(9.5px, 0.33cqh + 7.33px, 10.5px); margin-top:2px; }
 .price-strike{ text-decoration:line-through; color:var(--faint); margin-right:6px; }
-.lock-badge{ display:inline-flex; align-items:center; justify-content:center; vertical-align:-6px; width:21px; height:21px; color:var(--orange-2); background:rgba(var(--orange-2-rgb),.16); border-radius:7px; padding:3px; box-sizing:border-box; }
+.lock-badge{ display:inline-flex; align-items:center; justify-content:center; vertical-align:-6px; width:clamp(18px, 1cqh + 11.5px, 21px); height:clamp(18px, 1cqh + 11.5px, 21px); color:var(--orange-2); background:rgba(var(--orange-2-rgb),.16); border-radius:7px; padding:3px; box-sizing:border-box; }
 .lock-badge svg{ width:100%; height:100%; }
-.paywall-personal{ display:none; align-items:center; gap:8px; background:rgba(var(--orange-2-rgb),.12); border:1px solid rgba(var(--orange-2-rgb),.3); color:var(--orange-2); font-size:13px; font-weight:700; padding:10px 14px; border-radius:14px; max-width:340px; text-align:left; }
+.paywall-personal{ display:none; align-items:center; gap:8px; background:rgba(var(--orange-2-rgb),.12); border:1px solid rgba(var(--orange-2-rgb),.3); color:var(--orange-2); font-size:clamp(11.5px, 0.5cqh + 8.25px, 13px); font-weight:700; padding:clamp(8px, 0.67cqh + 3.67px, 10px) clamp(11px, 1cqh + 4.5px, 14px); border-radius:14px; max-width:340px; text-align:left; }
 .paywall-personal .ic{ width:16px; height:16px; flex-shrink:0; }
 .paywall-compare{ display:flex; gap:10px; width:100%; max-width:340px; text-align:left; }
-.paywall-compare-col{ flex:1; background:var(--card); border-radius:16px; padding:14px 12px; border:1px solid rgba(var(--hairline-rgb),.06); }
+.paywall-compare-col{ flex:1; background:var(--card); border-radius:16px; padding:clamp(11px, 1cqh + 4.5px, 14px) clamp(9px, 1cqh + 2.5px, 12px); border:1px solid rgba(var(--hairline-rgb),.06); }
 .paywall-compare-col.full{ border-color:rgba(var(--blue-2-rgb),.35); background:linear-gradient(160deg,rgba(var(--blue-2-rgb),.1),var(--card)); }
-.paywall-compare-head{ font-size:11px; font-weight:800; color:var(--muted); text-transform:uppercase; letter-spacing:.03em; margin-bottom:9px; }
+.paywall-compare-head{ font-size:clamp(10px, 0.33cqh + 7.83px, 11px); font-weight:800; color:var(--muted); text-transform:uppercase; letter-spacing:.03em; margin-bottom:9px; }
 .paywall-compare-col.full .paywall-compare-head{ color:var(--blue-2); }
-.paywall-compare-item{ display:flex; align-items:flex-start; gap:6px; font-size:12.5px; line-height:1.35; color:var(--text); margin-bottom:7px; }
+.paywall-compare-item{ display:flex; align-items:flex-start; gap:6px; font-size:clamp(11px, 0.5cqh + 7.75px, 12.5px); line-height:1.35; color:var(--text); margin-bottom:7px; }
 .paywall-compare-item .ic{ width:13px; height:13px; margin-top:2px; color:var(--muted); }
 .paywall-compare-col.full .paywall-compare-item .ic{ color:var(--blue-2); }
-.big-btn .chev{ margin-left:auto; width:28px; height:28px; border-radius:50%; display:flex; align-items:center; justify-content:center; background:rgba(var(--hairline-rgb),.08); flex-shrink:0; }
-.big-btn .chev .ic{ width:15px; height:15px; color:var(--muted); }
+.big-btn .chev{ margin-left:auto; width:clamp(22px, 2cqh + 9px, 28px); height:clamp(22px, 2cqh + 9px, 28px); border-radius:50%; display:flex; align-items:center; justify-content:center; background:rgba(var(--hairline-rgb),.08); flex-shrink:0; }
+.big-btn .chev .ic{ width:clamp(12px, 1cqh + 5.5px, 15px); height:clamp(12px, 1cqh + 5.5px, 15px); color:var(--muted); }
 .big-btn .mini{ position:absolute; right:-18px; bottom:-22px; opacity:.13; pointer-events:none; }
 .big-btn .mini .ic{ width:112px; height:112px; }
 .big-btn:nth-of-type(1){ background:linear-gradient(100deg,rgba(var(--blue-rgb),.26),rgba(var(--blue-rgb),.05)); }
@@ -379,182 +402,182 @@ p.sub{ color:var(--muted); font-size:14px; margin:0 0 16px; line-height:1.4; }
 .progress-row{ display:flex; align-items:center; gap:10px; margin-top:10px; }
 .progress-bar{ flex:1; height:10px; background:var(--inset); border-radius:6px; overflow:hidden; }
 .progress-fill{ height:100%; background:linear-gradient(90deg,var(--accent),var(--good)); border-radius:6px; transition:width .3s; }
-.streak{ font-size:13px; color:var(--accent2); margin-top:8px; display:flex; align-items:center; justify-content:center; gap:6px; font-weight:700; }
-.streak .ic{ width:15px; height:15px; }
+.streak{ font-size:clamp(11.5px, 0.5cqh + 8.25px, 13px); color:var(--accent2); margin-top:8px; display:flex; align-items:center; justify-content:center; gap:6px; font-weight:700; }
+.streak .ic{ width:clamp(13px, 0.67cqh + 8.67px, 15px); height:clamp(13px, 0.67cqh + 8.67px, 15px); }
 
-.pill-row{ display:flex; flex-wrap:wrap; gap:8px; margin:10px 0 6px; }
+.pill-row{ display:flex; flex-wrap:wrap; gap:clamp(6px, 0.67cqh + 1.67px, 8px); margin:10px 0 6px; }
 .pill{
   background:var(--card); border:1px solid rgba(var(--hairline-rgb),.08); color:var(--text);
-  padding:9px 14px; border-radius:999px; font-size:13.5px; font-family:inherit;
+  padding:clamp(7px, 0.67cqh + 2.67px, 9px) clamp(11px, 1cqh + 4.5px, 14px); border-radius:999px; font-size:clamp(12px, 0.5cqh + 8.75px, 13.5px); font-family:inherit;
 }
 .pill.active{ background:var(--accent); border-color:var(--accent); font-weight:600; }
-.pill.small{ padding:6px 11px; font-size:12.5px; }
+.pill.small{ padding:clamp(5px, 0.33cqh + 2.83px, 6px) clamp(9px, 0.67cqh + 4.67px, 11px); font-size:clamp(11px, 0.5cqh + 7.75px, 12.5px); }
 
-.section-label{ font-size:12px; text-transform:uppercase; letter-spacing:.06em; color:var(--muted); margin:19px 0 8px; }
+.section-label{ font-size:clamp(11px, 0.33cqh + 8.83px, 12px); text-transform:uppercase; letter-spacing:.06em; color:var(--muted); margin:19px 0 8px; }
 
-.check-row{ display:flex; align-items:center; justify-content:space-between; background:var(--card); border-radius:14px; padding:13px 16px; margin-bottom:8px; }
-.check-row span{ font-size:14.5px; }
+.check-row{ display:flex; align-items:center; justify-content:space-between; background:var(--card); border-radius:14px; padding:clamp(10px, 1cqh + 3.5px, 13px) clamp(13px, 1cqh + 6.5px, 16px); margin-bottom:8px; }
+.check-row span{ font-size:clamp(13px, 0.5cqh + 9.75px, 14.5px); }
 .toggle{ width:44px; height:26px; border-radius:14px; background:rgba(var(--hairline-rgb),.22); position:relative; border:none; flex-shrink:0; }
 .toggle.on{ background:var(--accent); }
 .toggle::after{ content:''; position:absolute; width:20px; height:20px; border-radius:50%; background:#fff; top:3px; left:3px; transition:left .15s; }
 .toggle.on::after{ left:21px; }
 
 .primary-btn{
-  background:linear-gradient(180deg,var(--blue-2),var(--blue)); color:var(--on-blue); border:none; border-radius:18px; padding:16px;
-  font-size:16px; font-weight:800; font-family:inherit; margin-top:auto;
+  background:linear-gradient(180deg,var(--blue-2),var(--blue)); color:var(--on-blue); border:none; border-radius:18px; padding:clamp(13px, 1cqh + 6.5px, 16px);
+  font-size:clamp(14.5px, 0.5cqh + 11.25px, 16px); font-weight:800; font-family:inherit; margin-top:auto;
   box-shadow:0 14px 30px -10px rgba(var(--blue-rgb),.7), inset 0 1px 0 rgba(255,255,255,.4);
 }
 .primary-btn:active{ transform:scale(.98); }
-.screen.has-sticky-cta .primary-btn.sticky-cta{ flex-shrink:0; margin:0 18px 14px; }
+.screen.has-sticky-cta .primary-btn.sticky-cta{ flex-shrink:0; margin:0 var(--pad-x) 14px; }
 .ghost-btn{
   background:transparent; border:1px solid rgba(var(--hairline-rgb),.14); color:var(--text);
-  border-radius:18px; padding:14px; font-size:15px; font-weight:700; font-family:inherit; margin-top:10px;
+  border-radius:18px; padding:clamp(11px, 1cqh + 4.5px, 14px); font-size:clamp(13.5px, 0.5cqh + 10.25px, 15px); font-weight:700; font-family:inherit; margin-top:10px;
 }
 .ghost-btn:active{ transform:scale(.98); }
 
 /* Flashcard */
-.card-counter{ text-align:center; color:var(--muted); font-size:12px; font-weight:700; margin-bottom:10px; }
+.card-counter{ text-align:center; color:var(--muted); font-size:clamp(10.5px, 0.5cqh + 7.25px, 12px); font-weight:700; margin-bottom:10px; }
 .flip-wrap{ flex:1; display:flex; align-items:center; justify-content:center; perspective:1400px; margin:6px 0 18px; }
-.flashcard{ width:100%; max-width:340px; height:320px; position:relative; transform-style:preserve-3d; transition:transform .5s cubic-bezier(.4,.2,.2,1); cursor:pointer; }
+.flashcard{ width:100%; max-width:380px; height:clamp(240px, 60cqh - 150px, 420px); position:relative; transform-style:preserve-3d; transition:transform .5s cubic-bezier(.4,.2,.2,1); cursor:pointer; }
 .flashcard.flipped{ transform:rotateY(180deg); }
 .face{
   position:absolute; inset:0; backface-visibility:hidden; -webkit-backface-visibility:hidden; border-radius:28px;
-  display:flex; align-items:center; justify-content:center; flex-direction:column; padding:22px;
+  display:flex; align-items:center; justify-content:center; flex-direction:column; padding:clamp(16px, 2cqh + 3px, 22px);
   text-align:center; overflow-y:auto;
 }
 .face.front{ background:linear-gradient(160deg,var(--card2),var(--card)); border:1px solid rgba(var(--hairline-rgb),.08); }
 .face.back{ transform:rotateY(180deg); background:linear-gradient(160deg,rgba(var(--blue-2-rgb),.16),var(--card)); border:1px solid rgba(var(--blue-2-rgb),.3); }
-.face .lvl{ position:absolute; top:16px; left:18px; font-size:11px; font-weight:800; color:var(--on-blue); padding:5px 11px; border-radius:999px; background:linear-gradient(150deg,var(--blue-2),var(--blue)); }
-.cat-tag{ font-size:12px; font-weight:700; color:var(--muted); letter-spacing:.2px; margin-bottom:8px; }
-.spk-btn{ background:rgba(var(--blue-2-rgb),.16); border:none; color:var(--blue-2); width:46px; height:46px; border-radius:16px; display:flex; align-items:center; justify-content:center; margin-bottom:16px; }
+.face .lvl{ position:absolute; top:16px; left:18px; font-size:clamp(10px, 0.33cqh + 7.83px, 11px); font-weight:800; color:var(--on-blue); padding:clamp(4px, 0.33cqh + 1.83px, 5px) clamp(9px, 0.67cqh + 4.67px, 11px); border-radius:999px; background:linear-gradient(150deg,var(--blue-2),var(--blue)); }
+.cat-tag{ font-size:clamp(10.5px, 0.5cqh + 7.25px, 12px); font-weight:700; color:var(--muted); letter-spacing:.2px; margin-bottom:8px; }
+.spk-btn{ background:rgba(var(--blue-2-rgb),.16); border:none; color:var(--blue-2); width:clamp(36px, 3.33cqh + 14.33px, 46px); height:clamp(36px, 3.33cqh + 14.33px, 46px); border-radius:16px; display:flex; align-items:center; justify-content:center; margin-bottom:clamp(12px, 1.33cqh + 3.33px, 16px); }
 .spk-btn:active{ transform:scale(.94); }
-.spk-btn .ic{ width:22px; height:22px; }
-.spk-btn-inline{ background:var(--inset); border:none; color:var(--text); width:26px; height:26px; border-radius:8px; display:inline-flex; align-items:center; justify-content:center; vertical-align:middle; margin-left:6px; padding:0; position:relative; }
+.spk-btn .ic{ width:clamp(17px, 1.67cqh + 6.17px, 22px); height:clamp(17px, 1.67cqh + 6.17px, 22px); }
+.spk-btn-inline{ background:var(--inset); border:none; color:var(--text); width:clamp(22px, 1.33cqh + 13.33px, 26px); height:clamp(22px, 1.33cqh + 13.33px, 26px); border-radius:8px; display:inline-flex; align-items:center; justify-content:center; vertical-align:middle; margin-left:6px; padding:0; position:relative; }
 .spk-btn-inline::before{ content:''; position:absolute; inset:-6px; }
-.spk-btn-inline .ic{ width:14px; height:14px; }
-.spk-btn-example{ background:rgba(var(--blue-2-rgb),.16); border:none; color:var(--blue-2); width:40px; height:40px; border-radius:14px; display:flex; align-items:center; justify-content:center; margin:8px auto 0; }
-.spk-btn-example .ic{ width:19px; height:19px; }
-.face .word{ font-size:34px; font-weight:800; letter-spacing:-.3px; line-height:1.3; }
-.face.front .hint{ position:absolute; bottom:18px; font-size:12px; color:var(--faint); display:flex; align-items:center; gap:5px; }
-.face.front .hint .ic{ width:13px; height:13px; }
-.face.back .word{ font-size:28px; margin-bottom:14px; }
-.fc-btn-row{ display:flex; gap:10px; justify-content:center; }
-.fc-example-row{ display:flex; flex-direction:column; align-items:center; justify-content:center; gap:6px; }
-.fc-example{ font-size:15.5px; font-style:italic; line-height:1.5; color:var(--muted); text-align:center; padding:0 8px; min-height:20px; word-spacing:4px; }
+.spk-btn-inline .ic{ width:clamp(12px, 0.67cqh + 7.67px, 14px); height:clamp(12px, 0.67cqh + 7.67px, 14px); }
+.spk-btn-example{ background:rgba(var(--blue-2-rgb),.16); border:none; color:var(--blue-2); width:clamp(32px, 2.67cqh + 14.67px, 40px); height:clamp(32px, 2.67cqh + 14.67px, 40px); border-radius:14px; display:flex; align-items:center; justify-content:center; margin:8px auto 0; }
+.spk-btn-example .ic{ width:clamp(15px, 1.33cqh + 6.33px, 19px); height:clamp(15px, 1.33cqh + 6.33px, 19px); }
+.face .word{ font-size:clamp(26px, 2.67cqh + 8.67px, 34px); font-weight:800; letter-spacing:-.3px; line-height:1.3; }
+.face.front .hint{ position:absolute; bottom:18px; font-size:clamp(10.5px, 0.5cqh + 7.25px, 12px); color:var(--faint); display:flex; align-items:center; gap:5px; }
+.face.front .hint .ic{ width:clamp(11px, 0.67cqh + 6.67px, 13px); height:clamp(11px, 0.67cqh + 6.67px, 13px); }
+.face.back .word{ font-size:clamp(22px, 2cqh + 9px, 28px); margin-bottom:14px; }
+.fc-btn-row{ display:flex; gap:clamp(8px, 0.67cqh + 3.67px, 10px); justify-content:center; }
+.fc-example-row{ display:flex; flex-direction:column; align-items:center; justify-content:center; gap:clamp(5px, 0.33cqh + 2.83px, 6px); }
+.fc-example{ font-size:clamp(13px, 0.83cqh + 7.58px, 15.5px); font-style:italic; line-height:1.5; color:var(--muted); text-align:center; padding:0 8px; min-height:20px; word-spacing:4px; }
 .face.back .fc-example .word{ font-size:inherit; margin-bottom:0; font-weight:400; letter-spacing:0; }
 .fc-example .word{ color:var(--text); cursor:pointer; border-bottom:1px dashed rgba(var(--hairline-rgb),.3); padding-bottom:1px; }
 .fc-example .word.tapped{ color:var(--accent2); border-color:var(--accent2); }
-.fc-thai-pop{ margin-top:12px; background:var(--inset); border-radius:12px; padding:10px 14px; font-size:13.5px; color:var(--thai); min-height:18px; max-width:100%; }
-.fc-actions{ display:flex; gap:11px; margin-top:16px; }
-.fc-actions button{ flex:1; display:flex; align-items:center; justify-content:center; gap:8px; padding:15px; border-radius:18px; border:none; font-family:inherit; font-size:15px; font-weight:800; transition:transform .15s; }
+.fc-thai-pop{ margin-top:12px; background:var(--inset); border-radius:12px; padding:clamp(8px, 0.67cqh + 3.67px, 10px) clamp(11px, 1cqh + 4.5px, 14px); font-size:clamp(12px, 0.5cqh + 8.75px, 13.5px); color:var(--thai); min-height:18px; max-width:100%; }
+.fc-actions{ display:flex; gap:clamp(9px, 0.67cqh + 4.67px, 11px); margin-top:clamp(12px, 1.33cqh + 3.33px, 16px); }
+.fc-actions button{ flex:1; display:flex; align-items:center; justify-content:center; gap:8px; padding:clamp(12px, 1cqh + 5.5px, 15px); border-radius:18px; border:none; font-family:inherit; font-size:clamp(13px, 0.67cqh + 8.67px, 15px); font-weight:800; transition:transform .15s; }
 .fc-actions button:active{ transform:scale(.98); }
-.fc-actions button .ic{ width:18px; height:18px; }
+.fc-actions button .ic{ width:clamp(15px, 1cqh + 8.5px, 18px); height:clamp(15px, 1cqh + 8.5px, 18px); }
 .btn-again{ color:var(--on-red); background:linear-gradient(180deg,var(--red-2),var(--red)); box-shadow:0 14px 30px -10px rgba(var(--red-rgb),.5), inset 0 1px 0 rgba(255,255,255,.3); }
 .btn-know{ color:var(--on-green); background:linear-gradient(180deg,var(--green-2),var(--green)); box-shadow:0 14px 30px -10px rgba(var(--green-rgb),.5), inset 0 1px 0 rgba(255,255,255,.4); }
 .fc-nav{ display:flex; justify-content:space-between; margin-top:10px; }
-.fc-nav button{ background:var(--card2); border:none; color:var(--text); padding:10px 16px; border-radius:12px; font-family:inherit; font-weight:700; font-size:13.5px; }
+.fc-nav button{ background:var(--card2); border:none; color:var(--text); padding:clamp(8px, 0.67cqh + 3.67px, 10px) clamp(13px, 1cqh + 6.5px, 16px); border-radius:12px; font-family:inherit; font-weight:700; font-size:clamp(12px, 0.5cqh + 8.75px, 13.5px); }
 
 /* Drill */
-.drill-card{ border-radius:24px; padding:20px; margin-top:8px; background:linear-gradient(160deg,var(--card2),var(--card)); border:1px solid rgba(var(--hairline-rgb),.08); }
+.drill-card{ border-radius:24px; padding:clamp(15px, 1.67cqh + 4.17px, 20px); margin-top:8px; background:linear-gradient(160deg,var(--card2),var(--card)); border:1px solid rgba(var(--hairline-rgb),.08); }
 .drill-card.shake{ animation:gj-shake .4s; }
-.drill-tag{ display:inline-flex; align-items:center; gap:6px; background:linear-gradient(150deg,var(--blue-2),var(--blue)); color:var(--on-blue); font-size:12.5px; font-weight:800; padding:6px 12px; border-radius:10px; margin-bottom:12px; }
-.drill-tag .ic{ width:14px; height:14px; }
+.drill-tag{ display:inline-flex; align-items:center; gap:6px; background:linear-gradient(150deg,var(--blue-2),var(--blue)); color:var(--on-blue); font-size:clamp(11px, 0.5cqh + 7.75px, 12.5px); font-weight:800; padding:clamp(5px, 0.33cqh + 2.83px, 6px) clamp(9px, 1cqh + 2.5px, 12px); border-radius:10px; margin-bottom:12px; }
+.drill-tag .ic{ width:clamp(12px, 0.67cqh + 7.67px, 14px); height:clamp(12px, 0.67cqh + 7.67px, 14px); }
 .drill-tag.q{ background:linear-gradient(150deg,var(--violet-2),var(--violet)); color:var(--on-violet); }
 .drill-tag.neg{ background:linear-gradient(150deg,var(--red-2),var(--red)); color:var(--on-red); }
-.drill-prompt{ font-size:14px; color:var(--muted); margin:14px 0 12px; }
+.drill-prompt{ font-size:clamp(12.5px, 0.5cqh + 9.25px, 14px); color:var(--muted); margin:14px 0 12px; }
 .drill-prompt b{ color:var(--text); }
-.drill-sentence{ font-size:20px; line-height:1.6; min-height:60px; }
+.drill-sentence{ font-size:clamp(16px, 1.33cqh + 7.33px, 20px); line-height:1.6; min-height:clamp(44px, 5.33cqh + 9.33px, 60px); }
 .drill-sentence span.word{ cursor:pointer; border-bottom:1px dashed rgba(var(--hairline-rgb),.3); padding-bottom:1px; }
 .drill-sentence span.word:active, .drill-sentence span.word.tapped{ color:var(--accent2); border-color:var(--accent2); }
-.thai-pop{ margin-top:14px; background:var(--inset); border-radius:14px; padding:12px 14px; font-size:14px; color:var(--thai); min-height:20px; display:flex; align-items:center; gap:9px; }
-.thai-pop .ic{ width:16px; height:16px; flex-shrink:0; }
+.thai-pop{ margin-top:14px; background:var(--inset); border-radius:14px; padding:clamp(9px, 1cqh + 2.5px, 12px) clamp(11px, 1cqh + 4.5px, 14px); font-size:clamp(12.5px, 0.5cqh + 9.25px, 14px); color:var(--thai); min-height:20px; display:flex; align-items:center; gap:9px; }
+.thai-pop .ic{ width:clamp(13px, 1cqh + 6.5px, 16px); height:clamp(13px, 1cqh + 6.5px, 16px); flex-shrink:0; }
 .drill-sentence .blank{ display:inline-block; min-width:70px; text-align:center; border-bottom:2px solid var(--blue); color:var(--blue-2); font-weight:800; padding:0 4px; }
-.drill-input-row{ display:flex; flex-wrap:wrap; gap:10px; margin-top:18px; }
+.drill-input-row{ display:flex; flex-wrap:wrap; gap:clamp(8px, 0.67cqh + 3.67px, 10px); margin-top:clamp(13px, 1.67cqh + 2.17px, 18px); }
 .drill-input-row #drill-input{ min-width:0; }
 .drill-input-row .btn-check{ flex:1 1 100%; }
-#drill-input{ flex:1; background:var(--inset); border:1px solid rgba(var(--hairline-rgb),.12); color:var(--text); border-radius:14px; padding:14px 16px; font-size:16px; font-family:inherit; -webkit-appearance:none; appearance:none; }
+#drill-input{ flex:1; background:var(--inset); border:1px solid rgba(var(--hairline-rgb),.12); color:var(--text); border-radius:14px; padding:clamp(11px, 1cqh + 4.5px, 14px) clamp(13px, 1cqh + 6.5px, 16px); font-size:16px; font-family:inherit; -webkit-appearance:none; appearance:none; }
 #drill-input::-webkit-search-cancel-button,#drill-input::-webkit-search-decoration{ display:none; }
 #drill-input:focus{ outline:none; border-color:var(--blue); }
 #drill-input:disabled{ opacity:.7; }
-.btn-check{ background:linear-gradient(180deg,var(--blue-2),var(--blue)); color:var(--on-blue); border:none; border-radius:14px; padding:14px 20px; font-weight:800; font-size:15px; font-family:inherit; box-shadow:0 10px 24px -10px rgba(var(--blue-rgb),.7); }
-.drill-feedback{ margin-top:14px; font-size:14.5px; line-height:1.55; border-radius:16px; padding:0; display:flex; gap:10px; align-items:flex-start; }
-.drill-feedback:not(:empty){ padding:14px 16px; }
-.drill-feedback .ic{ width:18px; height:18px; flex-shrink:0; margin-top:1px; }
+.btn-check{ background:linear-gradient(180deg,var(--blue-2),var(--blue)); color:var(--on-blue); border:none; border-radius:14px; padding:clamp(11px, 1cqh + 4.5px, 14px) clamp(15px, 1.67cqh + 4.17px, 20px); font-weight:800; font-size:clamp(13px, 0.67cqh + 8.67px, 15px); font-family:inherit; box-shadow:0 10px 24px -10px rgba(var(--blue-rgb),.7); }
+.drill-feedback{ margin-top:14px; font-size:clamp(13px, 0.5cqh + 9.75px, 14.5px); line-height:1.55; border-radius:16px; padding:0; display:flex; gap:10px; align-items:flex-start; }
+.drill-feedback:not(:empty){ padding:clamp(11px, 1cqh + 4.5px, 14px) clamp(13px, 1cqh + 6.5px, 16px); }
+.drill-feedback .ic{ width:clamp(15px, 1cqh + 8.5px, 18px); height:clamp(15px, 1cqh + 8.5px, 18px); flex-shrink:0; margin-top:1px; }
 .drill-feedback.good{ background:rgba(var(--green-rgb),.14); color:var(--green-2); }
 .drill-feedback.good .ic{ animation:feedback-pop .4s cubic-bezier(.16,1,.3,1); }
 .drill-feedback.bad{ background:rgba(var(--red-rgb),.13); color:var(--red-2); }
 @keyframes feedback-pop{ 0%{ transform:scale(.4); opacity:0; } 60%{ transform:scale(1.2); opacity:1; } 100%{ transform:scale(1); } }
 .drill-feedback b{ color:inherit; }
-.drill-btns{ display:flex; gap:10px; margin-top:16px; }
-.drill-btns button{ flex:1; padding:14px; border-radius:14px; border:none; font-family:inherit; font-weight:800; font-size:15px; }
+.drill-btns{ display:flex; gap:clamp(8px, 0.67cqh + 3.67px, 10px); margin-top:clamp(12px, 1.33cqh + 3.33px, 16px); }
+.drill-btns button{ flex:1; padding:clamp(11px, 1cqh + 4.5px, 14px); border-radius:14px; border:none; font-family:inherit; font-weight:800; font-size:clamp(13px, 0.67cqh + 8.67px, 15px); }
 .btn-reveal{ background:linear-gradient(180deg,var(--blue-2),var(--blue)); color:var(--on-blue); box-shadow:0 10px 24px -10px rgba(var(--blue-rgb),.7); }
 .btn-next{ background:var(--card2); color:var(--text); }
-.drill-stats{ text-align:center; color:var(--muted); font-size:12.5px; margin-top:10px; }
+.drill-stats{ text-align:center; color:var(--muted); font-size:clamp(11px, 0.5cqh + 7.75px, 12.5px); margin-top:10px; }
 
 /* Pronunciation */
-.pron-tip{ background:rgba(var(--blue-2-rgb),.1); border:1px solid rgba(var(--blue-2-rgb),.25); font-size:13px; line-height:1.5; border-radius:14px; padding:12px 14px; margin-bottom:14px; }
+.pron-tip{ background:rgba(var(--blue-2-rgb),.1); border:1px solid rgba(var(--blue-2-rgb),.25); font-size:clamp(11.5px, 0.5cqh + 8.25px, 13px); line-height:1.5; border-radius:14px; padding:clamp(9px, 1cqh + 2.5px, 12px) clamp(11px, 1cqh + 4.5px, 14px); margin-bottom:14px; }
 .pron-tip .th{ color:var(--thai); }
 .bilingual-en{ color:var(--blue-2); margin-top:6px; }
 #screen-pron-setup .sub .th{ color:var(--thai); }
 #screen-pron-setup .sub .bilingual-en{ color:var(--muted); }
 .pron-syll-row{ display:flex; flex-wrap:wrap; gap:8px; justify-content:center; margin-bottom:6px; }
-.syll-chip{ background:var(--inset); border:none; color:var(--muted); font-family:inherit; font-size:16px; font-weight:700; padding:7px 12px; border-radius:12px; }
-.syll-chip.stressed{ background:linear-gradient(150deg,var(--blue-2),var(--blue)); color:var(--on-blue); font-size:18px; }
+.syll-chip{ background:var(--inset); border:none; color:var(--muted); font-family:inherit; font-size:clamp(13px, 1cqh + 6.5px, 16px); font-weight:700; padding:clamp(5px, 0.67cqh + 0.67px, 7px) clamp(9px, 1cqh + 2.5px, 12px); border-radius:12px; }
+.syll-chip.stressed{ background:linear-gradient(150deg,var(--blue-2),var(--blue)); color:var(--on-blue); font-size:clamp(15px, 1cqh + 8.5px, 18px); }
 .syll-chip:active{ transform:scale(.95); }
-.pron-group-label{ text-align:center; font-size:12px; font-weight:800; text-transform:uppercase; letter-spacing:.05em; color:var(--orange-2); margin:14px 0 8px; }
+.pron-group-label{ text-align:center; font-size:clamp(10.5px, 0.5cqh + 7.25px, 12px); font-weight:800; text-transform:uppercase; letter-spacing:.05em; color:var(--orange-2); margin:14px 0 8px; }
 .pron-group-label:first-child{ margin-top:0; }
 .pron-play-center{ display:flex; justify-content:center; margin:16px 0 4px; }
-.play-icon-btn{ width:52px; height:52px; border-radius:18px; flex-shrink:0; background:linear-gradient(150deg,var(--blue-2),var(--blue)); border:none; color:var(--on-blue); display:flex; align-items:center; justify-content:center; }
-.play-icon-btn .ic{ width:22px; height:22px; }
+.play-icon-btn{ width:clamp(40px, 4cqh + 14px, 52px); height:clamp(40px, 4cqh + 14px, 52px); border-radius:18px; flex-shrink:0; background:linear-gradient(150deg,var(--blue-2),var(--blue)); border:none; color:var(--on-blue); display:flex; align-items:center; justify-content:center; }
+.play-icon-btn .ic{ width:clamp(17px, 1.67cqh + 6.17px, 22px); height:clamp(17px, 1.67cqh + 6.17px, 22px); }
 .play-icon-btn:active{ transform:scale(.94); }
 .pron-pair-row{ display:flex; align-items:center; justify-content:center; gap:12px; margin-bottom:10px; }
-.pron-pair-vs{ width:34px; height:34px; border-radius:50%; background:var(--inset); border:none; color:var(--muted); display:flex; align-items:center; justify-content:center; flex-shrink:0; position:relative; }
+.pron-pair-vs{ width:clamp(28px, 2cqh + 15px, 34px); height:clamp(28px, 2cqh + 15px, 34px); border-radius:50%; background:var(--inset); border:none; color:var(--muted); display:flex; align-items:center; justify-content:center; flex-shrink:0; position:relative; }
 .pron-pair-vs::before{ content:''; position:absolute; inset:-8px; }
-.pron-pair-vs .ic{ width:15px; height:15px; }
-.pron-why{ font-size:12.5px; line-height:1.5; margin:16px 0 8px; }
+.pron-pair-vs .ic{ width:clamp(12px, 1cqh + 5.5px, 15px); height:clamp(12px, 1cqh + 5.5px, 15px); }
+.pron-why{ font-size:clamp(11px, 0.5cqh + 7.75px, 12.5px); line-height:1.5; margin:16px 0 8px; }
 .pron-why:first-child{ margin-top:0; }
 .pron-why .th{ color:var(--thai); }
 .pron-why .bilingual-en{ color:var(--muted); margin-top:2px; }
 .pron-stress-row{ display:flex; align-items:center; justify-content:space-between; gap:10px; padding:10px 0; border-bottom:1px solid rgba(var(--hairline-rgb),.06); }
 .pron-stress-row:last-child{ border-bottom:none; }
 .pron-stress-row .pron-syll-row{ justify-content:flex-start; margin-bottom:0; flex:1; }
-.pron-silent-row{ display:block; width:100%; text-align:left; background:none; border:none; border-bottom:1px solid rgba(var(--hairline-rgb),.06); color:var(--text); font-family:inherit; font-size:19px; font-weight:700; padding:12px 4px; }
+.pron-silent-row{ display:block; width:100%; text-align:left; background:none; border:none; border-bottom:1px solid rgba(var(--hairline-rgb),.06); color:var(--text); font-family:inherit; font-size:clamp(15px, 1.33cqh + 6.33px, 19px); font-weight:700; padding:clamp(9px, 1cqh + 2.5px, 12px) 4px; }
 .pron-silent-row:last-child{ border-bottom:none; }
 .pron-silent-letter{ opacity:.35; text-decoration:line-through; }
 .rec-row{ display:flex; align-items:center; gap:12px; }
-.rec-btn{ width:52px; height:52px; border-radius:18px; flex-shrink:0; background:linear-gradient(150deg,var(--red-2),var(--red)); border:none; color:var(--on-red); display:flex; align-items:center; justify-content:center; }
-.rec-btn .ic{ width:22px; height:22px; }
+.rec-btn{ width:clamp(40px, 4cqh + 14px, 52px); height:clamp(40px, 4cqh + 14px, 52px); border-radius:18px; flex-shrink:0; background:linear-gradient(150deg,var(--red-2),var(--red)); border:none; color:var(--on-red); display:flex; align-items:center; justify-content:center; }
+.rec-btn .ic{ width:clamp(17px, 1.67cqh + 6.17px, 22px); height:clamp(17px, 1.67cqh + 6.17px, 22px); }
 .rec-btn.recording{ animation:recPulse 1.1s ease-in-out infinite; }
 @keyframes recPulse{ 0%,100%{ box-shadow:0 0 0 0 rgba(var(--red-rgb),.55);} 50%{ box-shadow:0 0 0 10px rgba(var(--red-rgb),0);} }
-.rec-status{ flex:1; font-size:12.5px; color:var(--muted); line-height:1.4; }
-.ghost-btn.small{ padding:10px 14px; font-size:13px; margin-top:0; flex-shrink:0; }
+.rec-status{ flex:1; font-size:clamp(11px, 0.5cqh + 7.75px, 12.5px); color:var(--muted); line-height:1.4; }
+.ghost-btn.small{ padding:clamp(8px, 0.67cqh + 3.67px, 10px) clamp(11px, 1cqh + 4.5px, 14px); font-size:clamp(11.5px, 0.5cqh + 8.25px, 13px); margin-top:0; flex-shrink:0; }
 
 /* Tracker screen */
 .big-timer{ text-align:center; margin:8px 0 4px; }
-.big-timer .mins{ font-size:60px; font-weight:800; line-height:1; letter-spacing:-1px; }
-.big-timer .goal{ color:var(--muted); font-size:14px; margin-top:4px; }
+.big-timer .mins{ font-size:clamp(44px, 5.33cqh + 9.33px, 60px); font-weight:800; line-height:1; letter-spacing:-1px; }
+.big-timer .goal{ color:var(--muted); font-size:clamp(12.5px, 0.5cqh + 9.25px, 14px); margin-top:4px; }
 .week-row{ display:flex; justify-content:space-between; margin-top:12px; }
-.day-dot{ display:flex; flex-direction:column; align-items:center; gap:6px; font-size:11px; color:var(--faint); font-weight:700; }
-.day-dot .dot{ width:30px; height:30px; border-radius:50%; background:var(--card2); display:flex;align-items:center;justify-content:center; font-size:12px; color:var(--faint); }
-.day-dot .dot .ic{ width:15px; height:15px; }
+.day-dot{ display:flex; flex-direction:column; align-items:center; gap:6px; font-size:clamp(10px, 0.33cqh + 7.83px, 11px); color:var(--faint); font-weight:700; }
+.day-dot .dot{ width:clamp(26px, 1.33cqh + 17.33px, 30px); height:clamp(26px, 1.33cqh + 17.33px, 30px); border-radius:50%; background:var(--card2); display:flex;align-items:center;justify-content:center; font-size:clamp(11px, 0.33cqh + 8.83px, 12px); color:var(--faint); }
+.day-dot .dot .ic{ width:clamp(13px, 0.67cqh + 8.67px, 15px); height:clamp(13px, 0.67cqh + 8.67px, 15px); }
 .day-dot .dot.done{ background:linear-gradient(150deg,var(--green-2),var(--green)); color:#08210f; font-weight:800; }
 .day-dot .dot.today{ box-shadow:0 0 0 2px var(--blue); color:var(--text); font-weight:800; }
-.stat-card{ border-radius:20px; padding:18px; background:var(--card); border:1px solid rgba(var(--hairline-rgb),.06); }
-.tense-bar-row{ display:flex; align-items:center; gap:8px; font-size:12px; color:var(--muted); margin-bottom:6px; }
+.stat-card{ border-radius:20px; padding:clamp(14px, 1.33cqh + 5.33px, 18px); background:var(--card); border:1px solid rgba(var(--hairline-rgb),.06); }
+.tense-bar-row{ display:flex; align-items:center; gap:clamp(6px, 0.67cqh + 1.67px, 8px); font-size:clamp(10.5px, 0.5cqh + 7.25px, 12px); color:var(--muted); margin-bottom:6px; }
 .tense-bar-row .name{ width:110px; flex-shrink:0; }
 .tense-bar-row .bar{ flex:1; height:6px; background:var(--inset); border-radius:4px; overflow:hidden; }
 .tense-bar-row .bar-fill{ height:100%; background:linear-gradient(90deg,var(--blue),var(--green)); border-radius:4px; }
 .tense-bar-row .pct{ width:34px; text-align:right; flex-shrink:0; }
-.mistake-item{ background:var(--card2); border:1px solid rgba(var(--hairline-rgb),.06); border-radius:16px; padding:12px 16px; margin-top:8px; display:flex; justify-content:space-between; align-items:center; }
-.mistake-item .info b{ font-size:14.5px; }
-.mistake-item .info div{ font-size:12px; color:var(--muted); margin-top:2px; }
-.mistake-item .miss-count{ background:rgba(var(--red-rgb),.13); color:var(--red-2); font-size:11.5px; font-weight:800; padding:5px 9px; border-radius:8px; }
+.mistake-item{ background:var(--card2); border:1px solid rgba(var(--hairline-rgb),.06); border-radius:16px; padding:clamp(9px, 1cqh + 2.5px, 12px) clamp(13px, 1cqh + 6.5px, 16px); margin-top:8px; display:flex; justify-content:space-between; align-items:center; }
+.mistake-item .info b{ font-size:clamp(13px, 0.5cqh + 9.75px, 14.5px); }
+.mistake-item .info div{ font-size:clamp(10.5px, 0.5cqh + 7.25px, 12px); color:var(--muted); margin-top:2px; }
+.mistake-item .miss-count{ background:rgba(var(--red-rgb),.13); color:var(--red-2); font-size:clamp(10px, 0.5cqh + 6.75px, 11.5px); font-weight:800; padding:clamp(4px, 0.33cqh + 1.83px, 5px) clamp(7px, 0.67cqh + 2.67px, 9px); border-radius:8px; }
 
 .btn-spin{ display:inline-block; width:14px; height:14px; border:2px solid rgba(255,255,255,.35); border-top-color:#fff; border-radius:50%; animation:btn-spin .6s linear infinite; margin-right:8px; vertical-align:-2px; }
 @keyframes btn-spin{ to{ transform:rotate(360deg); } }
-.restore-link{ background:none; border:none; color:var(--muted); font-family:inherit; font-size:13px; font-weight:700; text-decoration:underline; padding:6px; cursor:pointer; }
-.unlock-link{ background:rgba(var(--blue-rgb),.1); border:1px solid rgba(var(--blue-rgb),.25); color:var(--blue-2); font-family:inherit; font-size:13.5px; font-weight:800; padding:9px 16px; border-radius:999px; cursor:pointer; display:inline-flex; align-items:center; gap:6px; }
-.unlock-link .ic{ width:14px; height:14px; }
+.restore-link{ background:none; border:none; color:var(--muted); font-family:inherit; font-size:clamp(11.5px, 0.5cqh + 8.25px, 13px); font-weight:700; text-decoration:underline; padding:6px; cursor:pointer; }
+.unlock-link{ background:rgba(var(--blue-rgb),.1); border:1px solid rgba(var(--blue-rgb),.25); color:var(--blue-2); font-family:inherit; font-size:clamp(12px, 0.5cqh + 8.75px, 13.5px); font-weight:800; padding:clamp(7px, 0.67cqh + 2.67px, 9px) clamp(13px, 1cqh + 6.5px, 16px); border-radius:999px; cursor:pointer; display:inline-flex; align-items:center; gap:6px; }
+.unlock-link .ic{ width:clamp(12px, 0.67cqh + 7.67px, 14px); height:clamp(12px, 0.67cqh + 7.67px, 14px); }
 .compare-tag{ display:block; font-size:10px; font-style:normal; font-weight:600; color:var(--faint); margin-top:1px; }
 #splash{ position:fixed; inset:0; z-index:200; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:14px; background:var(--bg); transition:opacity .25s ease; }
 #splash.hide{ opacity:0; pointer-events:none; }
@@ -566,27 +589,27 @@ p.sub{ color:var(--muted); font-size:14px; margin:0 0 16px; line-height:1.4; }
 .onb-carousel{ display:flex; overflow-x:auto; overflow-y:hidden; scroll-snap-type:x mandatory; scrollbar-width:none; -webkit-overflow-scrolling:touch; width:100%; touch-action:pan-x; }
 .onb-carousel::-webkit-scrollbar{ display:none; }
 .onb-slide{ flex:0 0 100%; scroll-snap-align:center; box-sizing:border-box; padding:0 4px; display:flex; flex-direction:column; align-items:center; gap:14px; }
-.onb-mock{ width:100%; max-width:280px; margin:0 auto; border-radius:26px; padding:22px 20px; text-align:center; background:linear-gradient(160deg,var(--card2),var(--card)); border:1px solid rgba(var(--hairline-rgb),.08); box-sizing:border-box; }
-.onb-mock-lvl{ display:inline-block; font-size:10.5px; font-weight:800; color:var(--on-blue); padding:4px 10px; border-radius:999px; background:linear-gradient(150deg,var(--blue-2),var(--blue)); margin-bottom:14px; }
-.onb-mock-th{ font-size:13px; color:var(--thai); margin-bottom:4px; }
-.onb-mock-en{ font-size:25px; font-weight:800; margin-bottom:10px; }
-.onb-mock-ex{ font-size:13px; font-style:italic; color:var(--muted); }
-.onb-mock-hint{ margin-top:16px; font-size:11px; color:var(--faint); display:flex; align-items:center; justify-content:center; gap:5px; }
-.onb-mock-hint .ic{ width:12px; height:12px; }
+.onb-mock{ width:100%; max-width:280px; margin:0 auto; border-radius:26px; padding:clamp(16px, 2cqh + 3px, 22px) clamp(15px, 1.67cqh + 4.17px, 20px); text-align:center; background:linear-gradient(160deg,var(--card2),var(--card)); border:1px solid rgba(var(--hairline-rgb),.08); box-sizing:border-box; }
+.onb-mock-lvl{ display:inline-block; font-size:clamp(9.5px, 0.33cqh + 7.33px, 10.5px); font-weight:800; color:var(--on-blue); padding:clamp(3px, 0.33cqh + 0.83px, 4px) clamp(8px, 0.67cqh + 3.67px, 10px); border-radius:999px; background:linear-gradient(150deg,var(--blue-2),var(--blue)); margin-bottom:14px; }
+.onb-mock-th{ font-size:clamp(11.5px, 0.5cqh + 8.25px, 13px); color:var(--thai); margin-bottom:4px; }
+.onb-mock-en{ font-size:clamp(19px, 2cqh + 6px, 25px); font-weight:800; margin-bottom:10px; }
+.onb-mock-ex{ font-size:clamp(11.5px, 0.5cqh + 8.25px, 13px); font-style:italic; color:var(--muted); }
+.onb-mock-hint{ margin-top:16px; font-size:clamp(10px, 0.33cqh + 7.83px, 11px); color:var(--faint); display:flex; align-items:center; justify-content:center; gap:5px; }
+.onb-mock-hint .ic{ width:clamp(10px, 0.67cqh + 5.67px, 12px); height:clamp(10px, 0.67cqh + 5.67px, 12px); }
 .onb-mock-grid{ display:grid; grid-template-columns:1fr 1fr; gap:9px; }
-.onb-mock-mod{ background:var(--card2); border:1px solid rgba(var(--hairline-rgb),.06); border-radius:16px; padding:14px 8px; display:flex; flex-direction:column; align-items:center; gap:7px; }
-.onb-mock-mod-icon{ width:34px; height:34px; border-radius:11px; display:flex; align-items:center; justify-content:center; color:#fff; }
-.onb-mock-mod-icon .ic{ width:17px; height:17px; }
-.onb-mock-mod-label{ font-size:11.5px; font-weight:700; }
+.onb-mock-mod{ background:var(--card2); border:1px solid rgba(var(--hairline-rgb),.06); border-radius:16px; padding:clamp(11px, 1cqh + 4.5px, 14px) clamp(6px, 0.67cqh + 1.67px, 8px); display:flex; flex-direction:column; align-items:center; gap:7px; }
+.onb-mock-mod-icon{ width:clamp(26px, 2.67cqh + 8.67px, 34px); height:clamp(26px, 2.67cqh + 8.67px, 34px); border-radius:11px; display:flex; align-items:center; justify-content:center; color:#fff; }
+.onb-mock-mod-icon .ic{ width:clamp(13px, 1.33cqh + 4.33px, 17px); height:clamp(13px, 1.33cqh + 4.33px, 17px); }
+.onb-mock-mod-label{ font-size:clamp(10px, 0.5cqh + 6.75px, 11.5px); font-weight:700; }
 .onb-mock-free{ display:inline-flex; align-items:center; gap:3px; font-size:9.5px; font-weight:800; color:var(--good-fg); background:var(--good-bg); padding:3px 7px; border-radius:999px; }
 .onb-mock-progress{ display:flex; flex-direction:column; align-items:center; gap:18px; }
-.onb-mock-ring{ width:96px; height:96px; border-radius:50%; background:conic-gradient(var(--blue-2) 0deg 270deg, rgba(var(--hairline-rgb),.08) 270deg 360deg); display:flex; align-items:center; justify-content:center; }
-.onb-mock-ring-inner{ width:78px; height:78px; border-radius:50%; background:var(--inset); display:flex; flex-direction:column; align-items:center; justify-content:center; }
-.onb-mock-ring-inner b{ font-size:21px; font-weight:800; }
+.onb-mock-ring{ width:clamp(70px, 8.67cqh + 13.67px, 96px); height:clamp(70px, 8.67cqh + 13.67px, 96px); border-radius:50%; background:conic-gradient(var(--blue-2) 0deg 270deg, rgba(var(--hairline-rgb),.08) 270deg 360deg); display:flex; align-items:center; justify-content:center; }
+.onb-mock-ring-inner{ width:clamp(56px, 7.33cqh + 8.33px, 78px); height:clamp(56px, 7.33cqh + 8.33px, 78px); border-radius:50%; background:var(--inset); display:flex; flex-direction:column; align-items:center; justify-content:center; }
+.onb-mock-ring-inner b{ font-size:clamp(16px, 1.67cqh + 5.17px, 21px); font-weight:800; }
 .onb-mock-ring-inner span{ font-size:9.5px; color:var(--faint); }
-.onb-mock-streak{ display:inline-flex; align-items:center; gap:6px; background:linear-gradient(180deg,var(--orange-2),var(--orange)); padding:8px 16px; border-radius:999px; font-weight:800; font-size:14px; color:var(--on-orange); }
-.onb-mock-streak .ic{ width:16px; height:16px; }
-.onb-caption{ font-size:14px; color:var(--muted); max-width:300px; margin:0; line-height:1.5; }
+.onb-mock-streak{ display:inline-flex; align-items:center; gap:6px; background:linear-gradient(180deg,var(--orange-2),var(--orange)); padding:clamp(6px, 0.67cqh + 1.67px, 8px) clamp(13px, 1cqh + 6.5px, 16px); border-radius:999px; font-weight:800; font-size:clamp(12px, 0.67cqh + 7.67px, 14px); color:var(--on-orange); }
+.onb-mock-streak .ic{ width:clamp(13px, 1cqh + 6.5px, 16px); height:clamp(13px, 1cqh + 6.5px, 16px); }
+.onb-caption{ font-size:clamp(12.5px, 0.5cqh + 9.25px, 14px); color:var(--muted); max-width:300px; margin:0; line-height:1.5; }
 .onb-dots{ display:flex; justify-content:center; gap:18px; }
 .onb-dot{ width:6px; height:6px; border-radius:50%; background:rgba(var(--hairline-rgb),.18); border:none; padding:0; transition:background .15s, width .15s; position:relative; }
 /* Real button, real 6px visual dot — but a 6px target is unusable on touch.
@@ -600,13 +623,13 @@ p.sub{ color:var(--muted); font-size:14px; margin:0 0 16px; line-height:1.4; }
 /* Unlock celebration */
 .unlock-overlay{ position:fixed; inset:0; z-index:220; display:flex; align-items:center; justify-content:center; padding:24px; background:var(--scrim); backdrop-filter:blur(6px); -webkit-backdrop-filter:blur(6px); opacity:0; pointer-events:none; transition:opacity .25s ease; }
 .unlock-overlay.active{ opacity:1; pointer-events:auto; }
-.unlock-card{ position:relative; width:100%; max-width:360px; background:var(--card); border:1px solid rgba(var(--hairline-rgb),.1); border-radius:28px; padding:38px 26px 28px; text-align:center; overflow:hidden; transform:scale(.9) translateY(10px); transition:transform .35s cubic-bezier(.16,1,.3,1); }
+.unlock-card{ position:relative; width:100%; max-width:360px; background:var(--card); border:1px solid rgba(var(--hairline-rgb),.1); border-radius:28px; padding:clamp(28px, 3.33cqh + 6.33px, 38px) clamp(19px, 2.33cqh + 3.83px, 26px) clamp(20px, 2.67cqh + 2.67px, 28px); text-align:center; overflow:hidden; transform:scale(.9) translateY(10px); transition:transform .35s cubic-bezier(.16,1,.3,1); }
 .unlock-overlay.active .unlock-card{ transform:scale(1) translateY(0); }
-.unlock-badge{ position:relative; width:76px; height:76px; margin:0 auto 18px; border-radius:26px; background:linear-gradient(160deg,var(--green-2),var(--blue)); display:flex; align-items:center; justify-content:center; color:var(--on-green); box-shadow:0 16px 34px -10px rgba(var(--green-rgb),.6); animation:unlock-pop .5s cubic-bezier(.16,1,.3,1) .15s both; }
-.unlock-badge .ic{ width:36px; height:36px; }
+.unlock-badge{ position:relative; width:clamp(58px, 6cqh + 19px, 76px); height:clamp(58px, 6cqh + 19px, 76px); margin:0 auto 18px; border-radius:26px; background:linear-gradient(160deg,var(--green-2),var(--blue)); display:flex; align-items:center; justify-content:center; color:var(--on-green); box-shadow:0 16px 34px -10px rgba(var(--green-rgb),.6); animation:unlock-pop .5s cubic-bezier(.16,1,.3,1) .15s both; }
+.unlock-badge .ic{ width:clamp(28px, 2.67cqh + 10.67px, 36px); height:clamp(28px, 2.67cqh + 10.67px, 36px); }
 @keyframes unlock-pop{ 0%{ transform:scale(.4) rotate(-15deg); opacity:0;} 100%{ transform:scale(1) rotate(0); opacity:1;} }
-.unlock-title{ font-size:21px; font-weight:800; margin:0 0 8px; }
-.unlock-sub{ font-size:14px; color:var(--muted); margin:0 0 24px; line-height:1.55; }
+.unlock-title{ font-size:clamp(17px, 1.33cqh + 8.33px, 21px); font-weight:800; margin:0 0 8px; }
+.unlock-sub{ font-size:clamp(12.5px, 0.5cqh + 9.25px, 14px); color:var(--muted); margin:0 0 clamp(18px, 2cqh + 5px, 24px); line-height:1.55; }
 .confetti-piece{ position:absolute; top:-12%; width:8px; height:14px; border-radius:2px; opacity:0; animation:confetti-fall 2.1s ease-in forwards; }
 .unlock-overlay.active .confetti-piece{ opacity:1; }
 @keyframes confetti-fall{ 0%{ transform:translateY(-20px) rotate(0deg); opacity:1; } 100%{ transform:translateY(440px) rotate(560deg); opacity:0; } }
@@ -628,22 +651,22 @@ p.sub{ color:var(--muted); font-size:14px; margin:0 0 16px; line-height:1.4; }
 .confetti-piece:nth-child(16){ left:88%; background:var(--violet-2); animation-delay:.32s; }
 
 /* Verb dictionary */
-.searchbar{ display:flex; align-items:center; gap:10px; background:var(--inset); border:1px solid rgba(var(--hairline-rgb),.12); border-radius:16px; padding:0 14px; margin-bottom:14px; transition:border-color .15s, box-shadow .15s; }
+.searchbar{ display:flex; align-items:center; gap:10px; background:var(--inset); border:1px solid rgba(var(--hairline-rgb),.12); border-radius:16px; padding:0 clamp(11px, 1cqh + 4.5px, 14px); margin-bottom:14px; transition:border-color .15s, box-shadow .15s; }
 .searchbar:focus-within{ border-color:var(--blue); box-shadow:0 0 0 3px rgba(var(--blue-rgb),.18); }
 .searchbar .ic{ color:var(--faint); flex-shrink:0; }
-.searchbar input{ flex:1; background:none; border:none; color:var(--text); font-size:16px; font-family:inherit; padding:14px 0; }
+.searchbar input{ flex:1; background:none; border:none; color:var(--text); font-size:16px; font-family:inherit; padding:clamp(11px, 1cqh + 4.5px, 14px) 0; }
 .searchbar input:focus{ outline:none; }
-.verb-row{ display:flex; align-items:center; gap:13px; background:var(--card2); border:1px solid rgba(var(--hairline-rgb),.06); border-radius:16px; padding:13px 15px; margin-bottom:9px; transition:transform .15s; cursor:pointer; }
+.verb-row{ display:flex; align-items:center; gap:clamp(10px, 1cqh + 3.5px, 13px); background:var(--card2); border:1px solid rgba(var(--hairline-rgb),.06); border-radius:16px; padding:clamp(10px, 1cqh + 3.5px, 13px) clamp(12px, 1cqh + 5.5px, 15px); margin-bottom:9px; transition:transform .15s; cursor:pointer; }
 .verb-row:active{ transform:scale(.99); }
-.verb-row .row-icon{ width:40px; height:40px; border-radius:13px; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
-.verb-row .row-icon .ic{ width:20px; height:20px; color:var(--on-blue); }
+.verb-row .row-icon{ width:clamp(32px, 2.67cqh + 14.67px, 40px); height:clamp(32px, 2.67cqh + 14.67px, 40px); border-radius:13px; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+.verb-row .row-icon .ic{ width:clamp(16px, 1.33cqh + 7.33px, 20px); height:clamp(16px, 1.33cqh + 7.33px, 20px); color:var(--on-blue); }
 .verb-row .info{ flex:1; min-width:0; }
-.verb-row .en{ font-size:15px; font-weight:800; color:var(--text); display:flex; align-items:center; gap:5px; }
-.verb-row .en .ic{ width:14px; height:14px; color:var(--orange-2); }
-.verb-row .th{ font-size:12.5px; color:var(--thai); margin-top:2px; }
-.verb-row .lvl{ font-size:11px; font-weight:800; color:var(--faint); background:var(--inset); padding:5px 9px; border-radius:8px; flex-shrink:0; }
+.verb-row .en{ font-size:clamp(13px, 0.67cqh + 8.67px, 15px); font-weight:800; color:var(--text); display:flex; align-items:center; gap:5px; }
+.verb-row .en .ic{ width:clamp(12px, 0.67cqh + 7.67px, 14px); height:clamp(12px, 0.67cqh + 7.67px, 14px); color:var(--orange-2); }
+.verb-row .th{ font-size:clamp(11px, 0.5cqh + 7.75px, 12.5px); color:var(--thai); margin-top:2px; }
+.verb-row .lvl{ font-size:clamp(10px, 0.33cqh + 7.83px, 11px); font-weight:800; color:var(--faint); background:var(--inset); padding:clamp(4px, 0.33cqh + 1.83px, 5px) clamp(7px, 0.67cqh + 2.67px, 9px); border-radius:8px; flex-shrink:0; }
 .fav-star-btn{ background:none; border:none; padding:6px; margin:-6px; display:flex; align-items:center; justify-content:center; color:var(--faint); flex-shrink:0; cursor:pointer; }
-.fav-star-btn .ic{ width:19px; height:19px; transition:transform .15s; }
+.fav-star-btn .ic{ width:clamp(15px, 1.33cqh + 6.33px, 19px); height:clamp(15px, 1.33cqh + 6.33px, 19px); transition:transform .15s; }
 .fav-star-btn:active .ic{ transform:scale(.8); }
 .fav-star-btn.active{ color:var(--orange-2); }
 .fav-star-btn.active .ic{ fill:var(--orange-2); }
@@ -651,99 +674,99 @@ p.sub{ color:var(--muted); font-size:14px; margin:0 0 16px; line-height:1.4; }
 .back-btn.fav-toggle-btn.active .ic{ fill:var(--orange-2); }
 #verb-fav-filter-pill .ic{ margin-right:4px; }
 #verb-fav-filter-pill.active .ic{ fill:currentColor; }
-.conj-block{ background:var(--card); border-radius:20px; padding:18px; margin-bottom:12px; border:1px solid rgba(var(--hairline-rgb),.06); }
-.conj-block h3{ margin:0 0 10px; font-size:14px; color:var(--orange-2); }
-.conj-row{ display:flex; padding:6px 0; font-size:14.5px; border-bottom:1px solid rgba(var(--hairline-rgb),.05); }
+.conj-block{ background:var(--card); border-radius:20px; padding:clamp(14px, 1.33cqh + 5.33px, 18px); margin-bottom:12px; border:1px solid rgba(var(--hairline-rgb),.06); }
+.conj-block h3{ margin:0 0 10px; font-size:clamp(12.5px, 0.5cqh + 9.25px, 14px); color:var(--orange-2); }
+.conj-row{ display:flex; padding:6px 0; font-size:clamp(13px, 0.5cqh + 9.75px, 14.5px); border-bottom:1px solid rgba(var(--hairline-rgb),.05); }
 .conj-row:last-child{ border-bottom:none; }
 .conj-row .subj{ width:56px; flex-shrink:0; color:var(--muted); }
-.irr-row{ background:var(--card2); border:1px solid rgba(var(--hairline-rgb),.06); border-radius:16px; padding:13px 16px; margin-bottom:9px; font-size:14px; }
-.irr-row .en{ font-weight:800; font-size:15px; }
+.irr-row{ background:var(--card2); border:1px solid rgba(var(--hairline-rgb),.06); border-radius:16px; padding:clamp(10px, 1cqh + 3.5px, 13px) clamp(13px, 1cqh + 6.5px, 16px); margin-bottom:9px; font-size:clamp(12.5px, 0.5cqh + 9.25px, 14px); }
+.irr-row .en{ font-weight:800; font-size:clamp(13px, 0.67cqh + 8.67px, 15px); }
 .irr-row .forms{ color:var(--muted); margin-top:3px; }
 .irr-row .th{ color:var(--thai); margin-top:3px; }
 .irr-row .fr{ color:var(--text); margin-top:3px; font-style:italic; }
 
 /* Grammar */
 .gj-section{ margin-top:24px; }
-.gj-section-hdr{ display:flex; align-items:center; gap:11px; padding:0 2px; margin-bottom:11px; }
-.gj-section-num{ width:30px; height:30px; border-radius:10px; flex-shrink:0; background:var(--card2); border:1px solid rgba(var(--hairline-rgb),.12); display:flex; align-items:center; justify-content:center; font-size:13px; font-weight:800; color:var(--accent2); }
+.gj-section-hdr{ display:flex; align-items:center; gap:clamp(9px, 0.67cqh + 4.67px, 11px); padding:0 2px; margin-bottom:11px; }
+.gj-section-num{ width:clamp(24px, 2cqh + 11px, 30px); height:clamp(24px, 2cqh + 11px, 30px); border-radius:10px; flex-shrink:0; background:var(--card2); border:1px solid rgba(var(--hairline-rgb),.12); display:flex; align-items:center; justify-content:center; font-size:clamp(11.5px, 0.5cqh + 8.25px, 13px); font-weight:800; color:var(--accent2); }
 .gj-section-num.done{ color:var(--good); }
-.gj-section-title{ font-size:16px; font-weight:800; color:var(--text); }
-.gj-section-title-th{ font-size:12px; color:var(--thai); font-weight:600; }
-.gj-section-count{ font-size:11.5px; font-weight:800; color:var(--faint); flex-shrink:0; }
+.gj-section-title{ font-size:clamp(14px, 0.67cqh + 9.67px, 16px); font-weight:800; color:var(--text); }
+.gj-section-title-th{ font-size:clamp(10.5px, 0.5cqh + 7.25px, 12px); color:var(--thai); font-weight:600; }
+.gj-section-count{ font-size:clamp(10px, 0.5cqh + 6.75px, 11.5px); font-weight:800; color:var(--faint); flex-shrink:0; }
 .gj-section-count.done{ color:var(--good); }
 
 .gj-lesson-list{ display:flex; flex-direction:column; gap:9px; }
-.gj-lesson-row{ display:flex; align-items:center; gap:12px; width:100%; text-align:left; font-family:inherit; color:var(--text);
-  background:var(--card2); border:1px solid rgba(var(--hairline-rgb),.06); border-radius:16px; padding:13px 14px; transition:transform .15s; }
+.gj-lesson-row{ display:flex; align-items:center; gap:clamp(9px, 1cqh + 2.5px, 12px); width:100%; text-align:left; font-family:inherit; color:var(--text);
+  background:var(--card2); border:1px solid rgba(var(--hairline-rgb),.06); border-radius:16px; padding:clamp(10px, 1cqh + 3.5px, 13px) clamp(11px, 1cqh + 4.5px, 14px); transition:transform .15s; }
 .gj-lesson-row:active{ transform:scale(.99); }
-.gj-lesson-badge{ width:38px; height:38px; border-radius:12px; flex-shrink:0; display:flex; align-items:center; justify-content:center;
-  font-weight:800; font-size:13px; color:#fff; background:linear-gradient(150deg,#5a6a9a,#3a4a7a); }
+.gj-lesson-badge{ width:clamp(30px, 2.67cqh + 12.67px, 38px); height:clamp(30px, 2.67cqh + 12.67px, 38px); border-radius:12px; flex-shrink:0; display:flex; align-items:center; justify-content:center;
+  font-weight:800; font-size:clamp(11.5px, 0.5cqh + 8.25px, 13px); color:#fff; background:linear-gradient(150deg,#5a6a9a,#3a4a7a); }
 .gj-lesson-badge.done{ background:linear-gradient(150deg,var(--green-2),var(--green)); }
-.gj-lesson-badge .ic{ width:17px; height:17px; }
+.gj-lesson-badge .ic{ width:clamp(14px, 1cqh + 7.5px, 17px); height:clamp(14px, 1cqh + 7.5px, 17px); }
 .gj-lesson-row .info{ flex:1; min-width:0; }
-.gj-lesson-row .title{ font-size:14.5px; font-weight:700; }
-.gj-lesson-row .title-th{ font-size:12px; color:var(--thai); font-weight:600; margin-top:1px; }
-.gj-lesson-status{ font-size:11.5px; font-weight:700; color:var(--faint); flex-shrink:0; }
+.gj-lesson-row .title{ font-size:clamp(13px, 0.5cqh + 9.75px, 14.5px); font-weight:700; }
+.gj-lesson-row .title-th{ font-size:clamp(10.5px, 0.5cqh + 7.25px, 12px); color:var(--thai); font-weight:600; margin-top:1px; }
+.gj-lesson-status{ font-size:clamp(10px, 0.5cqh + 6.75px, 11.5px); font-weight:700; color:var(--faint); flex-shrink:0; }
 .gj-lesson-status.started{ color:var(--accent); }
 .gj-lesson-status.done{ color:var(--good); }
 
-.gj-chip{ display:inline-flex; align-items:center; justify-content:center; font-weight:700; font-size:15px; padding:7px 12px; border-radius:12px; border:1px solid; white-space:nowrap; }
-.gj-chip.big{ font-size:18px; padding:10px 15px; }
-.gj-role-tag{ display:inline-flex; align-items:center; font-family:inherit; font-weight:800; font-size:13px; padding:8px 12px; border-radius:11px; border:1px solid; white-space:nowrap; }
+.gj-chip{ display:inline-flex; align-items:center; justify-content:center; font-weight:700; font-size:clamp(13px, 0.67cqh + 8.67px, 15px); padding:clamp(5px, 0.67cqh + 0.67px, 7px) clamp(9px, 1cqh + 2.5px, 12px); border-radius:12px; border:1px solid; white-space:nowrap; }
+.gj-chip.big{ font-size:clamp(15px, 1cqh + 8.5px, 18px); padding:clamp(8px, 0.67cqh + 3.67px, 10px) clamp(12px, 1cqh + 5.5px, 15px); }
+.gj-role-tag{ display:inline-flex; align-items:center; font-family:inherit; font-weight:800; font-size:clamp(11.5px, 0.5cqh + 8.25px, 13px); padding:clamp(6px, 0.67cqh + 1.67px, 8px) clamp(9px, 1cqh + 2.5px, 12px); border-radius:11px; border:1px solid; white-space:nowrap; }
 
-.gj-choice-opts{ display:flex; flex-direction:column; gap:9px; margin-top:13px; }
-.gj-choice-btn{ appearance:none; cursor:pointer; text-align:left; width:100%; font-family:inherit; font-size:14.5px; font-weight:700; padding:13px 15px; border-radius:13px;
+.gj-choice-opts{ display:flex; flex-direction:column; gap:clamp(7px, 0.67cqh + 2.67px, 9px); margin-top:clamp(10px, 1cqh + 3.5px, 13px); }
+.gj-choice-btn{ appearance:none; cursor:pointer; text-align:left; width:100%; font-family:inherit; font-size:clamp(13px, 0.5cqh + 9.75px, 14.5px); font-weight:700; padding:clamp(10px, 1cqh + 3.5px, 13px) clamp(12px, 1cqh + 5.5px, 15px); border-radius:13px;
   display:flex; align-items:center; gap:10px; color:var(--text); background:var(--card2); border:1.5px solid rgba(var(--hairline-rgb),.06); transition:all .18s; }
-.gj-choice-btn .ic{ width:16px; height:16px; color:var(--good); }
+.gj-choice-btn .ic{ width:clamp(13px, 1cqh + 6.5px, 16px); height:clamp(13px, 1cqh + 6.5px, 16px); color:var(--good); }
 .gj-choice-btn.right{ color:var(--good-fg); background:var(--good-bg); border-color:var(--good); }
 .gj-choice-btn.wrong{ color:var(--bad-fg); background:var(--bad-bg); border-color:var(--bad); animation:gj-shake .4s; }
-.gj-choice-letter{ width:22px; height:22px; border-radius:50%; flex-shrink:0; font-size:12px; font-weight:800; display:flex; align-items:center; justify-content:center; color:var(--muted); background:rgba(var(--hairline-rgb),.06); border:1px solid rgba(var(--hairline-rgb),.08); }
-.gj-gap{ display:inline-block; min-width:34px; text-align:center; margin:0 3px; border-bottom:2px solid var(--blue); color:var(--blue-2); font-weight:800; }
+.gj-choice-letter{ width:clamp(18px, 1.33cqh + 9.33px, 22px); height:clamp(18px, 1.33cqh + 9.33px, 22px); border-radius:50%; flex-shrink:0; font-size:clamp(10.5px, 0.5cqh + 7.25px, 12px); font-weight:800; display:flex; align-items:center; justify-content:center; color:var(--muted); background:rgba(var(--hairline-rgb),.06); border:1px solid rgba(var(--hairline-rgb),.08); }
+.gj-gap{ display:inline-block; min-width:clamp(26px, 2.67cqh + 8.67px, 34px); text-align:center; margin:0 3px; border-bottom:2px solid var(--blue); color:var(--blue-2); font-weight:800; }
 .gj-gap.done{ border-color:var(--good); color:var(--good-fg); }
 
-.listening-play-circle{ width:76px; height:76px; border-radius:50%; margin:6px auto 18px; background:linear-gradient(150deg,var(--blue-2),var(--blue)); color:var(--on-blue); border:none; display:flex; align-items:center; justify-content:center; box-shadow:0 14px 30px -10px rgba(var(--blue-rgb),.55); flex-shrink:0; }
+.listening-play-circle{ width:clamp(58px, 6cqh + 19px, 76px); height:clamp(58px, 6cqh + 19px, 76px); border-radius:50%; margin:6px auto 18px; background:linear-gradient(150deg,var(--blue-2),var(--blue)); color:var(--on-blue); border:none; display:flex; align-items:center; justify-content:center; box-shadow:0 14px 30px -10px rgba(var(--blue-rgb),.55); flex-shrink:0; }
 .listening-play-circle:active{ transform:scale(.96); }
-.listening-play-circle .ic{ width:30px; height:30px; margin-left:3px; }
+.listening-play-circle .ic{ width:clamp(23px, 2.33cqh + 7.83px, 30px); height:clamp(23px, 2.33cqh + 7.83px, 30px); margin-left:3px; }
 .listening-play-circle.playing{ animation:listening-pulse 1.1s ease-in-out infinite; }
 @keyframes listening-pulse{ 0%,100%{ box-shadow:0 14px 30px -10px rgba(var(--blue-rgb),.55); } 50%{ box-shadow:0 14px 34px -6px rgba(var(--blue-rgb),.85); } }
 .listening-scrub-row{ display:flex; align-items:center; gap:6px; margin:14px auto 0; max-width:340px; }
-.listening-step-btn{ appearance:none; border:none; background:none; color:var(--muted); width:30px; height:30px; display:flex; align-items:center; justify-content:center; flex-shrink:0; cursor:pointer; -webkit-appearance:none; position:relative; }
-.listening-step-btn .ic{ width:20px; height:20px; }
+.listening-step-btn{ appearance:none; border:none; background:none; color:var(--muted); width:clamp(24px, 2cqh + 11px, 30px); height:clamp(24px, 2cqh + 11px, 30px); display:flex; align-items:center; justify-content:center; flex-shrink:0; cursor:pointer; -webkit-appearance:none; position:relative; }
+.listening-step-btn .ic{ width:clamp(16px, 1.33cqh + 7.33px, 20px); height:clamp(16px, 1.33cqh + 7.33px, 20px); }
 /* Padded hit area, but biased away from the draggable scrub track this
    sits next to — reach out and up/down freely, barely reach inward. */
 .listening-scrub-row .listening-step-btn:first-child::before{ content:''; position:absolute; top:-7px; bottom:-7px; left:-7px; right:-2px; }
 .listening-scrub-row .listening-step-btn:last-child::before{ content:''; position:absolute; top:-7px; bottom:-7px; right:-7px; left:-2px; }
 .listening-step-btn:active{ color:var(--text); }
-.listening-progress{ position:relative; flex:1; height:28px; display:flex; align-items:center; cursor:pointer; touch-action:none; }
+.listening-progress{ position:relative; flex:1; height:clamp(22px, 2cqh + 9px, 28px); display:flex; align-items:center; cursor:pointer; touch-action:none; }
 .listening-progress-track{ position:absolute; left:0; right:0; top:50%; transform:translateY(-50%); height:6px; display:flex; gap:2px; }
 .listening-progress-tick{ flex:1; height:100%; background:var(--inset); border-radius:3px; transition:background .15s; }
 .listening-progress-tick.active{ background:var(--blue-2); }
 .listening-progress-thumb{ position:absolute; top:50%; width:14px; height:14px; border-radius:50%; background:var(--blue-2); box-shadow:0 2px 6px rgba(0,0,0,.25); transform:translate(-50%,-50%); pointer-events:none; transition:left .1s linear; }
-.listening-progress-label{ font-size:11px; color:var(--muted); margin-top:5px; }
-.listening-turn{ display:flex; gap:10px; padding:11px 0; border-bottom:1px solid rgba(var(--hairline-rgb),.06); }
+.listening-progress-label{ font-size:clamp(10px, 0.33cqh + 7.83px, 11px); color:var(--muted); margin-top:5px; }
+.listening-turn{ display:flex; gap:10px; padding:clamp(8px, 1cqh + 1.5px, 11px) 0; border-bottom:1px solid rgba(var(--hairline-rgb),.06); }
 .listening-turn:last-child{ border-bottom:none; }
-.listening-turn-who{ font-size:11.5px; font-weight:800; color:var(--accent2); flex-shrink:0; width:74px; }
-.listening-turn-text{ font-size:14px; color:var(--text); line-height:1.5; }
+.listening-turn-who{ font-size:clamp(10px, 0.5cqh + 6.75px, 11.5px); font-weight:800; color:var(--accent2); flex-shrink:0; width:74px; }
+.listening-turn-text{ font-size:clamp(12.5px, 0.5cqh + 9.25px, 14px); color:var(--text); line-height:1.5; }
 
-.gj-formula-card{ background:var(--inset); border:1px solid rgba(var(--green-rgb),.27); border-radius:18px; padding:16px 15px; margin-top:11px; }
-.gj-formula-label{ font-size:11px; font-weight:800; letter-spacing:.6px; color:var(--good); text-transform:uppercase; margin-bottom:11px; display:flex; align-items:center; gap:6px; }
-.gj-formula-label .ic{ width:14px; height:14px; }
+.gj-formula-card{ background:var(--inset); border:1px solid rgba(var(--green-rgb),.27); border-radius:18px; padding:clamp(12px, 1.33cqh + 3.33px, 16px) clamp(11px, 1.33cqh + 2.33px, 15px); margin-top:11px; }
+.gj-formula-label{ font-size:clamp(10px, 0.33cqh + 7.83px, 11px); font-weight:800; letter-spacing:.6px; color:var(--good); text-transform:uppercase; margin-bottom:11px; display:flex; align-items:center; gap:6px; }
+.gj-formula-label .ic{ width:clamp(12px, 0.67cqh + 7.67px, 14px); height:clamp(12px, 0.67cqh + 7.67px, 14px); }
 .gj-formula-pattern{ display:flex; flex-wrap:wrap; gap:7px; align-items:center; justify-content:center; margin-bottom:13px; }
-.gj-plus{ color:var(--faint); font-weight:800; font-size:16px; }
-.gj-formula-rule{ font-size:14px; color:var(--text); font-weight:600; line-height:1.5; text-align:center; }
-.gj-formula-th{ color:var(--thai); font-size:12.5px; margin-top:6px; text-align:center; }
+.gj-plus{ color:var(--faint); font-weight:800; font-size:clamp(13px, 1cqh + 6.5px, 16px); }
+.gj-formula-rule{ font-size:clamp(12.5px, 0.5cqh + 9.25px, 14px); color:var(--text); font-weight:600; line-height:1.5; text-align:center; }
+.gj-formula-th{ color:var(--thai); font-size:clamp(11px, 0.5cqh + 7.75px, 12.5px); margin-top:6px; text-align:center; }
 
 .gj-ex-label{ font-size:10.5px; font-weight:800; letter-spacing:.5px; text-transform:uppercase; color:var(--faint); margin-bottom:9px; }
 
-.gj-builder-slots{ display:flex; flex-wrap:wrap; gap:8px; justify-content:center; align-items:flex-end; padding:2px 2px 4px; min-height:64px; }
-.gj-builder-slot{ min-width:66px; min-height:46px; border-radius:12px; display:flex; align-items:center; justify-content:center; padding:0 12px; font-weight:700; font-size:16px; border:1.5px solid; transition:all .18s; cursor:pointer; }
+.gj-builder-slots{ display:flex; flex-wrap:wrap; gap:clamp(6px, 0.67cqh + 1.67px, 8px); justify-content:center; align-items:flex-end; padding:2px 2px 4px; min-height:clamp(48px, 5.33cqh + 13.33px, 64px); }
+.gj-builder-slot{ min-width:clamp(52px, 4.67cqh + 21.67px, 66px); min-height:clamp(36px, 3.33cqh + 14.33px, 46px); border-radius:12px; display:flex; align-items:center; justify-content:center; padding:0 clamp(9px, 1cqh + 2.5px, 12px); font-weight:700; font-size:clamp(13px, 1cqh + 6.5px, 16px); border:1.5px solid; transition:all .18s; cursor:pointer; }
 .gj-builder-slot.shake{ animation:gj-shake .4s; }
 .gj-builder-slot-lbl{ font-size:9.5px; font-weight:700; letter-spacing:.4px; text-transform:uppercase; }
-.gj-builder-bank{ display:flex; flex-wrap:wrap; gap:9px; justify-content:center; margin-top:10px; padding:12px 10px; background:var(--inset); border-radius:14px; min-height:56px; }
-.gj-tile{ cursor:pointer; font-family:inherit; font-weight:700; font-size:16px; padding:9px 15px; border-radius:12px; color:var(--text); background:var(--card2); border:1px solid rgba(var(--hairline-rgb),.12); box-shadow:0 2px 0 rgba(0,0,0,.25); transition:transform .1s; }
+.gj-builder-bank{ display:flex; flex-wrap:wrap; gap:clamp(7px, 0.67cqh + 2.67px, 9px); justify-content:center; margin-top:10px; padding:clamp(9px, 1cqh + 2.5px, 12px) clamp(8px, 0.67cqh + 3.67px, 10px); background:var(--inset); border-radius:14px; min-height:clamp(42px, 4.67cqh + 11.67px, 56px); }
+.gj-tile{ cursor:pointer; font-family:inherit; font-weight:700; font-size:clamp(13px, 1cqh + 6.5px, 16px); padding:clamp(7px, 0.67cqh + 2.67px, 9px) clamp(12px, 1cqh + 5.5px, 15px); border-radius:12px; color:var(--text); background:var(--card2); border:1px solid rgba(var(--hairline-rgb),.12); box-shadow:0 2px 0 rgba(0,0,0,.25); transition:transform .1s; }
 .gj-tile:active{ transform:scale(.95); }
 
-.gj-err-text{ font-size:15.5px; line-height:2.1; color:var(--text); }
+.gj-err-text{ font-size:clamp(13px, 0.83cqh + 7.58px, 15.5px); line-height:2.1; color:var(--text); }
 .gj-err-word{ cursor:pointer; border-bottom:1.5px dashed rgba(var(--hairline-rgb),.28); border-radius:4px; padding:1px 2px; }
 .gj-err-word:active{ background:rgba(var(--hairline-rgb),.07); }
 .gj-err-word.shake{ animation:gj-shake .4s; background:rgba(var(--red-rgb),.22); border-color:var(--red); }
@@ -751,15 +774,15 @@ p.sub{ color:var(--muted); font-size:14px; margin:0 0 16px; line-height:1.4; }
 .gj-err-strike{ color:var(--red-2); text-decoration:line-through; opacity:.8; }
 .gj-err-fix{ color:var(--good-fg); font-weight:800; margin-left:4px; }
 .gj-err-notes{ margin-top:14px; display:flex; flex-direction:column; gap:8px; }
-.gj-err-note{ font-size:13px; line-height:1.55; color:var(--muted); background:rgba(var(--hairline-rgb),.04); border-radius:12px; padding:10px 12px; }
+.gj-err-note{ font-size:clamp(11.5px, 0.5cqh + 8.25px, 13px); line-height:1.55; color:var(--muted); background:rgba(var(--hairline-rgb),.04); border-radius:12px; padding:clamp(8px, 0.67cqh + 3.67px, 10px) clamp(9px, 1cqh + 2.5px, 12px); }
 .gj-err-note b{ color:var(--text); }
 .gj-err-note .th{ display:block; color:var(--thai); margin-top:3px; }
-.gj-err-progress{ margin-top:12px; font-size:12.5px; font-weight:700; color:var(--faint); }
+.gj-err-progress{ margin-top:12px; font-size:clamp(11px, 0.5cqh + 7.75px, 12.5px); font-weight:700; color:var(--faint); }
 
 .gj-compare-wrap{ position:relative; padding:6px 2px 4px; }
 .gj-compare-svg{ position:absolute; inset:0; width:100%; height:100%; z-index:1; pointer-events:none; overflow:visible; }
 .gj-compare-row{ display:flex; gap:10px; justify-content:center; flex-wrap:wrap; position:relative; z-index:2; }
-.gj-replay-btn{ appearance:none; cursor:pointer; background:transparent; border:1px solid rgba(var(--hairline-rgb),.08); color:var(--muted); font-family:inherit; font-weight:700; font-size:12px; padding:5px 12px; border-radius:999px; display:inline-flex; align-items:center; gap:4px; }
+.gj-replay-btn{ appearance:none; cursor:pointer; background:transparent; border:1px solid rgba(var(--hairline-rgb),.08); color:var(--muted); font-family:inherit; font-weight:700; font-size:clamp(10.5px, 0.5cqh + 7.25px, 12px); padding:clamp(4px, 0.33cqh + 1.83px, 5px) clamp(9px, 1cqh + 2.5px, 12px); border-radius:999px; display:inline-flex; align-items:center; gap:4px; }
 .gj-replay-btn .ic{ width:12px; height:12px; }
 
 /* Was rgba(surface,.86) + backdrop-filter:blur(10px) — recomputing a blur every
@@ -769,31 +792,35 @@ p.sub{ color:var(--muted); font-size:14px; margin:0 0 16px; line-height:1.4; }
    the gradient from page scroll, this paints pixel-identical to the blur
    version's resting state, just without the per-frame compositor cost. */
 .gj-sticky-hdr{
-  position:sticky; top:58px; z-index:8;
+  /* top tracks .topbar's own fluid height (back-btn's clamp + its 12px
+     vertical padding + a 6px buffer that matched the original fixed
+     58px here) so this second sticky header still sits flush under the
+     first one at every #app height instead of gapping or overlapping. */
+  position:sticky; top:clamp(50px, 2.67cqh + 32.67px, 58px); z-index:8;
   background:
     radial-gradient(1200px 700px at 20% -5%, var(--glow1) 0%, transparent 55%),
     radial-gradient(1000px 600px at 90% 8%, var(--glow2) 0%, transparent 50%),
     var(--bg);
   background-attachment:fixed;
-  padding:10px 18px 12px; border-bottom:1px solid rgba(var(--hairline-rgb),.06); margin:0 -18px;
+  padding:10px var(--pad-x) 12px; border-bottom:1px solid rgba(var(--hairline-rgb),.06); margin:0 calc(-1 * var(--pad-x));
 }
 
 .gj-step-hdr{ display:flex; align-items:center; gap:10px; margin-bottom:13px; }
 .gj-step-hdr > div:last-child{ display:flex; align-items:baseline; gap:8px; }
-.gj-step-badge{ width:26px; height:26px; border-radius:9px; flex-shrink:0; display:flex; align-items:center; justify-content:center; font-size:13px; font-weight:800; color:var(--accent); background:rgba(var(--blue-rgb),.14); border:1px solid rgba(var(--blue-rgb),.27); transition:all .25s; }
+.gj-step-badge{ width:clamp(21px, 1.67cqh + 10.17px, 26px); height:clamp(21px, 1.67cqh + 10.17px, 26px); border-radius:9px; flex-shrink:0; display:flex; align-items:center; justify-content:center; font-size:clamp(11.5px, 0.5cqh + 8.25px, 13px); font-weight:800; color:var(--accent); background:rgba(var(--blue-rgb),.14); border:1px solid rgba(var(--blue-rgb),.27); transition:all .25s; }
 .gj-step-badge.done{ color:var(--on-green); background:var(--good); border-color:var(--good); }
-.gj-step-badge .ic{ width:13px; height:13px; }
-.gj-step-label{ font-size:13px; font-weight:800; letter-spacing:.4px; color:var(--text); }
-.gj-step-th{ font-size:12px; color:var(--thai); font-weight:600; }
+.gj-step-badge .ic{ width:clamp(11px, 0.67cqh + 6.67px, 13px); height:clamp(11px, 0.67cqh + 6.67px, 13px); }
+.gj-step-label{ font-size:clamp(11.5px, 0.5cqh + 8.25px, 13px); font-weight:800; letter-spacing:.4px; color:var(--text); }
+.gj-step-th{ font-size:clamp(10.5px, 0.5cqh + 7.25px, 12px); color:var(--thai); font-weight:600; }
 
 /* height is JS-measured per active slide and transitioned — a genuine layout
    property animation, but bounded (200ms, only on explicit slide navigation,
    not continuous). contain:layout stops that reflow from rippling into the
    rest of the page's layout calculation; it doesn't make height free, but it
    keeps the cost scoped to this element instead of the whole document. */
-.gj-practice-carousel{ display:flex; align-items:flex-start; overflow-x:auto; overflow-y:hidden; scroll-snap-type:x mandatory; scrollbar-width:none; -webkit-overflow-scrolling:touch; margin:0 -18px; transition:height .2s ease; touch-action:pan-x; contain:layout; }
+.gj-practice-carousel{ display:flex; align-items:flex-start; overflow-x:auto; overflow-y:hidden; scroll-snap-type:x mandatory; scrollbar-width:none; -webkit-overflow-scrolling:touch; margin:0 calc(-1 * var(--pad-x)); transition:height .2s ease; touch-action:pan-x; contain:layout; }
 .gj-practice-carousel::-webkit-scrollbar{ display:none; }
-.gj-practice-slide{ flex:0 0 100%; scroll-snap-align:center; box-sizing:border-box; padding:0 18px; }
+.gj-practice-slide{ flex:0 0 100%; scroll-snap-align:center; box-sizing:border-box; padding:0 var(--pad-x); }
 .gj-practice-dots{ display:flex; justify-content:center; gap:18px; margin:14px 0 2px; }
 .gj-practice-dot{ width:6px; height:6px; border-radius:50%; background:rgba(var(--hairline-rgb),.18); border:none; padding:0; transition:background .15s, width .15s; position:relative; }
 /* Same padded-hit-area technique as .onb-dot — see the comment there. */
@@ -802,8 +829,8 @@ p.sub{ color:var(--muted); font-size:14px; margin:0 0 16px; line-height:1.4; }
 
 @keyframes gj-shake{ 0%,100%{transform:translateX(0)} 20%{transform:translateX(-5px)} 40%{transform:translateX(5px)} 60%{transform:translateX(-4px)} 80%{transform:translateX(4px)} }
 
-.gj-review-sentence{ font-size:14.5px; line-height:1.95; color:var(--text); font-weight:600; }
-.gj-review-th{ font-size:13.5px; color:var(--thai); margin-top:14px; padding-top:14px; border-top:1px solid rgba(var(--hairline-rgb),.06); font-weight:600; line-height:1.6; }
+.gj-review-sentence{ font-size:clamp(13px, 0.5cqh + 9.75px, 14.5px); line-height:1.95; color:var(--text); font-weight:600; }
+.gj-review-th{ font-size:clamp(12px, 0.5cqh + 8.75px, 13.5px); color:var(--thai); margin-top:14px; padding-top:14px; border-top:1px solid rgba(var(--hairline-rgb),.06); font-weight:600; line-height:1.6; }
 .gj-word-btn{ color:var(--blue-2); background:rgba(var(--blue-rgb),.14); border:none; border-bottom:2px dotted var(--blue-2); border-radius:6px 6px 0 0; padding:1px 4px; font:inherit; font-weight:800; cursor:pointer; }
 .gj-word-btn:active, .gj-word-btn.active{ background:rgba(var(--blue-rgb),.32); }
 .gj-word-popover-catcher{ position:fixed; inset:0; z-index:64; background:transparent; opacity:0; pointer-events:none; }
@@ -871,12 +898,12 @@ if("serviceWorker" in navigator){
 <div id="app">
 
   <!-- ONBOARDING -->
-  <section class="screen" id="screen-onboarding" style="align-items:center;justify-content:center;text-align:center;gap:16px;padding:32px 24px;">
-    <div style="width:56px;height:56px;border-radius:18px;background:linear-gradient(160deg,var(--blue-2),var(--violet));display:flex;align-items:center;justify-content:center;color:var(--on-blue);">
-      <svg class="ic" viewBox="0 0 24 24" style="width:28px;height:28px;"><path d="M21.42 10.922a1 1 0 0 0-.019-1.838L12.83 5.18a2 2 0 0 0-1.66 0L2.6 9.08a1 1 0 0 0 0 1.832l8.57 3.908a2 2 0 0 0 1.66 0z"/><path d="M22 10v6"/><path d="M6 12.5V16a6 3 0 0 0 12 0v-3.5"/></svg>
+  <section class="screen" id="screen-onboarding" style="align-items:center;justify-content:center;text-align:center;gap:16px;padding:clamp(22px, 3.33cqh + 0.33px, 32px) clamp(17px, 2.33cqh + 1.83px, 24px);">
+    <div style="width:clamp(44px, 4cqh + 18px, 56px);height:clamp(44px, 4cqh + 18px, 56px);border-radius:18px;background:linear-gradient(160deg,var(--blue-2),var(--violet));display:flex;align-items:center;justify-content:center;color:var(--on-blue);">
+      <svg class="ic" viewBox="0 0 24 24" style="width:clamp(22px, 2cqh + 9px, 28px);height:clamp(22px, 2cqh + 9px, 28px);"><path d="M21.42 10.922a1 1 0 0 0-.019-1.838L12.83 5.18a2 2 0 0 0-1.66 0L2.6 9.08a1 1 0 0 0 0 1.832l8.57 3.908a2 2 0 0 0 1.66 0z"/><path d="M22 10v6"/><path d="M6 12.5V16a6 3 0 0 0 12 0v-3.5"/></svg>
     </div>
-    <div class="home-wordmark" style="font-size:22px;">English <span class="jj">jing jing</span></div>
-    <p class="sub" style="max-width:320px;margin:0;font-size:14px;">เรียนภาษาอังกฤษที่ออกแบบมาสำหรับคนไทยโดยเฉพาะ ตั้งแต่ระดับ A1 ถึง B1</p>
+    <div class="home-wordmark" style="font-size:clamp(18px, 1.33cqh + 9.33px, 22px);">English <span class="jj">jing jing</span></div>
+    <p class="sub" style="max-width:320px;margin:0;font-size:clamp(12.5px, 0.5cqh + 9.25px, 14px);">เรียนภาษาอังกฤษที่ออกแบบมาสำหรับคนไทยโดยเฉพาะ ตั้งแต่ระดับ A1 ถึง B1</p>
 
     <div class="onb-carousel" id="onb-carousel">
       <div class="onb-slide">
@@ -910,14 +937,14 @@ if("serviceWorker" in navigator){
         <p class="onb-caption">ติดตามความคืบหน้าทุกวันและสร้าง streak ของคุณ</p>
       </div>
       <div class="onb-slide">
-        <div class="onb-mock" style="padding:22px 18px;">
-          <p style="margin:0 0 10px;font-weight:800;color:var(--text);font-size:14.5px;">ตอนนี้คุณอยู่ระดับไหน</p>
+        <div class="onb-mock" style="padding:clamp(16px, 2cqh + 3px, 22px) clamp(13px, 1.67cqh + 2.17px, 18px);">
+          <p style="margin:0 0 10px;font-weight:800;color:var(--text);font-size:clamp(13px, 0.5cqh + 9.75px, 14.5px);">ตอนนี้คุณอยู่ระดับไหน</p>
           <div class="pill-row" id="onb-level-pills" style="justify-content:center;margin:0 0 4px;">
             <button class="pill" id="onb-lvl-A1" onclick="setOnbLevel('A1')">A1 · เริ่มต้น</button>
             <button class="pill" id="onb-lvl-A2" onclick="setOnbLevel('A2')">A2 · กลาง</button>
             <button class="pill" id="onb-lvl-B1" onclick="setOnbLevel('B1')">B1 · ค่อนข้างดี</button>
           </div>
-          <p style="margin:18px 0 10px;font-weight:800;color:var(--text);font-size:14.5px;">เป้าหมายของคุณคืออะไร</p>
+          <p style="margin:clamp(14px, 1.33cqh + 5.33px, 18px) 0 10px;font-weight:800;color:var(--text);font-size:clamp(13px, 0.5cqh + 9.75px, 14.5px);">เป้าหมายของคุณคืออะไร</p>
           <div class="pill-row" id="onb-goal-pills" style="justify-content:center;margin:0;">
             <button class="pill" id="onb-goal-travel" onclick="setOnbGoal('travel')">เดินทาง</button>
             <button class="pill" id="onb-goal-work" onclick="setOnbGoal('work')">ทำงาน</button>
@@ -945,7 +972,7 @@ if("serviceWorker" in navigator){
         <div class="home-hi" id="home-hi">Welcome back · ยินดีต้อนรับกลับ</div>
         <div class="home-wordmark">English <span class="jj">jing jing</span></div>
       </div>
-      <div style="display:flex;align-items:center;gap:8px;">
+      <div style="display:flex;align-items:center;gap:clamp(6px, 0.67cqh + 1.67px, 8px);">
         <div class="streak-chip" onclick="go('tracker')" role="button" tabindex="0" aria-label="View progress and streak" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();go('tracker');}"><svg class="ic" viewBox="0 0 24 24"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/></svg> <span id="home-streak">0</span></div>
         <button class="gear-btn" onclick="go('settings')" title="Settings" aria-label="Settings"><svg class="ic" viewBox="0 0 24 24"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/></svg></button>
       </div>
@@ -1009,14 +1036,14 @@ if("serviceWorker" in navigator){
       <button class="home-cta" onclick="go('flash-setup')"><span id="home-tracker-cta-label">Continue</span> <svg class="ic" viewBox="0 0 24 24"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></button>
     </div>
 
-    <button class="unlock-link" id="home-unlock-link" onclick="goPaywall('home')" style="display:none;margin:18px auto 0;"><svg class="ic" viewBox="0 0 24 24"><path d="M4 14a1 1 0 0 1-.78-1.63l9.9-10.2a.5.5 0 0 1 .86.46l-1.92 6.02A1 1 0 0 0 13 10h7a1 1 0 0 1 .78 1.63l-9.9 10.2a.5.5 0 0 1-.86-.46l1.92-6.02A1 1 0 0 0 11 14z"/></svg><span id="home-unlock-link-label">ปลดล็อกทุกฟีเจอร์ · 249 บาท</span></button>
-    <button class="restore-link" id="home-restore-link" onclick="go('restore')" style="display:none;margin:8px auto 0;">ซื้อไปแล้ว? กู้คืนการเข้าถึงที่นี่</button>
+    <button class="unlock-link" id="home-unlock-link" onclick="goPaywall('home')" style="display:none;margin:clamp(14px, 1.33cqh + 5.33px, 18px) auto 0;"><svg class="ic" viewBox="0 0 24 24"><path d="M4 14a1 1 0 0 1-.78-1.63l9.9-10.2a.5.5 0 0 1 .86.46l-1.92 6.02A1 1 0 0 0 13 10h7a1 1 0 0 1 .78 1.63l-9.9 10.2a.5.5 0 0 1-.86-.46l1.92-6.02A1 1 0 0 0 11 14z"/></svg><span id="home-unlock-link-label">ปลดล็อกทุกฟีเจอร์ · 249 บาท</span></button>
+    <button class="restore-link" id="home-restore-link" onclick="go('restore')" style="display:none;margin:clamp(6px, 0.67cqh + 1.67px, 8px) auto 0;">ซื้อไปแล้ว? กู้คืนการเข้าถึงที่นี่</button>
   </section>
 
   <!-- FLASHCARDS SETUP -->
   <section class="screen has-sticky-cta" id="screen-flash-setup">
     <div class="setup-scroll">
-    <div class="topbar"><button class="back-btn" aria-label="Back" onclick="go('home')"><svg class="ic" viewBox="0 0 24 24"><path d="m15 18-6-6 6-6"/></svg></button><h1>Flashcards</h1><div style="width:36px"></div></div>
+    <div class="topbar"><button class="back-btn" aria-label="Back" onclick="go('home')"><svg class="ic" viewBox="0 0 24 24"><path d="m15 18-6-6 6-6"/></svg></button><h1>Flashcards</h1><div style="width:var(--back-btn-w)"></div></div>
     <div class="setup-fields">
     <div class="section-label">Level</div>
     <div class="pill-row" id="flash-level-pills"></div>
@@ -1026,7 +1053,7 @@ if("serviceWorker" in navigator){
     <div class="pill-row" id="flash-mode-pills"></div>
     <div class="section-label" id="flash-session-slider-label">Session size</div>
     <div class="pill-row" id="flash-session-pills"></div>
-    <div id="flash-session-slider-row" style="display:none;align-items:center;gap:12px;margin:2px 0 16px;">
+    <div id="flash-session-slider-row" style="display:none;align-items:center;gap:clamp(9px, 1cqh + 2.5px, 12px);margin:2px 0 clamp(12px, 1.33cqh + 3.33px, 16px);">
       <input type="range" id="flash-session-slider" min="1" max="10" value="1" oninput="setFlashSessionCustom(this.value)" aria-labelledby="flash-session-slider-label" aria-describedby="flash-session-slider-value" style="flex:1;accent-color:var(--blue-2);">
       <span id="flash-session-slider-value" style="font-weight:800;min-width:28px;text-align:right;">1</span>
     </div>
@@ -1038,7 +1065,7 @@ if("serviceWorker" in navigator){
   <!-- FLASHCARDS PLAY -->
   <section class="screen" id="screen-flash-play">
     <div class="topbar"><button class="back-btn" aria-label="Back" onclick="go('flash-setup')"><svg class="ic" viewBox="0 0 24 24"><path d="m15 18-6-6 6-6"/></svg></button><h1>Flashcards</h1>
-      <div style="display:flex;gap:8px;">
+      <div style="display:flex;gap:clamp(6px, 0.67cqh + 1.67px, 8px);">
         <button class="back-btn" onclick="shuffleFlash()" title="Shuffle" aria-label="Shuffle"><svg class="ic" viewBox="0 0 24 24"><path d="M2 18h1.4c1.3 0 2.5-.6 3.3-1.7l6.1-8.6c.7-1.1 2-1.7 3.3-1.7H22"/><path d="m18 2 4 4-4 4"/><path d="M2 6h1.9c1.5 0 2.9.9 3.6 2.2"/><path d="M22 18h-5.9c-1.3 0-2.6-.7-3.3-1.8l-.5-.8"/><path d="m18 14 4 4-4 4"/></svg></button>
         <button class="back-btn" onclick="stopFlash()" title="Stop &amp; see stats" aria-label="Stop and see stats"><svg class="ic" viewBox="0 0 24 24"><rect width="18" height="18" x="3" y="3" rx="2"/></svg></button>
       </div>
@@ -1076,9 +1103,9 @@ if("serviceWorker" in navigator){
       <button onclick="nextCard()">next →</button>
     </div>
     <div class="drill-card" id="flash-complete" style="display:none;text-align:center;">
-      <div style="color:var(--orange-2);"><svg class="ic" viewBox="0 0 24 24" style="width:38px;height:38px;"><path d="M5.8 11.3 2 22l10.7-3.79"/><path d="M4 3h.01"/><path d="M22 8h.01"/><path d="M15 2h.01"/><path d="M22 20h.01"/><path d="m22 2-2.24.75a2.9 2.9 0 0 0-1.96 3.12c.1.86-.57 1.63-1.45 1.63h-.38c-.86 0-1.6.6-1.76 1.44L14 10"/><path d="m22 13-.82-.33c-.86-.34-1.82.2-1.98 1.11c-.11.7-.72 1.22-1.43 1.22H17"/><path d="m11 2 .33.82c.34.86-.2 1.82-1.11 1.98C9.52 4.9 9 5.52 9 6.23V7"/><path d="M11 13c1.93 1.93 2.83 4.17 2 5-.83.83-3.07-.07-5-2-1.93-1.93-2.83-4.17-2-5 .83-.83 3.07.07 5 2Z"/></svg></div>
-      <div style="font-weight:800;font-size:18px;margin:8px 0 4px;">Session complete!</div>
-      <div style="color:var(--muted);font-size:14px;" id="flash-complete-score"></div>
+      <div style="color:var(--orange-2);"><svg class="ic" viewBox="0 0 24 24" style="width:clamp(30px, 2.67cqh + 12.67px, 38px);height:clamp(30px, 2.67cqh + 12.67px, 38px);"><path d="M5.8 11.3 2 22l10.7-3.79"/><path d="M4 3h.01"/><path d="M22 8h.01"/><path d="M15 2h.01"/><path d="M22 20h.01"/><path d="m22 2-2.24.75a2.9 2.9 0 0 0-1.96 3.12c.1.86-.57 1.63-1.45 1.63h-.38c-.86 0-1.6.6-1.76 1.44L14 10"/><path d="m22 13-.82-.33c-.86-.34-1.82.2-1.98 1.11c-.11.7-.72 1.22-1.43 1.22H17"/><path d="m11 2 .33.82c.34.86-.2 1.82-1.11 1.98C9.52 4.9 9 5.52 9 6.23V7"/><path d="M11 13c1.93 1.93 2.83 4.17 2 5-.83.83-3.07-.07-5-2-1.93-1.93-2.83-4.17-2-5 .83-.83 3.07.07 5 2Z"/></svg></div>
+      <div style="font-weight:800;font-size:clamp(15px, 1cqh + 8.5px, 18px);margin:clamp(6px, 0.67cqh + 1.67px, 8px) 0 4px;">Session complete!</div>
+      <div style="color:var(--muted);font-size:clamp(12.5px, 0.5cqh + 9.25px, 14px);" id="flash-complete-score"></div>
     </div>
     <div class="drill-btns" id="flash-complete-btns" style="display:none;">
       <button class="btn-next" onclick="go('flash-setup')">New session</button>
@@ -1096,7 +1123,7 @@ if("serviceWorker" in navigator){
   <!-- DRILL SETUP -->
   <section class="screen has-sticky-cta" id="screen-drill-setup">
     <div class="setup-scroll">
-    <div class="topbar"><button class="back-btn" aria-label="Back" onclick="go('home')"><svg class="ic" viewBox="0 0 24 24"><path d="m15 18-6-6 6-6"/></svg></button><h1>Conjugation Drill</h1><div style="width:36px"></div></div>
+    <div class="topbar"><button class="back-btn" aria-label="Back" onclick="go('home')"><svg class="ic" viewBox="0 0 24 24"><path d="m15 18-6-6 6-6"/></svg></button><h1>Conjugation Drill</h1><div style="width:var(--back-btn-w)"></div></div>
     <div class="setup-fields">
     <p class="sub" id="drill-free-note" style="display:none;">โหมดทดลองฟรี: Present Simple 5 ประโยค ปลดล็อกเพื่อฝึกได้ทุก tense ไม่จำกัด</p>
     <div class="section-label">Tenses to practice</div>
@@ -1115,7 +1142,7 @@ if("serviceWorker" in navigator){
 
   <!-- DRILL PLAY -->
   <section class="screen" id="screen-drill-play">
-    <div class="topbar"><button class="back-btn" aria-label="Back" onclick="go('drill-setup')"><svg class="ic" viewBox="0 0 24 24"><path d="m15 18-6-6 6-6"/></svg></button><h1>Drill</h1><div style="width:36px"></div></div>
+    <div class="topbar"><button class="back-btn" aria-label="Back" onclick="go('drill-setup')"><svg class="ic" viewBox="0 0 24 24"><path d="m15 18-6-6 6-6"/></svg></button><h1>Drill</h1><div style="width:var(--back-btn-w)"></div></div>
     <div class="setup-fields">
     <div class="progress-row" style="margin-top:2px;"><div class="progress-bar"><div class="progress-fill" id="drill-progress-fill" style="width:0%"></div></div></div>
     <div class="card-counter" id="drill-progress-label"></div>
@@ -1134,9 +1161,9 @@ if("serviceWorker" in navigator){
       <button class="btn-next" onclick="nextDrill()">Next →</button>
     </div>
     <div class="drill-card" id="drill-complete" style="display:none;text-align:center;">
-      <div style="color:var(--orange-2);"><svg class="ic" viewBox="0 0 24 24" style="width:38px;height:38px;"><path d="M5.8 11.3 2 22l10.7-3.79"/><path d="M4 3h.01"/><path d="M22 8h.01"/><path d="M15 2h.01"/><path d="M22 20h.01"/><path d="m22 2-2.24.75a2.9 2.9 0 0 0-1.96 3.12c.1.86-.57 1.63-1.45 1.63h-.38c-.86 0-1.6.6-1.76 1.44L14 10"/><path d="m22 13-.82-.33c-.86-.34-1.82.2-1.98 1.11c-.11.7-.72 1.22-1.43 1.22H17"/><path d="m11 2 .33.82c.34.86-.2 1.82-1.11 1.98C9.52 4.9 9 5.52 9 6.23V7"/><path d="M11 13c1.93 1.93 2.83 4.17 2 5-.83.83-3.07-.07-5-2-1.93-1.93-2.83-4.17-2-5 .83-.83 3.07.07 5 2Z"/></svg></div>
-      <div style="font-weight:800;font-size:18px;margin:8px 0 4px;">Session complete!</div>
-      <div style="color:var(--muted);font-size:14px;" id="drill-complete-score"></div>
+      <div style="color:var(--orange-2);"><svg class="ic" viewBox="0 0 24 24" style="width:clamp(30px, 2.67cqh + 12.67px, 38px);height:clamp(30px, 2.67cqh + 12.67px, 38px);"><path d="M5.8 11.3 2 22l10.7-3.79"/><path d="M4 3h.01"/><path d="M22 8h.01"/><path d="M15 2h.01"/><path d="M22 20h.01"/><path d="m22 2-2.24.75a2.9 2.9 0 0 0-1.96 3.12c.1.86-.57 1.63-1.45 1.63h-.38c-.86 0-1.6.6-1.76 1.44L14 10"/><path d="m22 13-.82-.33c-.86-.34-1.82.2-1.98 1.11c-.11.7-.72 1.22-1.43 1.22H17"/><path d="m11 2 .33.82c.34.86-.2 1.82-1.11 1.98C9.52 4.9 9 5.52 9 6.23V7"/><path d="M11 13c1.93 1.93 2.83 4.17 2 5-.83.83-3.07-.07-5-2-1.93-1.93-2.83-4.17-2-5 .83-.83 3.07.07 5 2Z"/></svg></div>
+      <div style="font-weight:800;font-size:clamp(15px, 1cqh + 8.5px, 18px);margin:clamp(6px, 0.67cqh + 1.67px, 8px) 0 4px;">Session complete!</div>
+      <div style="color:var(--muted);font-size:clamp(12.5px, 0.5cqh + 9.25px, 14px);" id="drill-complete-score"></div>
     </div>
     <div class="drill-btns" id="drill-complete-btns" style="display:none;">
       <button class="btn-next" onclick="continueDrillSession()">Keep going</button>
@@ -1148,16 +1175,16 @@ if("serviceWorker" in navigator){
 
   <!-- VERB DICTIONARY -->
   <section class="screen" id="screen-verbs">
-    <div class="topbar"><button class="back-btn" aria-label="Back" onclick="go('home')"><svg class="ic" viewBox="0 0 24 24"><path d="m15 18-6-6 6-6"/></svg></button><h1>Verb Dictionary</h1><div style="width:36px"></div></div>
+    <div class="topbar"><button class="back-btn" aria-label="Back" onclick="go('home')"><svg class="ic" viewBox="0 0 24 24"><path d="m15 18-6-6 6-6"/></svg></button><h1>Verb Dictionary</h1><div style="width:var(--back-btn-w)"></div></div>
     <div class="searchbar">
       <svg class="ic" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
       <input id="verbdict-search" type="text" placeholder="Search a verb (English or Thai)…" autocapitalize="off" autocomplete="off" autocorrect="off" spellcheck="false" oninput="renderVerbList()">
     </div>
     <div class="pill-row">
-      <button class="pill small" id="verb-fav-filter-pill" onclick="toggleVerbFavOnly()"><svg class="ic" viewBox="0 0 24 24" style="width:13px;height:13px;"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>Favorites<span id="verb-fav-count"></span></button>
+      <button class="pill small" id="verb-fav-filter-pill" onclick="toggleVerbFavOnly()"><svg class="ic" viewBox="0 0 24 24" style="width:clamp(11px, 0.67cqh + 6.67px, 13px);height:clamp(11px, 0.67cqh + 6.67px, 13px);"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>Favorites<span id="verb-fav-count"></span></button>
     </div>
     <p class="sub" id="verbs-free-note" style="display:none;">โหมดทดลองฟรี: 10 คำกริยาพื้นฐานที่มีเครื่องหมายกุญแจ ปลดล็อกเพื่อดูกริยาทั้งหมด</p>
-    <button class="ghost-btn" style="margin-top:0;margin-bottom:14px;display:flex;align-items:center;justify-content:center;gap:8px;" onclick="go('irregular-ref')"><svg class="ic" viewBox="0 0 24 24"><path d="M3 12h.01"/><path d="M3 18h.01"/><path d="M3 6h.01"/><path d="M8 12h13"/><path d="M8 18h13"/><path d="M8 6h13"/></svg> Irregular verbs reference <span class="lock-badge" id="irregular-ref-lock" style="display:none;"></span></button>
+    <button class="ghost-btn" style="margin-top:0;margin-bottom:clamp(10px, 1.33cqh + 1.33px, 14px);display:flex;align-items:center;justify-content:center;gap:8px;" onclick="go('irregular-ref')"><svg class="ic" viewBox="0 0 24 24"><path d="M3 12h.01"/><path d="M3 18h.01"/><path d="M3 6h.01"/><path d="M8 12h13"/><path d="M8 18h13"/><path d="M8 6h13"/></svg> Irregular verbs reference <span class="lock-badge" id="irregular-ref-lock" style="display:none;"></span></button>
     <div id="verbdict-list" style="flex:1;"></div>
   </section>
 
@@ -1169,52 +1196,52 @@ if("serviceWorker" in navigator){
 
   <!-- IRREGULAR VERBS REFERENCE -->
   <section class="screen" id="screen-irregular-ref">
-    <div class="topbar"><button class="back-btn" aria-label="Back" onclick="go('verbs')"><svg class="ic" viewBox="0 0 24 24"><path d="m15 18-6-6 6-6"/></svg></button><h1>Irregular Verbs</h1><div style="width:36px"></div></div>
+    <div class="topbar"><button class="back-btn" aria-label="Back" onclick="go('verbs')"><svg class="ic" viewBox="0 0 24 24"><path d="m15 18-6-6 6-6"/></svg></button><h1>Irregular Verbs</h1><div style="width:var(--back-btn-w)"></div></div>
     <p class="sub">Base, Past, Past Participle, Thai</p>
     <div id="irregular-ref-list" style="flex:1;"></div>
   </section>
 
   <!-- GRAMMAR TOPIC LIST -->
   <section class="screen" id="screen-grammar">
-    <div class="topbar"><button class="back-btn" aria-label="Back" onclick="go('home')"><svg class="ic" viewBox="0 0 24 24"><path d="m15 18-6-6 6-6"/></svg></button><h1>Grammar</h1><div style="width:36px"></div></div>
+    <div class="topbar"><button class="back-btn" aria-label="Back" onclick="go('home')"><svg class="ic" viewBox="0 0 24 24"><path d="m15 18-6-6 6-6"/></svg></button><h1>Grammar</h1><div style="width:var(--back-btn-w)"></div></div>
     <p class="sub">Build sentences with your hands. Spot the pattern, then see how Thai flips it.</p>
     <p class="sub" id="grammar-free-note" style="display:none;">โหมดทดลองฟรี: บทเรียนแรกฟรี ปลดล็อกเพื่อเรียนได้ครบทุกบท</p>
     <div class="pill-row" id="grammar-level-pills"></div>
-    <div id="grammar-list" style="flex:1;margin-top:10px;"></div>
+    <div id="grammar-list" style="flex:1;margin-top:clamp(8px, 0.67cqh + 3.67px, 10px);"></div>
   </section>
 
   <!-- GRAMMAR TOPIC DETAIL -->
   <section class="screen" id="screen-grammar-detail">
-    <div class="topbar"><button class="back-btn" aria-label="Back" onclick="go('grammar')"><svg class="ic" viewBox="0 0 24 24"><path d="m15 18-6-6 6-6"/></svg></button><h1 id="grammar-detail-title">Grammar</h1><div style="width:36px"></div></div>
+    <div class="topbar"><button class="back-btn" aria-label="Back" onclick="go('grammar')"><svg class="ic" viewBox="0 0 24 24"><path d="m15 18-6-6 6-6"/></svg></button><h1 id="grammar-detail-title">Grammar</h1><div style="width:var(--back-btn-w)"></div></div>
     <div id="grammar-detail-body" style="flex:1;"></div>
   </section>
 
   <!-- LISTENING: EXERCISE LIST -->
   <section class="screen" id="screen-listening">
-    <div class="topbar"><button class="back-btn" aria-label="Back" onclick="go('home')"><svg class="ic" viewBox="0 0 24 24"><path d="m15 18-6-6 6-6"/></svg></button><h1>Listening</h1><div style="width:36px"></div></div>
+    <div class="topbar"><button class="back-btn" aria-label="Back" onclick="go('home')"><svg class="ic" viewBox="0 0 24 24"><path d="m15 18-6-6 6-6"/></svg></button><h1>Listening</h1><div style="width:var(--back-btn-w)"></div></div>
     <p class="sub">Listen to a real-life audio, then answer 5 questions to check what you understood.</p>
     <p class="sub" id="listening-free-note" style="display:none;">โหมดทดลองฟรี: บทฟังแรกฟรี ปลดล็อกเพื่อฟังได้ครบทุกบท</p>
     <div class="pill-row" id="listening-level-pills"></div>
-    <div id="listening-list" style="flex:1;margin-top:10px;"></div>
+    <div id="listening-list" style="flex:1;margin-top:clamp(8px, 0.67cqh + 3.67px, 10px);"></div>
   </section>
 
   <!-- LISTENING: EXERCISE DETAIL (listen / quiz / results) -->
   <section class="screen" id="screen-listening-detail">
-    <div class="topbar"><button class="back-btn" aria-label="Back" onclick="listeningBackToList()"><svg class="ic" viewBox="0 0 24 24"><path d="m15 18-6-6 6-6"/></svg></button><h1 id="listening-detail-title">Listening</h1><div style="width:36px"></div></div>
+    <div class="topbar"><button class="back-btn" aria-label="Back" onclick="listeningBackToList()"><svg class="ic" viewBox="0 0 24 24"><path d="m15 18-6-6 6-6"/></svg></button><h1 id="listening-detail-title">Listening</h1><div style="width:var(--back-btn-w)"></div></div>
     <div id="listening-detail-body" style="flex:1;"></div>
   </section>
 
   <!-- PRONUNCIATION: CATEGORY LIST -->
   <section class="screen" id="screen-pron-setup">
-    <div class="topbar"><button class="back-btn" aria-label="Back" onclick="go('home')"><svg class="ic" viewBox="0 0 24 24"><path d="m15 18-6-6 6-6"/></svg></button><h1>Pronunciation</h1><div style="width:36px"></div></div>
+    <div class="topbar"><button class="back-btn" aria-label="Back" onclick="go('home')"><svg class="ic" viewBox="0 0 24 24"><path d="m15 18-6-6 6-6"/></svg></button><h1>Pronunciation</h1><div style="width:var(--back-btn-w)"></div></div>
     <div class="sub"><div class="th">ฝึกออกเสียงและพยางค์ที่ออกเสียงยากสำหรับคนไทย ส่วนคำศัพท์เต็มคำและประโยคมีอยู่แล้วใน Flashcards ตรงนี้เน้นที่ตัวเสียงล้วนๆ</div><div class="bilingual-en">Train the sounds and syllables that are tricky for Thai speakers. Flashcards already cover full words and sentences, this is just about the sound itself.</div></div>
     <p class="sub" id="pron-free-note" style="display:none;">โหมดทดลองฟรี: เสียง R vs L ปลดล็อกเพื่อฝึกได้ทุกเสียง</p>
-    <div id="pron-cat-list" style="flex:1;margin-top:10px;"></div>
+    <div id="pron-cat-list" style="flex:1;margin-top:clamp(8px, 0.67cqh + 3.67px, 10px);"></div>
   </section>
 
   <!-- PRONUNCIATION: PRACTICE -->
   <section class="screen" id="screen-pron-practice">
-    <div class="topbar"><button class="back-btn" aria-label="Back" onclick="go('pron-setup')"><svg class="ic" viewBox="0 0 24 24"><path d="m15 18-6-6 6-6"/></svg></button><h1 id="pron-practice-title">Pronunciation</h1><div style="width:36px"></div></div>
+    <div class="topbar"><button class="back-btn" aria-label="Back" onclick="go('pron-setup')"><svg class="ic" viewBox="0 0 24 24"><path d="m15 18-6-6 6-6"/></svg></button><h1 id="pron-practice-title">Pronunciation</h1><div style="width:var(--back-btn-w)"></div></div>
     <div class="card-counter" id="pron-progress"></div>
     <div class="pron-tip" id="pron-tip"></div>
 
@@ -1237,61 +1264,61 @@ if("serviceWorker" in navigator){
 
   <!-- TRACKER -->
   <section class="screen" id="screen-tracker">
-    <div class="topbar"><button class="back-btn" aria-label="Back" onclick="go('home')"><svg class="ic" viewBox="0 0 24 24"><path d="m15 18-6-6 6-6"/></svg></button><h1><svg class="ic" viewBox="0 0 24 24" style="width:18px;height:18px;vertical-align:-2px;"><path d="M3 3v16a2 2 0 0 0 2 2h16"/><path d="M18 17V9"/><path d="M13 17V5"/><path d="M8 17v-3"/></svg> ความคืบหน้าของคุณ</h1><div style="width:36px"></div></div>
+    <div class="topbar"><button class="back-btn" aria-label="Back" onclick="go('home')"><svg class="ic" viewBox="0 0 24 24"><path d="m15 18-6-6 6-6"/></svg></button><h1><svg class="ic" viewBox="0 0 24 24" style="width:clamp(15px, 1cqh + 8.5px, 18px);height:clamp(15px, 1cqh + 8.5px, 18px);vertical-align:-2px;"><path d="M3 3v16a2 2 0 0 0 2 2h16"/><path d="M18 17V9"/><path d="M13 17V5"/><path d="M8 17v-3"/></svg> ความคืบหน้าของคุณ</h1><div style="width:var(--back-btn-w)"></div></div>
     <div class="big-timer">
       <div class="mins" id="tracker-mins">0</div>
       <div class="goal" id="tracker-goal-label">นาทีวันนี้ · เป้าหมาย 1 ชั่วโมง</div>
     </div>
     <div class="progress-row"><div class="progress-bar"><div class="progress-fill" id="tracker-progress-fill" style="width:0%"></div></div></div>
-    <div class="streak" id="tracker-streak" style="text-align:center;margin-top:14px;"></div>
-    <div class="section-label" style="text-align:center;margin-top:24px;">7 วันที่ผ่านมา</div>
+    <div class="streak" id="tracker-streak" style="text-align:center;margin-top:clamp(10px, 1.33cqh + 3.33px, 14px);"></div>
+    <div class="section-label" style="text-align:center;margin-top:clamp(18px, 2cqh + 5px, 24px);">7 วันที่ผ่านมา</div>
     <div class="week-row" id="tracker-week"></div>
 
-    <div class="section-label" style="margin-top:28px;">ความคืบหน้าแฟลชการ์ด</div>
+    <div class="section-label" style="margin-top:clamp(21px, 2.33cqh + 6.33px, 28px);">ความคืบหน้าแฟลชการ์ด</div>
     <div class="stat-card">
       <div style="display:flex;justify-content:space-between;">
         <div style="text-align:center;flex:1;">
-          <div style="font-size:22px;font-weight:800;" id="fc-stat-total">0</div>
-          <div style="font-size:11.5px;color:var(--muted);">ทบทวนแล้ว</div>
+          <div style="font-size:clamp(18px, 1.33cqh + 9.33px, 22px);font-weight:800;" id="fc-stat-total">0</div>
+          <div style="font-size:clamp(10px, 0.5cqh + 6.75px, 11.5px);color:var(--muted);">ทบทวนแล้ว</div>
         </div>
         <div style="text-align:center;flex:1;">
-          <div style="font-size:22px;font-weight:800;color:var(--good);" id="fc-stat-known">–</div>
-          <div style="font-size:11.5px;color:var(--muted);">จำได้</div>
+          <div style="font-size:clamp(18px, 1.33cqh + 9.33px, 22px);font-weight:800;color:var(--good);" id="fc-stat-known">–</div>
+          <div style="font-size:clamp(10px, 0.5cqh + 6.75px, 11.5px);color:var(--muted);">จำได้</div>
         </div>
         <div style="text-align:center;flex:1;">
-          <div style="font-size:22px;font-weight:800;color:var(--accent2);" id="fc-stat-review">0</div>
-          <div style="font-size:11.5px;color:var(--muted);">ต้องทบทวน</div>
+          <div style="font-size:clamp(18px, 1.33cqh + 9.33px, 22px);font-weight:800;color:var(--accent2);" id="fc-stat-review">0</div>
+          <div style="font-size:clamp(10px, 0.5cqh + 6.75px, 11.5px);color:var(--muted);">ต้องทบทวน</div>
         </div>
       </div>
     </div>
     <div id="fc-review-list"></div>
 
-    <div class="section-label" style="margin-top:28px;">ความคืบหน้า Drill</div>
+    <div class="section-label" style="margin-top:clamp(21px, 2.33cqh + 6.33px, 28px);">ความคืบหน้า Drill</div>
     <div class="stat-card">
       <div style="display:flex;justify-content:space-between;">
         <div style="text-align:center;flex:1;">
-          <div style="font-size:22px;font-weight:800;" id="drill-stat-total">0</div>
-          <div style="font-size:11.5px;color:var(--muted);">ประโยค</div>
+          <div style="font-size:clamp(18px, 1.33cqh + 9.33px, 22px);font-weight:800;" id="drill-stat-total">0</div>
+          <div style="font-size:clamp(10px, 0.5cqh + 6.75px, 11.5px);color:var(--muted);">ประโยค</div>
         </div>
         <div style="text-align:center;flex:1;">
-          <div style="font-size:22px;font-weight:800;color:var(--good);" id="drill-stat-accuracy">–</div>
-          <div style="font-size:11.5px;color:var(--muted);">ความแม่นยำ</div>
+          <div style="font-size:clamp(18px, 1.33cqh + 9.33px, 22px);font-weight:800;color:var(--good);" id="drill-stat-accuracy">–</div>
+          <div style="font-size:clamp(10px, 0.5cqh + 6.75px, 11.5px);color:var(--muted);">ความแม่นยำ</div>
         </div>
         <div style="text-align:center;flex:1;">
-          <div style="font-size:22px;font-weight:800;color:var(--accent2);" id="drill-stat-mistakes">0</div>
-          <div style="font-size:11.5px;color:var(--muted);">ต้องทบทวน</div>
+          <div style="font-size:clamp(18px, 1.33cqh + 9.33px, 22px);font-weight:800;color:var(--accent2);" id="drill-stat-mistakes">0</div>
+          <div style="font-size:clamp(10px, 0.5cqh + 6.75px, 11.5px);color:var(--muted);">ต้องทบทวน</div>
         </div>
       </div>
-      <div id="drill-tense-breakdown" style="margin-top:14px;"></div>
+      <div id="drill-tense-breakdown" style="margin-top:clamp(10px, 1.33cqh + 3.33px, 14px);"></div>
     </div>
     <div id="drill-mistake-list"></div>
 
-    <p class="sub" style="text-align:center;margin-top:24px;">เวลาจะถูกนับอัตโนมัติขณะเปิดแอปและใช้งานอยู่ (แฟลชการ์ดหรือ Drill)</p>
+    <p class="sub" style="text-align:center;margin-top:clamp(18px, 2cqh + 5px, 24px);">เวลาจะถูกนับอัตโนมัติขณะเปิดแอปและใช้งานอยู่ (แฟลชการ์ดหรือ Drill)</p>
   </section>
 
   <!-- SETTINGS -->
   <section class="screen" id="screen-settings">
-    <div class="topbar"><button class="back-btn" aria-label="Back" onclick="go('home')"><svg class="ic" viewBox="0 0 24 24"><path d="m15 18-6-6 6-6"/></svg></button><h1>การตั้งค่า</h1><div style="width:36px"></div></div>
+    <div class="topbar"><button class="back-btn" aria-label="Back" onclick="go('home')"><svg class="ic" viewBox="0 0 24 24"><path d="m15 18-6-6 6-6"/></svg></button><h1>การตั้งค่า</h1><div style="width:var(--back-btn-w)"></div></div>
     <div class="section-label">รูปลักษณ์</div>
     <div class="pill-row" id="settings-theme-pills">
       <button class="pill" id="theme-pill-system" onclick="setThemePref('system')">ตามเครื่อง</button>
@@ -1299,53 +1326,53 @@ if("serviceWorker" in navigator){
       <button class="pill" id="theme-pill-dark" onclick="setThemePref('dark')">โหมดมืด</button>
     </div>
 
-    <div class="section-label" style="margin-top:24px;">เสียงพูด</div>
+    <div class="section-label" style="margin-top:clamp(18px, 2cqh + 5px, 24px);">เสียงพูด</div>
     <div class="rate-card">
       <div class="rate-head"><b id="settings-rate-slider-label">ความเร็วเสียง</b><span id="settings-rate-label">0.55×</span></div>
       <input type="range" class="rate-slider" id="settings-rate-slider" min="0.35" max="1" step="0.05" value="0.55" oninput="setSpeechRate(this.value)" aria-labelledby="settings-rate-slider-label" aria-describedby="settings-rate-label">
       <div class="rate-scale"><span>ช้าลง</span><span>ปกติ</span></div>
-      <button class="ghost-btn" style="margin:16px 0 0;display:flex;align-items:center;justify-content:center;gap:8px;" onclick="speak('This is how a sentence sounds at this speed.','en-US')"><svg class="ic" viewBox="0 0 24 24"><path d="M11 4.702a.705.705 0 0 0-1.203-.498L6.413 7.587A1.4 1.4 0 0 1 5.416 8H3a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h2.416a1.4 1.4 0 0 1 .997.413l3.383 3.384A.705.705 0 0 0 11 19.298z"/><path d="M16 9a5 5 0 0 1 0 6"/><path d="M19.364 18.364a9 9 0 0 0 0-12.728"/></svg> ทดสอบความเร็วนี้</button>
+      <button class="ghost-btn" style="margin:clamp(12px, 1.33cqh + 3.33px, 16px) 0 0;display:flex;align-items:center;justify-content:center;gap:clamp(6px, 0.67cqh + 1.67px, 8px);" onclick="speak('This is how a sentence sounds at this speed.','en-US')"><svg class="ic" viewBox="0 0 24 24"><path d="M11 4.702a.705.705 0 0 0-1.203-.498L6.413 7.587A1.4 1.4 0 0 1 5.416 8H3a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h2.416a1.4 1.4 0 0 1 .997.413l3.383 3.384A.705.705 0 0 0 11 19.298z"/><path d="M16 9a5 5 0 0 1 0 6"/><path d="M19.364 18.364a9 9 0 0 0 0-12.728"/></svg> ทดสอบความเร็วนี้</button>
     </div>
-    <p class="sub" style="margin-top:14px;">ความเร็วนี้ใช้กับทุกที่ที่แอปอ่านภาษาอังกฤษออกเสียง ทั้งแฟลชการ์ด Drill และฝึกออกเสียง</p>
+    <p class="sub" style="margin-top:clamp(10px, 1.33cqh + 3.33px, 14px);">ความเร็วนี้ใช้กับทุกที่ที่แอปอ่านภาษาอังกฤษออกเสียง ทั้งแฟลชการ์ด Drill และฝึกออกเสียง</p>
 
-    <div class="section-label" style="margin-top:24px;">เป้าหมายรายวัน</div>
+    <div class="section-label" style="margin-top:clamp(18px, 2cqh + 5px, 24px);">เป้าหมายรายวัน</div>
     <div class="rate-card">
       <div class="rate-head"><b id="settings-goal-slider-label">เวลาฝึกต่อวัน</b><span id="settings-goal-label">1 ชั่วโมง</span></div>
       <input type="range" class="rate-slider" id="settings-goal-slider" min="15" max="60" step="5" value="60" oninput="setDailyGoal(this.value)" aria-labelledby="settings-goal-slider-label" aria-describedby="settings-goal-label">
       <div class="rate-scale"><span>15 นาที</span><span>1 ชั่วโมง</span></div>
     </div>
-    <p class="sub" style="margin-top:14px;">การตั้งค่านี้จะกำหนดเป้าหมายที่แสดงบนหน้าแรก หน้าความคืบหน้า และ streak</p>
+    <p class="sub" style="margin-top:clamp(10px, 1.33cqh + 3.33px, 14px);">การตั้งค่านี้จะกำหนดเป้าหมายที่แสดงบนหน้าแรก หน้าความคืบหน้า และ streak</p>
 
-    <div class="section-label" style="margin-top:24px;">แจ้งเตือนรายวัน</div>
+    <div class="section-label" style="margin-top:clamp(18px, 2cqh + 5px, 24px);">แจ้งเตือนรายวัน</div>
     <div class="rate-card">
       <div style="display:flex;align-items:center;justify-content:space-between;">
-        <b style="font-size:15px;" id="settings-reminder-toggle-label">แจ้งเตือนให้ฝึกทุกวัน</b>
+        <b style="font-size:clamp(13px, 0.67cqh + 8.67px, 15px);" id="settings-reminder-toggle-label">แจ้งเตือนให้ฝึกทุกวัน</b>
         <button class="toggle" id="settings-reminder-toggle" role="switch" aria-checked="false" aria-labelledby="settings-reminder-toggle-label" onclick="toggleReminder()"></button>
       </div>
-      <div id="settings-reminder-time-row" style="display:none;align-items:center;justify-content:space-between;margin-top:16px;">
+      <div id="settings-reminder-time-row" style="display:none;align-items:center;justify-content:space-between;margin-top:clamp(12px, 1.33cqh + 3.33px, 16px);">
         <span class="sub" style="margin:0;">เวลาแจ้งเตือน</span>
         <input type="time" id="settings-reminder-time" step="300" onchange="setReminderTime(this.value)" style="background:var(--inset);border:1px solid rgba(var(--hairline-rgb),.08);color:var(--text);border-radius:10px;padding:8px 10px;font-size:14px;">
       </div>
     </div>
-    <p class="sub" style="margin-top:14px;">ใช้งานได้แม้ปิดแอป jing jing อยู่ สำหรับ iPhone ให้เพิ่ม jing jing ที่หน้าจอโฮมก่อน (กด Share แล้วเลือก "Add to Home Screen") จากนั้นเปิดใช้งานจากแอปที่ติดตั้งแล้ว</p>
+    <p class="sub" style="margin-top:clamp(10px, 1.33cqh + 3.33px, 14px);">ใช้งานได้แม้ปิดแอป jing jing อยู่ สำหรับ iPhone ให้เพิ่ม jing jing ที่หน้าจอโฮมก่อน (กด Share แล้วเลือก "Add to Home Screen") จากนั้นเปิดใช้งานจากแอปที่ติดตั้งแล้ว</p>
 
-    <div class="section-label" style="margin-top:24px;">การซื้อ</div>
+    <div class="section-label" style="margin-top:clamp(18px, 2cqh + 5px, 24px);">การซื้อ</div>
     <div class="rate-card" id="settings-buy-block" style="display:none;">
-      <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;">
+      <div style="display:flex;align-items:center;justify-content:space-between;gap:clamp(9px, 1cqh + 2.5px, 12px);">
         <div>
-          <b style="font-size:15px;display:block;">ปลดล็อกทุกฟีเจอร์ ตลอดชีพ</b>
-          <span class="sub" id="settings-buy-price" style="margin:2px 0 0;display:block;font-size:12.5px;">249 บาท ชำระครั้งเดียว</span>
+          <b style="font-size:clamp(13px, 0.67cqh + 8.67px, 15px);display:block;">ปลดล็อกทุกฟีเจอร์ ตลอดชีพ</b>
+          <span class="sub" id="settings-buy-price" style="margin:2px 0 0;display:block;font-size:clamp(11px, 0.5cqh + 7.75px, 12.5px);">249 บาท ชำระครั้งเดียว</span>
         </div>
         <button class="ghost-btn" style="flex-shrink:0;white-space:nowrap;color:var(--blue-2);border-color:rgba(var(--blue-rgb),.35);" onclick="goPaywall('settings')">ปลดล็อก</button>
       </div>
-      <p class="sub home-nudge-urgency" id="settings-buy-urgency" style="display:none;margin:10px 0 0;font-size:12.5px;"></p>
+      <p class="sub home-nudge-urgency" id="settings-buy-urgency" style="display:none;margin:clamp(8px, 0.67cqh + 3.67px, 10px) 0 0;font-size:clamp(11px, 0.5cqh + 7.75px, 12.5px);"></p>
     </div>
     <div class="rate-card" id="settings-unlocked-badge" style="display:none;align-items:center;gap:8px;">
-      <b style="font-size:15px;color:var(--good-fg);display:flex;align-items:center;gap:7px;">✓ ปลดล็อกครบทุกฟีเจอร์แล้ว</b>
+      <b style="font-size:clamp(13px, 0.67cqh + 8.67px, 15px);color:var(--good-fg);display:flex;align-items:center;gap:7px;">✓ ปลดล็อกครบทุกฟีเจอร์แล้ว</b>
     </div>
-    <div class="rate-card" style="margin-top:10px;">
+    <div class="rate-card" style="margin-top:clamp(8px, 0.67cqh + 3.67px, 10px);">
       <div style="display:flex;align-items:center;justify-content:space-between;">
-        <b style="font-size:15px;">ซื้อไปแล้วแต่เครื่องนี้ล็อกอยู่?</b>
+        <b style="font-size:clamp(13px, 0.67cqh + 8.67px, 15px);">ซื้อไปแล้วแต่เครื่องนี้ล็อกอยู่?</b>
         <button class="ghost-btn" onclick="go('restore')">กู้คืน</button>
       </div>
     </div>
@@ -1353,12 +1380,12 @@ if("serviceWorker" in navigator){
 
   <!-- PAYWALL -->
   <section class="screen" id="screen-paywall">
-    <div class="topbar"><button class="back-btn" aria-label="Back" onclick="go('home')"><svg class="ic" viewBox="0 0 24 24"><path d="m15 18-6-6 6-6"/></svg></button><h1>เข้าถึงเต็มรูปแบบ</h1><div style="width:36px"></div></div>
-    <div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;text-align:center;gap:16px;padding:20px 8px 0;">
-      <div style="width:64px;height:64px;border-radius:20px;background:linear-gradient(160deg,var(--blue-2),var(--violet));display:flex;align-items:center;justify-content:center;color:var(--on-blue);">
-        <svg class="ic" viewBox="0 0 24 24" style="width:30px;height:30px;"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+    <div class="topbar"><button class="back-btn" aria-label="Back" onclick="go('home')"><svg class="ic" viewBox="0 0 24 24"><path d="m15 18-6-6 6-6"/></svg></button><h1>เข้าถึงเต็มรูปแบบ</h1><div style="width:var(--back-btn-w)"></div></div>
+    <div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;text-align:center;gap:clamp(12px, 1.33cqh + 3.33px, 16px);padding:clamp(15px, 1.67cqh + 2.17px, 20px) 8px 0;">
+      <div style="width:clamp(50px, 4.67cqh + 19.67px, 64px);height:clamp(50px, 4.67cqh + 19.67px, 64px);border-radius:20px;background:linear-gradient(160deg,var(--blue-2),var(--violet));display:flex;align-items:center;justify-content:center;color:var(--on-blue);">
+        <svg class="ic" viewBox="0 0 24 24" style="width:clamp(23px, 2.33cqh + 7.83px, 30px);height:clamp(23px, 2.33cqh + 7.83px, 30px);"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
       </div>
-      <h2 style="font-size:19px;margin:0;" id="paywall-title">เรียนได้แบบไม่จำกัด</h2>
+      <h2 style="font-size:clamp(16px, 1cqh + 9.5px, 19px);margin:0;" id="paywall-title">เรียนได้แบบไม่จำกัด</h2>
       <p class="sub" style="margin:0;max-width:320px;" id="paywall-desc">ฝึกผันกริยา ค้นพจนานุกรมกริยา และเรียนไวยากรณ์ได้ครบทุกบท ไม่มีขีดจำกัด ส่วนแฟลชการ์ดใช้ได้ฟรีตลอดไป</p>
       <div class="paywall-personal" id="paywall-personal"><svg class="ic" viewBox="0 0 24 24"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/></svg><span id="paywall-personal-text"></span></div>
       <div class="paywall-compare">
@@ -1378,20 +1405,20 @@ if("serviceWorker" in navigator){
           <div class="paywall-compare-item"><svg class="ic" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg><span>พจนานุกรมกริยา <span data-stat="verbs">233</span> คำ</span></div>
         </div>
       </div>
-      <div style="display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin:2px 0 4px;">
-        <span style="font-size:11.5px;color:var(--muted);background:var(--inset);border-radius:20px;padding:6px 12px;white-space:nowrap;">คำศัพท์ <span data-stat="vocab">1,489</span> คำ</span>
-        <span style="font-size:11.5px;color:var(--muted);background:var(--inset);border-radius:20px;padding:6px 12px;white-space:nowrap;">ไวยากรณ์ <span data-stat="lessons">198</span> บทเรียน</span>
-        <span style="font-size:11.5px;color:var(--muted);background:var(--inset);border-radius:20px;padding:6px 12px;white-space:nowrap;">กริยา <span data-stat="verbs">233</span> คำ ผัน 7 tense</span>
-        <span style="font-size:11.5px;color:var(--muted);background:var(--inset);border-radius:20px;padding:6px 12px;white-space:nowrap;">เสียงยาก <span data-stat="sounds">24</span> เสียง</span>
+      <div style="display:flex;gap:clamp(6px, 0.67cqh + 1.67px, 8px);justify-content:center;flex-wrap:wrap;margin:2px 0 4px;">
+        <span style="font-size:clamp(10px, 0.5cqh + 6.75px, 11.5px);color:var(--muted);background:var(--inset);border-radius:20px;padding:clamp(5px, 0.33cqh + 2.83px, 6px) clamp(9px, 1cqh + 2.5px, 12px);white-space:nowrap;">คำศัพท์ <span data-stat="vocab">1,489</span> คำ</span>
+        <span style="font-size:clamp(10px, 0.5cqh + 6.75px, 11.5px);color:var(--muted);background:var(--inset);border-radius:20px;padding:clamp(5px, 0.33cqh + 2.83px, 6px) clamp(9px, 1cqh + 2.5px, 12px);white-space:nowrap;">ไวยากรณ์ <span data-stat="lessons">198</span> บทเรียน</span>
+        <span style="font-size:clamp(10px, 0.5cqh + 6.75px, 11.5px);color:var(--muted);background:var(--inset);border-radius:20px;padding:clamp(5px, 0.33cqh + 2.83px, 6px) clamp(9px, 1cqh + 2.5px, 12px);white-space:nowrap;">กริยา <span data-stat="verbs">233</span> คำ ผัน 7 tense</span>
+        <span style="font-size:clamp(10px, 0.5cqh + 6.75px, 11.5px);color:var(--muted);background:var(--inset);border-radius:20px;padding:clamp(5px, 0.33cqh + 2.83px, 6px) clamp(9px, 1cqh + 2.5px, 12px);white-space:nowrap;">เสียงยาก <span data-stat="sounds">24</span> เสียง</span>
       </div>
       <button class="big-btn buy-cta" style="justify-content:center;" onclick="startTrainerCheckout()" id="paywall-buy-btn">
         <div><div class="label" id="paywall-buy-label">เข้าถึงได้ไม่จำกัด ตลอดชีพ</div><div class="desc" id="paywall-buy-desc"><span id="paywall-price-strike" class="price-strike">349 บาท</span><span id="paywall-price-label">249 บาท ชำระครั้งเดียว</span></div></div>
       </button>
-      <p class="sub" id="paywall-discount-deadline" style="margin:0 0 10px;font-size:12.5px;color:var(--thai);display:none;"></p>
-      <p class="sub" style="margin:0 0 10px;font-size:12px;color:var(--muted);">ชำระครั้งเดียว ไม่ใช่การสมัครสมาชิก ไม่มีค่าใช้จ่ายรายเดือน<br><span style="color:var(--faint);">One-time payment. Not a subscription. No recurring charges.</span></p>
+      <p class="sub" id="paywall-discount-deadline" style="margin:0 0 10px;font-size:clamp(11px, 0.5cqh + 7.75px, 12.5px);color:var(--thai);display:none;"></p>
+      <p class="sub" style="margin:0 0 10px;font-size:clamp(10.5px, 0.5cqh + 7.25px, 12px);color:var(--muted);">ชำระครั้งเดียว ไม่ใช่การสมัครสมาชิก ไม่มีค่าใช้จ่ายรายเดือน<br><span style="color:var(--faint);">One-time payment. Not a subscription. No recurring charges.</span></p>
       <p class="sub" id="paywall-error" style="color:var(--bad-fg);margin:0;" aria-live="polite"></p>
       <button class="restore-link" onclick="go('restore')">ซื้อไปแล้ว? กู้คืนการเข้าถึงที่นี่</button>
-      <p class="sub" style="margin:0 0 24px;font-size:12px;">
+      <p class="sub" style="margin:0 0 clamp(18px, 2cqh + 5px, 24px);font-size:clamp(10.5px, 0.5cqh + 7.25px, 12px);">
         การซื้อถือว่ายอมรับ<a href="/terms" style="color:var(--muted);">ข้อกำหนดการใช้งาน</a>และ<a href="/privacy" style="color:var(--muted);">นโยบายความเป็นส่วนตัว</a>
       </p>
     </div>
@@ -1399,16 +1426,16 @@ if("serviceWorker" in navigator){
 
   <!-- RESTORE ACCESS -->
   <section class="screen" id="screen-restore">
-    <div class="topbar"><button class="back-btn" aria-label="Back" onclick="go('paywall')"><svg class="ic" viewBox="0 0 24 24"><path d="m15 18-6-6 6-6"/></svg></button><h1>กู้คืนการเข้าถึง</h1><div style="width:36px"></div></div>
-    <p class="sub" style="margin-top:6px;">
+    <div class="topbar"><button class="back-btn" aria-label="Back" onclick="go('paywall')"><svg class="ic" viewBox="0 0 24 24"><path d="m15 18-6-6 6-6"/></svg></button><h1>กู้คืนการเข้าถึง</h1><div style="width:var(--back-btn-w)"></div></div>
+    <p class="sub" style="margin-top:clamp(5px, 0.33cqh + 2.83px, 6px);">
       <span style="display:block;color:var(--thai);">หากคุณซื้อแล้วแต่เครื่องนี้ไม่ได้ปลดล็อก ให้วางลิงก์หรือรหัสจากอีเมลยืนยันการซื้อของคุณด้านล่าง</span>
       <span style="display:block;color:var(--muted);margin-top:4px;">If you've already purchased but this device isn't unlocked, paste the link or code from your confirmation email below.</span>
     </p>
-    <div class="rate-card" style="margin-top:16px;">
-      <input type="text" id="restore-input" placeholder="วางลิงก์หรือรหัสที่นี่" style="width:100%;box-sizing:border-box;background:var(--inset);border:1px solid rgba(var(--hairline-rgb),.12);color:var(--text);border-radius:14px;padding:14px 16px;font-size:15px;font-family:inherit;">
-      <button class="primary-btn" id="restore-btn" style="margin-top:14px;" onclick="submitRestoreCode()">ยืนยัน</button>
+    <div class="rate-card" style="margin-top:clamp(12px, 1.33cqh + 3.33px, 16px);">
+      <input type="text" id="restore-input" placeholder="วางลิงก์หรือรหัสที่นี่" style="width:100%;box-sizing:border-box;background:var(--inset);border:1px solid rgba(var(--hairline-rgb),.12);color:var(--text);border-radius:14px;padding:clamp(11px, 1cqh + 4.5px, 14px) clamp(13px, 1cqh + 6.5px, 16px);font-size:15px;font-family:inherit;">
+      <button class="primary-btn" id="restore-btn" style="margin-top:clamp(10px, 1.33cqh + 3.33px, 14px);" onclick="submitRestoreCode()">ยืนยัน</button>
       <p class="sub" id="restore-error" style="color:var(--bad-fg);margin:12px 0 0;" aria-live="polite"></p>
-      <div id="restore-device-addon" style="display:none;margin-top:14px;padding-top:14px;border-top:1px solid rgba(var(--hairline-rgb),.08);">
+      <div id="restore-device-addon" style="display:none;margin-top:clamp(10px, 1.33cqh + 3.33px, 14px);padding-top:clamp(10px, 1.33cqh + 3.33px, 14px);border-top:1px solid rgba(var(--hairline-rgb),.08);">
         <p class="sub" style="margin:0 0 12px;">
           <span style="display:block;color:var(--thai);">ต้องการใช้กับเครื่องนี้ด้วย? ซื้อสิทธิ์เพิ่มอีก 1 เครื่องแบบจ่ายครั้งเดียว</span>
           <span style="display:block;color:var(--muted);margin-top:4px;">Want to use it on this device too? Add one more device slot with a single one-time payment.</span>
@@ -1417,13 +1444,13 @@ if("serviceWorker" in navigator){
       </div>
     </div>
 
-    <div class="rate-card" style="margin-top:16px;">
+    <div class="rate-card" style="margin-top:clamp(12px, 1.33cqh + 3.33px, 16px);">
       <p class="sub" style="margin:0 0 12px;">
         <span style="display:block;color:var(--thai);">หาอีเมลไม่เจอ (รวมถึงกล่องสแปมแล้ว)? กรอกอีเมลที่ใช้ตอนซื้อ แล้วเราจะส่งลิงก์ให้อีกครั้ง</span>
         <span style="display:block;color:var(--muted);margin-top:4px;">Can't find the email, even in spam? Enter the address you used to buy, and we'll send the link again.</span>
       </p>
-      <input type="email" id="resend-email-input" placeholder="you@email.com" style="width:100%;box-sizing:border-box;background:var(--inset);border:1px solid rgba(var(--hairline-rgb),.12);color:var(--text);border-radius:14px;padding:14px 16px;font-size:15px;font-family:inherit;">
-      <button class="primary-btn" id="resend-link-btn" style="margin-top:14px;" onclick="submitResendLink()">ส่งลิงก์ให้ฉัน</button>
+      <input type="email" id="resend-email-input" placeholder="you@email.com" style="width:100%;box-sizing:border-box;background:var(--inset);border:1px solid rgba(var(--hairline-rgb),.12);color:var(--text);border-radius:14px;padding:clamp(11px, 1cqh + 4.5px, 14px) clamp(13px, 1cqh + 6.5px, 16px);font-size:15px;font-family:inherit;">
+      <button class="primary-btn" id="resend-link-btn" style="margin-top:clamp(10px, 1.33cqh + 3.33px, 14px);" onclick="submitResendLink()">ส่งลิงก์ให้ฉัน</button>
       <p class="sub" id="resend-link-msg" style="margin:12px 0 0;" aria-live="polite"></p>
     </div>
   </section>
@@ -1437,14 +1464,14 @@ if("serviceWorker" in navigator){
       <i class="confetti-piece"></i><i class="confetti-piece"></i><i class="confetti-piece"></i><i class="confetti-piece"></i>
       <div class="unlock-badge"><svg class="ic" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg></div>
       <h2 class="unlock-title">ยินดีด้วย! ปลดล็อกครบทุกฟีเจอร์แล้ว</h2>
-      <p class="unlock-sub">เข้าถึงไวยากรณ์ แบบฝึกผันกริยา การออกเสียง และพจนานุกรมกริยาได้แบบไม่จำกัด ตลอดชีพ<br><span style="color:var(--faint);font-size:12px;">Full lifetime access unlocked.</span></p>
-      <div style="display:flex;gap:6px;justify-content:center;flex-wrap:wrap;margin:0 0 4px;">
-        <span style="font-size:11px;color:var(--muted);background:var(--inset);border-radius:20px;padding:5px 10px;white-space:nowrap;">ไวยากรณ์ <span data-stat="lessons">198</span> บท</span>
-        <span style="font-size:11px;color:var(--muted);background:var(--inset);border-radius:20px;padding:5px 10px;white-space:nowrap;">7 tense</span>
-        <span style="font-size:11px;color:var(--muted);background:var(--inset);border-radius:20px;padding:5px 10px;white-space:nowrap;">เสียงยาก <span data-stat="sounds">24</span> เสียง</span>
-        <span style="font-size:11px;color:var(--muted);background:var(--inset);border-radius:20px;padding:5px 10px;white-space:nowrap;">กริยา <span data-stat="verbs">233</span> คำ</span>
+      <p class="unlock-sub">เข้าถึงไวยากรณ์ แบบฝึกผันกริยา การออกเสียง และพจนานุกรมกริยาได้แบบไม่จำกัด ตลอดชีพ<br><span style="color:var(--faint);font-size:clamp(10.5px, 0.5cqh + 7.25px, 12px);">Full lifetime access unlocked.</span></p>
+      <div style="display:flex;gap:clamp(5px, 0.33cqh + 2.83px, 6px);justify-content:center;flex-wrap:wrap;margin:0 0 4px;">
+        <span style="font-size:clamp(9.5px, 0.5cqh + 6.25px, 11px);color:var(--muted);background:var(--inset);border-radius:20px;padding:clamp(4px, 0.33cqh + 1.83px, 5px) clamp(8px, 0.67cqh + 3.67px, 10px);white-space:nowrap;">ไวยากรณ์ <span data-stat="lessons">198</span> บท</span>
+        <span style="font-size:clamp(9.5px, 0.5cqh + 6.25px, 11px);color:var(--muted);background:var(--inset);border-radius:20px;padding:clamp(4px, 0.33cqh + 1.83px, 5px) clamp(8px, 0.67cqh + 3.67px, 10px);white-space:nowrap;">7 tense</span>
+        <span style="font-size:clamp(9.5px, 0.5cqh + 6.25px, 11px);color:var(--muted);background:var(--inset);border-radius:20px;padding:clamp(4px, 0.33cqh + 1.83px, 5px) clamp(8px, 0.67cqh + 3.67px, 10px);white-space:nowrap;">เสียงยาก <span data-stat="sounds">24</span> เสียง</span>
+        <span style="font-size:clamp(9.5px, 0.5cqh + 6.25px, 11px);color:var(--muted);background:var(--inset);border-radius:20px;padding:clamp(4px, 0.33cqh + 1.83px, 5px) clamp(8px, 0.67cqh + 3.67px, 10px);white-space:nowrap;">กริยา <span data-stat="verbs">233</span> คำ</span>
       </div>
-      <p class="sub" style="margin:2px 0 0;font-size:12px;color:var(--muted);">เราได้ส่งลิงก์เข้าใช้งานไปที่อีเมลของคุณแล้ว เก็บไว้เผื่อใช้งานบนเครื่องอื่น<br><span style="color:var(--faint);">We've also emailed you this access link — save it in case you need it on another device.</span></p>
+      <p class="sub" style="margin:2px 0 0;font-size:clamp(10.5px, 0.5cqh + 7.25px, 12px);color:var(--muted);">เราได้ส่งลิงก์เข้าใช้งานไปที่อีเมลของคุณแล้ว เก็บไว้เผื่อใช้งานบนเครื่องอื่น<br><span style="color:var(--faint);">We've also emailed you this access link — save it in case you need it on another device.</span></p>
       <button class="primary-btn" style="width:100%;box-sizing:border-box;margin-top:0;" onclick="dismissUnlockCelebration()">เริ่มเรียนเลย</button>
     </div>
   </div>
@@ -11736,9 +11763,9 @@ function todayKey(){ return dateKey(new Date()); }
    ========================================================= */
 function sm2Update(state, isKnown){
   const now = Date.now();
-  let reps = state?.reps || 0;
-  let interval = state?.interval || 0;
-  let ease = state?.ease || 2.5;
+  let reps = (state && state.reps) || 0;
+  let interval = (state && state.interval) || 0;
+  let ease = (state && state.ease) || 2.5;
   const q = isKnown ? 4 : 2;
   if(q < 3){
     reps = 0;
@@ -11907,8 +11934,8 @@ function go(name, opts){
   const activeScreen = document.getElementById("screen-"+name);
   activeScreen.classList.add("active");
   activeScreen.scrollTop = 0;
-  const fromDepth = SCREEN_DEPTH[lastScreenName] ?? 0;
-  const toDepth = SCREEN_DEPTH[name] ?? 0;
+  const fromDepth = SCREEN_DEPTH[lastScreenName] || 0;
+  const toDepth = SCREEN_DEPTH[name] || 0;
   activeScreen.classList.remove("anim-forward","anim-back");
   void activeScreen.offsetWidth; // restart the animation even if the same class gets re-applied
   activeScreen.classList.add(toDepth < fromDepth ? "anim-back" : "anim-forward");
@@ -12270,7 +12297,7 @@ function renderDrillProgress(){
     const s = drillStats.byTense[t.key];
     const pct = Math.round(s.correct/s.total*100);
     return `<div class="tense-bar-row"><span class="name">${t.label}</span><div class="bar"><div class="bar-fill" style="width:${pct}%"></div></div><span class="pct">${pct}%</span></div>`;
-  }).join("") || `<div style="font-size:12.5px;color:var(--muted);">ลองฝึกทำประโยคดูก่อน จะได้เห็นความคืบหน้าแยกตาม tense</div>`;
+  }).join("") || `<div style="font-size:clamp(11px, 0.5cqh + 7.75px, 12.5px);color:var(--muted);">ลองฝึกทำประโยคดูก่อน จะได้เห็นความคืบหน้าแยกตาม tense</div>`;
 
   const list = document.getElementById("drill-mistake-list");
   const sorted = mistakeKeys.map(k=>drillMistakes[k]).sort((a,b)=>b.misses-a.misses).slice(0,8);
@@ -12795,7 +12822,7 @@ function nextDrill(){
   const tagIcon = it.type==="q" ? icon('circle_help') : (it.type==="neg" ? icon('circle_minus') : "");
   tagEl.innerHTML = tagIcon + it.tenseDef.label + " · " + ({aff:"Affirmative",neg:"Negative",q:"Question"}[it.type]);
   const subjHint = it.parts.subjectHint ? ` &nbsp;·&nbsp; Subject: <b>${it.parts.subjectHint}</b>` : "";
-  document.getElementById("drill-prompt").innerHTML = `Verb: <b>${it.verb.b}</b> (${it.verb.th})${subjHint} <button class="spk-btn-inline" onclick="speakDrillVerb()" title="Listen" aria-label="Listen">${icon('volume_2')}</button><br><span style="font-size:13px;">type the missing word(s) in the blank</span>`;
+  document.getElementById("drill-prompt").innerHTML = `Verb: <b>${it.verb.b}</b> (${it.verb.th})${subjHint} <button class="spk-btn-inline" onclick="speakDrillVerb()" title="Listen" aria-label="Listen">${icon('volume_2')}</button><br><span style="font-size:clamp(11.5px, 0.5cqh + 8.25px, 13px);">type the missing word(s) in the blank</span>`;
   document.getElementById("drill-sentence").innerHTML =
     wordsToSpansHTML(it.parts.pre, "drill-thai-pop") + `<span class="blank">______</span>` + wordsToSpansHTML(it.parts.post, "drill-thai-pop");
   const input = document.getElementById("drill-input");
@@ -19581,9 +19608,9 @@ function renderGrammarList(){
   const totalAll = levelLessons.reduce((a,l)=>a+gjLessonTotal(l),0);
   const doneAll = levelLessons.reduce((a,l)=>a+gjLessonDone(l),0);
 
-  let html = `<div class="stat-card" style="margin-top:6px;">
+  let html = `<div class="stat-card" style="margin-top:clamp(5px, 0.33cqh + 2.83px, 6px);">
     <div class="section-label" style="margin:0 0 4px;">Level ${grammarLevel} · your course</div>
-    <div style="font-size:15px;font-weight:700;color:var(--text);margin:2px 0 9px;">${doneAll} / ${totalAll} steps completed</div>
+    <div style="font-size:clamp(13px, 0.67cqh + 8.67px, 15px);font-weight:700;color:var(--text);margin:2px 0 9px;">${doneAll} / ${totalAll} steps completed</div>
     <div class="progress-bar"><div class="progress-fill" style="width:${totalAll?Math.round(doneAll/totalAll*100):0}%"></div></div>
   </div>`;
 
@@ -19610,7 +19637,7 @@ function renderGrammarList(){
         <div class="info">
           <div class="title">${l.title}${lLocked?` <span class="lock-badge">${icon('lock','')}</span>`:""}</div>
           <div class="title-th">${l.titleTh}</div>
-          <div class="progress-bar" style="height:4px;margin-top:8px;"><div class="progress-fill" style="width:${tot?Math.round(done/tot*100):0}%"></div></div>
+          <div class="progress-bar" style="height:4px;margin-top:clamp(6px, 0.67cqh + 1.67px, 8px);"><div class="progress-fill" style="width:${tot?Math.round(done/tot*100):0}%"></div></div>
         </div>
         <span class="gj-lesson-status${complete?' done':(started?' started':'')}">${complete?'Done':(started?'Resume':'Start')}</span>
       </button>`;
@@ -19917,9 +19944,9 @@ function renderListeningDetail(){
     const playerHtml = `
       <div style="text-align:center;">
         <span class="gj-role-tag" style="color:var(--blue-2);background:rgba(var(--blue-rgb),.14);border-color:rgba(var(--blue-rgb),.4);">${ex.level} · ${typeLabel}</span>
-        <div style="font-size:13px;color:var(--thai);margin-top:8px;">${typeLabelTh} · ${ex.titleTh}</div>
+        <div style="font-size:clamp(11.5px, 0.5cqh + 8.25px, 13px);color:var(--thai);margin-top:clamp(6px, 0.67cqh + 1.67px, 8px);">${typeLabelTh} · ${ex.titleTh}</div>
         <button class="listening-play-circle${listeningPlaying?' playing':''}" id="listening-play-btn" onclick="toggleListeningPlay()" aria-label="${listeningPlaying?'Pause':'Play'}">${icon(listeningPlaying?'pause':'play')}</button>
-        <div id="listening-play-status" style="font-size:12px;color:var(--muted);">${listeningStatusHtml()}</div>
+        <div id="listening-play-status" style="font-size:clamp(10.5px, 0.5cqh + 7.25px, 12px);color:var(--muted);">${listeningStatusHtml()}</div>
         <div class="listening-scrub-row">
           <button class="listening-step-btn" onclick="stepListeningChunk(-1)" aria-label="Previous sentence">${icon('chevron_left')}</button>
           <div class="listening-progress" id="listening-progress" onmousedown="listeningProgressPointerDown(event)" ontouchstart="listeningProgressPointerDown(event)">
@@ -19931,19 +19958,19 @@ function renderListeningDetail(){
           <button class="listening-step-btn" onclick="stepListeningChunk(1)" aria-label="Next sentence">${icon('chevron_right')}</button>
         </div>
         <div class="listening-progress-label" id="listening-progress-label">Sentence ${dispIdx+1} / ${listeningChunks.length}</div>
-        ${listeningPlayedOnce ? `<button class="ghost-btn small" style="margin-top:14px;" onclick="toggleListeningTranscript()">${listeningShowTranscript?'Hide transcript · ซ่อนบทสนทนา':'Show transcript · แสดงบทสนทนา'}</button>` : ""}
+        ${listeningPlayedOnce ? `<button class="ghost-btn small" style="margin-top:clamp(10px, 1.33cqh + 3.33px, 14px);" onclick="toggleListeningTranscript()">${listeningShowTranscript?'Hide transcript · ซ่อนบทสนทนา':'Show transcript · แสดงบทสนทนา'}</button>` : ""}
       </div>
-      ${listeningShowTranscript ? `<div class="stat-card" style="margin-top:12px;">${ex.script.map(t=>`
+      ${listeningShowTranscript ? `<div class="stat-card" style="margin-top:clamp(9px, 1cqh + 2.5px, 12px);">${ex.script.map(t=>`
         <div class="listening-turn"><div class="listening-turn-who">${t.who}</div><div class="listening-turn-text">${t.text}</div></div>
       `).join("")}</div>` : ""}
     `;
     body.innerHTML = `
       ${playerHtml}
-      <div class="card-counter" style="margin-top:24px;">Question ${listeningQIdx+1} / ${ex.questions.length} <span style="color:var(--thai);">· ข้อที่ ${listeningQIdx+1} จาก ${ex.questions.length}</span></div>
+      <div class="card-counter" style="margin-top:clamp(18px, 2cqh + 5px, 24px);">Question ${listeningQIdx+1} / ${ex.questions.length} <span style="color:var(--thai);">· ข้อที่ ${listeningQIdx+1} จาก ${ex.questions.length}</span></div>
       <div class="progress-bar"><div class="progress-fill" style="width:${Math.round(listeningQIdx/ex.questions.length*100)}%"></div></div>
-      <div class="stat-card" style="margin-top:16px;">
-        <div style="font-size:15px;font-weight:700;color:var(--text);line-height:1.5;">${ex.questions[listeningQIdx].q}</div>
-        <div style="font-size:13px;color:var(--thai);margin-top:5px;">${ex.questions[listeningQIdx].qTh}</div>
+      <div class="stat-card" style="margin-top:clamp(12px, 1.33cqh + 3.33px, 16px);">
+        <div style="font-size:clamp(13px, 0.67cqh + 8.67px, 15px);font-weight:700;color:var(--text);line-height:1.5;">${ex.questions[listeningQIdx].q}</div>
+        <div style="font-size:clamp(11.5px, 0.5cqh + 8.25px, 13px);color:var(--thai);margin-top:5px;">${ex.questions[listeningQIdx].qTh}</div>
         <div class="gj-choice-opts">
           ${q.options.map((opt,i)=>{
             const letter = String.fromCharCode(65+i);
@@ -19954,9 +19981,9 @@ function renderListeningDetail(){
             return `<button class="gj-choice-btn${cls}" onclick="chooseListeningAnswer(${i})" ${disabled?'disabled':''}><span class="gj-choice-letter">${letter}</span>${opt}</button>`;
           }).join("")}
         </div>
-        ${!answered && triedWrong ? `<div style="font-size:12.5px;font-weight:700;color:var(--bad-fg);margin-top:10px;">Not quite, try again · ลองอีกครั้ง</div>` : ""}
+        ${!answered && triedWrong ? `<div style="font-size:clamp(11px, 0.5cqh + 7.75px, 12.5px);font-weight:700;color:var(--bad-fg);margin-top:clamp(8px, 0.67cqh + 3.67px, 10px);">Not quite, try again · ลองอีกครั้ง</div>` : ""}
       </div>
-      ${answered ? `<button class="primary-btn" style="margin-top:16px;" onclick="nextListeningQuestion()">${listeningQIdx+1>=ex.questions.length?'See my score · ดูคะแนน':'Next question · ข้อถัดไป'} ›</button>` : ""}
+      ${answered ? `<button class="primary-btn" style="margin-top:clamp(12px, 1.33cqh + 3.33px, 16px);" onclick="nextListeningQuestion()">${listeningQIdx+1>=ex.questions.length?'See my score · ดูคะแนน':'Next question · ข้อถัดไป'} ›</button>` : ""}
     `;
     return;
   }
@@ -19968,12 +19995,12 @@ function renderListeningDetail(){
   const great = score>=Math.ceil(total*0.8);
   body.innerHTML = `
     <div class="stat-card" style="text-align:center;${great?'border-color:var(--good);background:var(--good-bg);':''}">
-      <div style="font-size:34px;">${great?'🎉':'💪'}</div>
-      <div style="font-size:22px;font-weight:800;color:${great?'var(--good-fg)':'var(--text)'};margin-top:6px;">${score} / ${total}</div>
-      <div style="font-size:13px;color:var(--muted);margin-top:4px;">${great?'Great listening!':'Listen again to catch what you missed.'}</div>
-      <div style="font-size:12px;color:var(--thai);margin-top:2px;">${great?'ฟังเก่งมาก!':'ลองฟังอีกครั้งเพื่อจับสิ่งที่พลาดไป'}</div>
-      <button class="primary-btn" style="margin:14px auto 0;display:block;width:fit-content;-webkit-appearance:none;appearance:none;" onclick="replayListeningAudio()">Listen again · ฟังอีกครั้ง ›</button>
-      <button class="ghost-btn" style="margin:10px auto 0;display:block;width:fit-content;-webkit-appearance:none;appearance:none;" onclick="listeningBackToList()">Back to Listening · กลับไปหน้ารายการ</button>
+      <div style="font-size:clamp(26px, 2.67cqh + 8.67px, 34px);">${great?'🎉':'💪'}</div>
+      <div style="font-size:clamp(18px, 1.33cqh + 9.33px, 22px);font-weight:800;color:${great?'var(--good-fg)':'var(--text)'};margin-top:6px;">${score} / ${total}</div>
+      <div style="font-size:clamp(11.5px, 0.5cqh + 8.25px, 13px);color:var(--muted);margin-top:4px;">${great?'Great listening!':'Listen again to catch what you missed.'}</div>
+      <div style="font-size:clamp(10.5px, 0.5cqh + 7.25px, 12px);color:var(--thai);margin-top:2px;">${great?'ฟังเก่งมาก!':'ลองฟังอีกครั้งเพื่อจับสิ่งที่พลาดไป'}</div>
+      <button class="primary-btn" style="margin:clamp(10px, 1.33cqh + 3.33px, 14px) auto 0;display:block;width:fit-content;-webkit-appearance:none;appearance:none;" onclick="replayListeningAudio()">Listen again · ฟังอีกครั้ง ›</button>
+      <button class="ghost-btn" style="margin:clamp(8px, 0.67cqh + 3.67px, 10px) auto 0;display:block;width:fit-content;-webkit-appearance:none;appearance:none;" onclick="listeningBackToList()">Back to Listening · กลับไปหน้ารายการ</button>
     </div>
   `;
 }
@@ -20024,9 +20051,9 @@ function gjNextLesson(){
 function gjLearnGateHtml(l){
   if(!gjNoticed){
     return `
-      <div style="font-size:12.5px;color:var(--faint);font-weight:700;margin-bottom:8px;">👆 Quick check, tap the right answer</div>
-      <div class="stat-card" style="padding:15px 15px 14px;">
-        <div style="font-size:14.5px;color:var(--text);font-weight:700;line-height:1.45;">${l.quiz.q}</div>
+      <div style="font-size:clamp(11px, 0.5cqh + 7.75px, 12.5px);color:var(--faint);font-weight:700;margin-bottom:clamp(6px, 0.67cqh + 1.67px, 8px);">👆 Quick check, tap the right answer</div>
+      <div class="stat-card" style="padding:clamp(11px, 1cqh + 4.5px, 15px) clamp(11px, 1cqh + 4.5px, 15px) clamp(10px, 1.33cqh + 3.33px, 14px);">
+        <div style="font-size:clamp(13px, 0.5cqh + 9.75px, 14.5px);color:var(--text);font-weight:700;line-height:1.45;">${l.quiz.q}</div>
         <div class="gj-quiz-opts">
           ${l.quiz.options.map((opt,i)=>`<button class="gj-choice-btn" onclick="gjChooseQuiz(${i})"><span class="gj-choice-letter">${String.fromCharCode(65+i)}</span>${opt}</button>`).join("")}
         </div>
@@ -20066,10 +20093,10 @@ function gjPracticeItemHtml(l, ex, pIdx){
   let inner = ex.label ? `<div class="gj-ex-label">${ex.label}</div>` : "";
   if(ex.kind==="build"){
     if(!gjBuilderState[pIdx]) gjBuilderInit(pIdx, ex);
-    inner += `<div style="font-size:13px;color:var(--muted);margin-bottom:10px;">Put the words in the right order.</div>`;
+    inner += `<div style="font-size:clamp(11.5px, 0.5cqh + 8.25px, 13px);color:var(--muted);margin-bottom:clamp(8px, 0.67cqh + 3.67px, 10px);">Put the words in the right order.</div>`;
     inner += gjBuilderHtml(pIdx, ex);
   } else if(ex.kind==="errors"){
-    inner += `<div style="font-size:13px;color:var(--muted);margin-bottom:10px;">Tap the word that's wrong.<span class="th" style="display:block;color:var(--thai);margin-top:2px;">แตะคำที่ผิด</span></div>`;
+    inner += `<div style="font-size:clamp(11.5px, 0.5cqh + 8.25px, 13px);color:var(--muted);margin-bottom:clamp(8px, 0.67cqh + 3.67px, 10px);">Tap the word that's wrong.<span class="th" style="display:block;color:var(--thai);margin-top:2px;">แตะคำที่ผิด</span></div>`;
     inner += gjErrorsHtml(pIdx, ex, solved);
   } else {
     inner += gjChoiceHtml(l, ex, pIdx, solved);
@@ -20083,10 +20110,10 @@ function gjRefreshPracticeItem(pIdx){
   if(!el) return;
   let inner = ex.label ? `<div class="gj-ex-label">${ex.label}</div>` : "";
   if(ex.kind==="build"){
-    inner += `<div style="font-size:13px;color:var(--muted);margin-bottom:10px;">Put the words in the right order.</div>`;
+    inner += `<div style="font-size:clamp(11.5px, 0.5cqh + 8.25px, 13px);color:var(--muted);margin-bottom:clamp(8px, 0.67cqh + 3.67px, 10px);">Put the words in the right order.</div>`;
     inner += gjBuilderHtml(pIdx, ex);
   } else if(ex.kind==="errors"){
-    inner += `<div style="font-size:13px;color:var(--muted);margin-bottom:10px;">Tap the word that's wrong.<span class="th" style="display:block;color:var(--thai);margin-top:2px;">แตะคำที่ผิด</span></div>`;
+    inner += `<div style="font-size:clamp(11.5px, 0.5cqh + 8.25px, 13px);color:var(--muted);margin-bottom:clamp(8px, 0.67cqh + 3.67px, 10px);">Tap the word that's wrong.<span class="th" style="display:block;color:var(--thai);margin-top:2px;">แตะคำที่ผิด</span></div>`;
     inner += gjErrorsHtml(pIdx, ex, gjSolved.has(l.id+":p"+pIdx));
   } else {
     inner += gjChoiceHtml(l, ex, pIdx, gjSolved.has(l.id+":p"+pIdx));
@@ -20101,7 +20128,7 @@ function gjChoiceHtml(l, ex, pIdx, solved){
   const gapHtml = `<span class="gj-gap${solved?' done':''}">${solved?ex.options[ex.answer]:'?'}</span>`;
   const promptHtml = parts.map((p,i)=> p + (i<parts.length-1?gapHtml:"")).join("");
   return `
-    <div style="font-size:15px;color:var(--text);font-weight:600;line-height:1.5;">${promptHtml}</div>
+    <div style="font-size:clamp(13px, 0.67cqh + 8.67px, 15px);color:var(--text);font-weight:600;line-height:1.5;">${promptHtml}</div>
     <div class="gj-choice-opts">
       ${ex.options.map((opt,i)=>{
         const isRight = solved && i===ex.answer;
@@ -20167,7 +20194,7 @@ function gjBuilderHtml(pIdx, ex){
     ${st.bank.length===0?'<span style="color:var(--faint);font-size:12px;">—</span>':''}
     ${st.bank.map(item=>`<div class="gj-tile" role="button" tabindex="0" onclick="gjTapBank(${pIdx},'${item.id}')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();gjTapBank(${pIdx},'${item.id}');}">${item.word}</div>`).join("")}
   </div>`;
-  const doneHtml = solved ? `<div style="margin-top:8px;text-align:center;color:var(--good-fg);font-weight:700;font-size:14px;">${icon('circle_check_big')} Nailed it, "${ex.answer.join(' ')}".</div>` : "";
+  const doneHtml = solved ? `<div style="margin-top:clamp(6px, 0.67cqh + 1.67px, 8px);text-align:center;color:var(--good-fg);font-weight:700;font-size:clamp(12px, 0.67cqh + 7.33px, 14px);">${icon('circle_check_big')} Nailed it, "${ex.answer.join(' ')}".</div>` : "";
   return `<div class="gj-builder-slots">${slotsHtml}</div>${bankHtml}${doneHtml}`;
 }
 function gjTapBank(pIdx, id){
@@ -20299,20 +20326,20 @@ function gjCompareHtml(l){
   if(!l.compare) return "";
   const cmp = l.compare;
   return `
-    <div style="margin-top:28px;">
+    <div style="margin-top:clamp(21px, 2.33cqh + 6.33px, 28px);">
       <div class="gj-step-hdr"><div class="gj-step-badge">2</div><div><div class="gj-step-label">English vs Thai</div><div class="gj-step-th">เทียบภาษา</div></div></div>
       <div class="stat-card">
-        <div style="font-size:14px;color:var(--text);font-weight:600;line-height:1.5;">${cmp.note}</div>
-        <div style="color:var(--thai);font-size:12.5px;font-weight:600;margin:6px 0;">${cmp.noteTh}</div>
+        <div style="font-size:clamp(12.5px, 0.5cqh + 9.25px, 14px);color:var(--text);font-weight:600;line-height:1.5;">${cmp.note}</div>
+        <div style="color:var(--thai);font-size:clamp(11px, 0.5cqh + 7.75px, 12.5px);font-weight:600;margin:6px 0;">${cmp.noteTh}</div>
         <div style="height:1px;background:rgba(var(--hairline-rgb),.06);margin:10px -4px 4px;"></div>
         <div class="gj-compare-wrap" id="gj-compare-wrap">
           <svg class="gj-compare-svg"></svg>
-          <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;font-size:11px;font-weight:800;color:var(--muted);letter-spacing:.5px;">🇬🇧 English</div>
+          <div style="display:flex;align-items:center;gap:clamp(6px, 0.67cqh + 1.67px, 8px);margin-bottom:clamp(6px, 0.67cqh + 1.67px, 8px);font-size:clamp(9.5px, 0.5cqh + 6.25px, 11px);font-weight:800;color:var(--muted);letter-spacing:.5px;">🇬🇧 English</div>
           <div class="gj-compare-row">${cmp.en.map(c=>`<span class="gj-en-chip" data-role="${c.role}">${gjChip(c)}</span>`).join("")}</div>
           <div style="height:38px;"></div>
           <div class="gj-compare-row">${cmp.th.map(c=>`<span class="gj-th-chip" data-role="${c.role}" style="display:inline-flex;flex-direction:column;align-items:center;gap:3px;">${gjChip(c)}<span style="font-size:10px;color:var(--faint);">${c.gloss}</span></span>`).join("")}</div>
-          <div style="display:flex;align-items:center;justify-content:space-between;margin-top:10px;">
-            <div style="font-size:11px;font-weight:800;color:var(--muted);letter-spacing:.5px;">🇹🇭 Thai</div>
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-top:clamp(8px, 0.67cqh + 3.67px, 10px);">
+            <div style="font-size:clamp(9.5px, 0.5cqh + 6.25px, 11px);font-weight:800;color:var(--muted);letter-spacing:.5px;">🇹🇭 Thai</div>
             <button class="gj-replay-btn" onclick="gjDrawCompare()">${icon('rotate_ccw')} Replay</button>
           </div>
         </div>
@@ -20386,11 +20413,11 @@ function gjCompleteCardHtml(l, done, tot){
   const isLastInSection = nextIdx==null || GJ_LESSONS[nextIdx].sectionId!==l.sectionId;
   const showDrillCta = complete && isLastInSection && l.sectionDrillTense;
   return `<div class="stat-card" id="gj-complete-card" style="text-align:center;${complete?'border-color:var(--good);background:var(--good-bg);':''}">
-      <div style="font-size:34px;">${complete?'🎉':'💪'}</div>
-      <div style="font-size:17px;font-weight:800;color:${complete?'var(--good-fg)':'var(--text)'};margin-top:6px;">${complete?'Lesson complete!':'Keep going'}</div>
-      <div style="font-size:13px;color:var(--muted);margin-top:4px;">${complete?'You finished every exercise here.':(tot-done)+' more to finish this lesson.'}</div>
-      <button class="primary-btn" style="margin:14px auto 0;display:block;width:fit-content;-webkit-appearance:none;appearance:none;" onclick="gjNextLesson()">${nextIdx!=null?'Next lesson ›':'Back to Grammar'}</button>
-      ${showDrillCta ? `<button class="ghost-btn" style="margin:10px auto 0;display:block;width:fit-content;-webkit-appearance:none;appearance:none;" onclick="goPracticeDrill('${l.sectionDrillTense}')">Want more practice? Try the Conjugation Drill ›</button>` : ''}
+      <div style="font-size:clamp(26px, 2.67cqh + 8.67px, 34px);">${complete?'🎉':'💪'}</div>
+      <div style="font-size:clamp(14px, 0.83cqh + 8.42px, 17px);font-weight:800;color:${complete?'var(--good-fg)':'var(--text)'};margin-top:6px;">${complete?'Lesson complete!':'Keep going'}</div>
+      <div style="font-size:clamp(11.5px, 0.5cqh + 8.25px, 13px);color:var(--muted);margin-top:4px;">${complete?'You finished every exercise here.':(tot-done)+' more to finish this lesson.'}</div>
+      <button class="primary-btn" style="margin:clamp(10px, 1.33cqh + 3.33px, 14px) auto 0;display:block;width:fit-content;-webkit-appearance:none;appearance:none;" onclick="gjNextLesson()">${nextIdx!=null?'Next lesson ›':'Back to Grammar'}</button>
+      ${showDrillCta ? `<button class="ghost-btn" style="margin:clamp(8px, 0.67cqh + 3.67px, 10px) auto 0;display:block;width:fit-content;-webkit-appearance:none;appearance:none;" onclick="goPracticeDrill('${l.sectionDrillTense}')">Want more practice? Try the Conjugation Drill ›</button>` : ''}
     </div>`;
 }
 
@@ -20407,17 +20434,17 @@ function gjReviewTextHtml(l){
 function gjReviewLessonHtml(l){
   const done = gjSolved.has(l.id+':p0');
   return `
-    <div style="font-size:13px;color:var(--muted);margin-bottom:16px;line-height:1.5;">
+    <div style="font-size:clamp(11.5px, 0.5cqh + 8.25px, 13px);color:var(--muted);margin-bottom:clamp(12px, 1.33cqh + 3.33px, 16px);line-height:1.5;">
       ${l.intro}
       <div style="color:var(--thai);margin-top:4px;font-weight:600;">${l.introTh}</div>
     </div>
-    <div class="stat-card" style="padding:18px 16px;">
+    <div class="stat-card" style="padding:clamp(14px, 1.33cqh + 5.33px, 18px) clamp(13px, 1cqh + 6.5px, 16px);">
       <div class="gj-review-sentence">${gjReviewTextHtml(l)}</div>
       ${l.textTh?`<div class="gj-review-th">${l.textTh}</div>`:''}
     </div>
-    <div style="margin-top:20px;">
+    <div style="margin-top:clamp(15px, 1.67cqh + 2.17px, 20px);">
       ${done
-        ? `<div class="stat-card" style="text-align:center;border-color:var(--good);background:var(--good-bg);color:var(--good-fg);font-weight:800;font-size:15px;">${icon('check')} Reviewed</div>`
+        ? `<div class="stat-card" style="text-align:center;border-color:var(--good);background:var(--good-bg);color:var(--good-fg);font-weight:800;font-size:clamp(13px, 0.67cqh + 8.67px, 15px);">${icon('check')} Reviewed</div>`
         : `<button class="primary-btn" style="display:block;width:fit-content;margin:0 auto;-webkit-appearance:none;appearance:none;" onclick="gjMarkReviewDone()">I've read it, mark as done</button>`}
     </div>
     ${gjReviewQuizHtml(l)}`;
@@ -20428,7 +20455,7 @@ function gjReviewQuizItemHtml(l, qz, qIdx){
   const key = l.id+":q"+qIdx;
   const solved = gjSolved.has(key);
   return `
-    <div style="font-size:14.5px;color:var(--text);font-weight:700;line-height:1.45;">${qz.q}</div>
+    <div style="font-size:clamp(13px, 0.5cqh + 9.75px, 14.5px);color:var(--text);font-weight:700;line-height:1.45;">${qz.q}</div>
     <div class="gj-choice-opts">
       ${qz.options.map((opt,i)=>{
         const isRight = solved && i===qz.answer;
@@ -20465,13 +20492,13 @@ function gjReviewQuizHtml(l){
   if(!l.reviewQuiz || !l.reviewQuiz.length) return '';
   const quizDone = l.reviewQuiz.every((_,i)=>gjSolved.has(l.id+":q"+i));
   return `
-    <div style="margin-top:26px;">
+    <div style="margin-top:clamp(20px, 2cqh + 7px, 26px);">
       <div class="gj-step-hdr">
         <div class="gj-step-badge${quizDone?' done':''}" id="gj-review-quiz-badge">${quizDone?icon('check'):'2'}</div>
         <div><div class="gj-step-label">Quick recap</div><div class="gj-step-th">ทบทวนแบบเร็ว</div></div>
       </div>
-      <div style="display:flex;flex-direction:column;gap:9px;">
-        ${l.reviewQuiz.map((qz,i)=>`<div class="stat-card gj-practice-card" id="gj-review-quiz-${i}" style="padding:15px;">${gjReviewQuizItemHtml(l, qz, i)}</div>`).join("")}
+      <div style="display:flex;flex-direction:column;gap:clamp(7px, 0.67cqh + 2.67px, 9px);">
+        ${l.reviewQuiz.map((qz,i)=>`<div class="stat-card gj-practice-card" id="gj-review-quiz-${i}" style="padding:clamp(12px, 1cqh + 5.5px, 15px);">${gjReviewQuizItemHtml(l, qz, i)}</div>`).join("")}
       </div>
     </div>`;
 }
@@ -20535,21 +20562,21 @@ function renderGrammarLesson(resetScroll){
 
   let html = `
     <div class="gj-sticky-hdr">
-      <div style="display:flex;align-items:center;gap:10px;">
-        <div style="font-size:11px;font-weight:700;color:var(--thai);flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${l.sectionTitle}</div>
+      <div style="display:flex;align-items:center;gap:clamp(8px, 0.67cqh + 3.67px, 10px);">
+        <div style="font-size:clamp(9.5px, 0.5cqh + 6.25px, 11px);font-weight:700;color:var(--thai);flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${l.sectionTitle}</div>
         <span class="gj-role-tag" style="color:var(--blue-2);background:rgba(var(--blue-rgb),.14);border-color:rgba(var(--blue-rgb),.4);" id="gj-progress-count">${done}/${tot}</span>
       </div>
-      <div class="progress-bar" style="height:5px;margin-top:8px;"><div class="progress-fill" id="gj-progress-fill" style="width:${tot?Math.round(done/tot*100):0}%"></div></div>
+      <div class="progress-bar" style="height:5px;margin-top:clamp(6px, 0.67cqh + 1.67px, 8px);"><div class="progress-fill" id="gj-progress-fill" style="width:${tot?Math.round(done/tot*100):0}%"></div></div>
     </div>
 
-    <div style="margin-top:18px;">
-      <div style="font-size:21px;font-weight:800;color:var(--text);line-height:1.25;">${l.title}</div>
-      <div style="color:var(--thai);font-size:13.5px;font-weight:600;margin-top:5px;">${l.titleTh}</div>
+    <div style="margin-top:clamp(14px, 1.33cqh + 5.33px, 18px);">
+      <div style="font-size:clamp(17px, 1.33cqh + 8.33px, 21px);font-weight:800;color:var(--text);line-height:1.25;">${l.title}</div>
+      <div style="color:var(--thai);font-size:clamp(12px, 0.5cqh + 8.75px, 13.5px);font-weight:600;margin-top:5px;">${l.titleTh}</div>
     </div>`;
 
   if(l.type === "review"){
-    html += `<div style="margin-top:22px;">${gjReviewLessonHtml(l)}</div>
-    <div style="margin-top:20px;">${gjCompleteCardHtml(l, done, tot)}</div>`;
+    html += `<div style="margin-top:clamp(17px, 1.67cqh + 4.17px, 22px);">${gjReviewLessonHtml(l)}</div>
+    <div style="margin-top:clamp(15px, 1.67cqh + 2.17px, 20px);">${gjCompleteCardHtml(l, done, tot)}</div>`;
 
     const body = document.getElementById("grammar-detail-body");
     body.innerHTML = html;
@@ -20558,24 +20585,24 @@ function renderGrammarLesson(resetScroll){
   }
 
   html += `
-    <div style="margin-top:24px;">
+    <div style="margin-top:clamp(18px, 2cqh + 5px, 24px);">
       <div class="gj-step-hdr">
         <div class="gj-step-badge${gjNoticed?' done':''}" id="gj-learn-badge">${gjNoticed?icon('check'):'1'}</div>
         <div><div class="gj-step-label">Learn</div><div class="gj-step-th">เรียนรู้</div></div>
       </div>
-      <div style="font-size:13px;color:var(--muted);margin-bottom:11px;line-height:1.5;">Read these. Colours mark the job each word does.</div>
-      <div style="display:flex;flex-direction:column;gap:9px;">
-        ${(l.examples||[]).map(ex=>`<div class="stat-card" style="padding:13px 15px;">
-          <div style="display:flex;gap:7px;flex-wrap:wrap;align-items:center;">${ex.chips.map(c=>gjChip(c)).join("")}</div>
-          ${ex.th?`<div style="color:var(--thai);font-size:13px;margin-top:9px;">${ex.th}</div>`:""}
+      <div style="font-size:clamp(11.5px, 0.5cqh + 8.25px, 13px);color:var(--muted);margin-bottom:clamp(8px, 1cqh + 1.5px, 11px);line-height:1.5;">Read these. Colours mark the job each word does.</div>
+      <div style="display:flex;flex-direction:column;gap:clamp(7px, 0.67cqh + 2.67px, 9px);">
+        ${(l.examples||[]).map(ex=>`<div class="stat-card" style="padding:clamp(10px, 1cqh + 3.5px, 13px) clamp(12px, 1cqh + 5.5px, 15px);">
+          <div style="display:flex;gap:clamp(5px, 0.67cqh + 0.67px, 7px);flex-wrap:wrap;align-items:center;">${ex.chips.map(c=>gjChip(c)).join("")}</div>
+          ${ex.th?`<div style="color:var(--thai);font-size:clamp(11.5px, 0.5cqh + 8.25px, 13px);margin-top:clamp(7px, 0.67cqh + 2.67px, 9px);">${ex.th}</div>`:""}
         </div>`).join("")}
       </div>
-      <div id="gj-learn-gate" style="margin-top:12px;">${gjLearnGateHtml(l)}</div>
+      <div id="gj-learn-gate" style="margin-top:clamp(9px, 1cqh + 2.5px, 12px);">${gjLearnGateHtml(l)}</div>
     </div>
 
     ${gjCompareHtml(l)}
 
-    <div style="margin-top:28px;">
+    <div style="margin-top:clamp(21px, 2.33cqh + 6.33px, 28px);">
       <div class="gj-step-hdr">
         <div class="gj-step-badge${(l.practice||[]).every((_,i)=>gjSolved.has(l.id+':p'+i))?' done':''}" id="gj-practice-badge" data-n="${l.compare?3:2}">${(l.practice||[]).every((_,i)=>gjSolved.has(l.id+':p'+i))?icon('check'):(l.compare?3:2)}</div>
         <div><div class="gj-step-label">Your turn</div><div class="gj-step-th">ตาคุณบ้าง</div></div>
@@ -20586,7 +20613,7 @@ function renderGrammarLesson(resetScroll){
       ${(l.practice||[]).length>1 ? `<div class="gj-practice-dots" id="gj-practice-dots">${(l.practice||[]).map((_,i)=>`<button class="gj-practice-dot${i===0?' active':''}" onclick="gjScrollToPractice(${i})"></button>`).join("")}</div>` : ""}
     </div>
 
-    <div style="margin-top:26px;">${gjCompleteCardHtml(l, done, tot)}</div>
+    <div style="margin-top:clamp(20px, 2cqh + 7px, 26px);">${gjCompleteCardHtml(l, done, tot)}</div>
   `;
 
   const body = document.getElementById("grammar-detail-body");
@@ -21247,7 +21274,7 @@ function renderPronCard(){
   if(c.mode==="sound"){
     const groupsHtml = c.groups.map(pronGroupHtml).join("");
     const compareBtn = c.groups.length===2
-      ? `<button class="ghost-btn" style="display:flex;align-items:center;justify-content:center;gap:7px;" onclick="playPronCompare()">${icon('volume_2')} Compare ${c.groups[0].words[0]} / ${c.groups[1].words[0]}</button>`
+      ? `<button class="ghost-btn" style="display:flex;align-items:center;justify-content:center;gap:clamp(5px, 0.67cqh + 0.67px, 7px);" onclick="playPronCompare()">${icon('volume_2')} Compare ${c.groups[0].words[0]} / ${c.groups[1].words[0]}</button>`
       : "";
     body.innerHTML = `${groupsHtml}${pronPlayCenterHtml()}${compareBtn}`;
   } else if(c.mode==="pairs"){
