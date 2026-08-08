@@ -553,6 +553,8 @@ p.sub{ color:var(--muted); font-size:14px; margin:0 0 16px; line-height:1.4; }
 .btn-spin{ display:inline-block; width:14px; height:14px; border:2px solid rgba(255,255,255,.35); border-top-color:#fff; border-radius:50%; animation:btn-spin .6s linear infinite; margin-right:8px; vertical-align:-2px; }
 @keyframes btn-spin{ to{ transform:rotate(360deg); } }
 .restore-link{ background:none; border:none; color:var(--muted); font-family:inherit; font-size:13px; font-weight:700; text-decoration:underline; padding:6px; cursor:pointer; }
+.unlock-link{ background:rgba(var(--blue-rgb),.1); border:1px solid rgba(var(--blue-rgb),.25); color:var(--blue-2); font-family:inherit; font-size:13.5px; font-weight:800; padding:9px 16px; border-radius:999px; cursor:pointer; display:inline-flex; align-items:center; gap:6px; }
+.unlock-link .ic{ width:14px; height:14px; }
 .compare-tag{ display:block; font-size:10px; font-style:normal; font-weight:600; color:var(--faint); margin-top:1px; }
 #splash{ position:fixed; inset:0; z-index:200; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:14px; background:var(--bg); transition:opacity .25s ease; }
 #splash.hide{ opacity:0; pointer-events:none; }
@@ -1007,7 +1009,8 @@ if("serviceWorker" in navigator){
       <button class="home-cta" onclick="go('flash-setup')"><span id="home-tracker-cta-label">Continue</span> <svg class="ic" viewBox="0 0 24 24"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></button>
     </div>
 
-    <button class="restore-link" id="home-restore-link" onclick="go('restore')" style="display:none;margin:4px auto 0;">ซื้อไปแล้ว? กู้คืนการเข้าถึงที่นี่</button>
+    <button class="unlock-link" id="home-unlock-link" onclick="goPaywall('home')" style="display:none;margin:18px auto 0;"><svg class="ic" viewBox="0 0 24 24"><path d="M4 14a1 1 0 0 1-.78-1.63l9.9-10.2a.5.5 0 0 1 .86.46l-1.92 6.02A1 1 0 0 0 13 10h7a1 1 0 0 1 .78 1.63l-9.9 10.2a.5.5 0 0 1-.86-.46l1.92-6.02A1 1 0 0 0 11 14z"/></svg><span id="home-unlock-link-label">ปลดล็อกทุกฟีเจอร์ · 249 บาท</span></button>
+    <button class="restore-link" id="home-restore-link" onclick="go('restore')" style="display:none;margin:8px auto 0;">ซื้อไปแล้ว? กู้คืนการเข้าถึงที่นี่</button>
   </section>
 
   <!-- FLASHCARDS SETUP -->
@@ -11840,6 +11843,10 @@ const PAYWALL_CONTEXT = {
     title: "ปลดล็อกทุกฟีเจอร์ ตลอดชีพ",
     desc: "ไวยากรณ์ครบ 198 บท, Drill ครบ 7 tense, เสียงยาก 24 เสียง และพจนานุกรมกริยา 233 คำ จ่ายครั้งเดียวใช้ได้ตลอดไป",
   },
+  home: {
+    title: "ปลดล็อกทุกฟีเจอร์ ตลอดชีพ",
+    desc: "ไวยากรณ์ครบ 198 บท, Drill ครบ 7 tense, เสียงยาก 24 เสียง และพจนานุกรมกริยา 233 คำ จ่ายครั้งเดียวใช้ได้ตลอดไป",
+  },
   listening: {
     title: "ฟังได้ครบทุกบทสนทนา",
     desc: "คุณเพิ่งลองฟังตัวอย่างแรกไปแล้ว เวอร์ชันเต็มปลดล็อกบทฟังทั้งหมด ตั้งแต่ระดับ A1 ถึง B1 พร้อมคำถามตรวจความเข้าใจ",
@@ -12268,6 +12275,20 @@ function renderHome(){
   const restoreLink = document.getElementById("home-restore-link");
   if(restoreLink) restoreLink.style.display = locked ? "" : "none";
   renderHomeNudge();
+  renderHomeUnlockCta();
+}
+/* Home is the very first screen most people land on, and the only always-
+   visible path to buying used to be either stumbling into a locked module's
+   own paywall or digging into Settings — someone who's already convinced
+   (e.g. from the marketing page) had no direct way to just go buy it. This
+   mirrors renderSettingsPurchaseCta()'s live-priced CTA for the home screen. */
+function renderHomeUnlockCta(){
+  const link = document.getElementById("home-unlock-link");
+  if(!link) return;
+  link.style.display = isUnlocked() ? "none" : "inline-flex";
+  if(trainerPriceData && trainerPriceData.priceThb){
+    document.getElementById("home-unlock-link-label").textContent = "ปลดล็อกทุกฟีเจอร์ · " + trainerPriceData.priceThb + " บาท";
+  }
 }
 /* Shared cooldown across home-nudge and flash-session-nudge (see below) — each
    has its own longer snooze once shown, but without this a user could see one
@@ -20751,6 +20772,7 @@ async function loadTrainerPrice(){
     renderHomeNudge();
     refreshFlashSessionNudgeUrgency();
     renderSettingsPurchaseCta();
+    renderHomeUnlockCta();
   }catch(e){ /* keep the default label */ }
 }
 function sleep(ms){ return new Promise(r => setTimeout(r, ms)); }
