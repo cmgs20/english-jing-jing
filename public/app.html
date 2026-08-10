@@ -219,7 +219,6 @@ p.sub{ color:var(--muted); font-size:clamp(12.5px, 0.5cqh + 9.25px, 14px); margi
   flex-shrink:0;
 }
 .big-btn:active{ transform:scale(.985); }
-.big-btn.premium-locked{ border-color:rgba(var(--orange-2-rgb),.35); box-shadow:0 0 0 1px rgba(var(--orange-2-rgb),.05) inset, 0 12px 28px -16px rgba(var(--orange-2-rgb),.55); }
 #paywall-buy-btn.buy-cta{
   background:linear-gradient(160deg,var(--blue-2),var(--violet)); border:none;
   box-shadow:0 18px 34px -14px rgba(var(--blue-rgb),.7), inset 0 1px 0 rgba(255,255,255,.25);
@@ -275,6 +274,14 @@ p.sub{ color:var(--muted); font-size:clamp(12.5px, 0.5cqh + 9.25px, 14px); margi
 .big-btn:nth-of-type(6) .emoji{ background:linear-gradient(150deg,var(--teal-2),var(--teal)); }
 .big-btn:nth-of-type(6) .emoji .ic{ color:var(--on-teal); }
 .big-btn:nth-of-type(6) .mini .ic{ color:var(--teal); }
+.big-btn:nth-of-type(7){ background:linear-gradient(100deg,rgba(var(--violet-rgb),.26),rgba(var(--violet-rgb),.05)); }
+.big-btn:nth-of-type(7) .emoji{ background:linear-gradient(150deg,var(--violet-2),var(--violet)); }
+.big-btn:nth-of-type(7) .emoji .ic{ color:var(--on-violet); }
+.big-btn:nth-of-type(7) .mini .ic{ color:var(--violet); }
+.big-btn:nth-of-type(8){ background:linear-gradient(100deg,rgba(var(--orange-rgb),.26),rgba(var(--orange-rgb),.05)); }
+.big-btn:nth-of-type(8) .emoji{ background:linear-gradient(150deg,var(--orange-2),var(--orange)); }
+.big-btn:nth-of-type(8) .emoji .ic{ color:var(--on-orange); }
+.big-btn:nth-of-type(8) .mini .ic{ color:var(--orange); }
 
 .home-grid{ display:grid; grid-template-columns:1fr 1fr; gap:clamp(8px, 3.33cqh - 13.7px, 18px); margin-bottom:clamp(10px, 3.33cqh - 11.7px, 20px); }
 /* No aspect-ratio here on purpose: forcing a card to be as tall as it is
@@ -585,40 +592,6 @@ p.sub{ color:var(--muted); font-size:clamp(12.5px, 0.5cqh + 9.25px, 14px); margi
 .splash-word{ font-size:22px; font-weight:800; color:var(--text); font-family:inherit; }
 .splash-spin{ width:26px; height:26px; border:3px solid rgba(var(--hairline-rgb),.15); border-top-color:var(--blue-2); border-radius:50%; animation:btn-spin .7s linear infinite; }
 
-/* Onboarding preview carousel */
-.onb-carousel{ display:flex; overflow-x:auto; overflow-y:hidden; scroll-snap-type:x mandatory; scrollbar-width:none; -webkit-overflow-scrolling:touch; width:100%; touch-action:pan-x; }
-.onb-carousel::-webkit-scrollbar{ display:none; }
-.onb-slide{ flex:0 0 100%; scroll-snap-align:center; box-sizing:border-box; padding:0 4px; display:flex; flex-direction:column; align-items:center; gap:14px; }
-.onb-mock{ width:100%; max-width:280px; margin:0 auto; border-radius:26px; padding:clamp(16px, 2cqh + 3px, 22px) clamp(15px, 1.67cqh + 4.17px, 20px); text-align:center; background:linear-gradient(160deg,var(--card2),var(--card)); border:1px solid rgba(var(--hairline-rgb),.08); box-sizing:border-box; }
-.onb-mock-lvl{ display:inline-block; font-size:clamp(9.5px, 0.33cqh + 7.33px, 10.5px); font-weight:800; color:var(--on-blue); padding:clamp(3px, 0.33cqh + 0.83px, 4px) clamp(8px, 0.67cqh + 3.67px, 10px); border-radius:999px; background:linear-gradient(150deg,var(--blue-2),var(--blue)); margin-bottom:14px; }
-.onb-mock-th{ font-size:clamp(11.5px, 0.5cqh + 8.25px, 13px); color:var(--thai); margin-bottom:4px; }
-.onb-mock-en{ font-size:clamp(19px, 2cqh + 6px, 25px); font-weight:800; margin-bottom:10px; }
-.onb-mock-ex{ font-size:clamp(11.5px, 0.5cqh + 8.25px, 13px); font-style:italic; color:var(--muted); }
-.onb-mock-hint{ margin-top:16px; font-size:clamp(10px, 0.33cqh + 7.83px, 11px); color:var(--faint); display:flex; align-items:center; justify-content:center; gap:5px; }
-.onb-mock-hint .ic{ width:clamp(10px, 0.67cqh + 5.67px, 12px); height:clamp(10px, 0.67cqh + 5.67px, 12px); }
-.onb-mock-grid{ display:grid; grid-template-columns:1fr 1fr; gap:9px; }
-.onb-mock-mod{ background:var(--card2); border:1px solid rgba(var(--hairline-rgb),.06); border-radius:16px; padding:clamp(11px, 1cqh + 4.5px, 14px) clamp(6px, 0.67cqh + 1.67px, 8px); display:flex; flex-direction:column; align-items:center; gap:7px; }
-.onb-mock-mod-icon{ width:clamp(26px, 2.67cqh + 8.67px, 34px); height:clamp(26px, 2.67cqh + 8.67px, 34px); border-radius:11px; display:flex; align-items:center; justify-content:center; color:#fff; }
-.onb-mock-mod-icon .ic{ width:clamp(13px, 1.33cqh + 4.33px, 17px); height:clamp(13px, 1.33cqh + 4.33px, 17px); }
-.onb-mock-mod-label{ font-size:clamp(10px, 0.5cqh + 6.75px, 11.5px); font-weight:700; }
-.onb-mock-free{ display:inline-flex; align-items:center; gap:3px; font-size:9.5px; font-weight:800; color:var(--good-fg); background:var(--good-bg); padding:3px 7px; border-radius:999px; }
-.onb-mock-progress{ display:flex; flex-direction:column; align-items:center; gap:18px; }
-.onb-mock-ring{ width:clamp(70px, 8.67cqh + 13.67px, 96px); height:clamp(70px, 8.67cqh + 13.67px, 96px); border-radius:50%; background:conic-gradient(var(--blue-2) 0deg 270deg, rgba(var(--hairline-rgb),.08) 270deg 360deg); display:flex; align-items:center; justify-content:center; }
-.onb-mock-ring-inner{ width:clamp(56px, 7.33cqh + 8.33px, 78px); height:clamp(56px, 7.33cqh + 8.33px, 78px); border-radius:50%; background:var(--inset); display:flex; flex-direction:column; align-items:center; justify-content:center; }
-.onb-mock-ring-inner b{ font-size:clamp(16px, 1.67cqh + 5.17px, 21px); font-weight:800; }
-.onb-mock-ring-inner span{ font-size:9.5px; color:var(--faint); }
-.onb-mock-streak{ display:inline-flex; align-items:center; gap:6px; background:linear-gradient(180deg,var(--orange-2),var(--orange)); padding:clamp(6px, 0.67cqh + 1.67px, 8px) clamp(13px, 1cqh + 6.5px, 16px); border-radius:999px; font-weight:800; font-size:clamp(12px, 0.67cqh + 7.67px, 14px); color:var(--on-orange); }
-.onb-mock-streak .ic{ width:clamp(13px, 1cqh + 6.5px, 16px); height:clamp(13px, 1cqh + 6.5px, 16px); }
-.onb-caption{ font-size:clamp(12.5px, 0.5cqh + 9.25px, 14px); color:var(--muted); max-width:300px; margin:0; line-height:1.5; }
-.onb-dots{ display:flex; justify-content:center; gap:18px; }
-.onb-dot{ width:6px; height:6px; border-radius:50%; background:rgba(var(--hairline-rgb),.18); border:none; padding:0; transition:background .15s, width .15s; position:relative; }
-/* Real button, real 6px visual dot — but a 6px target is unusable on touch.
-   The gap above is sized so this ::before's reach exactly meets its neighbor's
-   without overlapping (dot + 2×9px horizontal reach = the 18px gap between
-   dots), while the vertical reach can go all the way to 44px since dots have
-   no neighbor above/below to collide with. */
-.onb-dot::before{ content:''; position:absolute; top:-19px; bottom:-19px; left:-9px; right:-9px; }
-.onb-dot.active{ background:var(--blue-2); width:16px; border-radius:3px; }
 
 /* Unlock celebration */
 .unlock-overlay{ position:fixed; inset:0; z-index:220; display:flex; align-items:center; justify-content:center; padding:24px; background:var(--scrim); backdrop-filter:blur(6px); -webkit-backdrop-filter:blur(6px); opacity:0; pointer-events:none; transition:opacity .25s ease; }
@@ -823,7 +796,11 @@ p.sub{ color:var(--muted); font-size:clamp(12.5px, 0.5cqh + 9.25px, 14px); margi
 .gj-practice-slide{ flex:0 0 100%; scroll-snap-align:center; box-sizing:border-box; padding:0 var(--pad-x); }
 .gj-practice-dots{ display:flex; justify-content:center; gap:18px; margin:14px 0 2px; }
 .gj-practice-dot{ width:6px; height:6px; border-radius:50%; background:rgba(var(--hairline-rgb),.18); border:none; padding:0; transition:background .15s, width .15s; position:relative; }
-/* Same padded-hit-area technique as .onb-dot — see the comment there. */
+/* Real button, real 6px visual dot — but a 6px target is unusable on touch.
+   The gap above is sized so this ::before's reach exactly meets its neighbor's
+   without overlapping (dot + 2×9px horizontal reach = the 18px gap between
+   dots), while the vertical reach can go all the way to 44px since dots have
+   no neighbor above/below to collide with. */
 .gj-practice-dot::before{ content:''; position:absolute; top:-19px; bottom:-19px; left:-9px; right:-9px; }
 .gj-practice-dot.active{ background:var(--blue); width:16px; border-radius:3px; }
 
@@ -868,6 +845,110 @@ p.sub{ color:var(--muted); font-size:clamp(12.5px, 0.5cqh + 9.25px, 14px); margi
      there's nothing worth preserving a fade for here. */
   .screen.anim-forward, .screen.anim-back{ animation:none; opacity:1; transform:none; }
 }
+
+/* =========================================================
+   WARM-UP (home) + GAMES
+   ========================================================= */
+.warmup-card{ border-radius:var(--radius); background:var(--card); border:1px solid var(--line); box-shadow:0 10px 26px -18px rgba(0,0,0,.5); padding:clamp(14px, 1.5cqh + 4px, 18px); margin-top:14px; }
+.warmup-head{ display:flex; align-items:center; gap:8px; }
+.warmup-label{ font-size:11px; font-weight:800; letter-spacing:.06em; text-transform:uppercase; color:var(--muted); }
+.warmup-count{ margin-left:auto; font-size:12px; font-weight:700; color:var(--muted); }
+.warmup-prompt{ margin:14px 0 2px; font-size:clamp(22px, 2.5cqh + 10px, 28px); font-weight:600; line-height:1.2; text-align:center; }
+.warmup-hint{ margin:0 0 14px; text-align:center; font-size:12.5px; font-weight:500; color:var(--muted); }
+.warmup-options{ display:flex; flex-direction:column; gap:8px; }
+.warmup-opt{ width:100%; border-radius:14px; cursor:pointer; font:inherit; font-size:15.5px; font-weight:600; padding:12px; border:1.5px solid var(--line); background:var(--bg); color:var(--text); transition:background .18s,border-color .18s,color .18s; }
+.warmup-opt:active{ transform:scale(.985); }
+.warmup-opt:disabled{ cursor:default; }
+.warmup-opt.correct{ border-color:var(--green); background:var(--good-bg); color:var(--good-fg); }
+.warmup-opt.wrong{ border-color:var(--red); background:var(--bad-bg); color:var(--bad-fg); }
+.warmup-note{ margin:13px 0 0; font-size:13px; line-height:1.5; color:var(--muted); text-align:center; }
+.warmup-done{ display:flex; align-items:center; justify-content:center; gap:8px; padding:6px 0; font-weight:700; color:var(--good-fg); }
+.warmup-done .ic{ width:18px; height:18px; color:var(--green); }
+
+.games-subtitle{ margin:5px 0 0; font-size:13px; color:var(--muted); }
+.games-level-row{ margin-top:14px; }
+.games-hero{ margin-top:16px; width:100%; border:none; cursor:pointer; font:inherit; text-align:left; border-radius:22px; background:var(--blue); color:#fff; padding:18px; display:flex; align-items:center; gap:14px; }
+.games-hero-icon{ width:44px; height:44px; border-radius:14px; background:rgba(255,255,255,.18); display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+.games-hero-icon .ic{ width:22px; height:22px; stroke-width:2.4; }
+.games-hero-txt{ min-width:0; }
+.games-hero-label{ margin:0; font-size:11px; font-weight:700; letter-spacing:.14em; text-transform:uppercase; opacity:.7; }
+.games-hero-title{ margin:5px 0 0; font-size:19px; font-weight:700; letter-spacing:-.3px; }
+.games-hero-sub{ margin:3px 0 0; font-size:12px; opacity:.82; }
+.games-hero-play{ margin-left:auto; flex-shrink:0; width:48px; height:48px; border-radius:50%; background:#fff; color:var(--blue); display:flex; align-items:center; justify-content:center; }
+.games-hero-play .ic{ width:19px; height:19px; stroke-width:2.8; }
+.games-section-label{ margin:20px 0 10px; font-size:11px; font-weight:700; letter-spacing:.14em; text-transform:uppercase; color:var(--muted); }
+.games-list{ display:flex; flex-direction:column; gap:1px; background:var(--line); border-radius:18px; }
+.games-row{ background:var(--card); border:none; cursor:pointer; font:inherit; text-align:left; display:flex; align-items:center; gap:12px; padding:14px; width:100%; }
+.games-row:first-child{ border-radius:18px 18px 0 0; }
+.games-row:last-child{ border-radius:0 0 18px 18px; }
+.games-row-icon{ width:36px; height:36px; border-radius:12px; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+.games-row-icon .ic{ width:18px; height:18px; stroke-width:2.4; }
+.games-row-txt{ min-width:0; }
+.games-row-title{ font-size:15px; font-weight:600; }
+.games-row-sub{ font-size:12px; color:var(--muted); margin-top:1px; }
+.games-row-best{ margin-left:auto; flex-shrink:0; font-size:12px; font-weight:600; color:var(--muted); }
+.games-row-best.new{ font-weight:700; letter-spacing:.06em; text-transform:uppercase; color:var(--orange); font-size:11px; }
+
+/* Shared game-session chrome */
+.game-topbar{ display:flex; align-items:center; gap:12px; padding:2px var(--pad-x) 10px; margin:0 calc(-1 * var(--pad-x)); position:sticky; top:0; z-index:9; background:var(--bg); }
+.game-close-btn{ background:var(--card2); border:none; color:var(--text); width:var(--back-btn-w); height:var(--back-btn-w); border-radius:14px; display:flex; align-items:center; justify-content:center; flex-shrink:0; cursor:pointer; }
+.game-close-btn .ic{ width:18px; height:18px; }
+.game-progress-track{ flex:1; height:6px; border-radius:999px; background:var(--card2); overflow:hidden; }
+.game-progress-fill{ height:100%; border-radius:999px; background:var(--blue); transition:width .4s cubic-bezier(.3,1.2,.4,1); }
+.game-progress-count{ font-size:12px; font-weight:700; color:var(--muted); flex-shrink:0; }
+.game-tag{ border-radius:999px; background:var(--on-blue-soft); color:var(--blue-2); padding:4px 10px; font-size:11px; font-weight:700; letter-spacing:.1em; text-transform:uppercase; }
+.game-timer{ margin-left:auto; font-size:13px; font-weight:700; color:var(--muted); font-variant-numeric:tabular-nums; }
+.game-tag-row{ display:flex; align-items:center; gap:8px; }
+.game-score{ margin-left:auto; display:inline-flex; align-items:center; gap:6px; font-size:13px; font-weight:700; color:var(--green); }
+.game-score .ic{ width:14px; height:14px; stroke-width:3; }
+.game-complete{ text-align:center; padding:40px 10px; }
+.game-complete-title{ margin:0; font-size:21px; font-weight:800; }
+.game-complete-score{ margin:8px 0 0; font-size:15px; color:var(--muted); }
+.game-complete-btns{ margin-top:22px; display:flex; gap:10px; justify-content:center; }
+.game-complete-btns .ghost-btn, .game-complete-btns .primary-btn{ margin:0; width:auto; padding-left:22px; padding-right:22px; }
+
+/* True or false */
+.game-prompt-card{ margin-top:26px; border-radius:24px; background:var(--card); border:1px solid var(--line); box-shadow:0 14px 34px -22px rgba(0,0,0,.4); padding:26px 22px; min-height:150px; display:flex; flex-direction:column; justify-content:center; }
+.game-sentence{ margin:0; font-size:22px; font-weight:600; line-height:1.35; letter-spacing:-.3px; }
+.game-prompt-sub{ margin:14px 0 0; font-size:14px; color:var(--muted); }
+.game-note{ margin-top:16px; border-radius:16px; padding:14px 15px; background:var(--card); border:1px solid var(--line); animation:feedback-pop .2s ease; font-size:14px; line-height:1.5; }
+.game-note u{ text-decoration-color:var(--blue); }
+.game-tf-actions{ margin-top:24px; display:flex; gap:11px; }
+.game-tf-btn{ flex:1; border-radius:18px; cursor:pointer; font:inherit; padding:18px; font-size:16px; font-weight:700; display:flex; flex-direction:column; align-items:center; gap:6px; border:1.5px solid var(--line); background:var(--card); color:var(--text); transition:background .18s,border-color .18s,color .18s; }
+.game-tf-btn .ic{ width:20px; height:20px; stroke-width:2.6; }
+.game-tf-btn:active{ transform:scale(.985); }
+.game-tf-btn:disabled{ cursor:default; }
+.game-tf-btn.correct{ border-color:var(--green); background:var(--good-bg); color:var(--good-fg); }
+.game-tf-btn.wrong{ border-color:var(--red); background:var(--bad-bg); color:var(--bad-fg); }
+
+/* Card match */
+.match-grid{ margin-top:18px; display:grid; grid-template-columns:repeat(4,1fr); gap:8px; }
+.match-tile{ aspect-ratio:1; border-radius:12px; border:1.5px solid var(--line); background:var(--blue); color:transparent; cursor:pointer; font:inherit; font-size:12.5px; font-weight:700; padding:4px; display:flex; align-items:center; justify-content:center; text-align:center; line-height:1.25; }
+.match-tile.flipped{ background:var(--card); color:var(--text); }
+.match-tile.flipped.th{ color:var(--blue-2); }
+.match-tile.matched{ background:var(--good-bg); color:var(--good-fg); border-color:var(--green); }
+.match-tile.matched.th{ color:var(--good-fg); }
+
+/* Odd one out */
+.odd-grid{ margin-top:16px; display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+.odd-tile{ border-radius:16px; border:1.5px solid var(--line); background:var(--card); cursor:pointer; font:inherit; padding:18px 10px; display:flex; flex-direction:column; align-items:center; gap:4px; }
+.odd-tile-en{ font-size:15px; font-weight:700; }
+.odd-tile-th{ font-size:12.5px; color:var(--muted); }
+.odd-tile:disabled{ cursor:default; }
+.odd-tile.correct{ border-color:var(--green); background:var(--good-bg); }
+.odd-tile.correct .odd-tile-th{ color:var(--good-fg); }
+.odd-tile.wrong{ border-color:var(--red); background:var(--bad-bg); }
+.odd-tile.wrong .odd-tile-th{ color:var(--bad-fg); }
+
+/* Word order */
+.wo-prompt{ margin:22px 0 0; text-align:center; font-size:15px; font-weight:600; }
+.wo-slots{ display:flex; flex-wrap:wrap; gap:8px; justify-content:center; padding:6px 2px; min-height:52px; margin-top:16px; }
+.wo-slot{ min-width:44px; min-height:44px; padding:0 12px; border-radius:12px; display:flex; align-items:center; justify-content:center; font-weight:700; font-size:15.5px; border:1.5px dashed var(--line); color:var(--text); background:var(--card); }
+.wo-slot.filled{ border-style:solid; border-color:var(--blue); background:rgba(var(--blue-rgb),.14); }
+.wo-bank{ display:flex; flex-wrap:wrap; gap:9px; justify-content:center; margin-top:26px; padding:14px 12px; background:var(--inset); border-radius:16px; min-height:52px; }
+.wo-tile{ cursor:pointer; font-family:inherit; font-weight:700; font-size:15px; padding:10px 14px; border-radius:12px; color:var(--text); background:var(--card2); border:1px solid var(--line); transition:transform .1s; }
+.wo-tile:active{ transform:scale(.94); }
+.wo-tile.wrong{ animation:gj-shake .35s; border-color:var(--red); background:var(--bad-bg); color:var(--bad-fg); }
 </style>
 <script>
 // Applied synchronously before paint so there's no flash of the wrong theme.
@@ -897,74 +978,6 @@ if("serviceWorker" in navigator){
 </script>
 <div id="app">
 
-  <!-- ONBOARDING -->
-  <section class="screen" id="screen-onboarding" style="align-items:center;justify-content:center;text-align:center;gap:16px;padding:clamp(22px, 3.33cqh + 0.33px, 32px) clamp(17px, 2.33cqh + 1.83px, 24px);">
-    <div style="width:clamp(44px, 4cqh + 18px, 56px);height:clamp(44px, 4cqh + 18px, 56px);border-radius:18px;background:linear-gradient(160deg,var(--blue-2),var(--violet));display:flex;align-items:center;justify-content:center;color:var(--on-blue);">
-      <svg class="ic" viewBox="0 0 24 24" style="width:clamp(22px, 2cqh + 9px, 28px);height:clamp(22px, 2cqh + 9px, 28px);"><path d="M21.42 10.922a1 1 0 0 0-.019-1.838L12.83 5.18a2 2 0 0 0-1.66 0L2.6 9.08a1 1 0 0 0 0 1.832l8.57 3.908a2 2 0 0 0 1.66 0z"/><path d="M22 10v6"/><path d="M6 12.5V16a6 3 0 0 0 12 0v-3.5"/></svg>
-    </div>
-    <div class="home-wordmark" style="font-size:clamp(18px, 1.33cqh + 9.33px, 22px);">English <span class="jj">jing jing</span></div>
-    <p class="sub" style="max-width:320px;margin:0;font-size:clamp(12.5px, 0.5cqh + 9.25px, 14px);">เรียนภาษาอังกฤษที่ออกแบบมาสำหรับคนไทยโดยเฉพาะ ตั้งแต่ระดับ A1 ถึง B1</p>
-
-    <div class="onb-carousel" id="onb-carousel">
-      <div class="onb-slide">
-        <div class="onb-mock">
-          <span class="onb-mock-lvl">A1 · Vocabulary</span>
-          <div class="onb-mock-th">น่าประหลาดใจ</div>
-          <div class="onb-mock-en">surprising</div>
-          <div class="onb-mock-ex">"The news was surprising."</div>
-          <div class="onb-mock-hint"><svg class="ic" viewBox="0 0 24 24"><path d="M21 12a9 9 0 1 1-9-9c2.52 0 4.93 1 6.74 2.74L21 8"/><path d="M21 3v5h-5"/></svg> tap to flip</div>
-        </div>
-        <p class="onb-caption">แฟลชการ์ดคำศัพท์ A1–B1 ใช้ได้ฟรีไม่จำกัด ตลอดไป</p>
-      </div>
-      <div class="onb-slide">
-        <div class="onb-mock">
-          <div class="onb-mock-grid">
-            <div class="onb-mock-mod"><div class="onb-mock-mod-icon" style="background:linear-gradient(150deg,var(--orange-2),var(--orange));color:var(--on-orange);"><svg class="ic" viewBox="0 0 24 24"><path d="M12 20h9"/><path d="M16.376 3.622a1 1 0 0 1 3.002 3.002L7.368 18.635a2 2 0 0 1-.855.506l-2.872.838a.5.5 0 0 1-.62-.62l.838-2.872a2 2 0 0 1 .506-.854z"/></svg></div><span class="onb-mock-mod-label">Conjugation Drill</span><span class="onb-mock-free">ลองฟรี</span></div>
-            <div class="onb-mock-mod"><div class="onb-mock-mod-icon" style="background:linear-gradient(150deg,var(--violet-2),var(--violet));color:var(--on-violet);"><svg class="ic" viewBox="0 0 24 24"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" x2="12" y1="19" y2="22"/></svg></div><span class="onb-mock-mod-label">Pronunciation</span><span class="onb-mock-free">ลองฟรี</span></div>
-            <div class="onb-mock-mod"><div class="onb-mock-mod-icon" style="background:linear-gradient(150deg,var(--green-2),var(--green));color:var(--on-green);"><svg class="ic" viewBox="0 0 24 24"><path d="M12 7v14"/><path d="M16 12h2"/><path d="M16 8h2"/><path d="M3 18a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h5a4 4 0 0 1 4 4 4 4 0 0 1 4-4h5a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1h-6a3 3 0 0 0-3 3 3 3 0 0 0-3-3z"/><path d="M6 12h2"/><path d="M6 8h2"/></svg></div><span class="onb-mock-mod-label">Verb Dictionary</span><span class="onb-mock-free">ลองฟรี</span></div>
-            <div class="onb-mock-mod"><div class="onb-mock-mod-icon" style="background:linear-gradient(150deg,var(--red-2),var(--red));color:var(--on-red);"><svg class="ic" viewBox="0 0 24 24"><path d="M21.42 10.922a1 1 0 0 0-.019-1.838L12.83 5.18a2 2 0 0 0-1.66 0L2.6 9.08a1 1 0 0 0 0 1.832l8.57 3.908a2 2 0 0 0 1.66 0z"/><path d="M22 10v6"/><path d="M6 12.5V16a6 3 0 0 0 12 0v-3.5"/></svg></div><span class="onb-mock-mod-label">Grammar</span><span class="onb-mock-free">ลองฟรี</span></div>
-          </div>
-        </div>
-        <p class="onb-caption">ลองไวยากรณ์ แบบฝึกผันกริยา และเสียงยาก ๆ ได้ฟรีในทุกหมวดก่อนตัดสินใจซื้อ</p>
-      </div>
-      <div class="onb-slide">
-        <div class="onb-mock">
-          <div class="onb-mock-progress">
-            <div class="onb-mock-ring"><div class="onb-mock-ring-inner"><b>45</b><span>/60 min</span></div></div>
-            <div class="onb-mock-streak"><svg class="ic" viewBox="0 0 24 24"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/></svg> 7 day streak</div>
-          </div>
-        </div>
-        <p class="onb-caption">ติดตามความคืบหน้าทุกวันและสร้าง streak ของคุณ</p>
-      </div>
-      <div class="onb-slide">
-        <div class="onb-mock" style="padding:clamp(16px, 2cqh + 3px, 22px) clamp(13px, 1.67cqh + 2.17px, 18px);">
-          <p style="margin:0 0 10px;font-weight:800;color:var(--text);font-size:clamp(13px, 0.5cqh + 9.75px, 14.5px);">ตอนนี้คุณอยู่ระดับไหน</p>
-          <div class="pill-row" id="onb-level-pills" style="justify-content:center;margin:0 0 4px;">
-            <button class="pill" id="onb-lvl-A1" onclick="setOnbLevel('A1')">A1 · เริ่มต้น</button>
-            <button class="pill" id="onb-lvl-A2" onclick="setOnbLevel('A2')">A2 · กลาง</button>
-            <button class="pill" id="onb-lvl-B1" onclick="setOnbLevel('B1')">B1 · ค่อนข้างดี</button>
-          </div>
-          <p style="margin:clamp(14px, 1.33cqh + 5.33px, 18px) 0 10px;font-weight:800;color:var(--text);font-size:clamp(13px, 0.5cqh + 9.75px, 14.5px);">เป้าหมายของคุณคืออะไร</p>
-          <div class="pill-row" id="onb-goal-pills" style="justify-content:center;margin:0;">
-            <button class="pill" id="onb-goal-travel" onclick="setOnbGoal('travel')">เดินทาง</button>
-            <button class="pill" id="onb-goal-work" onclick="setOnbGoal('work')">ทำงาน</button>
-            <button class="pill" id="onb-goal-exam" onclick="setOnbGoal('exam')">สอบ/เรียนต่อ</button>
-            <button class="pill" id="onb-goal-chat" onclick="setOnbGoal('chat')">คุยกับเพื่อน/แฟน</button>
-          </div>
-        </div>
-        <p class="onb-caption">เราจะปรับด่านแรกให้เหมาะกับคุณ (เลือกหรือข้ามได้)</p>
-      </div>
-    </div>
-    <div class="onb-dots" id="onb-dots">
-      <button class="onb-dot active" onclick="onbScrollTo(0)"></button>
-      <button class="onb-dot" onclick="onbScrollTo(1)"></button>
-      <button class="onb-dot" onclick="onbScrollTo(2)"></button>
-      <button class="onb-dot" onclick="onbScrollTo(3)"></button>
-    </div>
-
-    <button class="primary-btn" id="onb-cta-btn" style="width:100%;max-width:360px;margin-top:0;" onclick="onbCtaTap()">ถัดไป →</button>
-  </section>
-
   <!-- HOME -->
   <section class="screen active" id="screen-home">
     <div class="home-hdr">
@@ -978,6 +991,17 @@ if("serviceWorker" in navigator){
       </div>
     </div>
 
+    <div class="warmup-card" id="warmup-card">
+      <div class="warmup-head">
+        <span class="warmup-label">Warm-up · วอร์มอัพ</span>
+        <span class="warmup-count" id="warmup-count"></span>
+      </div>
+      <p class="warmup-prompt" id="warmup-prompt"></p>
+      <p class="warmup-hint">Tap the English word · แตะคำภาษาอังกฤษ</p>
+      <div class="warmup-options" id="warmup-options"></div>
+      <p class="warmup-note" id="warmup-note" style="display:none;"></p>
+    </div>
+
     <div class="home-grid">
       <button class="big-btn" onclick="go('flash-setup')">
         <div class="emoji"><svg class="ic" viewBox="0 0 24 24"><path d="m12.83 2.18a2 2 0 0 0-1.66 0L2.6 6.08a1 1 0 0 0 0 1.83l8.58 3.91a2 2 0 0 0 1.66 0l8.58-3.9a1 1 0 0 0 0-1.83Z"/><path d="m22 17.65-9.17 4.16a2 2 0 0 1-1.66 0L2 17.65"/><path d="m22 12.65-9.17 4.16a2 2 0 0 1-1.66 0L2 12.65"/></svg></div>
@@ -987,32 +1011,44 @@ if("serviceWorker" in navigator){
 
       <button class="big-btn" onclick="go('drill-setup')">
         <div class="emoji"><svg class="ic" viewBox="0 0 24 24"><path d="M12 20h9"/><path d="M16.376 3.622a1 1 0 0 1 3.002 3.002L7.368 18.635a2 2 0 0 1-.855.506l-2.872.838a.5.5 0 0 1-.62-.62l.838-2.872a2 2 0 0 1 .506-.854z"/></svg></div>
-        <div class="label">Conjugation Drill <span class="lock-badge" id="lock-drill-setup" style="display:none;"></span></div>
+        <div class="label">Conjugation Drill</div>
         <div class="desc-th">ฝึกผันกริยา</div>
       </button>
 
       <button class="big-btn" onclick="go('pron-setup')">
         <div class="emoji"><svg class="ic" viewBox="0 0 24 24"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" x2="12" y1="19" y2="22"/></svg></div>
-        <div class="label">Pronunciation <span class="lock-badge" id="lock-pron-setup" style="display:none;"></span></div>
+        <div class="label">Pronunciation</div>
         <div class="desc-th">เสียง R vs L</div>
       </button>
 
       <button class="big-btn" onclick="go('verbs')">
         <div class="emoji"><svg class="ic" viewBox="0 0 24 24"><path d="M12 7v14"/><path d="M16 12h2"/><path d="M16 8h2"/><path d="M3 18a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h5a4 4 0 0 1 4 4 4 4 0 0 1 4-4h5a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1h-6a3 3 0 0 0-3 3 3 3 0 0 0-3-3z"/><path d="M6 12h2"/><path d="M6 8h2"/></svg></div>
-        <div class="label">Verb Dictionary <span class="lock-badge" id="lock-verbs" style="display:none;"></span></div>
+        <div class="label">Verb Dictionary</div>
         <div class="desc-th">พจนานุกรมกริยา</div>
       </button>
 
       <button class="big-btn" onclick="go('grammar')">
         <div class="emoji"><svg class="ic" viewBox="0 0 24 24"><path d="M21.42 10.922a1 1 0 0 0-.019-1.838L12.83 5.18a2 2 0 0 0-1.66 0L2.6 9.08a1 1 0 0 0 0 1.832l8.57 3.908a2 2 0 0 0 1.66 0z"/><path d="M22 10v6"/><path d="M6 12.5V16a6 3 0 0 0 12 0v-3.5"/></svg></div>
-        <div class="label">Grammar <span class="lock-badge" id="lock-grammar" style="display:none;"></span></div>
+        <div class="label">Grammar</div>
         <div class="desc-th">ไวยากรณ์ทีละขั้น</div>
       </button>
 
       <button class="big-btn" onclick="go('listening')">
         <div class="emoji"><svg class="ic" viewBox="0 0 24 24"><path d="M3 14h3a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-7a9 9 0 0 1 18 0v7a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3"/></svg></div>
-        <div class="label">Listening <span class="lock-badge" id="lock-listening" style="display:none;"></span></div>
+        <div class="label">Listening</div>
         <div class="desc-th">ฟังแล้วตอบคำถาม</div>
+      </button>
+
+      <button class="big-btn" onclick="go('games')">
+        <div class="emoji"><svg class="ic" viewBox="0 0 24 24"><line x1="6" x2="10" y1="11" y2="11"/><line x1="8" x2="8" y1="9" y2="13"/><line x1="15" x2="15.01" y1="12" y2="12"/><line x1="18" x2="18.01" y1="10" y2="10"/><path d="M17.32 5H6.68a4 4 0 0 0-3.978 3.59c-.006.052-.01.101-.017.152C2.604 9.416 2 14.456 2 16a3 3 0 0 0 3 3c1 0 1.5-.5 2-1l1.414-1.414A2 2 0 0 1 9.828 16h4.344a2 2 0 0 1 1.414.586L17 18c.5.5 1 1 2 1a3 3 0 0 0 3-3c0-1.545-.604-6.584-.685-7.258-.007-.05-.011-.1-.017-.151A4 4 0 0 0 17.32 5z"/></svg></div>
+        <div class="label">Games</div>
+        <div class="desc-th">เกมฝึกคำศัพท์</div>
+      </button>
+
+      <button class="big-btn" onclick="go('flash-setup')">
+        <div class="emoji"><svg class="ic" viewBox="0 0 24 24"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/></svg></div>
+        <div class="label" id="home-tracker-title">Keep your streak alive</div>
+        <div class="desc-th" id="home-tracker-title-th">อย่าให้ streak หาย</div>
       </button>
     </div>
 
@@ -1026,18 +1062,161 @@ if("serviceWorker" in navigator){
       <button class="home-nudge-close" onclick="dismissHomeNudge()" aria-label="Close">✕</button>
     </div>
 
-    <div class="home-tracker">
-      <div class="home-ring" id="home-ring"><div class="home-ring-inner"><b id="home-mins-today">0</b><span>/60 min</span></div></div>
-      <div class="home-tracker-txt">
-        <b id="home-tracker-title">Keep your streak alive</b>
-        <span class="home-tracker-title-th" id="home-tracker-title-th">อย่าให้ streak หาย</span>
-        <p id="home-mins-label">60 min to hit today's goal.</p>
-      </div>
-      <button class="home-cta" onclick="go('flash-setup')"><span id="home-tracker-cta-label">Continue</span> <svg class="ic" viewBox="0 0 24 24"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></button>
-    </div>
-
     <button class="unlock-link" id="home-unlock-link" onclick="goPaywall('home')" style="display:none;margin:clamp(14px, 1.33cqh + 5.33px, 18px) auto 0;"><svg class="ic" viewBox="0 0 24 24"><path d="M4 14a1 1 0 0 1-.78-1.63l9.9-10.2a.5.5 0 0 1 .86.46l-1.92 6.02A1 1 0 0 0 13 10h7a1 1 0 0 1 .78 1.63l-9.9 10.2a.5.5 0 0 1-.86-.46l1.92-6.02A1 1 0 0 0 11 14z"/></svg><span id="home-unlock-link-label">ปลดล็อกทุกฟีเจอร์ · 249 บาท</span></button>
     <button class="restore-link" id="home-restore-link" onclick="go('restore')" style="display:none;margin:clamp(6px, 0.67cqh + 1.67px, 8px) auto 0;">ซื้อไปแล้ว? กู้คืนการเข้าถึงที่นี่</button>
+  </section>
+
+  <!-- GAMES -->
+  <section class="screen" id="screen-games">
+    <div class="topbar" style="padding-bottom:0;"><button class="back-btn" aria-label="Back" onclick="go('home')"><svg class="ic" viewBox="0 0 24 24"><path d="m15 18-6-6 6-6"/></svg></button><h1>Games</h1><div style="width:var(--back-btn-w)"></div></div>
+    <p class="games-subtitle">เล่นสั้นๆ 2 นาที · ไม่ต้องอินเทอร์เน็ต</p>
+
+    <div class="games-level-row">
+      <div class="section-label">Level</div>
+      <div class="pill-row" id="games-level-pills"></div>
+    </div>
+
+    <button class="games-hero" id="games-hero" onclick="startTodaysGame()">
+      <span class="games-hero-icon" id="games-hero-icon"></span>
+      <div class="games-hero-txt">
+        <p class="games-hero-label">Today's game</p>
+        <h2 class="games-hero-title" id="games-hero-title"></h2>
+        <p class="games-hero-sub" id="games-hero-sub"></p>
+      </div>
+      <span class="games-hero-play"><svg class="ic" viewBox="0 0 24 24"><polygon points="6 3 20 12 6 21 6 3"/></svg></span>
+    </button>
+
+    <p class="games-section-label">All games</p>
+    <div class="games-list" id="games-list"></div>
+  </section>
+
+  <!-- GAME: TRUE OR FALSE -->
+  <section class="screen" id="screen-game-truefalse">
+    <div class="game-topbar">
+      <button class="game-close-btn" onclick="exitGame()" aria-label="Close"><svg class="ic" viewBox="0 0 24 24"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg></button>
+      <div class="game-progress-track"><div class="game-progress-fill" id="tf-progress-fill"></div></div>
+      <span class="game-progress-count" id="tf-progress-count"></span>
+    </div>
+    <div class="game-body" id="tf-body">
+      <div class="game-tag-row">
+        <span class="game-tag">True or false</span>
+        <span class="game-score"><svg class="ic" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg>&nbsp;<span id="tf-score">0</span></span>
+      </div>
+      <div class="game-prompt-card">
+        <p class="game-sentence" id="tf-sentence"></p>
+        <p class="game-prompt-sub">ประโยคนี้ถูกไหม</p>
+      </div>
+      <p class="game-note" id="tf-note" style="display:none;"></p>
+      <div class="game-tf-actions">
+        <button class="game-tf-btn false" id="tf-btn-false" onclick="pickTrueFalse(false)"><svg class="ic" viewBox="0 0 24 24"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>False</button>
+        <button class="game-tf-btn true" id="tf-btn-true" onclick="pickTrueFalse(true)"><svg class="ic" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg>True</button>
+      </div>
+    </div>
+    <div class="game-complete" id="tf-complete" style="display:none;">
+      <h2 class="game-complete-title">Nice work!</h2>
+      <p class="game-complete-score" id="tf-complete-score"></p>
+      <div class="game-complete-btns">
+        <button class="ghost-btn" onclick="go('games')">Back to Games</button>
+        <button class="primary-btn" onclick="startTrueFalse()">Play again</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- GAME: CARD MATCH -->
+  <section class="screen" id="screen-game-cardmatch">
+    <div class="game-topbar">
+      <button class="game-close-btn" onclick="exitGame()" aria-label="Close"><svg class="ic" viewBox="0 0 24 24"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg></button>
+      <span class="game-tag">Card match</span>
+      <span class="game-timer" id="match-timer">0:00</span>
+    </div>
+    <div class="game-body" id="match-body">
+      <div class="match-grid" id="match-grid"></div>
+    </div>
+    <div class="game-complete" id="match-complete" style="display:none;">
+      <h2 class="game-complete-title">Matched!</h2>
+      <p class="game-complete-score" id="match-complete-score"></p>
+      <div class="game-complete-btns">
+        <button class="ghost-btn" onclick="go('games')">Back to Games</button>
+        <button class="primary-btn" onclick="startCardMatch()">Play again</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- GAME: BEAT THE CLOCK -->
+  <section class="screen" id="screen-game-beatclock">
+    <div class="game-topbar">
+      <button class="game-close-btn" onclick="exitGame()" aria-label="Close"><svg class="ic" viewBox="0 0 24 24"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg></button>
+      <span class="game-tag">Beat the clock</span>
+      <span class="game-timer" id="clock-timer">0:60</span>
+    </div>
+    <div class="game-body" id="clock-body">
+      <div class="game-tag-row" style="justify-content:flex-end;">
+        <span class="game-score"><svg class="ic" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg>&nbsp;<span id="clock-score">0</span></span>
+      </div>
+      <p class="warmup-prompt" id="clock-prompt" style="margin-top:18px;"></p>
+      <p class="warmup-hint">Tap the English word · แตะคำภาษาอังกฤษ</p>
+      <div class="warmup-options" id="clock-options"></div>
+    </div>
+    <div class="game-complete" id="clock-complete" style="display:none;">
+      <h2 class="game-complete-title">Time's up!</h2>
+      <p class="game-complete-score" id="clock-complete-score"></p>
+      <div class="game-complete-btns">
+        <button class="ghost-btn" onclick="go('games')">Back to Games</button>
+        <button class="primary-btn" onclick="startBeatClock()">Play again</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- GAME: ODD ONE OUT -->
+  <section class="screen" id="screen-game-oddoneout">
+    <div class="game-topbar">
+      <button class="game-close-btn" onclick="exitGame()" aria-label="Close"><svg class="ic" viewBox="0 0 24 24"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg></button>
+      <div class="game-progress-track"><div class="game-progress-fill" id="odd-progress-fill"></div></div>
+      <span class="game-progress-count" id="odd-progress-count"></span>
+    </div>
+    <div class="game-body" id="odd-body">
+      <div class="game-tag-row">
+        <span class="game-tag">Odd one out</span>
+        <span class="game-score"><svg class="ic" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg>&nbsp;<span id="odd-score">0</span></span>
+      </div>
+      <p class="game-prompt-sub" style="text-align:center;margin-top:18px;">หาคำที่ไม่เข้าพวก · Find the word that doesn't belong</p>
+      <div class="odd-grid" id="odd-grid"></div>
+      <p class="game-note" id="odd-note" style="display:none;"></p>
+    </div>
+    <div class="game-complete" id="odd-complete" style="display:none;">
+      <h2 class="game-complete-title">Nice work!</h2>
+      <p class="game-complete-score" id="odd-complete-score"></p>
+      <div class="game-complete-btns">
+        <button class="ghost-btn" onclick="go('games')">Back to Games</button>
+        <button class="primary-btn" onclick="startOddOneOut()">Play again</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- GAME: WORD ORDER -->
+  <section class="screen" id="screen-game-wordorder">
+    <div class="game-topbar">
+      <button class="game-close-btn" onclick="exitGame()" aria-label="Close"><svg class="ic" viewBox="0 0 24 24"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg></button>
+      <div class="game-progress-track"><div class="game-progress-fill" id="wo-progress-fill"></div></div>
+      <span class="game-progress-count" id="wo-progress-count"></span>
+    </div>
+    <div class="game-body" id="wo-body">
+      <div class="game-tag-row">
+        <span class="game-tag">Word order</span>
+        <span class="game-score"><svg class="ic" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg>&nbsp;<span id="wo-score">0</span></span>
+      </div>
+      <p class="wo-prompt" id="wo-prompt"></p>
+      <div class="wo-slots" id="wo-slots"></div>
+      <div class="wo-bank" id="wo-bank"></div>
+    </div>
+    <div class="game-complete" id="wo-complete" style="display:none;">
+      <h2 class="game-complete-title">Nice work!</h2>
+      <p class="game-complete-score" id="wo-complete-score"></p>
+      <div class="game-complete-btns">
+        <button class="ghost-btn" onclick="go('games')">Back to Games</button>
+        <button class="primary-btn" onclick="startWordOrder()">Play again</button>
+      </div>
+    </div>
   </section>
 
   <!-- FLASHCARDS SETUP -->
@@ -11827,9 +12006,9 @@ function saveDrillMistakes(){ LS.set("et_drill_mistakes", drillMistakes); }
 /* =========================================================
    NAVIGATION
    ========================================================= */
-const FREE_SCREENS = new Set(["home","onboarding","flash-setup","flash-play","tracker","settings","paywall","restore","drill-setup","verbs","grammar","pron-setup","listening"]);
+const FREE_SCREENS = new Set(["home","flash-setup","flash-play","tracker","settings","paywall","restore","drill-setup","verbs","grammar","pron-setup","listening","games","game-truefalse","game-cardmatch","game-beatclock","game-oddoneout","game-wordorder"]);
 const SCREEN_DEPTH = {
-  onboarding:0, home:0,
+  home:0,
   "flash-setup":1, "flash-play":2,
   "drill-setup":1, "drill-play":2,
   verbs:1, "verb-detail":2, "irregular-ref":2,
@@ -11837,6 +12016,7 @@ const SCREEN_DEPTH = {
   "pron-setup":1, "pron-practice":2,
   listening:1, "listening-detail":2,
   tracker:1, settings:1, paywall:1, restore:2,
+  games:1, "game-truefalse":2, "game-cardmatch":2, "game-beatclock":2, "game-oddoneout":2, "game-wordorder":2,
 };
 let lastScreenName = "home";
 /* Free samples: a real, working slice of each locked module so a cold ad
@@ -11952,86 +12132,13 @@ function go(name, opts){
   if(name==="listening") renderListeningList();
   if(name==="settings") renderSettings();
   if(name==="pron-setup") renderPronCategoryList();
-  if(name==="onboarding") onbCarouselInit();
+  if(name==="games") renderGames();
 }
-let onbLevel = null;
-let onbGoal = null;
-// Set true for exactly the one home render right after onboarding finishes,
+// Set true for exactly the one home render right after the very first visit,
 // so a brand-new user sees "Welcome" instead of the (factually wrong)
 // "Welcome back" — consumed and reset the moment renderHome() reads it, so
 // any later visit to home in the same session correctly says "back" again.
 let justOnboardedNow = false;
-function setOnbLevel(l){
-  onbLevel = l;
-  ["A1","A2","B1"].forEach(x=>document.getElementById("onb-lvl-"+x).classList.toggle("active", x===l));
-}
-function setOnbGoal(g){
-  onbGoal = g;
-  ["travel","work","exam","chat"].forEach(x=>document.getElementById("onb-goal-"+x).classList.toggle("active", x===g));
-}
-function finishOnboarding(){
-  if(onbLevel){
-    LS.set("et_level", onbLevel);
-    flashState.level = onbLevel;
-    grammarLevel = onbLevel;
-  }
-  if(onbGoal) LS.set("et_goal", onbGoal);
-  LS.set("et_onboarded", true);
-  justOnboardedNow = true;
-  go("home");
-}
-const ONB_SLIDE_COUNT = 4;
-// Tracks the slide we've navigated TO, updated synchronously the moment a tap
-// is handled — not derived from scrollLeft. The old version read the "active"
-// index back off scroll position, which the smooth-scroll animation updates
-// asynchronously: a second tap fired before the first scroll settled would
-// read a stale index and silently re-target the slide it was already headed
-// to, dropping the tap. A plain counter has no such race.
-let onbIdx = 0;
-function onbCarouselInit(){
-  const carousel = document.getElementById("onb-carousel");
-  if(!carousel) return;
-  carousel.scrollLeft = 0;
-  onbIdx = 0;
-  document.querySelectorAll("#onb-dots .onb-dot").forEach((d,i)=>d.classList.toggle("active", i===0));
-  updateOnbCta(0);
-  let onbSettleTimer = null;
-  carousel.onscroll = ()=>{
-    const idx = Math.round(carousel.scrollLeft / carousel.clientWidth);
-    document.querySelectorAll("#onb-dots .onb-dot").forEach((d,i)=>d.classList.toggle("active", i===idx));
-    // A manual swipe (not a button tap) never calls onbScrollTo, so onbIdx
-    // would otherwise go stale — sync it once the scroll settles rather than
-    // on every scroll event, so a tap mid-swipe can't itself get raced.
-    clearTimeout(onbSettleTimer);
-    onbSettleTimer = setTimeout(()=>{ onbIdx = idx; updateOnbCta(idx); }, 120);
-  };
-}
-function onbScrollTo(i){
-  const carousel = document.getElementById("onb-carousel");
-  if(!carousel) return;
-  // Only the target-tracking counter updates synchronously here — dots and
-  // the CTA label are deliberately left for the scroll handler to update,
-  // so they always reflect where the carousel visibly is, not where it's
-  // headed. Updating them eagerly here looked fine until the scroll
-  // animation was slow/interrupted: the dots would claim "slide 3" while
-  // slide 1 was still on screen, a worse, more confusing bug than the
-  // dropped tap this function exists to fix.
-  onbIdx = i;
-  carousel.scrollTo({ left: i*carousel.clientWidth, behavior:"smooth" });
-}
-// The best conversion arguments (free trial in every module, streak/progress
-// hooks) live on slides 2-3 — advancing the CTA one slide at a time instead
-// of exposing "start" from slide 1 means a tapped-through user actually sees
-// them, without slowing down anyone who just wants to skip ahead fast.
-function updateOnbCta(idx){
-  const btn = document.getElementById("onb-cta-btn");
-  if(!btn) return;
-  btn.textContent = idx >= ONB_SLIDE_COUNT-1 ? "เริ่มเรียนเลย" : "ถัดไป →";
-}
-function onbCtaTap(){
-  if(onbIdx < ONB_SLIDE_COUNT-1) onbScrollTo(onbIdx+1);
-  else finishOnboarding();
-}
 function renderSettings(){
   document.getElementById("settings-rate-slider").value = speechRate;
   document.getElementById("settings-rate-label").textContent = speechRate.toFixed(2)+"×";
@@ -12230,9 +12337,12 @@ function updateTrackerUI(){
   const secs = getDayMinutes(todayKey());
   const mins = Math.floor(secs/60);
   const pct = Math.min(100, Math.round(mins/dailyGoalMin*100));
-  document.getElementById("home-mins-today").textContent = mins;
-  document.getElementById("home-mins-label").textContent = mins>=dailyGoalMin ? "Today's goal reached!" : (dailyGoalMin-mins)+" min to hit today's goal.";
-  document.getElementById("home-ring").style.background = `conic-gradient(var(--blue) 0deg ${pct*3.6}deg, rgba(var(--hairline-rgb),.10) ${pct*3.6}deg 360deg)`;
+  const minsTodayEl = document.getElementById("home-mins-today");
+  const minsLabelEl = document.getElementById("home-mins-label");
+  const ringEl = document.getElementById("home-ring");
+  if(minsTodayEl) minsTodayEl.textContent = mins;
+  if(minsLabelEl) minsLabelEl.textContent = mins>=dailyGoalMin ? "Today's goal reached!" : (dailyGoalMin-mins)+" min to hit today's goal.";
+  if(ringEl) ringEl.style.background = `conic-gradient(var(--blue) 0deg ${pct*3.6}deg, rgba(var(--hairline-rgb),.10) ${pct*3.6}deg 360deg)`;
   const streak = computeStreak();
   document.getElementById("home-streak").textContent = streak;
   // Day-1 users have no streak to "keep alive" and nothing to "continue" —
@@ -12321,18 +12431,11 @@ function renderHome(){
     justOnboardedNow = false;
   }
   const locked = !isUnlocked();
-  ["lock-drill-setup","lock-verbs","lock-grammar","lock-pron-setup","lock-listening"].forEach(id=>{
-    const el = document.getElementById(id);
-    if(!el) return;
-    el.style.display = locked ? "inline-flex" : "none";
-    if(locked) el.innerHTML = icon("lock","");
-    const card = el.closest(".big-btn");
-    if(card) card.classList.toggle("premium-locked", locked);
-  });
   const restoreLink = document.getElementById("home-restore-link");
   if(restoreLink) restoreLink.style.display = locked ? "" : "none";
   renderHomeNudge();
   renderHomeUnlockCta();
+  initWarmup();
 }
 /* Home is the very first screen most people land on, and the only always-
    visible path to buying used to be either stumbling into a locked module's
@@ -12383,6 +12486,674 @@ function renderHomeNudge(){
 function dismissHomeNudge(){
   LS.set("et_nudge_dismissed_at", Date.now());
   renderHomeNudge();
+}
+/* =========================================================
+   WARM-UP — 5-question quiz shown at the top of Home, once per day.
+   ========================================================= */
+const WARMUP_SIZE = 5;
+let warmupState = null;
+function todayWarmupDoneKey(){ return "et_warmup_done_"+todayKey(); }
+function isWarmupDoneToday(){ return LS.get(todayWarmupDoneKey(), false); }
+function buildWarmupQueue(){
+  const level = LS.get("et_level", "A2");
+  const pool = ALL_CARDS.filter(c=>c.lvl===level);
+  const due = shuffleArray(pool.filter(c=>isDueForReview(c.th+"|"+c.en)).slice());
+  const rest = shuffleArray(pool.filter(c=>!isDueForReview(c.th+"|"+c.en)).slice());
+  return due.concat(rest).slice(0, WARMUP_SIZE);
+}
+function initWarmup(){
+  if(isWarmupDoneToday()){ renderWarmupDone(); return; }
+  warmupState = { queue: buildWarmupQueue(), idx:0, answered:false };
+  if(warmupState.queue.length===0){ renderWarmupDone(); return; }
+  renderWarmupQuestion();
+}
+function warmupDistractors(correct){
+  const pool = ALL_CARDS.filter(c=>c.lvl===correct.lvl && c.en!==correct.en);
+  return shuffleArray(pool.slice()).slice(0,2).map(c=>c.en);
+}
+function renderWarmupQuestion(){
+  const c = warmupState.queue[warmupState.idx];
+  const countEl = document.getElementById("warmup-count");
+  if(countEl) countEl.textContent = (warmupState.idx+1)+"/"+warmupState.queue.length;
+  const promptEl = document.getElementById("warmup-prompt");
+  if(promptEl) promptEl.textContent = c.th;
+  const opts = shuffleArray([c.en, ...warmupDistractors(c)]);
+  const wrap = document.getElementById("warmup-options");
+  if(wrap) wrap.innerHTML = opts.map(o=>`<button class="warmup-opt" onclick="pickWarmup(this)">${o}</button>`).join("");
+  const noteEl = document.getElementById("warmup-note");
+  if(noteEl) noteEl.style.display = "none";
+  warmupState.answered = false;
+}
+function pickWarmup(btn){
+  if(!warmupState || warmupState.answered) return;
+  warmupState.answered = true;
+  const c = warmupState.queue[warmupState.idx];
+  const picked = btn.textContent;
+  const correct = picked===c.en;
+  const key = c.th+"|"+c.en;
+  cardState[key] = sm2Update(cardState[key], correct);
+  saveCardState();
+  document.querySelectorAll("#warmup-options .warmup-opt").forEach(b=>{
+    b.disabled = true;
+    if(b.textContent===c.en) b.classList.add("correct");
+    else if(b===btn) b.classList.add("wrong");
+  });
+  const noteEl = document.getElementById("warmup-note");
+  if(noteEl){
+    noteEl.textContent = correct ? "ถูกต้อง! · Correct!" : (c.th+" = "+c.en);
+    noteEl.style.display = "block";
+  }
+  setTimeout(()=>{
+    warmupState.idx++;
+    if(warmupState.idx >= warmupState.queue.length){
+      LS.set(todayWarmupDoneKey(), true);
+      renderWarmupDone();
+    } else {
+      renderWarmupQuestion();
+    }
+  }, 900);
+}
+function renderWarmupDone(){
+  const card = document.getElementById("warmup-card");
+  if(!card) return;
+  card.innerHTML = `<div class="warmup-done">${icon("check")}<span>Warm-up done for today · วอร์มอัพวันนี้เสร็จแล้ว</span></div>`;
+}
+
+/* =========================================================
+   GAMES — all 5 are free regardless of unlock status: they're a free hook
+   toward the paid modules, not gated content themselves.
+
+   Content is hand-authored per CEFR level (A1/A2/B1/B2) instead of pulled
+   from the general flashcard pool or generated by pairing random subjects/
+   verbs/objects — that produced sentences nobody would actually say (e.g.
+   "A client protected by a doctor"). Each bank below has 20 entries per
+   level, picked/checked for correct tense, subject-verb agreement, and
+   pronoun/possessive consistency. The games-level filter is stored
+   separately from the app's main et_level (used by Flashcards/Warm-up),
+   since B2 doesn't otherwise exist elsewhere in the app.
+   ========================================================= */
+const LEVELS = ["A1","A2","B1","B2"];
+let gamesLevel = LS.get("et_games_level", "A2");
+function setGamesLevel(l){
+  gamesLevel = l;
+  LS.set("et_games_level", l);
+  renderGamesLevelPills();
+}
+function renderGamesLevelPills(){
+  const wrap = document.getElementById("games-level-pills");
+  if(!wrap) return;
+  wrap.innerHTML = LEVELS.map(l=>`<button class="pill ${gamesLevel===l?'active':''}" onclick="setGamesLevel('${l}')">${l}</button>`).join("");
+}
+
+/* --- Sentence bank (True or false + Word order) --- */
+const SENTENCE_BANK = {
+A1:[
+{ pre:"I ", post:" tea every day.", correct:"base", forms:{base:"drink",s:"drinks",ing:"drinking",past:"drank"}, th:"ฉันดื่มชาทุกวัน" },
+{ pre:"She ", post:" in Bangkok.", correct:"s", forms:{base:"live",s:"lives",ing:"living",past:"lived"}, th:"เธออาศัยอยู่ในกรุงเทพ" },
+{ pre:"He ", post:" a red car.", correct:"s", forms:{base:"have",s:"has",ing:"having",past:"had"}, th:"เขามีรถสีแดง" },
+{ pre:"We ", post:" rice for lunch.", correct:"base", forms:{base:"eat",s:"eats",ing:"eating",past:"ate"}, th:"เรากินข้าวเป็นอาหารกลางวัน" },
+{ pre:"They ", post:" in a small house.", correct:"base", forms:{base:"live",s:"lives",ing:"living",past:"lived"}, th:"พวกเขาอาศัยอยู่ในบ้านหลังเล็ก" },
+{ pre:"My mother ", post:" fish.", correct:"s", forms:{base:"like",s:"likes",ing:"liking",past:"liked"}, th:"แม่ของฉันชอบปลา" },
+{ pre:"I ", post:" my hands before dinner.", correct:"base", forms:{base:"wash",s:"washes",ing:"washing",past:"washed"}, th:"ฉันล้างมือก่อนอาหารเย็น" },
+{ pre:"The dog ", post:" every morning.", correct:"s", forms:{base:"run",s:"runs",ing:"running",past:"ran"}, th:"สุนัขวิ่งทุกเช้า" },
+{ pre:"You ", post:" English very well.", correct:"base", forms:{base:"speak",s:"speaks",ing:"speaking",past:"spoke"}, th:"คุณพูดภาษาอังกฤษได้ดีมาก" },
+{ pre:"My father ", post:" a taxi.", correct:"s", forms:{base:"drive",s:"drives",ing:"driving",past:"drove"}, th:"พ่อของฉันขับรถแท็กซี่" },
+{ pre:"We ", post:" TV in the evening.", correct:"base", forms:{base:"watch",s:"watches",ing:"watching",past:"watched"}, th:"เราดูทีวีตอนเย็น" },
+{ pre:"She ", post:" three brothers.", correct:"s", forms:{base:"have",s:"has",ing:"having",past:"had"}, th:"เธอมีพี่ชายสามคน" },
+{ pre:"I ", post:" to school by bus.", correct:"base", forms:{base:"go",s:"goes",ing:"going",past:"went"}, th:"ฉันไปโรงเรียนโดยรถบัส" },
+{ pre:"He ", post:" coffee in the morning.", correct:"s", forms:{base:"drink",s:"drinks",ing:"drinking",past:"drank"}, th:"เขาดื่มกาแฟตอนเช้า" },
+{ pre:"My sister ", post:" apples every day.", correct:"s", forms:{base:"eat",s:"eats",ing:"eating",past:"ate"}, th:"น้องสาวของฉันกินแอปเปิ้ลทุกวัน" },
+{ pre:"The children ", post:" in the garden.", correct:"base", forms:{base:"play",s:"plays",ing:"playing",past:"played"}, th:"เด็กๆเล่นในสวน" },
+{ pre:"I ", post:" my teeth twice a day.", correct:"base", forms:{base:"brush",s:"brushes",ing:"brushing",past:"brushed"}, th:"ฉันแปรงฟันวันละสองครั้ง" },
+{ pre:"He ", post:" his bag every morning.", correct:"s", forms:{base:"carry",s:"carries",ing:"carrying",past:"carried"}, th:"เขาแบกกระเป๋าทุกเช้า" },
+{ pre:"We ", post:" our grandparents on Sundays.", correct:"base", forms:{base:"visit",s:"visits",ing:"visiting",past:"visited"}, th:"เราไปเยี่ยมปู่ย่าตายายทุกวันอาทิตย์" },
+{ pre:"She ", post:" the piano.", correct:"s", forms:{base:"play",s:"plays",ing:"playing",past:"played"}, th:"เธอเล่นเปียโน" },
+],
+A2:[
+{ pre:"She ", post:" to work every day.", correct:"s", forms:{base:"walk",s:"walks",ing:"walking",past:"walked"}, th:"เธอเดินไปทำงานทุกวัน" },
+{ pre:"They ", post:" football yesterday.", correct:"past", forms:{base:"play",s:"plays",ing:"playing",past:"played"}, th:"พวกเขาเล่นฟุตบอลเมื่อวานนี้" },
+{ pre:"We are ", post:" a movie right now.", correct:"ing", forms:{base:"watch",s:"watches",ing:"watching",past:"watched"}, th:"ตอนนี้เรากำลังดูหนังอยู่" },
+{ pre:"My brother ", post:" dinner on weekends.", correct:"s", forms:{base:"cook",s:"cooks",ing:"cooking",past:"cooked"}, th:"พี่ชายของฉันทำอาหารเย็นในวันหยุดสุดสัปดาห์" },
+{ pre:"I ", post:" my grandmother last week.", correct:"past", forms:{base:"visit",s:"visits",ing:"visiting",past:"visited"}, th:"ฉันไปเยี่ยมยายเมื่อสัปดาห์ที่แล้ว" },
+{ pre:"The train ", post:" at eight every morning.", correct:"s", forms:{base:"leave",s:"leaves",ing:"leaving",past:"left"}, th:"รถไฟออกตอนแปดโมงเช้าทุกวัน" },
+{ pre:"She is ", post:" English at university.", correct:"ing", forms:{base:"study",s:"studies",ing:"studying",past:"studied"}, th:"เธอกำลังเรียนภาษาอังกฤษที่มหาวิทยาลัย" },
+{ pre:"We usually ", post:" breakfast at seven.", correct:"base", forms:{base:"eat",s:"eats",ing:"eating",past:"ate"}, th:"ปกติเรากินอาหารเช้าตอนเจ็ดโมง" },
+{ pre:"He ", post:" his homework before dinner.", correct:"past", forms:{base:"finish",s:"finishes",ing:"finishing",past:"finished"}, th:"เขาทำการบ้านเสร็จก่อนอาหารเย็น" },
+{ pre:"They are ", post:" a trip to Chiang Mai.", correct:"ing", forms:{base:"plan",s:"plans",ing:"planning",past:"planned"}, th:"พวกเขากำลังวางแผนไปเที่ยวเชียงใหม่" },
+{ pre:"I ", post:" to buy some milk today.", correct:"base", forms:{base:"need",s:"needs",ing:"needing",past:"needed"}, th:"ฉันต้องซื้อนมวันนี้" },
+{ pre:"My father ", post:" to the office every day.", correct:"s", forms:{base:"drive",s:"drives",ing:"driving",past:"drove"}, th:"พ่อของฉันขับรถไปทำงานทุกวัน" },
+{ pre:"She ", post:" her friend last night.", correct:"past", forms:{base:"call",s:"calls",ing:"calling",past:"called"}, th:"เธอโทรหาเพื่อนเมื่อคืนนี้" },
+{ pre:"We are ", post:" for the bus.", correct:"ing", forms:{base:"wait",s:"waits",ing:"waiting",past:"waited"}, th:"เรากำลังรอรถบัส" },
+{ pre:"He always ", post:" his umbrella.", correct:"base", forms:{base:"forget",s:"forgets",ing:"forgetting",past:"forgot"}, th:"เขาลืมร่มอยู่เสมอ" },
+{ pre:"I ", post:" a new phone last month.", correct:"past", forms:{base:"buy",s:"buys",ing:"buying",past:"bought"}, th:"ฉันซื้อโทรศัพท์เครื่องใหม่เมื่อเดือนที่แล้ว" },
+{ pre:"The children are ", post:" in the park.", correct:"ing", forms:{base:"play",s:"plays",ing:"playing",past:"played"}, th:"เด็กๆกำลังเล่นอยู่ที่สวนสาธารณะ" },
+{ pre:"My mother ", post:" at a primary school.", correct:"s", forms:{base:"teach",s:"teaches",ing:"teaching",past:"taught"}, th:"แม่ของฉันสอนอยู่ที่โรงเรียนประถม" },
+{ pre:"I usually ", post:" my email before breakfast.", correct:"base", forms:{base:"check",s:"checks",ing:"checking",past:"checked"}, th:"ปกติฉันเช็คอีเมลก่อนอาหารเช้า" },
+{ pre:"We are ", post:" our friends tonight.", correct:"ing", forms:{base:"meet",s:"meets",ing:"meeting",past:"met"}, th:"คืนนี้เรากำลังจะไปเจอเพื่อน" },
+],
+B1:[
+{ pre:"She has ", post:" Japan twice.", correct:"pp", forms:{base:"visit",s:"visits",ing:"visiting",past:"visited",pp:"visited"}, th:"เธอไปเยี่ยมญี่ปุ่นมาแล้วสองครั้ง" },
+{ pre:"I was ", post:" dinner when he called.", correct:"ing", forms:{base:"cook",s:"cooks",ing:"cooking",past:"cooked",pp:"cooked"}, th:"ฉันกำลังทำอาหารเย็นตอนที่เขาโทรมา" },
+{ pre:"If it ", post:" tomorrow, we will stay at home.", correct:"s", forms:{base:"rain",s:"rains",ing:"raining",past:"rained",pp:"rained"}, th:"ถ้าพรุ่งนี้ฝนตก เราจะอยู่บ้าน" },
+{ pre:"We are going to ", post:" our aunt next week.", correct:"base", forms:{base:"visit",s:"visits",ing:"visiting",past:"visited",pp:"visited"}, th:"เราจะไปเยี่ยมป้าของเราสัปดาห์หน้า" },
+{ pre:"I have ", post:" here since 2015.", correct:"pp", forms:{base:"live",s:"lives",ing:"living",past:"lived",pp:"lived"}, th:"ฉันอาศัยอยู่ที่นี่ตั้งแต่ปี 2015" },
+{ pre:"She ", post:" home because she was tired.", correct:"past", forms:{base:"stay",s:"stays",ing:"staying",past:"stayed",pp:"stayed"}, th:"เธออยู่บ้านเพราะเธอเหนื่อย" },
+{ pre:"He has already ", post:" his homework.", correct:"pp", forms:{base:"finish",s:"finishes",ing:"finishing",past:"finished",pp:"finished"}, th:"เขาทำการบ้านเสร็จแล้ว" },
+{ pre:"They have never ", post:" to Japan.", correct:"pp", forms:{base:"go",s:"goes",ing:"going",past:"went",pp:"gone"}, th:"พวกเขาไม่เคยไปญี่ปุ่นเลย" },
+{ pre:"We were ", post:" when the power went out.", correct:"ing", forms:{base:"sleep",s:"sleeps",ing:"sleeping",past:"slept",pp:"slept"}, th:"เรากำลังนอนหลับตอนที่ไฟดับ" },
+{ pre:"She has ", post:" three novels this year.", correct:"pp", forms:{base:"write",s:"writes",ing:"writing",past:"wrote",pp:"written"}, th:"เธอเขียนนิยายไปแล้วสามเล่มในปีนี้" },
+{ pre:"If you ", post:" hard, you will pass the exam.", correct:"base", forms:{base:"study",s:"studies",ing:"studying",past:"studied",pp:"studied"}, th:"ถ้าคุณตั้งใจเรียน คุณจะสอบผ่าน" },
+{ pre:"He was ", post:" a shower when the phone rang.", correct:"ing", forms:{base:"take",s:"takes",ing:"taking",past:"took",pp:"taken"}, th:"เขากำลังอาบน้ำตอนที่โทรศัพท์ดัง" },
+{ pre:"My parents have ", post:" this house for ten years.", correct:"pp", forms:{base:"own",s:"owns",ing:"owning",past:"owned",pp:"owned"}, th:"พ่อแม่ของฉันเป็นเจ้าของบ้านหลังนี้มาสิบปีแล้ว" },
+{ pre:"I have ", post:" my keys, so I can't get in.", correct:"pp", forms:{base:"lose",s:"loses",ing:"losing",past:"lost",pp:"lost"}, th:"ฉันทำกุญแจหาย เลยเข้าบ้านไม่ได้" },
+{ pre:"She is going to ", post:" a new job next month.", correct:"base", forms:{base:"start",s:"starts",ing:"starting",past:"started",pp:"started"}, th:"เธอจะเริ่มงานใหม่เดือนหน้า" },
+{ pre:"We have already ", post:" that movie.", correct:"pp", forms:{base:"see",s:"sees",ing:"seeing",past:"saw",pp:"seen"}, th:"เราดูหนังเรื่องนั้นไปแล้ว" },
+{ pre:"He was ", post:" his car when it started to rain.", correct:"ing", forms:{base:"wash",s:"washes",ing:"washing",past:"washed",pp:"washed"}, th:"เขากำลังล้างรถตอนที่ฝนเริ่มตก" },
+{ pre:"If she ", post:" early, she will catch the train.", correct:"s", forms:{base:"leave",s:"leaves",ing:"leaving",past:"left",pp:"left"}, th:"ถ้าเธอออกเดินทางแต่เช้า เธอจะทันรถไฟ" },
+{ pre:"They have just ", post:" home from the airport.", correct:"pp", forms:{base:"arrive",s:"arrives",ing:"arriving",past:"arrived",pp:"arrived"}, th:"พวกเขาเพิ่งกลับมาถึงบ้านจากสนามบิน" },
+{ pre:"I was ", post:" my bike when I fell.", correct:"ing", forms:{base:"ride",s:"rides",ing:"riding",past:"rode",pp:"ridden"}, th:"ฉันกำลังขี่จักรยานตอนที่ฉันล้ม" },
+],
+B2:[
+{ pre:"This report was ", post:" by the manager yesterday.", correct:"pp", forms:{base:"write",s:"writes",ing:"writing",past:"wrote",pp:"written"}, th:"รายงานฉบับนี้ถูกเขียนโดยผู้จัดการเมื่อวานนี้" },
+{ pre:"If I ", post:" more time, I would travel around the world.", correct:"past", forms:{base:"have",s:"has",ing:"having",past:"had",pp:"had"}, th:"ถ้าฉันมีเวลามากกว่านี้ ฉันจะเดินทางรอบโลก" },
+{ pre:"She has been ", post:" for this company for over five years.", correct:"ing", forms:{base:"work",s:"works",ing:"working",past:"worked",pp:"worked"}, th:"เธอทำงานให้บริษัทนี้มากว่าห้าปีแล้ว" },
+{ pre:"He must have ", post:" the message, because he hasn't replied.", correct:"pp", forms:{base:"miss",s:"misses",ing:"missing",past:"missed",pp:"missed"}, th:"เขาคงพลาดข้อความไป เพราะเขายังไม่ตอบกลับเลย" },
+{ pre:"The windows are ", post:" every week by the cleaner.", correct:"pp", forms:{base:"clean",s:"cleans",ing:"cleaning",past:"cleaned",pp:"cleaned"}, th:"หน้าต่างถูกทำความสะอาดทุกสัปดาห์โดยคนทำความสะอาด" },
+{ pre:"If she ", post:" harder, she would get a promotion.", correct:"past", forms:{base:"work",s:"works",ing:"working",past:"worked",pp:"worked"}, th:"ถ้าเธอทำงานหนักกว่านี้ เธอจะได้เลื่อนตำแหน่ง" },
+{ pre:"They have been ", post:" for the bus for almost an hour.", correct:"ing", forms:{base:"wait",s:"waits",ing:"waiting",past:"waited",pp:"waited"}, th:"พวกเขารอรถบัสมาเกือบชั่วโมงแล้ว" },
+{ pre:"This bridge was ", post:" over a hundred years ago.", correct:"pp", forms:{base:"build",s:"builds",ing:"building",past:"built",pp:"built"}, th:"สะพานแห่งนี้ถูกสร้างขึ้นเมื่อกว่าร้อยปีก่อน" },
+{ pre:"She might have ", post:" the wrong bus.", correct:"pp", forms:{base:"take",s:"takes",ing:"taking",past:"took",pp:"taken"}, th:"เธออาจจะขึ้นรถบัสผิดคัน" },
+{ pre:"I have been ", post:" English for three years.", correct:"ing", forms:{base:"study",s:"studies",ing:"studying",past:"studied",pp:"studied"}, th:"ฉันเรียนภาษาอังกฤษมาสามปีแล้ว" },
+{ pre:"If he ", post:" the truth, he would tell us.", correct:"past", forms:{base:"know",s:"knows",ing:"knowing",past:"knew",pp:"known"}, th:"ถ้าเขารู้ความจริง เขาคงบอกเราแล้ว" },
+{ pre:"The new policy was ", post:" by the board last month.", correct:"pp", forms:{base:"approve",s:"approves",ing:"approving",past:"approved",pp:"approved"}, th:"นโยบายใหม่ได้รับการอนุมัติโดยคณะกรรมการเมื่อเดือนที่แล้ว" },
+{ pre:"We have been ", post:" this problem all week.", correct:"ing", forms:{base:"discuss",s:"discusses",ing:"discussing",past:"discussed",pp:"discussed"}, th:"เราคุยกันเรื่องปัญหานี้มาทั้งสัปดาห์แล้ว" },
+{ pre:"He should have ", post:" his manager about the delay.", correct:"pp", forms:{base:"tell",s:"tells",ing:"telling",past:"told",pp:"told"}, th:"เขาควรจะบอกหัวหน้าเรื่องความล่าช้า" },
+{ pre:"The email was ", post:" to the wrong address by mistake.", correct:"pp", forms:{base:"send",s:"sends",ing:"sending",past:"sent",pp:"sent"}, th:"อีเมลถูกส่งไปผิดที่อยู่โดยไม่ได้ตั้งใจ" },
+{ pre:"If they ", post:" earlier, they would catch the flight.", correct:"past", forms:{base:"leave",s:"leaves",ing:"leaving",past:"left",pp:"left"}, th:"ถ้าพวกเขาออกเดินทางแต่เนิ่นๆ พวกเขาจะทันเที่ยวบิน" },
+{ pre:"She has been ", post:" a lot of stress at work recently.", correct:"ing", forms:{base:"feel",s:"feels",ing:"feeling",past:"felt",pp:"felt"}, th:"เธอรู้สึกเครียดจากงานมากในช่วงนี้" },
+{ pre:"The concert was ", post:" because of the storm.", correct:"pp", forms:{base:"cancel",s:"cancels",ing:"cancelling",past:"cancelled",pp:"cancelled"}, th:"คอนเสิร์ตถูกยกเลิกเพราะพายุ" },
+{ pre:"He must have ", post:" very hard to pass that exam.", correct:"pp", forms:{base:"study",s:"studies",ing:"studying",past:"studied",pp:"studied"}, th:"เขาต้องตั้งใจเรียนอย่างหนักถึงสอบผ่านข้อนั้นได้" },
+{ pre:"If we ", post:" a bigger car, we could take everyone.", correct:"past", forms:{base:"have",s:"has",ing:"having",past:"had",pp:"had"}, th:"ถ้าเรามีรถที่ใหญ่กว่านี้ เราจะพาทุกคนไปได้" },
+],
+};
+function buildSentenceQueue(total){
+  const pool = SENTENCE_BANK[gamesLevel] || SENTENCE_BANK.A2;
+  let queue = [];
+  while(queue.length < total) queue = queue.concat(shuffleArray(pool.slice()));
+  return queue.slice(0, total);
+}
+
+/* --- Word bank (Card match + Beat the clock) --- */
+const WORD_BANK = {
+A1:[
+{en:"cat",th:"แมว"},{en:"dog",th:"หมา"},{en:"book",th:"หนังสือ"},{en:"water",th:"น้ำ"},{en:"house",th:"บ้าน"},
+{en:"car",th:"รถยนต์"},{en:"table",th:"โต๊ะ"},{en:"chair",th:"เก้าอี้"},{en:"apple",th:"แอปเปิ้ล"},{en:"milk",th:"นม"},
+{en:"school",th:"โรงเรียน"},{en:"friend",th:"เพื่อน"},{en:"mother",th:"แม่"},{en:"father",th:"พ่อ"},{en:"big",th:"ใหญ่"},
+{en:"small",th:"เล็ก"},{en:"happy",th:"มีความสุข"},{en:"red",th:"สีแดง"},{en:"blue",th:"สีฟ้า"},{en:"hot",th:"ร้อน"},
+],
+A2:[
+{en:"weather",th:"อากาศ"},{en:"holiday",th:"วันหยุด"},{en:"kitchen",th:"ครัว"},{en:"bedroom",th:"ห้องนอน"},{en:"hospital",th:"โรงพยาบาล"},
+{en:"doctor",th:"หมอ"},{en:"teacher",th:"ครู"},{en:"market",th:"ตลาด"},{en:"money",th:"เงิน"},{en:"ticket",th:"ตั๋ว"},
+{en:"airport",th:"สนามบิน"},{en:"restaurant",th:"ร้านอาหาร"},{en:"bicycle",th:"จักรยาน"},{en:"umbrella",th:"ร่ม"},{en:"suitcase",th:"กระเป๋าเดินทาง"},
+{en:"neighbor",th:"เพื่อนบ้าน"},{en:"birthday",th:"วันเกิด"},{en:"expensive",th:"แพง"},{en:"crowded",th:"แออัด"},{en:"comfortable",th:"สบาย"},
+],
+B1:[
+{en:"experience",th:"ประสบการณ์"},{en:"opportunity",th:"โอกาส"},{en:"deadline",th:"กำหนดส่ง"},{en:"colleague",th:"เพื่อนร่วมงาน"},{en:"environment",th:"สิ่งแวดล้อม"},
+{en:"decision",th:"การตัดสินใจ"},{en:"relationship",th:"ความสัมพันธ์"},{en:"schedule",th:"ตารางเวลา"},{en:"interview",th:"การสัมภาษณ์"},{en:"contract",th:"สัญญา"},
+{en:"suggestion",th:"ข้อเสนอแนะ"},{en:"improvement",th:"การปรับปรุง"},{en:"responsibility",th:"ความรับผิดชอบ"},{en:"achievement",th:"ความสำเร็จ"},{en:"confident",th:"มั่นใจ"},
+{en:"exhausted",th:"เหนื่อยล้า"},{en:"reliable",th:"เชื่อถือได้"},{en:"flexible",th:"ยืดหยุ่น"},{en:"ambitious",th:"ทะเยอทะยาน"},{en:"independent",th:"เป็นอิสระ"},
+],
+B2:[
+{en:"consequence",th:"ผลที่ตามมา"},{en:"controversy",th:"ข้อโต้แย้ง"},{en:"compromise",th:"การประนีประนอม"},{en:"perspective",th:"มุมมอง"},{en:"sustainability",th:"ความยั่งยืน"},
+{en:"negotiation",th:"การเจรจาต่อรอง"},{en:"accountability",th:"ความรับผิดชอบต่อผลลัพธ์"},{en:"innovation",th:"นวัตกรรม"},{en:"discrimination",th:"การเลือกปฏิบัติ"},{en:"regulation",th:"กฎระเบียบ"},
+{en:"inequality",th:"ความไม่เท่าเทียม"},{en:"assumption",th:"ข้อสันนิษฐาน"},{en:"resilience",th:"ความยืดหยุ่นทางใจ"},{en:"inevitable",th:"หลีกเลี่ยงไม่ได้"},{en:"controversial",th:"เป็นที่ถกเถียง"},
+{en:"subtle",th:"ละเอียดอ่อน"},{en:"ambiguous",th:"คลุมเครือ"},{en:"skeptical",th:"ขี้สงสัย"},{en:"plausible",th:"เป็นไปได้"},{en:"redundant",th:"ซ้ำซ้อน"},
+],
+};
+function wordDistractors(pool, correct){
+  return shuffleArray(pool.filter(w=>w.en!==correct.en)).slice(0,2).map(w=>w.en);
+}
+
+/* --- Odd one out puzzle bank — each puzzle is 3 words that share a theme
+   plus 1 unrelated "odd" word, pre-authored so the grouping is always
+   unambiguous (rather than picked from a general category tag). --- */
+const ODD_BANK = {
+A1:[
+{ words:[{en:"dog",th:"หมา"},{en:"cat",th:"แมว"},{en:"bird",th:"นก"}], odd:{en:"banana",th:"กล้วย"} },
+{ words:[{en:"apple",th:"แอปเปิ้ล"},{en:"banana",th:"กล้วย"},{en:"orange",th:"ส้ม"}], odd:{en:"chair",th:"เก้าอี้"} },
+{ words:[{en:"red",th:"สีแดง"},{en:"blue",th:"สีฟ้า"},{en:"green",th:"สีเขียว"}], odd:{en:"dog",th:"หมา"} },
+{ words:[{en:"mother",th:"แม่"},{en:"father",th:"พ่อ"},{en:"sister",th:"น้องสาว"}], odd:{en:"table",th:"โต๊ะ"} },
+{ words:[{en:"one",th:"หนึ่ง"},{en:"two",th:"สอง"},{en:"three",th:"สาม"}], odd:{en:"happy",th:"มีความสุข"} },
+{ words:[{en:"hand",th:"มือ"},{en:"foot",th:"เท้า"},{en:"head",th:"หัว"}], odd:{en:"book",th:"หนังสือ"} },
+{ words:[{en:"shirt",th:"เสื้อ"},{en:"pants",th:"กางเกง"},{en:"hat",th:"หมวก"}], odd:{en:"apple",th:"แอปเปิ้ล"} },
+{ words:[{en:"table",th:"โต๊ะ"},{en:"chair",th:"เก้าอี้"},{en:"bed",th:"เตียง"}], odd:{en:"cat",th:"แมว"} },
+{ words:[{en:"sun",th:"แดด"},{en:"rain",th:"ฝน"},{en:"cloud",th:"เมฆ"}], odd:{en:"book",th:"หนังสือ"} },
+{ words:[{en:"pen",th:"ปากกา"},{en:"book",th:"หนังสือ"},{en:"bag",th:"กระเป๋า"}], odd:{en:"dog",th:"หมา"} },
+{ words:[{en:"water",th:"น้ำ"},{en:"milk",th:"นม"},{en:"juice",th:"น้ำผลไม้"}], odd:{en:"shirt",th:"เสื้อ"} },
+{ words:[{en:"fish",th:"ปลา"},{en:"bird",th:"นก"},{en:"horse",th:"ม้า"}], odd:{en:"red",th:"สีแดง"} },
+{ words:[{en:"run",th:"วิ่ง"},{en:"jump",th:"กระโดด"},{en:"swim",th:"ว่ายน้ำ"}], odd:{en:"cat",th:"แมว"} },
+{ words:[{en:"school",th:"โรงเรียน"},{en:"house",th:"บ้าน"},{en:"park",th:"สวนสาธารณะ"}], odd:{en:"milk",th:"นม"} },
+{ words:[{en:"car",th:"รถยนต์"},{en:"bus",th:"รถบัส"},{en:"bike",th:"จักรยาน"}], odd:{en:"apple",th:"แอปเปิ้ล"} },
+{ words:[{en:"rice",th:"ข้าว"},{en:"bread",th:"ขนมปัง"},{en:"egg",th:"ไข่"}], odd:{en:"chair",th:"เก้าอี้"} },
+{ words:[{en:"ball",th:"ลูกบอล"},{en:"doll",th:"ตุ๊กตา"},{en:"kite",th:"ว่าว"}], odd:{en:"fish",th:"ปลา"} },
+{ words:[{en:"morning",th:"เช้า"},{en:"afternoon",th:"บ่าย"},{en:"night",th:"กลางคืน"}], odd:{en:"table",th:"โต๊ะ"} },
+{ words:[{en:"happy",th:"มีความสุข"},{en:"sad",th:"เศร้า"},{en:"angry",th:"โกรธ"}], odd:{en:"book",th:"หนังสือ"} },
+{ words:[{en:"yellow",th:"สีเหลือง"},{en:"black",th:"สีดำ"},{en:"white",th:"สีขาว"}], odd:{en:"bird",th:"นก"} },
+],
+A2:[
+{ words:[{en:"doctor",th:"หมอ"},{en:"teacher",th:"ครู"},{en:"nurse",th:"พยาบาล"}], odd:{en:"umbrella",th:"ร่ม"} },
+{ words:[{en:"bank",th:"ธนาคาร"},{en:"market",th:"ตลาด"},{en:"hospital",th:"โรงพยาบาล"}], odd:{en:"spoon",th:"ช้อน"} },
+{ words:[{en:"spoon",th:"ช้อน"},{en:"fork",th:"ส้อม"},{en:"plate",th:"จาน"}], odd:{en:"jacket",th:"แจ็คเก็ต"} },
+{ words:[{en:"train",th:"รถไฟ"},{en:"airplane",th:"เครื่องบิน"},{en:"ship",th:"เรือ"}], odd:{en:"pillow",th:"หมอน"} },
+{ words:[{en:"football",th:"ฟุตบอล"},{en:"tennis",th:"เทนนิส"},{en:"swimming",th:"ว่ายน้ำ"}], odd:{en:"envelope",th:"ซองจดหมาย"} },
+{ words:[{en:"sunny",th:"แดดจัด"},{en:"rainy",th:"ฝนตก"},{en:"windy",th:"ลมแรง"}], odd:{en:"bookshelf",th:"ชั้นหนังสือ"} },
+{ words:[{en:"jacket",th:"แจ็คเก็ต"},{en:"scarf",th:"ผ้าพันคอ"},{en:"gloves",th:"ถุงมือ"}], odd:{en:"tomato",th:"มะเขือเทศ"} },
+{ words:[{en:"painting",th:"วาดภาพ"},{en:"reading",th:"อ่านหนังสือ"},{en:"singing",th:"ร้องเพลง"}], odd:{en:"bridge",th:"สะพาน"} },
+{ words:[{en:"carrot",th:"แครอท"},{en:"potato",th:"มันฝรั่ง"},{en:"tomato",th:"มะเขือเทศ"}], odd:{en:"airplane",th:"เครื่องบิน"} },
+{ words:[{en:"bridge",th:"สะพาน"},{en:"tower",th:"หอคอย"},{en:"museum",th:"พิพิธภัณฑ์"}], odd:{en:"spoon",th:"ช้อน"} },
+{ words:[{en:"bookshelf",th:"ชั้นหนังสือ"},{en:"wardrobe",th:"ตู้เสื้อผ้า"},{en:"sofa",th:"โซฟา"}], odd:{en:"doctor",th:"หมอ"} },
+{ words:[{en:"pillow",th:"หมอน"},{en:"blanket",th:"ผ้าห่ม"},{en:"mattress",th:"ที่นอน"}], odd:{en:"tennis",th:"เทนนิส"} },
+{ words:[{en:"envelope",th:"ซองจดหมาย"},{en:"stapler",th:"ที่เย็บกระดาษ"},{en:"printer",th:"เครื่องพิมพ์"}], odd:{en:"carrot",th:"แครอท"} },
+{ words:[{en:"nervous",th:"กังวล"},{en:"excited",th:"ตื่นเต้น"},{en:"bored",th:"เบื่อ"}], odd:{en:"wardrobe",th:"ตู้เสื้อผ้า"} },
+{ words:[{en:"mango",th:"มะม่วง"},{en:"pineapple",th:"สับปะรด"},{en:"watermelon",th:"แตงโม"}], odd:{en:"nurse",th:"พยาบาล"} },
+{ words:[{en:"fridge",th:"ตู้เย็น"},{en:"oven",th:"เตาอบ"},{en:"microwave",th:"ไมโครเวฟ"}], odd:{en:"football",th:"ฟุตบอล"} },
+{ words:[{en:"coin",th:"เหรียญ"},{en:"banknote",th:"ธนบัตร"},{en:"wallet",th:"กระเป๋าสตางค์"}], odd:{en:"blanket",th:"ผ้าห่ม"} },
+{ words:[{en:"suitcase",th:"กระเป๋าเดินทาง"},{en:"passport",th:"หนังสือเดินทาง"},{en:"ticket",th:"ตั๋ว"}], odd:{en:"potato",th:"มันฝรั่ง"} },
+{ words:[{en:"storm",th:"พายุ"},{en:"fog",th:"หมอก"},{en:"snow",th:"หิมะ"}], odd:{en:"printer",th:"เครื่องพิมพ์"} },
+{ words:[{en:"guitar",th:"กีตาร์"},{en:"piano",th:"เปียโน"},{en:"drum",th:"กลอง"}], odd:{en:"mattress",th:"ที่นอน"} },
+],
+B1:[
+{ words:[{en:"colleague",th:"เพื่อนร่วมงาน"},{en:"manager",th:"ผู้จัดการ"},{en:"employee",th:"พนักงาน"}], odd:{en:"volcano",th:"ภูเขาไฟ"} },
+{ words:[{en:"anxious",th:"วิตกกังวล"},{en:"frustrated",th:"หงุดหงิด"},{en:"relieved",th:"โล่งใจ"}], odd:{en:"contract",th:"สัญญา"} },
+{ words:[{en:"laptop",th:"แล็ปท็อป"},{en:"smartphone",th:"สมาร์ทโฟน"},{en:"printer",th:"เครื่องพิมพ์"}], odd:{en:"anxious",th:"วิตกกังวล"} },
+{ words:[{en:"volcano",th:"ภูเขาไฟ"},{en:"waterfall",th:"น้ำตก"},{en:"desert",th:"ทะเลทราย"}], odd:{en:"employee",th:"พนักงาน"} },
+{ words:[{en:"contract",th:"สัญญา"},{en:"agreement",th:"ข้อตกลง"},{en:"invoice",th:"ใบแจ้งหนี้"}], odd:{en:"waterfall",th:"น้ำตก"} },
+{ words:[{en:"confident",th:"มั่นใจ"},{en:"stubborn",th:"ดื้อรั้น"},{en:"generous",th:"ใจกว้าง"}], odd:{en:"laptop",th:"แล็ปท็อป"} },
+{ words:[{en:"pollution",th:"มลพิษ"},{en:"recycling",th:"การรีไซเคิล"},{en:"climate",th:"สภาพภูมิอากาศ"}], odd:{en:"stubborn",th:"ดื้อรั้น"} },
+{ words:[{en:"itinerary",th:"กำหนดการเดินทาง"},{en:"visa",th:"วีซ่า"},{en:"customs",th:"ศุลกากร"}], odd:{en:"recycling",th:"การรีไซเคิล"} },
+{ words:[{en:"curriculum",th:"หลักสูตร"},{en:"scholarship",th:"ทุนการศึกษา"},{en:"lecture",th:"การบรรยาย"}], odd:{en:"visa",th:"วีซ่า"} },
+{ words:[{en:"symptom",th:"อาการ"},{en:"treatment",th:"การรักษา"},{en:"prescription",th:"ใบสั่งยา"}], odd:{en:"scholarship",th:"ทุนการศึกษา"} },
+{ words:[{en:"budget",th:"งบประมาณ"},{en:"investment",th:"การลงทุน"},{en:"savings",th:"เงินออม"}], odd:{en:"symptom",th:"อาการ"} },
+{ words:[{en:"negotiation",th:"การเจรจา"},{en:"argument",th:"การโต้เถียง"},{en:"apology",th:"คำขอโทษ"}], odd:{en:"budget",th:"งบประมาณ"} },
+{ words:[{en:"drought",th:"ภัยแล้ง"},{en:"flood",th:"น้ำท่วม"},{en:"earthquake",th:"แผ่นดินไหว"}], odd:{en:"argument",th:"การโต้เถียง"} },
+{ words:[{en:"mortgage",th:"สินเชื่อบ้าน"},{en:"tenant",th:"ผู้เช่า"},{en:"landlord",th:"เจ้าของบ้านเช่า"}], odd:{en:"drought",th:"ภัยแล้ง"} },
+{ words:[{en:"journalist",th:"นักข่าว"},{en:"broadcast",th:"การออกอากาศ"},{en:"headline",th:"พาดหัวข่าว"}], odd:{en:"tenant",th:"ผู้เช่า"} },
+{ words:[{en:"witness",th:"พยาน"},{en:"evidence",th:"หลักฐาน"},{en:"verdict",th:"คำตัดสิน"}], odd:{en:"journalist",th:"นักข่าว"} },
+{ words:[{en:"referee",th:"ผู้ตัดสิน"},{en:"championship",th:"การแข่งขันชิงแชมป์"},{en:"stadium",th:"สนามกีฬา"}], odd:{en:"witness",th:"พยาน"} },
+{ words:[{en:"election",th:"การเลือกตั้ง"},{en:"candidate",th:"ผู้สมัคร"},{en:"parliament",th:"รัฐสภา"}], odd:{en:"referee",th:"ผู้ตัดสิน"} },
+{ words:[{en:"hypothesis",th:"สมมติฐาน"},{en:"experiment",th:"การทดลอง"},{en:"laboratory",th:"ห้องปฏิบัติการ"}], odd:{en:"candidate",th:"ผู้สมัคร"} },
+{ words:[{en:"ashamed",th:"อับอาย"},{en:"grateful",th:"ซาบซึ้งใจ"},{en:"jealous",th:"อิจฉา"}], odd:{en:"hypothesis",th:"สมมติฐาน"} },
+],
+B2:[
+{ words:[{en:"ethics",th:"จริยธรรม"},{en:"morality",th:"ศีลธรรม"},{en:"integrity",th:"ความซื่อสัตย์"}], odd:{en:"algorithm",th:"อัลกอริทึม"} },
+{ words:[{en:"algorithm",th:"อัลกอริทึม"},{en:"encryption",th:"การเข้ารหัส"},{en:"bandwidth",th:"แบนด์วิดท์"}], odd:{en:"morality",th:"ศีลธรรม"} },
+{ words:[{en:"inflation",th:"เงินเฟ้อ"},{en:"recession",th:"ภาวะเศรษฐกิจถดถอย"},{en:"monopoly",th:"การผูกขาด"}], odd:{en:"encryption",th:"การเข้ารหัส"} },
+{ words:[{en:"cognition",th:"การรับรู้"},{en:"perception",th:"การรับรู้ทางประสาทสัมผัส"},{en:"motivation",th:"แรงจูงใจ"}], odd:{en:"inflation",th:"เงินเฟ้อ"} },
+{ words:[{en:"diplomacy",th:"การทูต"},{en:"sovereignty",th:"อำนาจอธิปไตย"},{en:"legislation",th:"กฎหมาย"}], odd:{en:"cognition",th:"การรับรู้"} },
+{ words:[{en:"biodiversity",th:"ความหลากหลายทางชีวภาพ"},{en:"deforestation",th:"การตัดไม้ทำลายป่า"},{en:"emission",th:"การปล่อยมลพิษ"}], odd:{en:"diplomacy",th:"การทูต"} },
+{ words:[{en:"metaphor",th:"อุปมาอุปไมย"},{en:"narrative",th:"การเล่าเรื่อง"},{en:"symbolism",th:"สัญลักษณ์นิยม"}], odd:{en:"biodiversity",th:"ความหลากหลายทางชีวภาพ"} },
+{ words:[{en:"litigation",th:"การฟ้องร้อง"},{en:"jurisdiction",th:"เขตอำนาจศาล"},{en:"testimony",th:"คำให้การ"}], odd:{en:"metaphor",th:"อุปมาอุปไมย"} },
+{ words:[{en:"diagnosis",th:"การวินิจฉัย"},{en:"immunity",th:"ภูมิคุ้มกัน"},{en:"pathogen",th:"เชื้อโรค"}], odd:{en:"litigation",th:"การฟ้องร้อง"} },
+{ words:[{en:"merger",th:"การควบรวมกิจการ"},{en:"shareholder",th:"ผู้ถือหุ้น"},{en:"revenue",th:"รายได้"}], odd:{en:"diagnosis",th:"การวินิจฉัย"} },
+{ words:[{en:"inequality",th:"ความไม่เท่าเทียม"},{en:"demographic",th:"ประชากรศาสตร์"},{en:"stereotype",th:"ภาพเหมารวม"}], odd:{en:"merger",th:"การควบรวมกิจการ"} },
+{ words:[{en:"galaxy",th:"กาแล็กซี"},{en:"asteroid",th:"ดาวเคราะห์น้อย"},{en:"orbit",th:"วงโคจร"}], odd:{en:"demographic",th:"ประชากรศาสตร์"} },
+{ words:[{en:"infrastructure",th:"โครงสร้างพื้นฐาน"},{en:"blueprint",th:"พิมพ์เขียว"},{en:"foundation",th:"รากฐาน"}], odd:{en:"galaxy",th:"กาแล็กซี"} },
+{ words:[{en:"syntax",th:"วากยสัมพันธ์"},{en:"dialect",th:"ภาษาถิ่น"},{en:"phoneme",th:"หน่วยเสียง"}], odd:{en:"infrastructure",th:"โครงสร้างพื้นฐาน"} },
+{ words:[{en:"ecosystem",th:"ระบบนิเวศ"},{en:"habitat",th:"ถิ่นที่อยู่อาศัย"},{en:"extinction",th:"การสูญพันธุ์"}], odd:{en:"syntax",th:"วากยสัมพันธ์"} },
+{ words:[{en:"hypocrisy",th:"ความหน้าซื่อใจคด"},{en:"empathy",th:"ความเห็นอกเห็นใจ"},{en:"altruism",th:"ความเสียสละ"}], odd:{en:"ecosystem",th:"ระบบนิเวศ"} },
+{ words:[{en:"liability",th:"หนี้สิน"},{en:"asset",th:"สินทรัพย์"},{en:"dividend",th:"เงินปันผล"}], odd:{en:"hypocrisy",th:"ความหน้าซื่อใจคด"} },
+{ words:[{en:"synapse",th:"ไซแนปส์"},{en:"neuron",th:"เซลล์ประสาท"},{en:"cortex",th:"เปลือกสมอง"}], odd:{en:"liability",th:"หนี้สิน"} },
+{ words:[{en:"treaty",th:"สนธิสัญญา"},{en:"embargo",th:"การคว่ำบาตร"},{en:"alliance",th:"พันธมิตร"}], odd:{en:"synapse",th:"ไซแนปส์"} },
+{ words:[{en:"paradox",th:"ข้อขัดแย้งในตัวเอง"},{en:"irony",th:"การประชดประชัน"},{en:"nuance",th:"ความแตกต่างที่ละเอียดอ่อน"}], odd:{en:"treaty",th:"สนธิสัญญา"} },
+],
+};
+function buildPuzzleQueue(total){
+  const pool = ODD_BANK[gamesLevel] || ODD_BANK.A2;
+  let queue = [];
+  while(queue.length < total) queue = queue.concat(shuffleArray(pool.slice()));
+  return queue.slice(0, total);
+}
+
+function fmtGameTime(sec){ const m=Math.floor(sec/60), s=sec%60; return m+":"+String(s).padStart(2,"0"); }
+function gameBest(key){ return LS.get(key, null); }
+const GAMES_META = [
+  { key:"truefalse", screen:"game-truefalse", label:"True or false", labelTh:"ประโยคนี้ถูกไหม · ไวยากรณ์",
+    iconName:"circle_check_big", iconBg:"rgba(var(--blue-rgb),.14)", iconColor:"var(--blue)",
+    bestKey:"et_game_best_tf", bestFmt:v=>v==null?"New":v+"/10", start:"startTrueFalse" },
+  { key:"cardmatch", screen:"game-cardmatch", label:"Card match", labelTh:"จับคู่คำอังกฤษกับคำไทย",
+    iconName:"layers", iconBg:"rgba(var(--orange-rgb),.14)", iconColor:"var(--orange)",
+    bestKey:"et_game_best_match", bestFmt:v=>v==null?"New":fmtGameTime(v), start:"startCardMatch" },
+  { key:"beatclock", screen:"game-beatclock", label:"Beat the clock", labelTh:"แปลให้ทันเวลา 60 วินาที",
+    iconName:"clock", iconBg:"rgba(var(--green-rgb),.14)", iconColor:"var(--green)",
+    bestKey:"et_game_best_clock", bestFmt:v=>v==null?"New":String(v), start:"startBeatClock" },
+  { key:"oddoneout", screen:"game-oddoneout", label:"Odd one out", labelTh:"หาคำที่ไม่เข้าพวก",
+    iconName:"search", iconBg:"var(--card2)", iconColor:"var(--muted)",
+    bestKey:"et_game_best_odd", bestFmt:v=>v==null?"New":v+"/10", start:"startOddOneOut" },
+  { key:"wordorder", screen:"game-wordorder", label:"Word order", labelTh:"เรียงคำให้ถูกต้อง",
+    iconName:"list", iconBg:"rgba(var(--violet-rgb),.14)", iconColor:"var(--violet)",
+    bestKey:"et_game_best_wordorder", bestFmt:v=>v==null?"New":v+"/10", start:"startWordOrder" },
+];
+const GAME_CLOCK_ICON = `<circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>`;
+function gameIconSvg(name){ return name==="clock" ? `<svg class="ic" viewBox="0 0 24 24">${GAME_CLOCK_ICON}</svg>` : icon(name); }
+function todaysGameIdx(){ return Math.floor(Date.now()/86400000) % GAMES_META.length; }
+function startTodaysGame(){ window[GAMES_META[todaysGameIdx()].start](); }
+// Each game's start*() function sets this to its own teardown (clear a
+// timer) so exitGame() stays generic.
+let currentGameCleanup = null;
+function exitGame(){
+  if(currentGameCleanup){ currentGameCleanup(); currentGameCleanup=null; }
+  go("games");
+}
+function renderGames(){
+  renderGamesLevelPills();
+  const hero = GAMES_META[todaysGameIdx()];
+  document.getElementById("games-hero-icon").innerHTML = gameIconSvg(hero.iconName);
+  document.getElementById("games-hero-title").textContent = hero.label;
+  document.getElementById("games-hero-sub").textContent = hero.labelTh;
+  const list = document.getElementById("games-list");
+  list.innerHTML = GAMES_META.map(g=>{
+    const best = gameBest(g.bestKey);
+    return `<button class="games-row" onclick="${g.start}()">
+      <span class="games-row-icon" style="background:${g.iconBg};color:${g.iconColor};">${gameIconSvg(g.iconName)}</span>
+      <div class="games-row-txt"><div class="games-row-title">${g.label}</div><div class="games-row-sub">${g.labelTh}</div></div>
+      <span class="games-row-best${best==null?" new":""}">${g.bestFmt(best)}</span>
+    </button>`;
+  }).join("");
+}
+
+/* --- True or false --------------------------------------------------- */
+let tfState = null;
+function startTrueFalse(){
+  currentGameCleanup = null;
+  tfState = { queue: buildSentenceQueue(10), idx:0, total:10, score:0, current:null, answered:false };
+  document.getElementById("tf-score").textContent = "0";
+  document.getElementById("tf-body").style.display = "";
+  document.getElementById("tf-complete").style.display = "none";
+  go("game-truefalse", {bypassLock:true});
+  nextTrueFalse();
+}
+function nextTrueFalse(){
+  if(tfState.idx >= tfState.total){ finishTrueFalse(); return; }
+  const item = tfState.queue[tfState.idx];
+  tfState.idx++;
+  document.getElementById("tf-progress-count").textContent = tfState.idx+"/"+tfState.total;
+  document.getElementById("tf-progress-fill").style.width = Math.round((tfState.idx-1)/tfState.total*100)+"%";
+  const correctForm = item.forms[item.correct];
+  const otherForms = Object.values(item.forms).filter(f=>f!==correctForm);
+  const showWrong = otherForms.length>0 && Math.random()<0.5;
+  const shownForm = showWrong ? otherForms[Math.floor(Math.random()*otherForms.length)] : correctForm;
+  tfState.current = { pre:item.pre, post:item.post, correctForm, shownForm, actuallyTrue: shownForm===correctForm };
+  tfState.answered = false;
+  document.getElementById("tf-sentence").textContent = item.pre + shownForm + item.post;
+  document.getElementById("tf-note").style.display = "none";
+  ["true","false"].forEach(w=>{
+    const btn = document.getElementById("tf-btn-"+w);
+    btn.disabled = false;
+    btn.className = "game-tf-btn "+w;
+  });
+}
+function pickTrueFalse(guessTrue){
+  if(!tfState || tfState.answered) return;
+  tfState.answered = true;
+  const c = tfState.current;
+  const correct = guessTrue === c.actuallyTrue;
+  if(correct){ tfState.score++; haptic(20); }
+  document.getElementById("tf-btn-true").disabled = true;
+  document.getElementById("tf-btn-false").disabled = true;
+  document.getElementById("tf-btn-"+(c.actuallyTrue?"true":"false")).classList.add("correct");
+  if(!correct) document.getElementById("tf-btn-"+(guessTrue?"true":"false")).classList.add("wrong");
+  const note = document.getElementById("tf-note");
+  note.style.display = "block";
+  note.innerHTML = `<b>${c.actuallyTrue?"Correct sentence":"Not quite"}</b><br>${c.pre}<u>${c.correctForm}</u>${c.post}`;
+  document.getElementById("tf-score").textContent = tfState.score;
+  setTimeout(nextTrueFalse, 1400);
+}
+function finishTrueFalse(){
+  document.getElementById("tf-progress-fill").style.width = "100%";
+  document.getElementById("tf-body").style.display = "none";
+  const best = gameBest("et_game_best_tf");
+  if(best===null || tfState.score>best) LS.set("et_game_best_tf", tfState.score);
+  document.getElementById("tf-complete-score").textContent = tfState.score+" / "+tfState.total+" correct";
+  document.getElementById("tf-complete").style.display = "block";
+}
+
+/* --- Card match --------------------------------------------------- */
+let matchState = null;
+function startCardMatch(){
+  const pool = shuffleArray(WORD_BANK[gamesLevel].slice()).slice(0,8);
+  const tiles = shuffleArray(pool.flatMap((c,i)=>[
+    { pairId:i, side:"en", text:c.en, card:c },
+    { pairId:i, side:"th", text:c.th, card:c },
+  ]));
+  matchState = { tiles, flipped:[], matched:new Set(), moves:0, seconds:0, done:false };
+  clearInterval(matchState.timerHandle);
+  matchState.timerHandle = setInterval(()=>{
+    matchState.seconds++;
+    document.getElementById("match-timer").textContent = fmtGameTime(matchState.seconds);
+  }, 1000);
+  currentGameCleanup = ()=>clearInterval(matchState.timerHandle);
+  document.getElementById("match-timer").textContent = "0:00";
+  document.getElementById("match-body").style.display = "";
+  document.getElementById("match-complete").style.display = "none";
+  go("game-cardmatch", {bypassLock:true});
+  renderMatchGrid();
+}
+function renderMatchGrid(){
+  const grid = document.getElementById("match-grid");
+  grid.innerHTML = matchState.tiles.map((t,i)=>{
+    const isMatched = matchState.matched.has(t.pairId);
+    const isFlipped = isMatched || matchState.flipped.includes(i);
+    return `<button class="match-tile ${isFlipped?"flipped":""} ${isMatched?"matched":""} ${t.side==="th"?"th":""}" onclick="flipMatchTile(${i})" ${isFlipped?"disabled":""}>${isFlipped?t.text:""}</button>`;
+  }).join("");
+}
+function flipMatchTile(i){
+  if(matchState.done) return;
+  if(matchState.flipped.includes(i) || matchState.matched.has(matchState.tiles[i].pairId)) return;
+  if(matchState.flipped.length>=2) return;
+  matchState.flipped.push(i);
+  renderMatchGrid();
+  if(matchState.flipped.length===2){
+    matchState.moves++;
+    const [a,b] = matchState.flipped.map(idx=>matchState.tiles[idx]);
+    if(a.pairId===b.pairId){
+      matchState.matched.add(a.pairId);
+      matchState.flipped = [];
+      haptic(20);
+      renderMatchGrid();
+      if(matchState.matched.size===matchState.tiles.length/2) finishCardMatch();
+    } else {
+      setTimeout(()=>{ matchState.flipped=[]; renderMatchGrid(); }, 700);
+    }
+  }
+}
+function finishCardMatch(){
+  matchState.done = true;
+  clearInterval(matchState.timerHandle);
+  document.getElementById("match-body").style.display = "none";
+  const best = gameBest("et_game_best_match");
+  if(best===null || matchState.seconds<best) LS.set("et_game_best_match", matchState.seconds);
+  document.getElementById("match-complete-score").textContent = fmtGameTime(matchState.seconds)+" · "+matchState.moves+" moves";
+  document.getElementById("match-complete").style.display = "block";
+}
+
+/* --- Beat the clock ------------------------------------------------- */
+let clockState = null;
+function startBeatClock(){
+  clockState = { score:0, secondsLeft:60, current:null, answered:false, done:false };
+  clearInterval(clockState.timerHandle);
+  clockState.timerHandle = setInterval(()=>{
+    clockState.secondsLeft--;
+    document.getElementById("clock-timer").textContent = "0:"+String(clockState.secondsLeft).padStart(2,"0");
+    if(clockState.secondsLeft<=0) finishBeatClock();
+  }, 1000);
+  currentGameCleanup = ()=>clearInterval(clockState.timerHandle);
+  document.getElementById("clock-timer").textContent = "0:60";
+  document.getElementById("clock-score").textContent = "0";
+  document.getElementById("clock-body").style.display = "";
+  document.getElementById("clock-complete").style.display = "none";
+  go("game-beatclock", {bypassLock:true});
+  nextBeatClock();
+}
+function nextBeatClock(){
+  if(clockState.done) return;
+  const pool = WORD_BANK[gamesLevel];
+  const c = pool[Math.floor(Math.random()*pool.length)];
+  clockState.current = c;
+  clockState.answered = false;
+  document.getElementById("clock-prompt").textContent = c.th;
+  const opts = shuffleArray([c.en, ...wordDistractors(pool, c)]);
+  document.getElementById("clock-options").innerHTML = opts.map(o=>`<button class="warmup-opt" onclick="pickBeatClock(this)">${o}</button>`).join("");
+}
+function pickBeatClock(btn){
+  if(!clockState || clockState.answered || clockState.done) return;
+  clockState.answered = true;
+  const c = clockState.current;
+  const correct = btn.textContent===c.en;
+  if(correct){
+    clockState.score++;
+    haptic(20);
+    document.getElementById("clock-score").textContent = clockState.score;
+  }
+  nextBeatClock();
+}
+function finishBeatClock(){
+  clockState.done = true;
+  clearInterval(clockState.timerHandle);
+  document.getElementById("clock-body").style.display = "none";
+  const best = gameBest("et_game_best_clock");
+  if(best===null || clockState.score>best) LS.set("et_game_best_clock", clockState.score);
+  document.getElementById("clock-complete-score").textContent = clockState.score+" correct in 60 seconds";
+  document.getElementById("clock-complete").style.display = "block";
+}
+
+/* --- Odd one out ----------------------------------------------------- */
+let oddState = null;
+function startOddOneOut(){
+  oddState = { queue: buildPuzzleQueue(10), idx:0, total:10, score:0, current:null, answered:false };
+  document.getElementById("odd-score").textContent = "0";
+  document.getElementById("odd-body").style.display = "";
+  document.getElementById("odd-complete").style.display = "none";
+  go("game-oddoneout", {bypassLock:true});
+  nextOddOneOut();
+}
+function nextOddOneOut(){
+  if(oddState.idx >= oddState.total){ finishOddOneOut(); return; }
+  const puzzle = oddState.queue[oddState.idx];
+  oddState.idx++;
+  const words = shuffleArray([
+    ...puzzle.words.map(w=>({en:w.en, th:w.th, odd:false})),
+    { en:puzzle.odd.en, th:puzzle.odd.th, odd:true },
+  ]);
+  oddState.current = words;
+  oddState.answered = false;
+  document.getElementById("odd-progress-count").textContent = oddState.idx+"/"+oddState.total;
+  document.getElementById("odd-progress-fill").style.width = Math.round((oddState.idx-1)/oddState.total*100)+"%";
+  document.getElementById("odd-note").style.display = "none";
+  document.getElementById("odd-grid").innerHTML = words.map((c,i)=>
+    `<button class="odd-tile" onclick="pickOddOneOut(${i})"><span class="odd-tile-en">${c.en}</span><span class="odd-tile-th">${c.th}</span></button>`).join("");
+}
+function pickOddOneOut(i){
+  if(!oddState || oddState.answered) return;
+  oddState.answered = true;
+  const words = oddState.current;
+  const picked = words[i];
+  const correct = picked.odd === true;
+  if(correct){ oddState.score++; haptic(20); }
+  document.querySelectorAll("#odd-grid .odd-tile").forEach((el,idx)=>{
+    el.disabled = true;
+    if(words[idx].odd) el.classList.add("correct");
+    else if(idx===i) el.classList.add("wrong");
+  });
+  const note = document.getElementById("odd-note");
+  note.style.display = "block";
+  const oddWord = words.find(w=>w.odd);
+  note.textContent = correct ? "ถูกต้อง! · Correct!" : `${oddWord.en} (${oddWord.th}) doesn't belong.`;
+  setTimeout(nextOddOneOut, 1300);
+}
+function finishOddOneOut(){
+  document.getElementById("odd-progress-fill").style.width = "100%";
+  document.getElementById("odd-body").style.display = "none";
+  const best = gameBest("et_game_best_odd");
+  if(best===null || oddState.score>best) LS.set("et_game_best_odd", oddState.score);
+  document.getElementById("odd-complete-score").textContent = oddState.score+" / "+oddState.total+" correct";
+  document.getElementById("odd-complete").style.display = "block";
+}
+
+/* --- Word order -------------------------------------------------
+   Each sentence-bank entry is split into word tiles and shuffled into a
+   bank; tapping a tile only places it if it's the next word the sentence
+   actually needs (so duplicate words like "the" just match by text, not by
+   which tile). A round only counts toward the score if solved with no wrong
+   taps — retries are free, so nobody gets stuck on a single round. */
+let woState = null;
+function woSentenceWords(item){
+  return (item.pre + item.forms[item.correct] + item.post).trim().split(/\s+/);
+}
+function startWordOrder(){
+  currentGameCleanup = null;
+  woState = { queue: buildSentenceQueue(10), idx:0, total:10, score:0, words:[], bank:[], placed:[], missedThisRound:false, done:false };
+  document.getElementById("wo-score").textContent = "0";
+  document.getElementById("wo-body").style.display = "";
+  document.getElementById("wo-complete").style.display = "none";
+  go("game-wordorder", {bypassLock:true});
+  nextWordOrder();
+}
+function nextWordOrder(){
+  if(woState.idx >= woState.total){ finishWordOrder(); return; }
+  const item = woState.queue[woState.idx];
+  woState.idx++;
+  document.getElementById("wo-progress-count").textContent = woState.idx+"/"+woState.total;
+  document.getElementById("wo-progress-fill").style.width = Math.round((woState.idx-1)/woState.total*100)+"%";
+  woState.words = woSentenceWords(item);
+  woState.bank = shuffleArray(woState.words.map((w,i)=>({ id:"wo-"+i+"-"+Math.random().toString(36).slice(2,6), text:w })));
+  woState.placed = [];
+  woState.missedThisRound = false;
+  document.getElementById("wo-prompt").textContent = item.th;
+  renderWordOrder();
+}
+function renderWordOrder(){
+  const slotsHtml = woState.words.map((w,i)=>{
+    const p = woState.placed[i];
+    return `<div class="wo-slot${p?" filled":""}">${p?p.text:""}</div>`;
+  }).join("");
+  document.getElementById("wo-slots").innerHTML = slotsHtml;
+  document.getElementById("wo-bank").innerHTML = woState.bank.map(t=>
+    `<button class="wo-tile" id="tile-${t.id}" onclick="tapWoTile('${t.id}')">${t.text}</button>`).join("");
+}
+function tapWoTile(id){
+  if(!woState || woState.done) return;
+  const tile = woState.bank.find(t=>t.id===id);
+  if(!tile) return;
+  const expected = woState.words[woState.placed.length];
+  if(tile.text === expected){
+    woState.bank = woState.bank.filter(t=>t.id!==id);
+    woState.placed.push(tile);
+    haptic(15);
+    if(woState.placed.length === woState.words.length){
+      if(!woState.missedThisRound){ woState.score++; document.getElementById("wo-score").textContent = woState.score; }
+      renderWordOrder();
+      setTimeout(nextWordOrder, 900);
+      return;
+    }
+    renderWordOrder();
+  } else {
+    woState.missedThisRound = true;
+    haptic([30,40,30]);
+    const el = document.getElementById("tile-"+id);
+    if(el){
+      el.classList.add("wrong");
+      setTimeout(()=>el.classList.remove("wrong"), 350);
+    }
+  }
+}
+function finishWordOrder(){
+  woState.done = true;
+  document.getElementById("wo-progress-fill").style.width = "100%";
+  document.getElementById("wo-body").style.display = "none";
+  const best = gameBest("et_game_best_wordorder");
+  if(best===null || woState.score>best) LS.set("et_game_best_wordorder", woState.score);
+  document.getElementById("wo-complete-score").textContent = woState.score+" / "+woState.total+" correct";
+  document.getElementById("wo-complete").style.display = "block";
 }
 /* =========================================================
    FLASHCARDS
@@ -21415,15 +22186,16 @@ function renderPaywallStats(){
   renderPaywallStats();
   await tryActivateFromUrl();
   loadTrainerPrice();
-  const onboarded = LS.get("et_onboarded", false) || isUnlocked();
-  if(onboarded) LS.set("et_onboarded", true);
+  const returningVisitor = LS.get("et_onboarded", false) || isUnlocked();
+  justOnboardedNow = !returningVisitor;
+  LS.set("et_onboarded", true);
   const openParam = new URLSearchParams(window.location.search).get("open");
-  if(openParam === "paywall" && onboarded && !isUnlocked()){
+  if(openParam === "paywall" && returningVisitor && !isUnlocked()){
     window.history.replaceState({}, "", window.location.pathname);
     goPaywall("settings");
     go("paywall");
   } else {
-    go(onboarded ? "home" : "onboarding");
+    go("home");
   }
   registerReminderServiceWorker();
   if(reminderEnabled && "Notification" in window && Notification.permission === "granted") subscribeReminderPush();
