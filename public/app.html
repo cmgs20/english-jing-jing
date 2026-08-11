@@ -177,6 +177,27 @@ body{
     var(--bg);
   background-attachment:fixed;
 }
+/* Scroll clipping on .screen/.setup-scroll happens at their padding edge,
+   but a sticky child's own top:0 anchors to their padding edge too — you'd
+   think that lines up, except the sticky anchor calculation ignores the
+   child's own margin/padding box games, so it settles var(--pad-y) short of
+   the actual clip line. That gap let scrolled content show through above
+   the bar. Tried compensating with the bar's own negative margin first (the
+   same trick .topbar already uses for the horizontal bleed) — doesn't work
+   for the vertical case, sticky's offset math doesn't respond to it the
+   same way. This absolutely-positioned filler (anchored to the bar itself,
+   which position:sticky already makes a positioning context) just paints
+   over the gap instead; background-attachment:fixed keeps the gradient
+   seamless with the real bar sitting right below it. */
+.topbar::before{
+  content:""; position:absolute; left:calc(-1 * var(--pad-x)); right:calc(-1 * var(--pad-x));
+  top:calc(-1 * var(--pad-y)); height:var(--pad-y);
+  background:
+    radial-gradient(1200px 700px at 20% -5%, var(--glow1) 0%, transparent 55%),
+    radial-gradient(1000px 600px at 90% 8%, var(--glow2) 0%, transparent 50%),
+    var(--bg);
+  background-attachment:fixed;
+}
 .topbar h1{ font-size:clamp(14px, 0.67cqh + 9.67px, 16px); margin:0; font-weight:800; letter-spacing:-.2px; flex:1; }
 .back-btn{ background:var(--card2); border:1px solid rgba(var(--hairline-rgb),.1); color:var(--text); width:var(--back-btn-w); height:var(--back-btn-w); border-radius:14px; font-size:18px; display:flex; align-items:center; justify-content:center; transition:transform .15s; flex-shrink:0; position:relative; }
 .back-btn:active{ transform:scale(.94); }
@@ -890,7 +911,29 @@ p.sub{ color:var(--muted); font-size:clamp(12.5px, 0.5cqh + 9.25px, 14px); margi
 .games-row-best.new{ font-weight:700; letter-spacing:.06em; text-transform:uppercase; color:var(--orange); font-size:11px; }
 
 /* Shared game-session chrome */
-.game-topbar{ display:flex; align-items:center; gap:12px; padding:2px var(--pad-x) 10px; margin:0 calc(-1 * var(--pad-x)); position:sticky; top:0; z-index:9; background:var(--bg); }
+/* Flat var(--bg) here used to paint as a visible rectangle against the rest
+   of the app: .screen has no background of its own, so everywhere else the
+   page shows body's fixed radial-glow gradient showing through — a flat fill
+   right at the top (where the glow is strongest) stood out as a seam. Same
+   3-layer background as .topbar keeps it blending in instead. */
+.game-topbar{ display:flex; align-items:center; gap:12px; padding:2px var(--pad-x) 10px; margin:0 calc(-1 * var(--pad-x)); position:sticky; top:0; z-index:9;
+  background:
+    radial-gradient(1200px 700px at 20% -5%, var(--glow1) 0%, transparent 55%),
+    radial-gradient(1000px 600px at 90% 8%, var(--glow2) 0%, transparent 50%),
+    var(--bg);
+  background-attachment:fixed;
+}
+/* Same scroll-clip/sticky-anchor gap as .topbar (see its ::before comment)
+   — paint over it instead of fighting the box model. */
+.game-topbar::before{
+  content:""; position:absolute; left:calc(-1 * var(--pad-x)); right:calc(-1 * var(--pad-x));
+  top:calc(-1 * var(--pad-y)); height:var(--pad-y);
+  background:
+    radial-gradient(1200px 700px at 20% -5%, var(--glow1) 0%, transparent 55%),
+    radial-gradient(1000px 600px at 90% 8%, var(--glow2) 0%, transparent 50%),
+    var(--bg);
+  background-attachment:fixed;
+}
 .game-close-btn{ background:var(--card2); border:none; color:var(--text); width:var(--back-btn-w); height:var(--back-btn-w); border-radius:14px; display:flex; align-items:center; justify-content:center; flex-shrink:0; cursor:pointer; }
 .game-close-btn .ic{ width:18px; height:18px; }
 .game-progress-track{ flex:1; height:6px; border-radius:999px; background:var(--card2); overflow:hidden; }
