@@ -744,6 +744,12 @@ p.sub{ color:var(--muted); font-size:clamp(12.5px, 0.5cqh + 9.25px, 14px); margi
 .listening-turn-text .word, .listening-q-text .word{ cursor:pointer; border-bottom:1px dashed rgba(var(--hairline-rgb),.3); padding-bottom:1px; }
 .listening-turn-text .word:active, .listening-turn-text .word.tapped, .listening-q-text .word:active, .listening-q-text .word.tapped{ color:var(--accent2); border-color:var(--accent2); }
 
+.reading-passage{ font-size:clamp(13.5px, 0.5cqh + 10.25px, 15.5px); color:var(--text); line-height:1.7; }
+.reading-passage p{ margin:0 0 12px; }
+.reading-passage p:last-child{ margin-bottom:0; }
+.reading-passage .word, .reading-q-text .word{ cursor:pointer; border-bottom:1px dashed rgba(var(--hairline-rgb),.3); padding-bottom:1px; }
+.reading-passage .word:active, .reading-passage .word.tapped, .reading-q-text .word:active, .reading-q-text .word.tapped{ color:var(--accent2); border-color:var(--accent2); }
+
 .gj-formula-card{ background:var(--inset); border:1px solid rgba(var(--green-rgb),.27); border-radius:18px; padding:clamp(12px, 1.33cqh + 3.33px, 16px) clamp(11px, 1.33cqh + 2.33px, 15px); margin-top:11px; }
 .gj-formula-label{ font-size:clamp(10px, 0.33cqh + 7.83px, 11px); font-weight:800; letter-spacing:.6px; color:var(--good); text-transform:uppercase; margin-bottom:11px; display:flex; align-items:center; gap:6px; }
 .gj-formula-label .ic{ width:clamp(12px, 0.67cqh + 7.67px, 14px); height:clamp(12px, 0.67cqh + 7.67px, 14px); }
@@ -1090,10 +1096,10 @@ if("serviceWorker" in navigator){
         <div class="desc-th">เกมฝึกคำศัพท์</div>
       </button>
 
-      <button class="big-btn" onclick="go('flash-setup')">
-        <div class="emoji"><svg class="ic" viewBox="0 0 24 24"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/></svg></div>
-        <div class="label" id="home-tracker-title">Keep your streak alive</div>
-        <div class="desc-th" id="home-tracker-title-th">อย่าให้ streak หาย</div>
+      <button class="big-btn" onclick="go('reading')">
+        <div class="emoji"><svg class="ic" viewBox="0 0 24 24"><path d="M12 7v14"/><path d="M3 18a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h5a4 4 0 0 1 4 4 4 4 0 0 1 4-4h5a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1h-6a3 3 0 0 0-3 3 3 3 0 0 0-3-3z"/></svg></div>
+        <div class="label">Reading</div>
+        <div class="desc-th">อ่านแล้วตอบคำถาม</div>
       </button>
     </div>
 
@@ -1453,6 +1459,21 @@ if("serviceWorker" in navigator){
   <section class="screen" id="screen-listening-detail">
     <div class="topbar"><button class="back-btn" aria-label="Back" onclick="listeningBackToList()"><svg class="ic" viewBox="0 0 24 24"><path d="m15 18-6-6 6-6"/></svg></button><h1 id="listening-detail-title">Listening</h1><div style="width:var(--back-btn-w)"></div></div>
     <div id="listening-detail-body" style="flex:1;"></div>
+  </section>
+
+  <!-- READING: EXERCISE LIST -->
+  <section class="screen" id="screen-reading">
+    <div class="topbar"><button class="back-btn" aria-label="Back" onclick="go('home')"><svg class="ic" viewBox="0 0 24 24"><path d="m15 18-6-6 6-6"/></svg></button><h1>Reading</h1><div style="width:var(--back-btn-w)"></div></div>
+    <p class="sub">Read a short text, then answer questions to check what you understood.</p>
+    <p class="sub" id="reading-free-note" style="display:none;">โหมดทดลองฟรี: บทอ่านแรกฟรี ปลดล็อกเพื่ออ่านได้ครบทุกบท</p>
+    <div class="pill-row" id="reading-level-pills"></div>
+    <div id="reading-list" style="flex:1;margin-top:clamp(8px, 0.67cqh + 3.67px, 10px);"></div>
+  </section>
+
+  <!-- READING: EXERCISE DETAIL (text / quiz / results) -->
+  <section class="screen" id="screen-reading-detail">
+    <div class="topbar"><button class="back-btn" aria-label="Back" onclick="readingBackToList()"><svg class="ic" viewBox="0 0 24 24"><path d="m15 18-6-6 6-6"/></svg></button><h1 id="reading-detail-title">Reading</h1><div style="width:var(--back-btn-w)"></div></div>
+    <div id="reading-detail-body" style="flex:1;"></div>
   </section>
 
   <!-- PRONUNCIATION: CATEGORY LIST -->
@@ -12081,7 +12102,7 @@ function saveDrillMistakes(){ LS.set("et_drill_mistakes", drillMistakes); }
 /* =========================================================
    NAVIGATION
    ========================================================= */
-const FREE_SCREENS = new Set(["home","flash-setup","flash-play","tracker","settings","paywall","restore","drill-setup","verbs","grammar","pron-setup","listening","games","game-truefalse","game-cardmatch","game-beatclock","game-oddoneout","game-wordorder"]);
+const FREE_SCREENS = new Set(["home","flash-setup","flash-play","tracker","settings","paywall","restore","drill-setup","verbs","grammar","pron-setup","listening","reading","games","game-truefalse","game-cardmatch","game-beatclock","game-oddoneout","game-wordorder"]);
 const SCREEN_DEPTH = {
   home:0,
   "flash-setup":1, "flash-play":2,
@@ -12090,6 +12111,7 @@ const SCREEN_DEPTH = {
   grammar:1, "grammar-detail":2,
   "pron-setup":1, "pron-practice":2,
   listening:1, "listening-detail":2,
+  reading:1, "reading-detail":2,
   tracker:1, settings:1, paywall:1, restore:2,
   games:1, "game-truefalse":2, "game-cardmatch":2, "game-beatclock":2, "game-oddoneout":2, "game-wordorder":2,
 };
@@ -12132,6 +12154,10 @@ const PAYWALL_CONTEXT = {
   listening: {
     title: "ฟังได้ครบทุกบทสนทนา",
     desc: "คุณเพิ่งลองฟังตัวอย่างแรกไปแล้ว เวอร์ชันเต็มปลดล็อกบทฟังทั้งหมด ตั้งแต่ระดับ A1 ถึง B1 พร้อมคำถามตรวจความเข้าใจ",
+  },
+  reading: {
+    title: "อ่านได้ครบทุกบท",
+    desc: "คุณเพิ่งลองอ่านบทแรกไปแล้ว เวอร์ชันเต็มปลดล็อกบทอ่านทั้งหมด ตั้งแต่ระดับ A1 ถึง B2 พร้อมคำถามตรวจความเข้าใจ",
   },
 };
 let paywallContext = null;
@@ -12205,6 +12231,7 @@ function go(name, opts){
   if(name==="irregular-ref") renderIrregularRef();
   if(name==="grammar") renderGrammarList();
   if(name==="listening") renderListeningList();
+  if(name==="reading") renderReadingList();
   if(name==="settings") renderSettings();
   if(name==="pron-setup") renderPronCategoryList();
   if(name==="games") renderGames();
@@ -12420,15 +12447,6 @@ function updateTrackerUI(){
   if(ringEl) ringEl.style.background = `conic-gradient(var(--blue) 0deg ${pct*3.6}deg, rgba(var(--hairline-rgb),.10) ${pct*3.6}deg 360deg)`;
   const streak = computeStreak();
   document.getElementById("home-streak").textContent = streak;
-  // Day-1 users have no streak to "keep alive" and nothing to "continue" —
-  // swap the tracker card's copy so it invites a first session instead.
-  const hasEverPracticed = streak > 0 || Object.keys(cardState).length > 0 || drillStats.total > 0;
-  const titleEl = document.getElementById("home-tracker-title");
-  const titleThEl = document.getElementById("home-tracker-title-th");
-  const ctaLabelEl = document.getElementById("home-tracker-cta-label");
-  if(titleEl) titleEl.textContent = hasEverPracticed ? "Keep your streak alive" : "Start your streak";
-  if(titleThEl) titleThEl.textContent = hasEverPracticed ? "อย่าให้ streak หาย" : "เริ่มสร้าง streak ของคุณ";
-  if(ctaLabelEl) ctaLabelEl.textContent = hasEverPracticed ? "Continue" : "Start";
   if(document.getElementById("screen-tracker").classList.contains("active")) renderTracker();
 }
 function renderTracker(){
@@ -15322,6 +15340,293 @@ const LISTENING_EX = [
       { q:"What does the mentee say they enjoy most about their current work?", qTh:'ผู้รับคำปรึกษาบอกว่าชอบอะไรมากที่สุดในงานปัจจุบัน', options:['Being hands-on with technical work','Managing people','Meeting clients'], answer:0 },
       { q:"What alternative does the mentor mention?", qTh:'ที่ปรึกษากล่าวถึงทางเลือกอะไร', options:['A technical leadership track','Switching departments','Working part-time'], answer:0 },
       { q:"What does the mentor ultimately recommend?", qTh:'สุดท้ายที่ปรึกษาแนะนำให้ทำอะไร', options:['Raising the options with their manager before deciding','Accepting the promotion immediately','Turning down the promotion'], answer:0 },
+    ],
+  },
+];
+
+/* =========================================================
+   READING
+   ========================================================= */
+const FREE_READING_ID = "my-family";
+const READING_EX = [
+  {
+    id:"my-family", level:"A1",
+    title:"My family", titleTh:"ครอบครัวของฉัน",
+    paragraphs:[
+      "My name is Anna. I live with my mother, my father, and my little brother. My father is a doctor. He works at a hospital. My mother is a teacher. She teaches English at a school. My brother is five years old. Last year, we moved to a new house near the park.",
+    ],
+    questions:[
+      { q:"What is Anna's father's job?", qTh:"พ่อของแอนนาทำอาชีพอะไร", options:["A doctor","A teacher","A driver"], answer:0 },
+      { q:"When did the family move to their new house?", qTh:"ครอบครัวย้ายไปบ้านใหม่เมื่อไหร่", options:["In the past, last year","Right now","In the future"], answer:0 },
+      { q:"Who does 'She' refer to in 'She teaches English'?", qTh:"คำว่า 'She' ใน 'She teaches English' หมายถึงใคร", options:["Anna's mother","Anna's brother","Anna"], answer:0 },
+      { q:"How old is Anna's brother?", qTh:"น้องชายของแอนนาอายุเท่าไหร่", options:["Five years old","Six years old","Ten years old"], answer:0 },
+    ],
+  },
+  {
+    id:"my-school-day", level:"A1",
+    title:"My school day", titleTh:"วันเรียนของฉัน",
+    paragraphs:[
+      "I am Somchai. Every morning, I wake up at six o'clock. I eat breakfast with my family, and then I walk to school with my friend Nok. School starts at eight o'clock. My favourite subject is math. Yesterday, we had a science test, and I got a good score. After school, I play football with my classmates.",
+    ],
+    questions:[
+      { q:"What time does Somchai wake up?", qTh:"สมชายตื่นนอนเวลาใด", options:["Six o'clock","Seven o'clock","Eight o'clock"], answer:0 },
+      { q:"When did Somchai have the science test?", qTh:"สมชายมีการสอบวิทยาศาสตร์เมื่อไหร่", options:["Yesterday","Today","Tomorrow"], answer:0 },
+      { q:"Who walks to school with Somchai?", qTh:"ใครเดินไปโรงเรียนกับสมชาย", options:["His friend Nok","His brother","His teacher"], answer:0 },
+      { q:"What does Somchai do after school?", qTh:"หลังเลิกเรียนสมชายทำอะไร", options:["He plays football","He does homework","He watches TV"], answer:0 },
+    ],
+  },
+  {
+    id:"weekend-market", level:"A1",
+    title:"A trip to the weekend market", titleTh:"ไปตลาดนัดวันหยุด",
+    paragraphs:[
+      "Every Saturday, my sister and I go to the weekend market near our house. We usually buy fruit and vegetables there. Last Saturday, I bought some mangoes, and my sister bought a new bag. The market is very crowded in the morning, so we always go early. We also like to eat noodles at a small food stall before we go home.",
+    ],
+    questions:[
+      { q:"What did the writer buy last Saturday?", qTh:"ผู้เขียนซื้ออะไรเมื่อวันเสาร์ที่แล้ว", options:["Mangoes","Noodles","A bag"], answer:0 },
+      { q:"When did the writer buy the mangoes?", qTh:"ผู้เขียนซื้อมะม่วงเมื่อไหร่", options:["In the past, last Saturday","Right now, today","In the future"], answer:0 },
+      { q:"Who bought a new bag?", qTh:"ใครซื้อกระเป๋าใบใหม่", options:["The writer's sister","The writer","Their mother"], answer:0 },
+      { q:"Why do they go to the market early?", qTh:"เหตุใดพวกเขาจึงไปตลาดแต่เช้า", options:["Because it gets crowded","Because it closes early","Because it's cheaper"], answer:0 },
+    ],
+  },
+  {
+    id:"my-pet-dog", level:"A1",
+    title:"My pet dog", titleTh:"สุนัขของฉัน",
+    paragraphs:[
+      "I have a dog. His name is Max. Max is brown and white, and he is very friendly. Every afternoon, I take Max for a walk in the park. Two years ago, my father gave Max to me as a birthday present. Now Max sleeps next to my bed every night.",
+    ],
+    questions:[
+      { q:"What colour is Max?", qTh:"แม็กซ์มีสีอะไร", options:["Brown and white","Black and white","All brown"], answer:0 },
+      { q:"When did the writer receive Max as a gift?", qTh:"ผู้เขียนได้รับแม็กซ์เป็นของขวัญเมื่อไหร่", options:["Two years ago, in the past","Today","Next year"], answer:0 },
+      { q:"Who does 'he' refer to in 'he is very friendly'?", qTh:"คำว่า 'he' ใน 'he is very friendly' หมายถึงใคร", options:["Max the dog","The writer's father","The writer"], answer:0 },
+      { q:"Where does Max sleep at night?", qTh:"แม็กซ์นอนที่ไหนตอนกลางคืน", options:["Next to the writer's bed","In the garden","In the kitchen"], answer:0 },
+    ],
+  },
+  {
+    id:"the-weather-today", level:"A1",
+    title:"The weather today", titleTh:"อากาศวันนี้",
+    paragraphs:[
+      "Today the sky is blue and the sun is shining. It is a beautiful day. Yesterday, it rained all day, so we stayed inside. Tomorrow, the weather report says it will be windy. My mother always checks the weather report every morning before she leaves for work.",
+    ],
+    questions:[
+      { q:"What is the weather like today?", qTh:"วันนี้อากาศเป็นอย่างไร", options:["Sunny","Rainy","Windy"], answer:0 },
+      { q:"Which day is described as happening in the future?", qTh:"วันไหนในเรื่องเป็นเหตุการณ์ที่ยังไม่เกิดขึ้น (อนาคต)", options:["Tomorrow","Today","Yesterday"], answer:0 },
+      { q:"Who does 'she' refer to in 'before she leaves for work'?", qTh:"คำว่า 'she' ใน 'before she leaves for work' หมายถึงใคร", options:["The writer's mother","The writer","The weather reporter"], answer:0 },
+      { q:"What does the weather report say about tomorrow?", qTh:"รายงานอากาศบอกว่าพรุ่งนี้จะเป็นอย่างไร", options:["It will be windy","It will rain","It will be sunny"], answer:0 },
+    ],
+  },
+  {
+    id:"beach-trip", level:"A2",
+    title:"A trip to the beach", titleTh:"ทริปไปทะเล",
+    paragraphs:[
+      "Last weekend, Malee and her brother Somsak went to the beach with their parents. They left home early in the morning and arrived at the beach at nine o'clock. The weather was perfect, so they swam in the sea for almost two hours.",
+      "After swimming, Malee built a sandcastle while Somsak collected shells near the rocks. In the evening, the family ate dinner at a small restaurant by the beach before driving home. Malee says it was one of the best days of her summer.",
+    ],
+    questions:[
+      { q:"What did the family do first when they arrived at the beach?", qTh:"ครอบครัวทำอะไรก่อนเมื่อไปถึงชายหาด", options:["They swam in the sea","They ate dinner","They built a sandcastle"], answer:0 },
+      { q:"Did this trip to the beach happen in the past or is it happening now?", qTh:"ทริปทะเลนี้เกิดขึ้นในอดีตหรือกำลังเกิดขึ้นตอนนี้", options:["In the past, last weekend","It is happening right now","It will happen next weekend"], answer:0 },
+      { q:"Who does 'her' refer to in 'one of the best days of her summer'?", qTh:"คำว่า 'her' ใน 'one of the best days of her summer' หมายถึงใคร", options:["Malee","Malee's mother","Somsak"], answer:0 },
+      { q:"What did Somsak do while Malee built a sandcastle?", qTh:"ระหว่างที่มาลีก่อปราสาททราย สมศักดิ์ทำอะไร", options:["He collected shells","He swam alone","He slept"], answer:0 },
+    ],
+  },
+  {
+    id:"learning-to-cook", level:"A2",
+    title:"Learning to cook", titleTh:"หัดทำอาหาร",
+    paragraphs:[
+      "Ploy never used to cook when she lived with her parents, because her mother always cooked for the family. Six months ago, Ploy moved into her own apartment, and she quickly realised she needed to learn some basic recipes.",
+      "Now Ploy cooks dinner for herself almost every night. She watches cooking videos online and asks her mother for advice on the phone. Last week, she cooked fried rice for her friends, and they said it was delicious. Ploy hopes to try a more difficult recipe next month.",
+    ],
+    questions:[
+      { q:"Why did Ploy start learning to cook?", qTh:"เหตุใดพลอยจึงเริ่มหัดทำอาหาร", options:["She moved into her own apartment","She wanted to open a restaurant","Her mother stopped cooking"], answer:0 },
+      { q:"Who used to cook for Ploy in the past?", qTh:"ในอดีต ใครเป็นคนทำอาหารให้พลอย", options:["Her mother","Ploy herself","Her friends"], answer:0 },
+      { q:"Who does 'they' refer to in 'they said it was delicious'?", qTh:"คำว่า 'they' ใน 'they said it was delicious' หมายถึงใคร", options:["Ploy's friends","Ploy's parents","Cooking video hosts"], answer:0 },
+      { q:"What does Ploy want to do next month?", qTh:"เดือนหน้าพลอยอยากทำอะไร", options:["Try a more difficult recipe","Move to a new apartment","Stop cooking"], answer:0 },
+    ],
+  },
+  {
+    id:"new-neighbours", level:"A2",
+    title:"New neighbours", titleTh:"เพื่อนบ้านใหม่",
+    paragraphs:[
+      "A new family moved into the house next door last month. The father, Mr. Wilson, works as an engineer, and his wife, Mrs. Wilson, is a nurse at the city hospital. They have two children, a boy named Tom and a girl named Lily.",
+      "Tom is the same age as our son, so they often play basketball together after school. Lily is younger, and she likes to draw pictures with our daughter. Yesterday, Mrs. Wilson invited us for coffee, and we talked for almost two hours. We are happy to have such friendly neighbours.",
+    ],
+    questions:[
+      { q:"What does Mr. Wilson do for work?", qTh:"คุณวิลสันทำงานอะไร", options:["He is an engineer","He is a nurse","He is a teacher"], answer:0 },
+      { q:"When did Mrs. Wilson invite the writer's family for coffee?", qTh:"คุณนายวิลสันชวนครอบครัวผู้เขียนไปดื่มกาแฟเมื่อไหร่", options:["Yesterday","Last month","Tomorrow"], answer:0 },
+      { q:"Who does 'they' refer to in 'they often play basketball together'?", qTh:"คำว่า 'they' ใน 'they often play basketball together' หมายถึงใคร", options:["Tom and the writer's son","Tom and Lily","Mr. and Mrs. Wilson"], answer:0 },
+      { q:"What does Lily like to do with the writer's daughter?", qTh:"ลิลี่ชอบทำอะไรกับลูกสาวของผู้เขียน", options:["Draw pictures","Play basketball","Cook"], answer:0 },
+    ],
+  },
+  {
+    id:"busy-morning", level:"A2",
+    title:"A busy morning", titleTh:"เช้าวันที่วุ่นวาย",
+    paragraphs:[
+      "It is seven o'clock, and Kanya is running around her kitchen. She is making breakfast while her husband Wit is getting the children ready for school. Their daughter is looking for her shoes, and their son is still brushing his teeth.",
+      "Every morning is like this in their house, but today feels busier than usual because they are also leaving early for a doctor's appointment. Kanya hopes everyone will be ready in the next ten minutes so they don't arrive late.",
+    ],
+    questions:[
+      { q:"What is Kanya doing right now?", qTh:"ตอนนี้กัญญากำลังทำอะไร", options:["Making breakfast","Brushing her teeth","Driving to work"], answer:0 },
+      { q:"Is this morning happening now, or did it happen last week?", qTh:"เช้าวันนี้กำลังเกิดขึ้นตอนนี้ หรือเกิดขึ้นเมื่อสัปดาห์ก่อน", options:["It is happening right now","It happened last week","It will happen next year"], answer:0 },
+      { q:"Who does 'his' refer to in 'still brushing his teeth'?", qTh:"คำว่า 'his' ใน 'still brushing his teeth' หมายถึงใคร", options:["Their son","Their daughter","Wit"], answer:0 },
+      { q:"Why does today feel busier than usual?", qTh:"เหตุใดวันนี้จึงรู้สึกวุ่นวายกว่าปกติ", options:["They have a doctor's appointment","It's a holiday","The children are sick"], answer:0 },
+    ],
+  },
+  {
+    id:"saving-for-a-bike", level:"A2",
+    title:"Saving money for a bike", titleTh:"เก็บเงินซื้อจักรยาน",
+    paragraphs:[
+      "Nink wants to buy a new bicycle, but it costs three thousand baht, which is more money than he has. Every week, he saves part of his allowance instead of spending it on snacks and games.",
+      "So far, Nink has saved one thousand eight hundred baht. If he continues saving two hundred baht every week, he will have enough money in six weeks. His parents said they will pay for the helmet when he buys the bicycle.",
+    ],
+    questions:[
+      { q:"How much does the bicycle cost?", qTh:"จักรยานราคาเท่าไหร่", options:["3,000 baht","1,800 baht","200 baht"], answer:0 },
+      { q:"When will Nink have enough money for the bicycle?", qTh:"นิ๊งจะมีเงินพอซื้อจักรยานเมื่อไหร่", options:["In the future, in about six weeks","He already has enough money","He had enough money last week"], answer:0 },
+      { q:"Who does 'they' refer to in 'they will pay for the helmet'?", qTh:"คำว่า 'they' ใน 'they will pay for the helmet' หมายถึงใคร", options:["Nink's parents","Nink's friends","The bicycle shop"], answer:0 },
+      { q:"How much has Nink saved so far?", qTh:"ตอนนี้นิ๊งเก็บเงินได้เท่าไหร่แล้ว", options:["1,800 baht","3,000 baht","200 baht"], answer:0 },
+    ],
+  },
+  {
+    id:"moving-to-a-new-city", level:"B1",
+    title:"Moving to a new city", titleTh:"ย้ายไปอยู่เมืองใหม่",
+    paragraphs:[
+      "When Anong got a new job offer in Chiang Mai, she had never lived outside Bangkok before, so the decision wasn't easy. She had spent her whole life close to her family, and moving would mean seeing them only a few times a year.",
+      "After talking with her parents, Anong decided to accept the offer. She has now been living in Chiang Mai for three months, and although she still misses her family, she has made several new friends at work and has started to enjoy the slower pace of life. Her mother is planning to visit her next month for the first time.",
+    ],
+    questions:[
+      { q:"Why was the decision to move difficult for Anong?", qTh:"เหตุใดการตัดสินใจย้ายจึงเป็นเรื่องยากสำหรับอนงค์", options:["She had never lived outside Bangkok","She didn't like her new job","Chiang Mai was too expensive"], answer:0 },
+      { q:"How long has Anong been living in Chiang Mai?", qTh:"อนงค์อาศัยอยู่ในเชียงใหม่มานานเท่าไหร่แล้ว", options:["For three months, and she still lives there now","For three months in the past, but she has moved back","She hasn't moved yet"], answer:0 },
+      { q:"Who does 'her' refer to in 'Her mother is planning to visit her next month'?", qTh:"คำว่า 'her' ใน 'Her mother is planning to visit her next month' หมายถึงใคร (คนที่ถูกไปเยี่ยม)", options:["Anong","Anong's mother","A friend"], answer:0 },
+      { q:"When will Anong's mother visit her for the first time?", qTh:"แม่ของอนงค์จะไปเยี่ยมเธอครั้งแรกเมื่อไหร่", options:["Next month","Last month","Three months ago"], answer:0 },
+    ],
+  },
+  {
+    id:"the-job-interview", level:"B1",
+    title:"The job interview", titleTh:"การสัมภาษณ์งาน",
+    paragraphs:[
+      "Pichai arrived at the office fifteen minutes early for his interview, feeling more nervous than he had expected. While he was waiting in the reception area, another candidate, a woman named Sunisa, sat down next to him and started a friendly conversation.",
+      "By the time Pichai's name was called, he felt much calmer than before. He answered the manager's questions confidently and even made her laugh once. A week later, Pichai received an email saying he had gotten the job. He later found out that Sunisa had also been hired, for a different position in the same company.",
+    ],
+    questions:[
+      { q:"How did Pichai feel while he was waiting?", qTh:"พิชัยรู้สึกอย่างไรระหว่างรอ", options:["More nervous than expected","Completely calm","Angry"], answer:0 },
+      { q:"When did Pichai find out that he got the job?", qTh:"พิชัยรู้ผลว่าได้งานเมื่อไหร่", options:["A week after the interview","On the day of the interview","Before the interview"], answer:0 },
+      { q:"Who does 'her' refer to in 'even made her laugh once'?", qTh:"คำว่า 'her' ใน 'even made her laugh once' หมายถึงใคร", options:["The manager","Sunisa","Pichai's mother"], answer:0 },
+      { q:"What happened to Sunisa?", qTh:"เกิดอะไรขึ้นกับสุนิสา", options:["She was also hired, for a different position","She didn't get the job","She became the manager"], answer:0 },
+    ],
+  },
+  {
+    id:"the-lost-wallet", level:"B1",
+    title:"The lost wallet", titleTh:"กระเป๋าสตางค์ที่หายไป",
+    paragraphs:[
+      "Boonmee was walking home from the market when he noticed a wallet lying on the pavement. He picked it up and opened it to find an ID card, some cash, and several photographs. The name on the card was Wichai Somsri.",
+      "Boonmee had never met Wichai before, but he decided to return the wallet instead of keeping the money. He found Wichai's address on the card and walked there directly. When Wichai opened the door, he was shocked and extremely grateful, since he hadn't even noticed his wallet was missing yet. He offered Boonmee a reward, but Boonmee refused it and simply said he was glad to help.",
+    ],
+    questions:[
+      { q:"What did Boonmee find inside the wallet?", qTh:"บุญมีพบอะไรอยู่ในกระเป๋าสตางค์", options:["An ID card, cash, and photographs","Only cash","A phone and keys"], answer:0 },
+      { q:"Had Wichai noticed that his wallet was missing before Boonmee arrived?", qTh:"ก่อนที่บุญมีจะไปถึง วิชัยรู้ตัวหรือยังว่ากระเป๋าหาย", options:["No, he hadn't noticed yet","Yes, he had already called the police","Yes, he noticed an hour earlier"], answer:0 },
+      { q:"Who does 'he' refer to in 'he offered Boonmee a reward'?", qTh:"คำว่า 'he' ใน 'he offered Boonmee a reward' หมายถึงใคร", options:["Wichai","Boonmee","A police officer"], answer:0 },
+      { q:"Did Boonmee accept the reward?", qTh:"บุญมีรับรางวัลหรือไม่", options:["No, he refused it","Yes, he accepted it","He asked for a bigger reward"], answer:0 },
+    ],
+  },
+  {
+    id:"learning-a-new-language", level:"B1",
+    title:"Learning a new language", titleTh:"การเรียนภาษาใหม่",
+    paragraphs:[
+      "Suda has been studying English for almost two years now, but she only started feeling confident speaking it after she joined a conversation club. Before that, she had studied mostly grammar rules from textbooks and rarely practised speaking with real people.",
+      "At the club, she meets other learners every Wednesday evening, and they practise talking about everyday topics together. Suda says that making mistakes in front of the group used to embarrass her, but now she barely notices when she makes an error, because everyone there is learning too. Her teacher believes Suda will be ready to take an advanced exam by next year.",
+    ],
+    questions:[
+      { q:"What helped Suda feel confident speaking English?", qTh:"อะไรที่ทำให้สุดามั่นใจในการพูดภาษาอังกฤษ", options:["Joining a conversation club","Watching movies","Living abroad"], answer:0 },
+      { q:"How long has Suda been studying English?", qTh:"สุดาเรียนภาษาอังกฤษมานานเท่าไหร่แล้ว", options:["For almost two years, and she still studies now","For two years in the past only","She just started this week"], answer:0 },
+      { q:"Who does 'her' refer to in 'used to embarrass her'?", qTh:"คำว่า 'her' ใน 'used to embarrass her' หมายถึงใคร", options:["Suda","Suda's teacher","Another learner"], answer:0 },
+      { q:"What does Suda's teacher believe?", qTh:"ครูของสุดาเชื่อว่าอย่างไร", options:["She will be ready for an advanced exam by next year","She should stop studying","She needs a new textbook"], answer:0 },
+    ],
+  },
+  {
+    id:"a-surprise-visit", level:"B1",
+    title:"A surprise visit", titleTh:"การมาเยี่ยมแบบไม่บอกล่วงหน้า",
+    paragraphs:[
+      "Nid was cooking dinner when she heard a knock at the door. She wasn't expecting anyone, so she was surprised to see her older brother, Chai, standing outside with a suitcase. He had been living in Australia for the past four years and hadn't told anyone he was coming home.",
+      "Chai explained that he had finished his study program early and wanted to surprise the whole family before telling them the news over the phone. Nid immediately called their parents, who arrived at her apartment within twenty minutes, both in tears of joy. Chai plans to stay in Thailand for at least a month before deciding what to do next.",
+    ],
+    questions:[
+      { q:"Where had Chai been living for the past four years?", qTh:"ชัยอาศัยอยู่ที่ไหนในช่วงสี่ปีที่ผ่านมา", options:["Australia","Thailand","Japan"], answer:0 },
+      { q:"Had Chai told anyone he was coming home before he arrived?", qTh:"ก่อนที่จะมาถึง ชัยได้บอกใครไว้ก่อนหรือไม่ว่าจะกลับบ้าน", options:["No, it was a surprise","Yes, he called Nid first","Yes, he told his parents"], answer:0 },
+      { q:"Who does 'who' refer to in 'their parents, who arrived at her apartment'?", qTh:"คำว่า 'who' ใน 'their parents, who arrived at her apartment' หมายถึงใคร", options:["Nid and Chai's parents","Nid's neighbours","Chai's friends"], answer:0 },
+      { q:"How long does Chai plan to stay in Thailand?", qTh:"ชัยวางแผนจะอยู่ที่ประเทศไทยนานเท่าไหร่", options:["At least a month","Only a few days","Forever"], answer:0 },
+    ],
+  },
+  {
+    id:"the-job-offer", level:"B2",
+    title:"The job offer", titleTh:"ข้อเสนองาน",
+    paragraphs:[
+      "By the time Kritsada received the job offer from the new tech company, he had already been working at his current job for six years. Although he had grown comfortable there, he had also been feeling increasingly bored, since the company had stopped giving him new challenges. The offer promised a higher salary and, more importantly, a chance to lead a small team for the first time.",
+      "Kritsada spent almost a week weighing the decision. He discussed it with his wife, who pointed out that he had been complaining about his job for months and that this seemed like exactly the change he needed. His current manager, on the other hand, tried to convince him to stay by offering a promotion, but by then Kritsada had already made up his mind.",
+      "He accepted the new position and started three weeks later. Looking back after his first month, he says it was one of the best decisions he has ever made.",
+    ],
+    questions:[
+      { q:"What did the new job offer, besides a higher salary?", qTh:"นอกจากเงินเดือนที่สูงขึ้น ข้อเสนองานใหม่ให้อะไรอีก", options:["A chance to lead a small team","A company car","Extra vacation days"], answer:0 },
+      { q:"Had Kritsada already decided to leave before his manager offered him a promotion?", qTh:"ก่อนที่ผู้จัดการจะเสนอตำแหน่งใหม่ให้ กฤษดาตัดสินใจแล้วหรือยังว่าจะลาออก", options:["Yes, he had already made up his mind","No, the promotion changed his mind","He decided only after accepting the promotion"], answer:0 },
+      { q:"Who does 'who' refer to in 'his wife, who pointed out that he had been complaining'?", qTh:"คำว่า 'who' ใน 'his wife, who pointed out...' หมายถึงใคร", options:["Kritsada's wife","Kritsada's manager","A colleague"], answer:0 },
+      { q:"How long had Kritsada been working at his current job before the offer?", qTh:"ก่อนได้รับข้อเสนองานใหม่ กฤษดาทำงานที่เดิมมานานเท่าไหร่", options:["Six years","Six months","One year"], answer:0 },
+    ],
+  },
+  {
+    id:"office-misunderstanding", level:"B2",
+    title:"A misunderstanding at the office", titleTh:"ความเข้าใจผิดที่ออฟฟิศ",
+    paragraphs:[
+      "Waraporn had been preparing the quarterly report all week when she overheard two colleagues, Pim and Nat, talking near the coffee machine. She heard Pim say that she really didn't think something was going to work, and immediately assumed they were criticising her report, which she had just sent to the whole team an hour earlier.",
+      "Feeling hurt, Waraporn avoided both of them for the rest of the day and didn't join the team lunch as she usually did. It wasn't until the next morning that Nat mentioned, in passing, that they had actually been discussing a printer that kept jamming, not her report at all. Waraporn felt embarrassed once she realised her mistake and apologised to Pim for having been distant.",
+      "Pim laughed it off, saying she hadn't even noticed anything was wrong, and the two of them ended up having lunch together that same day.",
+    ],
+    questions:[
+      { q:"What did Waraporn think Pim and Nat were criticising?", qTh:"วราภรณ์คิดว่าพิมและณัฐกำลังวิจารณ์อะไร", options:["Her quarterly report","A printer","Her lunch choice"], answer:0 },
+      { q:"What had Pim and Nat actually been talking about?", qTh:"จริงๆ แล้วพิมกับณัฐกำลังคุยเรื่องอะไรกันแน่", options:["A printer that kept jamming","Waraporn's report","Their lunch plans"], answer:0 },
+      { q:"Who does 'they' refer to in 'that they had actually been discussing a printer'?", qTh:"คำว่า 'they' ใน 'that they had actually been discussing a printer' หมายถึงใคร", options:["Pim and Nat","Waraporn and Nat","The whole team"], answer:0 },
+      { q:"What did Waraporn do because she felt hurt?", qTh:"วราภรณ์ทำอะไรเพราะรู้สึกเสียใจ", options:["She avoided her colleagues and skipped lunch","She confronted Pim immediately","She complained to her manager"], answer:0 },
+    ],
+  },
+  {
+    id:"the-reunion", level:"B2",
+    title:"The reunion", titleTh:"งานรวมรุ่น",
+    paragraphs:[
+      "Twenty years after graduating from high school, Areeya finally agreed to attend her class reunion, something she had avoided at every previous invitation. She had always assumed that everyone would have changed so much that the evening would feel awkward, and that she wouldn't have anything interesting to say about her own quiet life as an accountant.",
+      "To her surprise, the moment she walked into the restaurant, several old classmates recognised her immediately and greeted her warmly. One of them, Decha, who had been her closest friend back then, told her he had been hoping she would finally show up this year. They spent the entire evening catching up, and Areeya realised how much she had missed staying in touch with people who had known her for so long.",
+      "By the end of the night, she had already agreed to join the group chat that the others had created years earlier, and she promised she wouldn't miss the next reunion.",
+    ],
+    questions:[
+      { q:"Why had Areeya avoided previous reunions?", qTh:"เหตุใดอารียาจึงหลีกเลี่ยงงานรวมรุ่นครั้งก่อนๆ", options:["She thought the evening would feel awkward","She was too busy with work","She had moved to another country"], answer:0 },
+      { q:"Had the group chat already existed before this reunion, or was it created that night?", qTh:"กลุ่มแชทมีอยู่ก่อนงานรวมรุ่นนี้แล้ว หรือเพิ่งสร้างขึ้นในคืนนั้น", options:["It already existed, created years earlier","It was created that night","It doesn't exist yet"], answer:0 },
+      { q:"Who does 'he' refer to in 'he had been hoping she would finally show up'?", qTh:"คำว่า 'he' ใน 'he had been hoping she would finally show up' หมายถึงใคร", options:["Decha","Areeya's husband","A teacher"], answer:0 },
+      { q:"What did Areeya promise by the end of the night?", qTh:"อารียาสัญญาอะไรก่อนจบคืนนั้น", options:["That she wouldn't miss the next reunion","That she would move back to her hometown","That she would become an accountant"], answer:0 },
+    ],
+  },
+  {
+    id:"starting-a-business", level:"B2",
+    title:"Starting a business", titleTh:"การเริ่มต้นธุรกิจ",
+    paragraphs:[
+      "Somying had been working as a graphic designer for a marketing agency for almost eight years when she decided to start her own small design studio. She had been saving money quietly for over a year, without telling most of her colleagues, because she didn't want anyone to talk her out of it before she was ready.",
+      "The first six months were harder than she had expected. She had assumed that her existing clients from the agency would follow her immediately, but only two of them did, and she had to spend most evenings searching for new clients instead of designing. By the end of the first year, however, word of mouth had brought in enough steady work that she was able to hire her first employee, a young designer named Ohm.",
+      "Looking back, Somying admits that if she had known how difficult the first year would be, she might have hesitated to start at all. Still, she says she has never regretted the decision.",
+    ],
+    questions:[
+      { q:"What was Somying's job before she started her own studio?", qTh:"ก่อนเปิดสตูดิโอของตัวเอง ซมหญิงทำอาชีพอะไร", options:["A graphic designer at a marketing agency","A marketing manager","A teacher"], answer:0 },
+      { q:"How many of her old clients followed her immediately when she started?", qTh:"ตอนเริ่มต้น มีลูกค้าเก่ากี่คนที่ตามมาใช้บริการทันที", options:["Only two of them","All of them","None of them"], answer:0 },
+      { q:"Who does 'she' refer to in 'she was able to hire her first employee'?", qTh:"คำว่า 'she' ใน 'she was able to hire her first employee' หมายถึงใคร", options:["Somying","Ohm","A former colleague"], answer:0 },
+      { q:"Does Somying regret starting her own business?", qTh:"ซมหญิงเสียใจที่เริ่มธุรกิจของตัวเองหรือไม่", options:["No, she has never regretted it","Yes, she regrets it deeply","She hasn't decided yet"], answer:0 },
+    ],
+  },
+  {
+    id:"the-storm", level:"B2",
+    title:"The storm", titleTh:"พายุ",
+    paragraphs:[
+      "The weather forecast had warned that a storm was approaching the coast, but Niran and his fishing crew decided to go out for one last trip before it arrived, believing they had enough time. By early afternoon, the sky had turned a strange dark green, and the wind had picked up much faster than anyone had predicted.",
+      "Realising they had misjudged the timing, Niran ordered the crew to head back immediately. The journey back to shore, which usually took forty minutes, ended up taking nearly two hours because of the rough waves. His wife, who had been watching the news at home, had already called the coast guard when the boat didn't return on schedule.",
+      "By the time Niran's boat finally reached the harbour, soaked and exhausted, a small crowd, including his wife and the coast guard officers, had already gathered to wait for them. Niran later admitted that they should have listened to the forecast and never left the harbour that morning.",
+    ],
+    questions:[
+      { q:"Why did Niran and his crew go out despite the storm warning?", qTh:"เหตุใดนิรันดร์และลูกเรือจึงออกเรือทั้งที่มีประกาศเตือนพายุ", options:["They believed they had enough time","They didn't hear the forecast","They needed money urgently"], answer:0 },
+      { q:"Had the wife already called the coast guard before the boat returned, or after?", qTh:"ภรรยาของนิรันดร์โทรแจ้งหน่วยยามฝั่งก่อนหรือหลังเรือกลับถึงฝั่ง", options:["Before the boat returned","After the boat returned safely","She never called them"], answer:0 },
+      { q:"Who does 'his' refer to in 'His wife, who had been watching the news at home'?", qTh:"คำว่า 'his' ใน 'His wife, who had been watching the news at home' หมายถึงใคร", options:["Niran","One of the crew members","A coast guard officer"], answer:0 },
+      { q:"How long did the journey back to shore normally take?", qTh:"โดยปกติการเดินทางกลับฝั่งใช้เวลานานเท่าไหร่", options:["Forty minutes","Two hours","One hour"], answer:0 },
     ],
   },
 ];
@@ -21062,6 +21367,166 @@ function renderListeningDetail(){
       <div style="font-size:clamp(10.5px, 0.5cqh + 7.25px, 12px);color:var(--thai);margin-top:2px;">${great?'ฟังเก่งมาก!':'ลองฟังอีกครั้งเพื่อจับสิ่งที่พลาดไป'}</div>
       <button class="primary-btn" style="margin:clamp(10px, 1.33cqh + 3.33px, 14px) auto 0;display:block;width:fit-content;-webkit-appearance:none;appearance:none;" onclick="replayListeningAudio()">Listen again · ฟังอีกครั้ง ›</button>
       <button class="ghost-btn" style="margin:clamp(8px, 0.67cqh + 3.67px, 10px) auto 0;display:block;width:fit-content;-webkit-appearance:none;appearance:none;" onclick="listeningBackToList()">Back to Listening · กลับไปหน้ารายการ</button>
+    </div>
+  `;
+}
+
+/* =========================================================
+   READING
+   ========================================================= */
+let readingLevel = "A1";
+let readingIdx = 0;
+let readingStage = "quiz"; // 'quiz' | 'results'
+let readingQIdx = 0;
+let readingShuffled = null; // per-exercise: [{ options:[...], answer:idx }]
+let readingAnswers = [];    // whether each question was answered correctly on the first try, in shuffled order
+let readingPicked = null;   // option index picked for the current question once it's SOLVED (null = not yet solved)
+let readingWrongTries = []; // option indices already tried and rejected for the current question
+
+function isReadingLocked(ex){ return !isUnlocked() && ex.id!==FREE_READING_ID; }
+function readingResult(id){ return (LS.get("et_reading_scores", {}) || {})[id]; }
+function shuffleReadingQuestions(ex){
+  return ex.questions.map(q=>{
+    const order = q.options.map((_,i)=>i);
+    for(let i=order.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [order[i],order[j]]=[order[j],order[i]]; }
+    return { options: order.map(i=>q.options[i]), answer: order.indexOf(q.answer) };
+  });
+}
+
+function renderReadingList(){
+  const freeNote = document.getElementById("reading-free-note");
+  if(freeNote) freeNote.style.display = isUnlocked() ? "none" : "block";
+  const levels = [...new Set(READING_EX.map(e=>e.level))];
+  if(!levels.includes(readingLevel)) readingLevel = levels[0];
+  const pillsEl = document.getElementById("reading-level-pills");
+  pillsEl.innerHTML = levels.map(l=>`<button class="pill ${readingLevel===l?'active':''}" onclick="setReadingLevel('${l}')">${l}</button>`).join("");
+
+  const items = READING_EX.filter(e=>e.level===readingLevel);
+  document.getElementById("reading-list").innerHTML = `<div class="gj-lesson-list">${items.map(ex=>{
+    const idx = READING_EX.findIndex(x=>x.id===ex.id);
+    const locked = isReadingLocked(ex);
+    const result = readingResult(ex.id);
+    const done = !!result;
+    const wordCount = ex.paragraphs.join(" ").split(/\s+/).filter(Boolean).length;
+    return `<button class="gj-lesson-row" onclick="openReadingExercise(${idx})">
+      <div class="gj-lesson-badge${done?' done':''}">${done?icon('check'):icon('book_open')}</div>
+      <div class="info">
+        <div class="title">${ex.title}${locked?` <span class="lock-badge">${icon('lock','')}</span>`:""}</div>
+        <div class="title-th">${ex.titleTh}</div>
+      </div>
+      <span class="gj-lesson-status${done?' done':''}">${done?result.score+'/'+result.total:wordCount+' words'}</span>
+    </button>`;
+  }).join("")}</div>`;
+}
+function setReadingLevel(l){ readingLevel = l; renderReadingList(); }
+
+function openReadingExercise(idx){
+  const ex = READING_EX[idx];
+  if(isReadingLocked(ex)){ goPaywall("reading"); return; }
+  readingIdx = idx;
+  resetReadingAttempt();
+  go("reading-detail", {bypassLock:true});
+  renderReadingDetail();
+}
+function resetReadingAttempt(){
+  const ex = READING_EX[readingIdx];
+  readingStage = "quiz";
+  readingQIdx = 0;
+  readingShuffled = shuffleReadingQuestions(ex);
+  readingAnswers = [];
+  readingPicked = null;
+  readingWrongTries = [];
+}
+function chooseReadingAnswer(oIdx){
+  if(readingPicked!==null || readingWrongTries.includes(oIdx)) return;
+  const q = readingShuffled[readingQIdx];
+  if(oIdx===q.answer){
+    readingPicked = oIdx;
+    haptic(20); announce("Correct");
+  } else {
+    readingWrongTries.push(oIdx);
+    haptic([30,40,30]); announce("Not quite, try again");
+  }
+  renderReadingDetail();
+}
+function nextReadingQuestion(){
+  readingAnswers.push(readingWrongTries.length===0);
+  readingPicked = null;
+  readingWrongTries = [];
+  readingQIdx++;
+  const ex = READING_EX[readingIdx];
+  if(readingQIdx>=ex.questions.length){ finishReadingQuiz(); } else { renderReadingDetail(); }
+}
+function finishReadingQuiz(){
+  const ex = READING_EX[readingIdx];
+  const score = readingAnswers.filter(Boolean).length;
+  const scores = LS.get("et_reading_scores", {}) || {};
+  scores[ex.id] = { score, total:ex.questions.length, at:Date.now() };
+  LS.set("et_reading_scores", scores);
+  readingStage = "results";
+  renderReadingDetail();
+}
+function replayReading(){
+  resetReadingAttempt();
+  renderReadingDetail();
+}
+function readingBackToList(){ go("reading"); }
+
+function renderReadingDetail(){
+  const ex = READING_EX[readingIdx];
+  document.getElementById("reading-detail-title").textContent = ex.title;
+  const body = document.getElementById("reading-detail-body");
+
+  if(readingStage==="quiz"){
+    const q = readingShuffled[readingQIdx];
+    const answered = readingPicked!==null;
+    const triedWrong = readingWrongTries.length>0;
+    const passageHtml = `
+      <span class="gj-role-tag" style="color:var(--blue-2);background:rgba(var(--blue-rgb),.14);border-color:rgba(var(--blue-rgb),.4);">${ex.level} · Reading</span>
+      <div style="font-size:clamp(11.5px, 0.5cqh + 8.25px, 13px);color:var(--thai);margin-top:clamp(6px, 0.67cqh + 1.67px, 8px);">${ex.titleTh}</div>
+      <div class="stat-card reading-passage" style="margin-top:clamp(10px, 1.33cqh + 3.33px, 14px);">
+        ${ex.paragraphs.map(p=>`<p>${wordsToSpansHTML(p, "reading-passage-thai-pop")}</p>`).join("")}
+      </div>
+      <div class="thai-pop" id="reading-passage-thai-pop">${icon('hand')} <span>tap a word for its Thai translation · แตะคำเพื่อดูคำแปล</span></div>
+    `;
+    body.innerHTML = `
+      ${passageHtml}
+      <div class="card-counter" style="margin-top:clamp(18px, 2cqh + 5px, 24px);">Question ${readingQIdx+1} / ${ex.questions.length} <span style="color:var(--thai);">· ข้อที่ ${readingQIdx+1} จาก ${ex.questions.length}</span></div>
+      <div class="progress-bar"><div class="progress-fill" style="width:${Math.round(readingQIdx/ex.questions.length*100)}%"></div></div>
+      <div class="stat-card" style="margin-top:clamp(12px, 1.33cqh + 3.33px, 16px);">
+        <div class="reading-q-text" style="font-size:clamp(13px, 0.67cqh + 8.67px, 15px);font-weight:700;color:var(--text);line-height:1.5;">${wordsToSpansHTML(ex.questions[readingQIdx].q, "reading-question-thai-pop")}</div>
+        <div style="font-size:clamp(11.5px, 0.5cqh + 8.25px, 13px);color:var(--thai);margin-top:5px;">${ex.questions[readingQIdx].qTh}</div>
+        <div class="thai-pop" id="reading-question-thai-pop" style="margin-top:10px;">${icon('hand')} <span>tap a word for its Thai translation · แตะคำเพื่อดูคำแปล</span></div>
+        <div class="gj-choice-opts">
+          ${q.options.map((opt,i)=>{
+            const letter = String.fromCharCode(65+i);
+            let cls = "";
+            if(answered && i===q.answer) cls = " right";
+            else if(readingWrongTries.includes(i)) cls = " wrong";
+            const disabled = answered || readingWrongTries.includes(i);
+            return `<button class="gj-choice-btn${cls}" onclick="chooseReadingAnswer(${i})" ${disabled?'disabled':''}><span class="gj-choice-letter">${letter}</span>${opt}</button>`;
+          }).join("")}
+        </div>
+        ${!answered && triedWrong ? `<div style="font-size:clamp(11px, 0.5cqh + 7.75px, 12.5px);font-weight:700;color:var(--bad-fg);margin-top:clamp(8px, 0.67cqh + 3.67px, 10px);">Not quite, try again · ลองอีกครั้ง</div>` : ""}
+      </div>
+      ${answered ? `<button class="primary-btn" style="margin-top:clamp(12px, 1.33cqh + 3.33px, 16px);" onclick="nextReadingQuestion()">${readingQIdx+1>=ex.questions.length?'See my score · ดูคะแนน':'Next question · ข้อถัดไป'} ›</button>` : ""}
+    `;
+    return;
+  }
+
+  // results
+  const result = readingResult(ex.id);
+  const score = result ? result.score : 0;
+  const total = result ? result.total : ex.questions.length;
+  const great = score>=Math.ceil(total*0.8);
+  body.innerHTML = `
+    <div class="stat-card" style="text-align:center;${great?'border-color:var(--good);background:var(--good-bg);':''}">
+      <div style="font-size:clamp(26px, 2.67cqh + 8.67px, 34px);">${great?'🎉':'💪'}</div>
+      <div style="font-size:clamp(18px, 1.33cqh + 9.33px, 22px);font-weight:800;color:${great?'var(--good-fg)':'var(--text)'};margin-top:6px;">${score} / ${total}</div>
+      <div style="font-size:clamp(11.5px, 0.5cqh + 8.25px, 13px);color:var(--muted);margin-top:4px;">${great?'Great reading!':'Read it again to catch what you missed.'}</div>
+      <div style="font-size:clamp(10.5px, 0.5cqh + 7.25px, 12px);color:var(--thai);margin-top:2px;">${great?'อ่านเก่งมาก!':'ลองอ่านอีกครั้งเพื่อจับสิ่งที่พลาดไป'}</div>
+      <button class="primary-btn" style="margin:clamp(10px, 1.33cqh + 3.33px, 14px) auto 0;display:block;width:fit-content;-webkit-appearance:none;appearance:none;" onclick="replayReading()">Read again · อ่านอีกครั้ง ›</button>
+      <button class="ghost-btn" style="margin:clamp(8px, 0.67cqh + 3.67px, 10px) auto 0;display:block;width:fit-content;-webkit-appearance:none;appearance:none;" onclick="readingBackToList()">Back to Reading · กลับไปหน้ารายการ</button>
     </div>
   `;
 }
