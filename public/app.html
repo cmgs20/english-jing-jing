@@ -410,8 +410,12 @@ p.sub{ color:var(--muted); font-size:clamp(12.5px, 0.5cqh + 9.25px, 14px); margi
 }
 
 .progress-row{ display:flex; align-items:center; gap:10px; margin-top:10px; }
-.progress-bar{ flex:1; height:10px; background:var(--inset); border-radius:6px; overflow:hidden; }
-.progress-fill{ height:100%; background:linear-gradient(90deg,var(--accent),var(--good)); border-radius:6px; transition:width .3s; }
+/* border-radius:999px (pill) + a hairline border give the track a visible
+   edge of its own — needed because var(--inset) sits almost flush against
+   var(--bg) in light mode, so a borderless flat bar nearly disappears
+   wherever it isn't already sitting on a card. */
+.progress-bar{ flex:1; height:10px; background:var(--inset); border-radius:999px; overflow:hidden; border:1px solid rgba(var(--hairline-rgb),.08); }
+.progress-fill{ height:100%; background:linear-gradient(90deg,var(--accent),var(--good)); border-radius:999px; transition:width .3s; }
 .streak{ font-size:clamp(11.5px, 0.5cqh + 8.25px, 13px); color:var(--accent2); margin-top:8px; display:flex; align-items:center; justify-content:center; gap:6px; font-weight:700; }
 .streak .ic{ width:clamp(13px, 0.67cqh + 8.67px, 15px); height:clamp(13px, 0.67cqh + 8.67px, 15px); }
 
@@ -773,24 +777,22 @@ p.sub{ color:var(--muted); font-size:clamp(12.5px, 0.5cqh + 9.25px, 14px); margi
 .gj-replay-btn{ appearance:none; cursor:pointer; background:transparent; border:1px solid rgba(var(--hairline-rgb),.08); color:var(--muted); font-family:inherit; font-weight:700; font-size:clamp(10.5px, 0.5cqh + 7.25px, 12px); padding:clamp(4px, 0.33cqh + 1.83px, 5px) clamp(9px, 1cqh + 2.5px, 12px); border-radius:999px; display:inline-flex; align-items:center; gap:4px; }
 .gj-replay-btn .ic{ width:12px; height:12px; }
 
-/* Was rgba(surface,.86) + backdrop-filter:blur(10px) — recomputing a blur every
-   scroll frame while sticky is a real jank risk on lower-end Android. Swapped
-   for the exact same opaque background .topbar uses: since both are pinned to
-   the same viewport-relative band and background-attachment:fixed decouples
-   the gradient from page scroll, this paints pixel-identical to the blur
-   version's resting state, just without the per-frame compositor cost. */
+/* A solid var(--card) fill (no gradient, no background-attachment:fixed)
+   is cheaper to paint on scroll than the old page-matching gradient trick
+   AND reads as an actual card instead of blending into the page — it was
+   previously invisible/glitchy-looking since it shared the page's own
+   background. Inset from the screen edges (no negative margin) so it sits
+   like the app's other cards (.stat-card etc.) rather than bleeding
+   full-bleed like .topbar. */
 .gj-sticky-hdr{
   /* top tracks .topbar's own fluid height (back-btn's clamp + its 12px
      vertical padding + a 6px buffer that matched the original fixed
      58px here) so this second sticky header still sits flush under the
      first one at every #app height instead of gapping or overlapping. */
   position:sticky; top:clamp(50px, 2.67cqh + 32.67px, 58px); z-index:8;
-  background:
-    radial-gradient(1200px 700px at 20% -5%, var(--glow1) 0%, transparent 55%),
-    radial-gradient(1000px 600px at 90% 8%, var(--glow2) 0%, transparent 50%),
-    var(--bg);
-  background-attachment:fixed;
-  padding:10px var(--pad-x) 12px; border-bottom:1px solid rgba(var(--hairline-rgb),.06); margin:0 calc(-1 * var(--pad-x));
+  background:var(--card); border:1px solid rgba(var(--hairline-rgb),.1);
+  border-radius:var(--radius); box-shadow:0 10px 26px -18px rgba(0,0,0,.4);
+  padding:clamp(14px, 1.33cqh + 5.33px, 18px); margin-top:2px;
 }
 
 .gj-step-hdr{ display:flex; align-items:center; gap:10px; margin-bottom:13px; }
@@ -23086,6 +23088,119 @@ const GRAMMAR_CURRIC = [
   ],
 },
 
+{
+  id:'b2-s11', n:11, level:'B2', title:'Degree & Emphasis', titleTh:'ระดับความเข้มและการเน้นย้ำ',
+  blurb:'Stack comparatives so they rise together, push a description past its breaking point, and flip word order for a dramatic, immediate sequence.',
+  lessons:[
+    {
+      id:'b2-double-comparative', title:'the + comparative, the + comparative', titleTh:'the + comparative, the + comparative (ยิ่ง...ยิ่ง)',
+      rule:'the + comparative, the + comparative shows two things increasing or decreasing together: The more you practice, the better you get.',
+      ruleTh:'the + comparative, the + comparative แสดงว่าสองสิ่งเพิ่มขึ้นหรือลดลงไปพร้อมกัน เช่น The more you practice, the better you get',
+      examples:[
+        { chips:[{t:'The more',role:'comp'},{t:'you',role:'subject'},{t:'practice,',role:'verb'},{t:'the better',role:'comp'},{t:'you',role:'subject'},{t:'get',role:'verb'}], th:'ยิ่งฝึกซ้อมมากเท่าไหร่ ก็ยิ่งเก่งขึ้นเท่านั้น' },
+      ],
+      compare:{
+        note:'Two comparatives echo each other at the start of each clause — “the more” and “the better” must both come first, not at the end.',
+        noteTh:'คำเปรียบเทียบสองคำสะท้อนกันโดยขึ้นต้นแต่ละประโยค — “the more” และ “the better” ต้องมาก่อนเสมอ ไม่ใช่ท้ายประโยค',
+        en:[{t:'The more',role:'comp'},{t:'you practice',role:'verb'}],
+        th:[{t:'ยิ่ง',gloss:'the more',role:'comp'},{t:'คุณฝึกซ้อม',gloss:'you practice',role:'verb'}],
+      },
+      quiz:{ q:'“___ you wait, the harder it gets.”', qTh:'“___ you wait, the harder it gets.”', options:['The longer','Longer'], answer:0 },
+      practice:[
+        { kind:'pick', label:'the + comparative', prompt:'The harder you work, ___ you succeed.', options:['the more likely','more likely'], answer:0 },
+        { kind:'pick', label:'the + comparative', prompt:'The sooner we leave, ___ we arrive.', options:['the sooner','sooner'], answer:0 },
+        { kind:'build', label:'Word order', prompt:'Build:', target:'The more you read, the more you learn.',
+          slots:[{role:'comp'},{role:'subject'},{role:'verb'},{role:'comp'},{role:'subject'},{role:'verb'}], answer:['The more','you','read,','the more','you','learn'], distractors:['More','Learn'] },
+      ],
+    },
+    {
+      id:'b2-so-such-that', title:'so...that / such...that', titleTh:'so...that / such...that',
+      rule:'so + adjective/adverb + that and such + (a/an) + noun + that show a result caused by an extreme degree: so hot that / such a hot day that.',
+      ruleTh:'so + คำคุณศัพท์/กริยาวิเศษณ์ + that และ such + (a/an) + คำนาม + that แสดงผลลัพธ์ที่เกิดจากระดับที่รุนแรงมาก เช่น so hot that / such a hot day that',
+      examples:[
+        { chips:[{t:'It',role:'subject'},{t:'was',role:'be'},{t:'so',role:'comp'},{t:'hot',role:'adj'},{t:'that',role:'aux'},{t:'we',role:'subject'},{t:'stayed inside',role:'verb'}], th:'อากาศร้อนมากจนเราต้องอยู่แต่ในบ้าน' },
+      ],
+      compare:{
+        note:'“so hot” (adjective alone) becomes “such a hot day” once a noun is added — such needs a/an before a singular countable noun.',
+        noteTh:'“so hot” (คำคุณศัพท์เดี่ยว) กลายเป็น “such a hot day” เมื่อมีคำนามเพิ่มเข้ามา — such ต้องมี a/an ก่อนคำนามนับได้เอกพจน์',
+        en:[{t:'such a',role:'comp'},{t:'hot day',role:'noun'}],
+        th:[{t:'วันที่ร้อนขนาดนี้',gloss:'such a hot day',role:'noun'}],
+      },
+      quiz:{ q:'“It was ___ hot day that we stayed inside.”', qTh:'“It was ___ hot day that we stayed inside.”', options:['such a','so'], answer:0 },
+      practice:[
+        { kind:'pick', label:'so + adj', prompt:'The music was ___ loud that we couldn’t talk.', options:['so','such'], answer:0 },
+        { kind:'pick', label:'such + noun', prompt:'She’s ___ good cook that everyone loves her food.', options:['such a','so'], answer:0 },
+        { kind:'build', label:'Word order', prompt:'Build:', target:'It was so cold that we went home.',
+          slots:[{role:'subject'},{role:'be'},{role:'comp'},{role:'adj'},{role:'aux'},{role:'subject'},{role:'verb'}], answer:['It','was','so','cold','that','we','went home'], distractors:['such','very'] },
+      ],
+    },
+    {
+      id:'b2-too-enough', title:'too...to / enough...to', titleTh:'too...to / enough...to',
+      rule:'too + adjective + to means more than necessary, with a negative result; adjective + enough + to means a sufficient degree, with a positive result.',
+      ruleTh:'too + คำคุณศัพท์ + to หมายถึงมากเกินไป ให้ผลลัพธ์เชิงลบ; คำคุณศัพท์ + enough + to หมายถึงพอเพียง ให้ผลลัพธ์เชิงบวก',
+      examples:[
+        { chips:[{t:'It',role:'subject'},{t:'is',role:'be'},{t:'too',role:'comp'},{t:'heavy',role:'adj'},{t:'to carry',role:'verb'}], th:'มันหนักเกินไปที่จะยกไหว' },
+      ],
+      compare:{
+        note:'too comes before the adjective (too heavy), but enough comes after it (heavy enough) — the two words point in opposite directions.',
+        noteTh:'too อยู่หน้าคำคุณศัพท์ (too heavy) แต่ enough อยู่หลังคำคุณศัพท์ (heavy enough) — สองคำนี้เรียงตำแหน่งตรงข้ามกัน',
+        en:[{t:'old',role:'adj'},{t:'enough',role:'comp'},{t:'to drive',role:'verb'}],
+        th:[{t:'อายุมากพอ',gloss:'old enough',role:'adj'},{t:'ที่จะขับได้',gloss:'to drive',role:'verb'}],
+      },
+      quiz:{ q:'“She’s old ___ to drive.”', qTh:'“She’s old ___ to drive.”', options:['enough','too'], answer:0 },
+      practice:[
+        { kind:'pick', label:'too + adj', prompt:'This box is ___ heavy to lift alone.', options:['too','enough'], answer:0 },
+        { kind:'pick', label:'adj + enough', prompt:'Is he tall ___ to reach the shelf?', options:['enough','too'], answer:0 },
+        { kind:'build', label:'Word order', prompt:'Build:', target:'The coffee is too hot to drink.',
+          slots:[{role:'subject'},{role:'be'},{role:'comp'},{role:'adj'},{role:'verb'}], answer:['The coffee','is','too','hot','to drink'], distractors:['enough','drinking'] },
+      ],
+    },
+    {
+      id:'b2-no-sooner', title:'no sooner...than / hardly...when', titleTh:'no sooner...than / hardly...when',
+      rule:'no sooner + had + subject + past participle + than, and hardly/scarcely + had + subject + past participle + when, show one thing happening immediately after another, with inversion after the fronted adverb.',
+      ruleTh:'no sooner + had + ประธาน + กริยาช่อง 3 + than และ hardly/scarcely + had + ประธาน + กริยาช่อง 3 + when แสดงว่าเหตุการณ์หนึ่งเกิดขึ้นทันทีหลังอีกเหตุการณ์ โดยสลับตำแหน่งหลังคำวิเศษณ์ที่ขึ้นต้นประโยค',
+      examples:[
+        { chips:[{t:'No sooner',role:'adv'},{t:'had',role:'aux'},{t:'she',role:'subject'},{t:'sat down',role:'verb'},{t:'than',role:'aux'},{t:'the phone rang',role:'verb'}], th:'เธอเพิ่งนั่งลงเท่านั้นเอง โทรศัพท์ก็ดังขึ้น' },
+      ],
+      compare:{
+        note:'Without inversion it’s “She had no sooner sat down than…” — fronting “No sooner” and inverting sounds more dramatic and formal.',
+        noteTh:'ถ้าไม่สลับตำแหน่งจะเป็น “She had no sooner sat down than…” — การย้าย “No sooner” มาข้างหน้าแล้วสลับตำแหน่งฟังดูดราม่าและเป็นทางการกว่า',
+        en:[{t:'She had',role:'aux'},{t:'no sooner',role:'adv'},{t:'sat down',role:'verb'}],
+        th:[{t:'เธอเพิ่ง',gloss:'she had no sooner',role:'aux'},{t:'นั่งลง',gloss:'sat down',role:'verb'}],
+      },
+      quiz:{ q:'“___ had she sat down than the phone rang.”', qTh:'“___ had she sat down than the phone rang.”', options:['No sooner','No sooner she'], answer:0 },
+      practice:[
+        { kind:'pick', label:'hardly...when', prompt:'Hardly ___ we arrived when it started to rain.', options:['had','did'], answer:0 },
+        { kind:'pick', label:'no sooner...than', prompt:'No sooner ___ the movie started than he fell asleep.', options:['had','has'], answer:0 },
+        { kind:'build', label:'Word order', prompt:'Build:', target:'No sooner had we left than it began to snow.',
+          slots:[{role:'adv'},{role:'aux'},{role:'subject'},{role:'verb'},{role:'aux'},{role:'subject'},{role:'verb'}], answer:['No sooner','had','we','left','than','it','began to snow'], distractors:['Sooner','has'] },
+      ],
+    },
+    {
+      id:'b2-s11-review', type:'review', title:'Review: Degree & Emphasis', titleTh:'ทบทวนบทเรียน: ระดับความเข้มและการเน้นย้ำ',
+      intro:'Read the text below. Tap the highlighted words to see the grammar reason in Thai.',
+      introTh:'อ่านข้อความด้านล่าง แล้วแตะคำที่ไฮไลต์เพื่อดูเหตุผลทางไวยากรณ์เป็นภาษาไทย',
+      reviewQuiz: [{"q":"“___ you wait, the harder it gets.”","qTh":"“___ you wait, the harder it gets.”","options":["The longer","Longer"],"answer":0},{"q":"“It was ___ hot day that we stayed inside.”","qTh":"“It was ___ hot day that we stayed inside.”","options":["such a","so"],"answer":0},{"q":"“She’s old ___ to drive.”","qTh":"“She’s old ___ to drive.”","options":["enough","too"],"answer":0},{"q":"“___ had she sat down than the phone rang.”","qTh":"“___ had she sat down than the phone rang.”","options":["No sooner","No sooner she"],"answer":0},{"q":"“The music was ___ loud that we couldn’t talk.”","qTh":"“The music was ___ loud that we couldn’t talk.”","options":["so","such"],"answer":0}],
+      practice:[{}],
+      textTh:'ยิ่งพลอยฝึกซ้อมมากเท่าไหร่ เธอก็ยิ่งมั่นใจกับการวิ่งมาราธอนมากขึ้นเท่านั้น ในวันแข่งขัน เสียงฝูงชนดังมากจนเธอแทบไม่ได้ยินเสียงฝีเท้าตัวเอง เธอฝึกซ้อมหนักพอที่จะจบให้ได้ในเวลาไม่เกินห้าชั่วโมง แต่เส้นทางกลับยากกว่าที่คิดไว้ พอถึงจุดครึ่งทางได้ไม่นาน ขาของเธอก็เริ่มปวดทันที ช่วงนั้นเป็นช่วงที่ยากลำบากมากจนเธอเกือบจะหยุดวิ่ง แต่เธอก็ยังฝืนวิ่งต่อไป บอกตัวเองว่าแข็งแกร่งพอที่จะไปถึงเส้นชัยได้ ยิ่งเธอวิ่งเร็วขึ้นในกิโลเมตรสุดท้าย ฝูงชนก็ยิ่งเชียร์ดังขึ้นเท่านั้น และเธอก็ข้ามเส้นชัยได้ทันเวลาพอดี',
+      text:[
+        {t:'The more Ploy trained, the more confident she felt', note:'the + comparative, the + comparative: สองสิ่งเพิ่มขึ้นพร้อมกัน'},
+        {t:'about'},{t:'the'},{t:'marathon.'},{t:'On'},{t:'race'},{t:'day,'},{t:'the'},{t:'crowd'},{t:'was'},
+        {t:'so loud that', note:'so + คำคุณศัพท์ + that: ระดับรุนแรงจนเกิดผลลัพธ์'},
+        {t:'she'},{t:'could'},{t:'barely'},{t:'hear'},{t:'her'},{t:'own'},{t:'footsteps.'},{t:'She'},{t:'had'},
+        {t:'trained hard enough to finish', note:'คำคุณศัพท์/กริยาวิเศษณ์ + enough + to: พอเพียงที่จะทำได้'},
+        {t:'under'},{t:'five'},{t:'hours,'},{t:'but'},{t:'the'},{t:'course'},{t:'was'},{t:'tougher'},{t:'than'},{t:'she'},{t:'expected.'},
+        {t:'No sooner had she reached the halfway point than', note:'no sooner + had + ประธาน + กริยาช่อง 3 + than: เกิดขึ้นทันทีหลังจากนั้น'},
+        {t:'her'},{t:'legs'},{t:'began'},{t:'to'},{t:'ache.'},{t:'It'},{t:'was'},
+        {t:'such a difficult stretch that', note:'such + a + คำนาม + that: ระดับรุนแรงจนเกิดผลลัพธ์'},
+        {t:'she'},{t:'almost'},{t:'stopped.'},{t:'Still,'},{t:'she'},{t:'pushed'},{t:'on,'},{t:'telling'},{t:'herself'},{t:'she'},{t:'was'},{t:'strong'},{t:'enough'},{t:'to'},{t:'make'},{t:'it'},{t:'to'},{t:'the'},{t:'finish'},{t:'line.'},
+        {t:'The faster she ran, the louder the crowd cheered,', note:'the + comparative, the + comparative อีกครั้ง: สองสิ่งเพิ่มขึ้นพร้อมกัน'},
+        {t:'and'},{t:'she'},{t:'crossed'},{t:'the'},{t:'line'},{t:'just'},{t:'in'},{t:'time.'},
+      ],
+    },
+  ],
+},
+
 ];
 
 const GJ_LESSONS = [];
@@ -24358,7 +24473,7 @@ function renderGrammarLesson(resetScroll){
         <div style="font-size:clamp(9.5px, 0.5cqh + 6.25px, 11px);font-weight:700;color:var(--thai);flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${l.sectionTitle}</div>
         <span class="gj-role-tag" style="color:var(--blue-2);background:rgba(var(--blue-rgb),.14);border-color:rgba(var(--blue-rgb),.4);" id="gj-progress-count">${done}/${tot}</span>
       </div>
-      <div class="progress-bar" style="height:5px;margin-top:clamp(6px, 0.67cqh + 1.67px, 8px);"><div class="progress-fill" id="gj-progress-fill" style="width:${tot?Math.round(done/tot*100):0}%"></div></div>
+      <div class="progress-bar" style="height:6px;margin-top:clamp(6px, 0.67cqh + 1.67px, 8px);border-radius:999px;background:var(--card2);"><div class="progress-fill" id="gj-progress-fill" style="width:${tot?Math.round(done/tot*100):0}%;border-radius:999px;"></div></div>
     </div>
 
     <div style="margin-top:clamp(14px, 1.33cqh + 5.33px, 18px);">
