@@ -1770,6 +1770,7 @@ function rowFg(i){ return ROW_FG[i%ROW_FG.length]; }
    TEXT-TO-SPEECH (pronunciation practice)
    ========================================================= */
 const _isAndroid = /Android/i.test(navigator.userAgent);
+const _isIOS = /iPad|iPhone|iPod/i.test(navigator.userAgent) && !window.MSStream;
 if("speechSynthesis" in window){
   speechSynthesis.getVoices();
   speechSynthesis.onvoiceschanged = () => { speechSynthesis.getVoices(); };
@@ -1797,6 +1798,7 @@ function _keepAlive(u){
   u.addEventListener("error", release);
 }
 const VOICE_QUALITY_RE = /natural|neural|enhanced|premium|studio/i;
+const EN_PREFERRED_VOICE_NAMES = ["Samantha","Ava","Google US English","Microsoft Aria Online (Natural) - English (United States)","Microsoft Jenny Online (Natural) - English (United States)","Zoe"];
 function pickSoftVoice(lang){
   if(!("speechSynthesis" in window)) return null;
   const voices = speechSynthesis.getVoices();
@@ -1806,8 +1808,7 @@ function pickSoftVoice(lang){
     : voices.filter(v=>v.lang===lang || (v.lang && v.lang.startsWith(lang.split("-")[0])));
   const pool = langVoices.length ? langVoices : voices;
   if(lang==="en-US"){
-    const preferredNames = ["Samantha","Ava","Google US English","Microsoft Aria Online (Natural) - English (United States)","Microsoft Jenny Online (Natural) - English (United States)","Zoe"];
-    for(const name of preferredNames){
+    for(const name of EN_PREFERRED_VOICE_NAMES){
       const v = pool.find(v=>v.name===name);
       if(v) return v;
     }
@@ -1822,6 +1823,32 @@ function pickSoftVoice(lang){
   if(remote) return remote;
   return pool[0] || null;
 }
+// Both platforms ship a compact/default English voice that sounds robotic unless the user
+// has downloaded a higher-quality voice pack in OS settings — that pack isn't installed by
+// default, so most users never hear the better voice pickSoftVoice() would otherwise prefer.
+function hasQualityEnglishVoice(){
+  const voices = speechSynthesis.getVoices();
+  const pool = voices.filter(v=>v.lang && v.lang.startsWith("en"));
+  if(!pool.length) return true; // unknown — don't nag off incomplete data
+  return pool.some(v => EN_PREFERRED_VOICE_NAMES.includes(v.name) || VOICE_QUALITY_RE.test(v.name) || v.localService===false);
+}
+let _voiceTipChecked = false;
+function maybeSuggestBetterVoice(){
+  if(_voiceTipChecked || !("speechSynthesis" in window)) return;
+  if(!speechSynthesis.getVoices().length) return; // voices not loaded yet — retried on the next speak() call
+  _voiceTipChecked = true;
+  if(LS.get("et_voice_tip_shown", false) || hasQualityEnglishVoice()) return;
+  // Desktop's default voices are decent already — the robotic-sounding compact voice is
+  // specifically an iOS/Android thing, so only nag on those where there's a real fix.
+  const steps = _isIOS
+    ? "ตั้งค่า (Settings) > การช่วยการเข้าถึง (Accessibility) > เนื้อหาที่พูด (Spoken Content) > เสียง (Voices) > English แล้วดาวน์โหลดเสียงระดับ Enhanced หรือ Premium"
+    : _isAndroid
+    ? "ตั้งค่า (Settings) > ภาษาและการป้อนข้อมูล (Languages & input) > การแปลงข้อความเป็นเสียงพูด (Text-to-speech output) > เครื่องมือ Google > ดาวน์โหลดข้อมูลเสียงภาษาอังกฤษคุณภาพสูง"
+    : null;
+  if(!steps) return;
+  LS.set("et_voice_tip_shown", true);
+  showBanner(`เสียงพูดในเครื่องนี้ฟังดูเป็นหุ่นยนต์เพราะยังไม่ได้ติดตั้งเสียงคุณภาพสูง ลองไปที่ ${steps} — ฟรี และเสียงจะเป็นธรรมชาติขึ้นมาก<br><span style="opacity:.7;font-size:.85em;">This device's built-in voice sounds robotic because a higher-quality voice pack isn't installed — the setting above adds one for free.</span>`);
+}
 let speechRate = 0.55;
 function setSpeechRate(r){
   speechRate = Math.round(r*100)/100;
@@ -1831,6 +1858,7 @@ function setSpeechRate(r){
 }
 function speak(text, lang, rate){
   if(!("speechSynthesis" in window) || !text) return;
+  maybeSuggestBetterVoice();
   speechSynthesis.cancel();
   const utter = new SpeechSynthesisUtterance(text);
   utter.lang = lang;
@@ -21138,6 +21166,7 @@ function playListeningFromChunk(startIdx){
   const ex = LISTENING_EX[listeningIdx];
   if(!ex || !("speechSynthesis" in window) || !listeningChunks.length) return;
   if(!Number.isFinite(startIdx)) startIdx = listeningChunkIdx || 0; // defensive: never let a bad index silently blackhole playback
+  maybeSuggestBetterVoice();
   listeningPlayToken++;
   const myToken = listeningPlayToken;
   speechSynthesis.cancel();
