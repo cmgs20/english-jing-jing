@@ -477,14 +477,18 @@ p.sub{ color:var(--muted); font-size:clamp(12.5px, 0.5cqh + 9.25px, 14px); margi
 .face.back{ transform:rotateY(180deg); background:linear-gradient(160deg,rgba(var(--blue-2-rgb),.16),var(--card)); border:1px solid rgba(var(--blue-2-rgb),.3); }
 .face .lvl{ position:absolute; top:16px; left:18px; font-size:clamp(10px, 0.33cqh + 7.83px, 11px); font-weight:800; color:var(--on-blue); padding:clamp(4px, 0.33cqh + 1.83px, 5px) clamp(9px, 0.67cqh + 4.67px, 11px); border-radius:999px; background:linear-gradient(150deg,var(--blue-2),var(--blue)); }
 .cat-tag{ font-size:clamp(10.5px, 0.5cqh + 7.25px, 12px); font-weight:700; color:var(--muted); letter-spacing:.2px; margin-bottom:8px; }
-.spk-btn{ background:rgba(var(--blue-2-rgb),.16); border:none; color:var(--blue-2); width:clamp(36px, 3.33cqh + 14.33px, 46px); height:clamp(36px, 3.33cqh + 14.33px, 46px); border-radius:16px; display:flex; align-items:center; justify-content:center; margin-bottom:clamp(12px, 1.33cqh + 3.33px, 16px); }
+.spk-btn{ background:rgba(var(--blue-2-rgb),.16); border:none; color:var(--blue-2); width:clamp(44px, 3.33cqh + 20px, 50px); height:clamp(44px, 3.33cqh + 20px, 50px); border-radius:16px; display:flex; align-items:center; justify-content:center; margin-bottom:clamp(12px, 1.33cqh + 3.33px, 16px); }
 .spk-btn:active{ transform:scale(.94); }
-.spk-btn .ic{ width:clamp(17px, 1.67cqh + 6.17px, 22px); height:clamp(17px, 1.67cqh + 6.17px, 22px); }
+.spk-btn .ic{ width:clamp(19px, 1.67cqh + 10px, 23px); height:clamp(19px, 1.67cqh + 10px, 23px); }
 .spk-btn-inline{ background:var(--inset); border:none; color:var(--text); width:clamp(22px, 1.33cqh + 13.33px, 26px); height:clamp(22px, 1.33cqh + 13.33px, 26px); border-radius:8px; display:inline-flex; align-items:center; justify-content:center; vertical-align:middle; margin-left:6px; padding:0; position:relative; }
 .spk-btn-inline::before{ content:''; position:absolute; inset:-6px; }
 .spk-btn-inline .ic{ width:clamp(12px, 0.67cqh + 7.67px, 14px); height:clamp(12px, 0.67cqh + 7.67px, 14px); }
-.spk-btn-example{ background:rgba(var(--blue-2-rgb),.16); border:none; color:var(--blue-2); width:clamp(32px, 2.67cqh + 14.67px, 40px); height:clamp(32px, 2.67cqh + 14.67px, 40px); border-radius:14px; display:flex; align-items:center; justify-content:center; margin:8px auto 0; }
-.spk-btn-example .ic{ width:clamp(15px, 1.33cqh + 6.33px, 19px); height:clamp(15px, 1.33cqh + 6.33px, 19px); }
+.spk-btn-example{ background:rgba(var(--blue-2-rgb),.16); border:none; color:var(--blue-2); width:clamp(44px, 2.67cqh + 22px, 48px); height:clamp(44px, 2.67cqh + 22px, 48px); border-radius:16px; display:flex; align-items:center; justify-content:center; margin:8px auto 0; }
+.spk-btn-example .ic{ width:clamp(18px, 1.33cqh + 10px, 21px); height:clamp(18px, 1.33cqh + 10px, 21px); }
+.reading-listen-btn{ appearance:none; -webkit-appearance:none; display:inline-flex; align-items:center; gap:8px; background:rgba(var(--blue-2-rgb),.16); color:var(--blue-2); border:none; border-radius:999px; padding:0 18px; min-height:44px; font-size:clamp(12.5px, 0.5cqh + 9.25px, 14px); font-weight:700; margin-top:clamp(8px, 0.67cqh + 3.67px, 10px); }
+.reading-listen-btn:active{ transform:scale(.97); }
+.reading-listen-btn .ic{ width:18px; height:18px; flex-shrink:0; }
+.reading-listen-btn.playing{ background:linear-gradient(150deg,var(--blue-2),var(--blue)); color:var(--on-blue); }
 .face .word{ font-size:clamp(26px, 2.67cqh + 8.67px, 34px); font-weight:800; letter-spacing:-.3px; line-height:1.3; }
 .face.front .hint{ position:absolute; bottom:18px; font-size:clamp(10.5px, 0.5cqh + 7.25px, 12px); color:var(--faint); display:flex; align-items:center; gap:5px; }
 .face.front .hint .ic{ width:clamp(11px, 0.67cqh + 6.67px, 13px); height:clamp(11px, 0.67cqh + 6.67px, 13px); }
@@ -22767,6 +22771,10 @@ let readingShuffled = null; // per-exercise: [{ options:[...], answer:idx }]
 let readingAnswers = [];    // whether each question was answered correctly on the first try, in shuffled order
 let readingPicked = null;   // option index picked for the current question once it's SOLVED (null = not yet solved)
 let readingWrongTries = []; // option indices already tried and rejected for the current question
+let readingChunks = [];     // sentence-level playback units for reading the passage aloud: [{ text }]
+let readingChunkIdx = 0;    // index of the chunk currently playing / paused at
+let readingPlaying = false;
+let readingPlayToken = 0;   // invalidates stray onend callbacks from a canceled/superseded playback chain
 
 function isReadingLocked(ex){ return !isUnlocked() && ex.id!==FREE_READING_ID; }
 function readingResult(id){ return (LS.get("et_reading_scores", {}) || {})[id]; }
@@ -22808,10 +22816,19 @@ function setReadingLevel(l){ readingLevel = l; renderReadingList(); }
 function openReadingExercise(idx){
   const ex = READING_EX[idx];
   if(isReadingLocked(ex)){ goPaywall("reading"); return; }
+  stopReadingPlayback();
   readingIdx = idx;
   resetReadingAttempt();
   go("reading-detail", {bypassLock:true});
   renderReadingDetail();
+}
+function buildReadingChunks(ex){
+  const chunks = [];
+  ex.paragraphs.forEach(p=>{
+    const sentences = (p.match(/[^.!?]+[.!?]*(?:\s+|$)/g) || [p]).map(s=>s.trim()).filter(Boolean);
+    sentences.forEach(text=>{ chunks.push({ text }); });
+  });
+  return chunks;
 }
 function resetReadingAttempt(){
   const ex = READING_EX[readingIdx];
@@ -22821,6 +22838,65 @@ function resetReadingAttempt(){
   readingAnswers = [];
   readingPicked = null;
   readingWrongTries = [];
+  readingChunks = buildReadingChunks(ex);
+  readingChunkIdx = 0;
+  readingPlaying = false;
+}
+function stopReadingPlayback(){
+  readingPlayToken++;
+  if("speechSynthesis" in window) speechSynthesis.cancel();
+  readingPlaying = false;
+}
+function playReadingFromChunk(startIdx){
+  if(!("speechSynthesis" in window) || !readingChunks.length) return;
+  if(!Number.isFinite(startIdx)) startIdx = 0;
+  maybeSuggestBetterVoice();
+  readingPlayToken++;
+  const myToken = readingPlayToken;
+  speechSynthesis.cancel();
+  readingPlaying = true;
+  readingChunkIdx = Math.max(0, Math.min(startIdx, readingChunks.length-1));
+  updateReadingPlayUI();
+  const voice = pickSoftVoice("en-US");
+  const lastIdx = readingChunks.length-1;
+  // Queue every remaining utterance up front rather than waiting for each one's onend before
+  // speaking the next — see playListeningFromChunk() for why this matters (choppy/stalled audio).
+  for(let i=readingChunkIdx; i<=lastIdx; i++){
+    const u = new SpeechSynthesisUtterance(readingChunks[i].text);
+    u.lang = "en-US"; u.rate = speechRate; u.pitch = 1.0;
+    if(voice) u.voice = voice;
+    _keepAlive(u);
+    u.onstart = ()=>{
+      if(myToken!==readingPlayToken) return;
+      readingChunkIdx = i;
+    };
+    if(i===lastIdx){
+      u.onend = ()=>{
+        if(myToken!==readingPlayToken) return;
+        readingPlaying = false;
+        readingChunkIdx = 0;
+        updateReadingPlayUI();
+      };
+    }
+    speechSynthesis.speak(u);
+  }
+}
+function pauseReading(){
+  readingPlayToken++;
+  if("speechSynthesis" in window) speechSynthesis.cancel();
+  readingPlaying = false;
+  updateReadingPlayUI();
+}
+function toggleReadingPlay(){
+  if(readingPlaying){ pauseReading(); return; }
+  playReadingFromChunk(readingChunkIdx>=readingChunks.length-1 ? 0 : readingChunkIdx);
+}
+function updateReadingPlayUI(){
+  const btn = document.getElementById("reading-listen-btn");
+  if(!btn) return;
+  btn.classList.toggle("playing", readingPlaying);
+  btn.setAttribute("aria-label", readingPlaying ? "Pause" : "Listen");
+  btn.innerHTML = `${icon(readingPlaying?'pause':'volume_2')} <span>${readingPlaying?'Playing… · กำลังเล่น':'Listen · ฟังออกเสียง'}</span>`;
 }
 function chooseReadingAnswer(oIdx){
   if(readingPicked!==null || readingWrongTries.includes(oIdx)) return;
@@ -22843,6 +22919,7 @@ function nextReadingQuestion(){
   if(readingQIdx>=ex.questions.length){ finishReadingQuiz(); } else { renderReadingDetail(); }
 }
 function finishReadingQuiz(){
+  stopReadingPlayback();
   const ex = READING_EX[readingIdx];
   const score = readingAnswers.filter(Boolean).length;
   const scores = LS.get("et_reading_scores", {}) || {};
@@ -22852,10 +22929,11 @@ function finishReadingQuiz(){
   renderReadingDetail();
 }
 function replayReading(){
+  stopReadingPlayback();
   resetReadingAttempt();
   renderReadingDetail();
 }
-function readingBackToList(){ go("reading"); }
+function readingBackToList(){ stopReadingPlayback(); go("reading"); }
 
 function renderReadingDetail(){
   const ex = READING_EX[readingIdx];
@@ -22869,6 +22947,7 @@ function renderReadingDetail(){
     const passageHtml = `
       <span class="gj-role-tag" style="color:var(--blue-2);background:rgba(var(--blue-rgb),.14);border-color:rgba(var(--blue-rgb),.4);">${ex.level} · Reading</span>
       <div style="font-size:clamp(11.5px, 0.5cqh + 8.25px, 13px);color:var(--thai);margin-top:clamp(6px, 0.67cqh + 1.67px, 8px);">${ex.titleTh}</div>
+      <button class="reading-listen-btn${readingPlaying?' playing':''}" id="reading-listen-btn" onclick="toggleReadingPlay()" aria-label="${readingPlaying?'Pause':'Listen'}">${icon(readingPlaying?'pause':'volume_2')} <span>${readingPlaying?'Playing… · กำลังเล่น':'Listen · ฟังออกเสียง'}</span></button>
       <div class="stat-card reading-passage" style="margin-top:clamp(10px, 1.33cqh + 3.33px, 14px);">
         ${ex.paragraphs.map(p=>`<p>${wordsToSpansHTML(p, "reading-passage-thai-pop")}</p>`).join("")}
       </div>
