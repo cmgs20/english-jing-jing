@@ -332,20 +332,6 @@ p.sub{ color:var(--muted); font-size:clamp(12.5px, 0.5cqh + 9.25px, 14px); margi
    don't have enough content to grow into without looking absurd, so
    any leftover height reads better as balanced margin around a
    normal-sized card than as one large gap stranded above the tracker. */
-.home-tracker{
-  border-radius:24px; padding:clamp(12px, 4cqh - 14px, 24px) clamp(18px, 3.5cqw, 34px); position:relative; overflow:hidden;
-  background:linear-gradient(135deg,rgba(var(--blue-rgb),.18),rgba(var(--violet-rgb),.14)); border:1px solid rgba(var(--hairline-rgb),.08);
-  display:flex; align-items:center; gap:clamp(10px, 4cqh - 16px, 22px); flex-shrink:0; flex-wrap:wrap;
-}
-.home-tracker::after{ content:""; position:absolute; right:-40px; top:-40px; width:140px; height:140px; border-radius:50%; background:radial-gradient(circle,rgba(var(--blue-2-rgb),.35),transparent 70%); pointer-events:none; }
-.home-ring{ width:clamp(52px, 14.67cqh - 43.3px, 96px); height:clamp(52px, 14.67cqh - 43.3px, 96px); border-radius:50%; flex-shrink:0; display:flex; align-items:center; justify-content:center; }
-.home-ring-inner{ width:clamp(40px, 12cqh - 38px, 76px); height:clamp(40px, 12cqh - 38px, 76px); border-radius:50%; background:var(--inset); display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; }
-.home-ring-inner b{ font-size:clamp(15px, 3cqh - 4.5px, 24px); font-weight:800; line-height:1; }
-.home-ring-inner span{ font-size:8.5px; color:var(--faint); }
-.home-tracker-txt{ flex:1; z-index:1; }
-.home-tracker-txt b{ font-size:15px; font-weight:800; display:block; }
-.home-tracker-title-th{ display:block; font-size:11px; color:var(--thai); margin-top:1px; }
-.home-tracker-txt p{ margin:2px 0 0; font-size:12.5px; color:var(--muted); line-height:1.4; }
 .home-cta{ margin-left:auto; flex-shrink:0; z-index:1; display:inline-flex; align-items:center; gap:6px; font-size:12.5px; font-weight:800; color:var(--on-blue);
   background:linear-gradient(180deg,var(--blue-2),var(--blue)); padding:7px 13px; border-radius:999px; box-shadow:0 8px 20px -6px rgba(var(--blue-rgb),.7); cursor:pointer; border:none; font-family:inherit; }
 .home-cta .ic{ width:14px; height:14px; }
@@ -361,7 +347,7 @@ p.sub{ color:var(--muted); font-size:clamp(12.5px, 0.5cqh + 9.25px, 14px); margi
 .home-nudge-cta{ margin-top:9px; margin-left:0; font-size:12px; padding:6px 13px; box-shadow:none; }
 .home-nudge-close{ background:none; border:none; color:var(--muted); font-size:15px; line-height:1; padding:3px 5px; cursor:pointer; flex-shrink:0; font-family:inherit; }
 
-/* The home-hdr/home-grid/home-tracker rules above already scale
+/* The home-hdr/home-grid rules above already scale
    fluidly with #app's own height via cqh, so a short phone and a
    capped-height desktop card both get exactly the icon/padding size
    that fits — no separate "compact" breakpoint needed. The one thing
@@ -421,10 +407,6 @@ p.sub{ color:var(--muted); font-size:clamp(12.5px, 0.5cqh + 9.25px, 14px); margi
   .home-grid .big-btn .emoji .ic{ width:clamp(20px, 10.67cqh - 49.3px, 36px); height:clamp(20px, 10.67cqh - 49.3px, 36px); }
   .home-grid .big-btn .label{ font-size:clamp(12.5px, 3cqh - 7px, 17px); }
   .home-grid .big-btn .desc-th{ font-size:clamp(10px, 2cqh - 3px, 13px); }
-  .home-tracker{ padding:clamp(12px, 8cqh - 40px, 24px) clamp(18px, 3.5cqw, 34px); gap:clamp(10px, 8cqh - 42px, 22px); }
-  .home-ring{ width:clamp(52px, 29.33cqh - 138.7px, 96px); height:clamp(52px, 29.33cqh - 138.7px, 96px); }
-  .home-ring-inner{ width:clamp(40px, 24cqh - 116px, 76px); height:clamp(40px, 24cqh - 116px, 76px); }
-  .home-ring-inner b{ font-size:clamp(15px, 6cqh - 24px, 24px); }
 }
 
 .progress-row{ display:flex; align-items:center; gap:10px; margin-top:10px; }
@@ -4580,7 +4562,7 @@ const VOCAB = [
 ["บริสุทธิ์","pure","A2","Adjectives"],["ปลอดภัย","safe (not in danger)","A1","Adjectives"],["สั้น","short (in length)","A1","Adjectives"],
 ["มั่นคง","stable (steady)","A2","Adjectives"],["มีคุณสมบัติครบ","qualified","B1","Adjectives"],["สง่างามอย่างราชินี","queenly","B1","Adjectives"],
 ["แปลกประหลาด","queer","B1","Adjectives"],["รวดเร็ว","quick","A1","Adjectives"],["เงียบ","quiet","A1","Adjectives"],
-["เงียบกว่า","quieter","A2","Adjectives"],["แปลกๆ / มีเสน่ห์แบบแปลก","quirky","B1","Adjectives"],["เพ้อฝันเกินจริง","quixotic","B1","Adjectives"],
+["เงียบกว่า","quieter","A2","Adjectives"],["แปลกๆ / มีเสน่ห์แบบแปลก","quirky","B1","Adjectives"],
 ["เป็นรัศมี","radial","B1","Adjectives"],["รวดเร็ว","rapid","A2","Adjectives"],["หายาก","rare","A2","Adjectives"],
 ["มีเหตุผล","rational","B1","Adjectives"],["พร้อม","ready","A1","Adjectives"],["แท้จริง","real","A1","Adjectives"],
 ["สมจริง / เป็นไปได้จริง","realistic","B1","Adjectives"],["ด้านหลัง","rear","B1","Adjectives"],["เมื่อเร็วๆ นี้","recent","A2","Adjectives"],
@@ -12474,15 +12456,6 @@ function paywallPersonalLine(){
   return null;
 }
 function updateTrackerUI(){
-  const secs = getDayMinutes(todayKey());
-  const mins = Math.floor(secs/60);
-  const pct = Math.min(100, Math.round(mins/dailyGoalMin*100));
-  const minsTodayEl = document.getElementById("home-mins-today");
-  const minsLabelEl = document.getElementById("home-mins-label");
-  const ringEl = document.getElementById("home-ring");
-  if(minsTodayEl) minsTodayEl.textContent = mins;
-  if(minsLabelEl) minsLabelEl.textContent = mins>=dailyGoalMin ? "Today's goal reached!" : (dailyGoalMin-mins)+" min to hit today's goal.";
-  if(ringEl) ringEl.style.background = `conic-gradient(var(--blue) 0deg ${pct*3.6}deg, rgba(var(--hairline-rgb),.10) ${pct*3.6}deg 360deg)`;
   const streak = computeStreak();
   document.getElementById("home-streak").textContent = streak;
   if(document.getElementById("screen-tracker").classList.contains("active")) renderTracker();
@@ -20152,7 +20125,7 @@ const GRAMMAR_CURRIC = [
       practice:[
         { kind:'pick', label:'-ing', prompt:'She will be ___.', options:['studying','study'], answer:0 },
         { kind:'pick', label:'Negative', prompt:'I ___ be sleeping at midnight.', options:['won’t','don’t'], answer:0 },
-        { kind:'build', label:'Word order', prompt:'Build:', target:'They will be traveling tomorrow.',
+        { kind:'build', label:'Word order', prompt:'Build:', target:'They will be traveling.',
           slots:[{role:'subject'},{role:'aux'},{role:'verb'}], answer:['They','will be','traveling'], distractors:['travel','are'] },
       ],
     },
