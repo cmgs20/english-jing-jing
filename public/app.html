@@ -1769,17 +1769,23 @@ function rowFg(i){ return ROW_FG[i%ROW_FG.length]; }
 /* =========================================================
    TEXT-TO-SPEECH (pronunciation practice)
    ========================================================= */
+const _isAndroid = /Android/i.test(navigator.userAgent);
 if("speechSynthesis" in window){
   speechSynthesis.getVoices();
   speechSynthesis.onvoiceschanged = () => { speechSynthesis.getVoices(); };
-  // Chrome silently halts speechSynthesis after ~15s of continuous speech unless it's
-  // paused/resumed periodically — this is what caused sentences to cut off mid-word.
-  setInterval(() => {
-    if(speechSynthesis.speaking && !speechSynthesis.paused){
-      speechSynthesis.pause();
-      speechSynthesis.resume();
-    }
-  }, 5000);
+  // Chrome DESKTOP silently halts speechSynthesis after ~15s of continuous speech unless
+  // it's paused/resumed periodically — this is what caused sentences to cut off mid-word.
+  // Android's speechSynthesis doesn't have that bug, and calling pause()/resume() there
+  // triggers a different one: resume() silently fails to continue, which stalls the whole
+  // queue — later chunks never start and playback looks stuck in "playing" forever.
+  if(!_isAndroid){
+    setInterval(() => {
+      if(speechSynthesis.speaking && !speechSynthesis.paused){
+        speechSynthesis.pause();
+        speechSynthesis.resume();
+      }
+    }, 5000);
+  }
 }
 // Safari (especially iOS) can garbage-collect an utterance mid-speech if nothing keeps a
 // JS reference to it, silently killing the audio — hold a reference until it's done.
