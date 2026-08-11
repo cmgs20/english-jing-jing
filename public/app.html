@@ -741,6 +741,8 @@ p.sub{ color:var(--muted); font-size:clamp(12.5px, 0.5cqh + 9.25px, 14px); margi
 .listening-turn:last-child{ border-bottom:none; }
 .listening-turn-who{ font-size:clamp(10px, 0.5cqh + 6.75px, 11.5px); font-weight:800; color:var(--accent2); flex-shrink:0; width:74px; }
 .listening-turn-text{ font-size:clamp(12.5px, 0.5cqh + 9.25px, 14px); color:var(--text); line-height:1.5; }
+.listening-turn-text .word, .listening-q-text .word{ cursor:pointer; border-bottom:1px dashed rgba(var(--hairline-rgb),.3); padding-bottom:1px; }
+.listening-turn-text .word:active, .listening-turn-text .word.tapped, .listening-q-text .word:active, .listening-q-text .word.tapped{ color:var(--accent2); border-color:var(--accent2); }
 
 .gj-formula-card{ background:var(--inset); border:1px solid rgba(var(--green-rgb),.27); border-radius:18px; padding:clamp(12px, 1.33cqh + 3.33px, 16px) clamp(11px, 1.33cqh + 2.33px, 15px); margin-top:11px; }
 .gj-formula-label{ font-size:clamp(10px, 0.33cqh + 7.83px, 11px); font-weight:800; letter-spacing:.6px; color:var(--good); text-transform:uppercase; margin-bottom:11px; display:flex; align-items:center; gap:6px; }
@@ -1749,20 +1751,49 @@ function rowFg(i){ return ROW_FG[i%ROW_FG.length]; }
 if("speechSynthesis" in window){
   speechSynthesis.getVoices();
   speechSynthesis.onvoiceschanged = () => { speechSynthesis.getVoices(); };
+  // Chrome silently halts speechSynthesis after ~15s of continuous speech unless it's
+  // paused/resumed periodically — this is what caused sentences to cut off mid-word.
+  setInterval(() => {
+    if(speechSynthesis.speaking && !speechSynthesis.paused){
+      speechSynthesis.pause();
+      speechSynthesis.resume();
+    }
+  }, 5000);
 }
+// Safari (especially iOS) can garbage-collect an utterance mid-speech if nothing keeps a
+// JS reference to it, silently killing the audio — hold a reference until it's done.
+const _activeUtterances = new Set();
+function _keepAlive(u){
+  _activeUtterances.add(u);
+  const release = () => _activeUtterances.delete(u);
+  u.addEventListener("end", release);
+  u.addEventListener("error", release);
+}
+const VOICE_QUALITY_RE = /natural|neural|enhanced|premium|studio/i;
 function pickSoftVoice(lang){
   if(!("speechSynthesis" in window)) return null;
   const voices = speechSynthesis.getVoices();
   if(!voices.length) return null;
+  const langVoices = lang==="en-US"
+    ? voices.filter(v=>v.lang && v.lang.startsWith("en"))
+    : voices.filter(v=>v.lang===lang || (v.lang && v.lang.startsWith(lang.split("-")[0])));
+  const pool = langVoices.length ? langVoices : voices;
   if(lang==="en-US"){
     const preferredNames = ["Samantha","Ava","Google US English","Microsoft Aria Online (Natural) - English (United States)","Microsoft Jenny Online (Natural) - English (United States)","Zoe"];
     for(const name of preferredNames){
-      const v = voices.find(v=>v.name===name);
+      const v = pool.find(v=>v.name===name);
       if(v) return v;
     }
-    return voices.find(v=>v.lang==="en-US") || voices.find(v=>v.lang && v.lang.startsWith("en")) || null;
   }
-  return voices.find(v=>v.lang===lang) || voices.find(v=>v.lang && v.lang.startsWith(lang.split("-")[0])) || null;
+  // Any voice explicitly marketed as a higher-quality neural/natural engine, even one we
+  // don't know by name — covers Edge/Windows/Android voices that vary by OS build.
+  const quality = pool.find(v=>VOICE_QUALITY_RE.test(v.name));
+  if(quality) return quality;
+  // Remote (non-local) voices are usually cloud-rendered and sound noticeably less robotic
+  // than the on-device engine, so prefer them over a same-language local voice.
+  const remote = pool.find(v=>v.localService===false);
+  if(remote) return remote;
+  return pool[0] || null;
 }
 let speechRate = 0.55;
 function setSpeechRate(r){
@@ -1780,6 +1811,7 @@ function speak(text, lang, rate){
   utter.pitch = 1.0;
   const voice = pickSoftVoice(lang);
   if(voice) utter.voice = voice;
+  _keepAlive(utter);
   speechSynthesis.speak(utter);
 }
 function speakFlashBack(){ speak(document.getElementById("fc-back").textContent, "en-US"); }
@@ -13905,6 +13937,38 @@ function recordDrillAnswer(it, isCorrect){
   }
   saveDrillMistakes();
 }
+/* OBJECT_BUCKETS (RECOGNIZE/HANDLE/DISCOVER/WONDER/REPLY/... above) intentionally maps an
+   object phrase's last word to that whole phrase's translation, so tapping "face" inside its
+   own generated example ("her face") shows the full contextual meaning in one tap. That's fine
+   there, but it silently clobbered the plain VOCAB translation for that word everywhere else —
+   and once the Listening module started running free-standing dialogue text through the same
+   DICT, words like "face", "client", "room" showed a leftover phrase ("her face", "a difficult
+   client") instead of the word itself. Same root cause as the plain word-vs-word category
+   collisions below ("boarding" landing on an unrelated hotel-vocab "board" entry, etc). This
+   restores the canonical VOCAB meaning for the clobbered bases, and adds the missing inflected
+   form for the others, without touching the base word's original (correct, for its own vocab
+   category) entry. */
+Object.assign(DICT, {
+  "face":"หน้า", "client":"ลูกค้า", "decision":"การตัดสินใจ", "room":"ห้อง",
+  "question":"คำถาม", "idea":"ความคิด",
+  "boarding":"การขึ้นเครื่อง / การขึ้นพาหนะ",
+  "degrees":"องศา",
+  "patient's":"ของผู้ป่วย",
+  "reserved":"จองไว้แล้ว / สงวนไว้",
+  "booking":"การจอง",
+  "according":"ตามที่ (according to)",
+  "groceries":"ของชำ (ของที่ซื้อจากร้านขายของชำ)",
+  "bugs":"บั๊ก / ข้อผิดพลาดในโปรแกรม",
+  "revised":"ที่แก้ไข / ปรับปรุงแล้ว",
+  "stemmed":"มีที่มาจาก (stem from)",
+  "shipping":"การจัดส่ง",
+  "minoring":"เรียนวิชาโท (ควบคู่กับวิชาเอก)",
+  "marks":"รอย / คราบ (บนพื้นผิว) / คะแนน",
+  "ruled":"ตัดสิน / วินิจฉัย (ทางกฎหมาย)",
+  "tracks":"แนวทาง / สายอาชีพ",
+  "raising":"การหยิบยกขึ้นมาพูด",
+  "heading":"กำลังมุ่งหน้าไป",
+});
 /* DICT is keyed by exact spelling (mostly base/singular forms), but the
    hand-written example sentences tap-test real inflected words in context
    ("stories", "bumped", "leaking") — an audit of every generated example
@@ -20743,6 +20807,9 @@ function listeningVoiceFor(speakerIdx){
     const v = voices.find(v=>v.name===name);
     if(v) return { voice:v, pitch:1.0, rate:1.0 };
   }
+  // Any other high-quality voice distinct from the base speaker, even one we don't know by name.
+  const qualityAlt = voices.find(v=>v.lang && v.lang.startsWith("en") && VOICE_QUALITY_RE.test(v.name) && (!base || v.name!==base.name));
+  if(qualityAlt) return { voice:qualityAlt, pitch:1.0, rate:1.0 };
   const alt = voices.find(v=>v.lang && v.lang.startsWith("en") && (!base || v.name!==base.name));
   if(alt) return { voice:alt, pitch:1.0, rate:1.0 };
   // Some Android system TTS engines (common on budget/MIUI phones) expose exactly one
@@ -20781,6 +20848,7 @@ function playListeningFromChunk(startIdx){
     const u = new SpeechSynthesisUtterance(chunk.text);
     u.lang = "en-US"; u.rate = speechRate * (v.rate || 1); u.pitch = v.pitch;
     if(v.voice) u.voice = v.voice;
+    _keepAlive(u);
     u.onstart = ()=>{
       if(myToken!==listeningPlayToken) return;
       listeningChunkIdx = i;
@@ -20951,16 +21019,19 @@ function renderListeningDetail(){
         ${listeningPlayedOnce ? `<button class="ghost-btn small" style="margin-top:clamp(10px, 1.33cqh + 3.33px, 14px);" onclick="toggleListeningTranscript()">${listeningShowTranscript?'Hide transcript · ซ่อนบทสนทนา':'Show transcript · แสดงบทสนทนา'}</button>` : ""}
       </div>
       ${listeningShowTranscript ? `<div class="stat-card" style="margin-top:clamp(9px, 1cqh + 2.5px, 12px);">${ex.script.map(t=>`
-        <div class="listening-turn"><div class="listening-turn-who">${t.who}</div><div class="listening-turn-text">${t.text}</div></div>
-      `).join("")}</div>` : ""}
+        <div class="listening-turn"><div class="listening-turn-who">${t.who}</div><div class="listening-turn-text">${wordsToSpansHTML(t.text, "listening-transcript-thai-pop")}</div></div>
+      `).join("")}
+        <div class="thai-pop" id="listening-transcript-thai-pop">${icon('hand')} <span>tap a word for its Thai translation · แตะคำเพื่อดูคำแปล</span></div>
+      </div>` : ""}
     `;
     body.innerHTML = `
       ${playerHtml}
       <div class="card-counter" style="margin-top:clamp(18px, 2cqh + 5px, 24px);">Question ${listeningQIdx+1} / ${ex.questions.length} <span style="color:var(--thai);">· ข้อที่ ${listeningQIdx+1} จาก ${ex.questions.length}</span></div>
       <div class="progress-bar"><div class="progress-fill" style="width:${Math.round(listeningQIdx/ex.questions.length*100)}%"></div></div>
       <div class="stat-card" style="margin-top:clamp(12px, 1.33cqh + 3.33px, 16px);">
-        <div style="font-size:clamp(13px, 0.67cqh + 8.67px, 15px);font-weight:700;color:var(--text);line-height:1.5;">${ex.questions[listeningQIdx].q}</div>
+        <div class="listening-q-text" style="font-size:clamp(13px, 0.67cqh + 8.67px, 15px);font-weight:700;color:var(--text);line-height:1.5;">${wordsToSpansHTML(ex.questions[listeningQIdx].q, "listening-question-thai-pop")}</div>
         <div style="font-size:clamp(11.5px, 0.5cqh + 8.25px, 13px);color:var(--thai);margin-top:5px;">${ex.questions[listeningQIdx].qTh}</div>
+        <div class="thai-pop" id="listening-question-thai-pop" style="margin-top:10px;">${icon('hand')} <span>tap a word for its Thai translation · แตะคำเพื่อดูคำแปล</span></div>
         <div class="gj-choice-opts">
           ${q.options.map((opt,i)=>{
             const letter = String.fromCharCode(65+i);
@@ -22307,16 +22378,15 @@ function speakChain(words){
   if(!("speechSynthesis" in window) || !words.length) return;
   speechSynthesis.cancel();
   const voice = pickSoftVoice("en-US");
-  let i = 0;
-  function next(){
-    if(i>=words.length) return;
-    const u = new SpeechSynthesisUtterance(words[i]);
+  // Queue every word up front instead of waiting for each one's onend before speaking the
+  // next — the wait-then-speak chain left an audible gap of dead air between words.
+  words.forEach(word=>{
+    const u = new SpeechSynthesisUtterance(word);
     u.lang = "en-US"; u.rate = speechRate; u.pitch = 1.0;
     if(voice) u.voice = voice;
-    u.onend = ()=>{ i++; next(); };
+    _keepAlive(u);
     speechSynthesis.speak(u);
-  }
-  next();
+  });
 }
 
 function nextPronCard(){
