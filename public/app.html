@@ -19718,8 +19718,8 @@ const GRAMMAR_CURRIC = [
         { kind:'build', label:'Word order', prompt:'Build:', target:'She plays tennis.', targetTh:"เธอเล่นเทนนิส",
           slots:[{role:'subject'},{role:'verb'},{role:'object'}], answer:['She','plays','tennis'], distractors:['play','tennises'] },
         { kind:'pick', label:'He / she / it', prompt:'The baby ___ a lot.', promptTh:"ทารกนอนเยอะ", options:['sleeps','sleep'], answer:0 },
-        { kind:'build', label:'Word order', prompt:'Build:', target:'They drink coffee.', targetTh:"พวกเขาดื่มกาแฟ",
-          slots:[{role:'subject'},{role:'verb'},{role:'object'}], answer:['They','drink','coffee'], distractors:['drinks','a coffee'] },
+        { kind:'build', label:'Word order', prompt:'Build:', target:'We watch films.', targetTh:"พวกเราดูหนัง",
+          slots:[{role:'subject'},{role:'verb'},{role:'object'}], answer:['We','watch','films'], distractors:['watches','film'] },
         { kind:'errors', label:'Find the mistakes', tokens:[
           'My','sister',
           { err:true, word:'work', fix:'works', note:'"sister" is he/she/it, add -s.', noteTh:'"sister" คือ he/she/it ต้องเติม -s ที่กริยา' },
@@ -20085,8 +20085,8 @@ const GRAMMAR_CURRIC = [
       quiz:{ q:'“We ___ going to leave.”', qTh:'“We ___ going to leave.”', options:['are','is'], answer:0 },
       practice:[
         { kind:'pick', label:'be', prompt:'She ___ going to study.', promptTh:"เธอกำลังจะไปเรียน", options:['is','are'], answer:0 },
-        { kind:'build', label:'Word order', prompt:'Build:', target:'She is going to study.', targetTh:"เธอกำลังจะไปเรียน",
-          slots:[{role:'subject'},{role:'be'},{role:'aux'},{role:'verb'}], answer:['She','is','going to','study'], distractors:['are','studies'] },
+        { kind:'build', label:'Word order', prompt:'Build:', target:'I am going to cook.', targetTh:"ฉันกำลังจะทำอาหาร",
+          slots:[{role:'subject'},{role:'be'},{role:'aux'},{role:'verb'}], answer:['I','am','going to','cook'], distractors:['is','cooking'] },
         { kind:'pick', label:'Question', prompt:'___ they going to leave?', promptTh:"พวกเขากำลังจะออกไปไหม", options:['Are','Is'], answer:0 },
         { kind:'pick', label:'be', prompt:'I ___ going to call him.', promptTh:"ฉันกำลังจะโทรหาเขา", options:['am','is'], answer:0 },
         { kind:'pick', label:"Negative", prompt:"He is ___ going to come.", promptTh:"เขาจะไม่มา", options:["not","no"], answer:0 },
