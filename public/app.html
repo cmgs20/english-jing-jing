@@ -1639,7 +1639,7 @@ if("serviceWorker" in navigator){
         </div>
       </div>
       <div style="display:flex;gap:clamp(6px, 0.67cqh + 1.67px, 8px);justify-content:center;flex-wrap:wrap;margin:2px 0 4px;">
-        <span style="font-size:clamp(10px, 0.5cqh + 6.75px, 11.5px);color:var(--muted);background:var(--inset);border-radius:20px;padding:clamp(5px, 0.33cqh + 2.83px, 6px) clamp(9px, 1cqh + 2.5px, 12px);white-space:nowrap;">คำศัพท์ <span data-stat="vocab">5,822</span> คำ</span>
+        <span style="font-size:clamp(10px, 0.5cqh + 6.75px, 11.5px);color:var(--muted);background:var(--inset);border-radius:20px;padding:clamp(5px, 0.33cqh + 2.83px, 6px) clamp(9px, 1cqh + 2.5px, 12px);white-space:nowrap;">คำศัพท์ <span data-stat="vocab">6,073</span> คำ</span>
         <span style="font-size:clamp(10px, 0.5cqh + 6.75px, 11.5px);color:var(--muted);background:var(--inset);border-radius:20px;padding:clamp(5px, 0.33cqh + 2.83px, 6px) clamp(9px, 1cqh + 2.5px, 12px);white-space:nowrap;">ไวยากรณ์ <span data-stat="lessons">249</span> บทเรียน</span>
         <span style="font-size:clamp(10px, 0.5cqh + 6.75px, 11.5px);color:var(--muted);background:var(--inset);border-radius:20px;padding:clamp(5px, 0.33cqh + 2.83px, 6px) clamp(9px, 1cqh + 2.5px, 12px);white-space:nowrap;">กริยา <span data-stat="verbs">233</span> คำ ผัน 7 tense</span>
         <span style="font-size:clamp(10px, 0.5cqh + 6.75px, 11.5px);color:var(--muted);background:var(--inset);border-radius:20px;padding:clamp(5px, 0.33cqh + 2.83px, 6px) clamp(9px, 1cqh + 2.5px, 12px);white-space:nowrap;">เสียงยาก <span data-stat="sounds">47</span> เสียง</span>
@@ -2050,6 +2050,7 @@ const VOCAB = [
 ["เมษายน","April","A2","Months"],["พฤษภาคม","May","A2","Months"],["มิถุนายน","June","A2","Months"],
 ["กรกฎาคม","July","A2","Months"],["สิงหาคม","August","A2","Months"],["กันยายน","September","A2","Months"],
 ["ตุลาคม","October","A2","Months"],["พฤศจิกายน","November","A2","Months"],["ธันวาคม","December","A2","Months"],
+["ทุกๆ สองเดือน","bimonthly","B2","Months"],["ปีอธิกสุรทิน","leap year","B2","Months"],
 // Seasons
 ["ฤดูใบไม้ผลิ","spring","A2","Weather"],["ฤดูร้อน","summer","A2","Weather"],
 ["ฤดูใบไม้ร่วง","autumn","A2","Weather"],["ฤดูหนาว","winter","A2","Weather"],
@@ -2125,6 +2126,8 @@ const VOCAB = [
 ["กะหล่ำปลี","cabbage","A2","Fruit & Veg"],["ผักกาดแก้ว","lettuce","A2","Fruit & Veg"],["เห็ด","mushroom","A2","Fruit & Veg"],
 // Meat & fish
 ["เนื้อหมู","pork","A1","Meat & Fish"],["เนื้อวัว","beef","A1","Meat & Fish"],["กุ้ง","shrimp / prawn","A2","Meat & Fish"],["ปู","crab","A2","Meat & Fish"],
+["สัตว์ปีก","poultry","B2","Meat & Fish"],["เนื้อแล่ไม่มีก้าง","fillet","B2","Meat & Fish"],["เครื่องใน","offal","B2","Meat & Fish"],
+["สัตว์น้ำมีเปลือก","shellfish","B2","Meat & Fish"],
 // Bakery & dairy
 ["เนย","butter","A1","Bakery & Dairy"],["ชีส","cheese","A1","Bakery & Dairy"],["โยเกิร์ต","yoghurt","A2","Bakery & Dairy"],["แป้ง","flour","A2","Bakery & Dairy"],
 // Nutrition Labels
@@ -2987,6 +2990,7 @@ const VOCAB = [
 ["แหนบ","tweezers","A2","Injuries"],
 ["ยาเม็ด (ยาเม็ดชนิดหนึ่ง)","tablet","A2","Injuries"],
 ["เข็มฉีดยา","syringe (needle)","A2","Injuries"],
+["เอ็นฉีกขาด","torn ligament","B2","Injuries"],["อาการบาดเจ็บจากการใช้งานซ้ำๆ","repetitive strain injury","B2","Injuries"],
 ["หัวใจวาย","heart attack","A2","Illness"],
 ["โรคหลอดเลือดสมอง","stroke","B1","Illness"],
 ["อักเสบ","infection","A2","Illness"],
@@ -3060,6 +3064,7 @@ const VOCAB = [
 ["การรักษาโรคกระดูก","osteopathy","B1","Alternative Therapies"],
 ["นวดเท้า","reflexology","A2","Alternative Therapies"],
 ["การบำบัดด้วยน้ำทะเล","thalassotherapy","B2","Alternative Therapies"],
+["การบำบัดด้วยกลิ่นหอม","aromatherapy","B2","Alternative Therapies"],["การฝึกสติ","mindfulness","B2","Alternative Therapies"],
 ["คลินิกรักษาสัตว์","veterinary clinic","A2","Pets"],
 ["สัตว์เลี้ยง","pet","A1","Pets"],
 ["หมัด","flea","A2","Pets"],
@@ -3568,6 +3573,8 @@ const VOCAB = [
 // Bakery & Dairy (A-D list)
 ["ขนมปังกรอบ","biscuit","A1","Bakery & Dairy"],["ขนมปังก้อนกลม","bun","A2","Bakery & Dairy"],["ขนมหวาน","confection","B1","Bakery & Dairy"],
 ["ผลิตภัณฑ์จากนม","dairy","A2","Bakery & Dairy"],
+["ขนมปังแป้งเปรี้ยว","sourdough","B2","Bakery & Dairy"],["แป้งพัฟ","puff pastry","B2","Bakery & Dairy"],
+["ปราศจากแลคโตส","lactose-free","B2","Bakery & Dairy"],["วิปครีม","whipped cream","B2","Bakery & Dairy"],
 // Bank (A-D list)
 ["บัญชี","account","A2","Bank"],["เงินหนึ่งดอลลาร์","buck","B1","Bank"],["เช็ค","cheque","A2","Bank"],
 ["เหรียญ","coin","A1","Bank"],["เครดิต / ความน่าเชื่อถือ","credit","A2","Bank"],["หนี้สิน","debt","A2","Bank"],
@@ -3622,6 +3629,7 @@ const VOCAB = [
 ["วงจร / ปั่นจักรยาน","cycle","A2","Abstract"],
 // Dentist (A-D list)
 ["ฟันผุ / โพรง","cavity","A2","Dentist"],["เกี่ยวกับฟัน","dental","A2","Dentist"],
+["การขูดหินปูน","scaling","B2","Dentist"],["ฟันผุ","tooth decay","B2","Dentist"],
 // Eating Out (A-D list)
 ["บุฟเฟต์","buffet","A2","Eating Out"],["โรงอาหาร","cafeteria","A2","Eating Out"],["ตะเกียบ","chopsticks","A1","Eating Out"],
 ["จาน / อาหารจานหนึ่ง","dish","A1","Eating Out"],
@@ -3691,6 +3699,8 @@ const VOCAB = [
 ["การผจญภัย","adventure","A2","Leisure"],["ลายเซ็น","autograph","B1","Leisure"],["สโมสร","club","A2","Leisure"],
 // Life Events (A-D list)
 ["เจ้าสาว","bride","A2","Family"],["โลงศพ","coffin","B1","Abstract"],["ความตาย","death","A2","Life Events"],
+["ก้าวสำคัญของชีวิต","milestone","B2","Life Events"],["การเป็นพ่อแม่คน","parenthood","B2","Life Events"],
+["การแยกกันอยู่","separation","B2","Life Events"],["พินัยกรรม","will (legal)","B2","Life Events"],["วัยกลางคน","middle age","B2","Life Events"],
 // Music (A-D list)
 ["เพลงชาติ","anthem","B1","Music"],["ตลับเทป","cassette","B1","Music"],["การร้องประสานเสียง","chorus","B1","Music"],
 ["เพลงคู่","duet","B1","Music"],
@@ -3949,6 +3959,7 @@ const VOCAB = [
 ["ทุกๆ","every","A1","Basics"],["ข้อแก้ตัว","excuse","A2","Basics"],["น้อย / ไม่กี่","few","A1","Basics"],
 // Bathroom (E-H list)
 ["กดชักโครก / หน้าแดง","flush","A2","Bathroom"],
+["ท่อระบายน้ำ","drain","B2","Bathroom"],["ราวแขวนผ้าเช็ดตัว","towel rail","B2","Bathroom"],["พัดลมระบายอากาศ","ventilation","B2","Bathroom"],
 // Beauty & Hygiene (E-H list)
 ["สุขอนามัย","hygiene","B1","Abstract"],
 // Body (E-H list)
@@ -4174,6 +4185,7 @@ const VOCAB = [
 ["ถักไหมพรม","knit","A2","Arts & Crafts"],
 // Baby Goods (I-L list)
 ["ทารก","infant","A2","Baby Goods"],
+["เบาะนิรภัยสำหรับเด็กในรถ","car seat","B2","Baby Goods"],["ตารางเวลาให้นม","feeding schedule","B2","Baby Goods"],
 // Bank (I-L list)
 ["รายได้","income","A2","Bank"],["การประกันภัย","insurance","A2","Bank"],
 // Basics (I-L list)
@@ -4207,6 +4219,8 @@ const VOCAB = [
 ["เด็ก","kid (child)","A1","Family"],
 // Fast Food (I-L list)
 ["ซอสมะเขือเทศ","ketchup","A1","Fast Food"],
+["ภาชนะกลับบ้านแบบรีไซเคิลได้","recyclable takeaway box","B2","Fast Food"],["ยอดสั่งซื้อขั้นต่ำ","minimum order","B2","Fast Food"],
+["ภาชนะใช้ครั้งเดียว","single-use container","B2","Fast Food"],
 // Festivals (I-L list)
 ["งานชุมนุมรื่นเริง","jamboree","B2","Festivals"],
 // Food (I-L list)
@@ -4409,6 +4423,8 @@ const VOCAB = [
 ["หนึ่งล้าน","million","A1","Numbers"],["ลบ","minus","A1","Numbers"],["ตัวเลข / จำนวน","number","A1","Numbers"],
 // Nutrition Labels (M-O list)
 ["โภชนาการ","nutrition","A2","Nutrition Labels"],
+["สารให้ความหวานแทนน้ำตาล","artificial sweetener","B2","Nutrition Labels"],
+["ปริมาณที่แนะนำต่อวัน","recommended daily intake","B2","Nutrition Labels"],["ธัญพืชเต็มเมล็ด","whole grain","B2","Nutrition Labels"],
 // Office (M-O list)
 ["โน้ต / บันทึกย่อ","note","A1","Office"],
 // Optician (M-O list)
@@ -4425,6 +4441,8 @@ const VOCAB = [
 ["ตาข่าย / สุทธิ","net","A2","Sport"],
 // Thai Dishes (M-O list)
 ["ก๋วยเตี๋ยว","noodle","A1","Thai Dishes"],
+["น้ำพริก","chilli dip","B2","Thai Dishes"],["ข้าวซอย","khao soi (northern curry noodles)","B2","Thai Dishes"],
+["ปลาร้า","fermented fish","B2","Thai Dishes"],
 // Time (M-O list)
 ["สหัสวรรษ","millennium","B1","Time"],["ช่วงเวลาสั้นๆ","moment","A2","Time"],["เที่ยงวัน","noon","A1","Time"],
 // Tools & DIY (M-O list)
@@ -4543,6 +4561,8 @@ const VOCAB = [
 // Accessories (P-Z list)
 ["ไข่มุก","pearl","A2","Accessories"],["แหวน","ring (jewellery)","A1","Accessories"],["ทับทิม","ruby","A2","Accessories"],
 ["เงิน (โลหะ)","silver","A1","Accessories"],
+["เครื่องประดับแฟชั่นราคาย่อมเยา","costume jewellery","B2","Accessories"],["ตัวล็อกสร้อย","clasp","B2","Accessories"],
+["กำไลข้อเท้า","anklet","B2","Accessories"],["เข็มกลัด","brooch","B2","Accessories"],
 // Adjectives (P-Z list)
 ["เจ็บปวด","painful","A2","Adjectives"],["ซีด","pale","A2","Adjectives"],["ขนาน","parallel","B1","Adjectives"],
 ["สำคัญสูงสุด","paramount","B2","Adjectives"],["บางส่วน / ลำเอียง","partial","B1","Adjectives"],["เฉพาะเจาะจง","particular","B1","Adjectives"],
@@ -4624,11 +4644,14 @@ const VOCAB = [
 // Arts & Crafts (P-Z list)
 ["ลวดลาย / รูปแบบ","pattern","A2","Arts & Crafts"],["บทกวี","poetry","B1","Arts & Crafts"],["ภาพเหมือนบุคคล","portrait","B1","Arts & Crafts"],
 ["ปากกาขนนก","quill","B2","Arts & Crafts"],["วาดภาพร่าง","sketch","A2","Arts & Crafts"],["ด้าย","thread","A2","Arts & Crafts"],
+["แฟ้มผลงาน","portfolio","B2","Arts & Crafts"],["ฝีมือเชิงช่าง","craftsmanship","B2","Arts & Crafts"],
 // Athletics (P-Z list)
 ["ฝีเท้า / จังหวะก้าว","pace","B1","Athletics"],["เส้นทาง / ลู่วิ่ง","track","A2","Athletics"],
+["การออกตัวผิดกติกา","false start","B2","Athletics"],["สถิติส่วนตัวที่ดีที่สุด","personal best","B2","Athletics"],
 // Bank (P-Z list)
 ["เบี้ยประกัน","premium","B2","Bank"],["เงินหนึ่งปอนด์","quid","B1","Bank"],["อัตรา / ราคา","rate","A2","Bank"],
 ["ค่าธรรมเนียมเพิ่ม","surcharge","B1","Bank"],["โอน / ย้าย","transfer","A2","Bank"],
+["ดอกเบี้ยทบต้น","compound interest","B2","Bank"],["การอายัดบัญชี","to freeze an account","B2","Bank"],
 // Basics (P-Z list)
 ["ให้อภัย","pardon","A2","Basics"],["ได้โปรด","please","A1","Basics"],["มากมาย","plenty","A2","Basics"],
 ["หลาย","several","A2","Basics"],["จะ","shall","A2","Basics"],["ท่าน (คำเรียกผู้ชาย)","sir","A1","Basics"],
@@ -4637,15 +4660,23 @@ const VOCAB = [
 ["นี้","this","A1","Basics"],
 // Beach (P-Z list)
 ["ชายฝั่ง","shore","A2","Beach"],["สีแทน / ผิวแทน","tan","A2","Beach"],["กระแสน้ำขึ้นลง","tide","A2","Beach"],
+["กระแสน้ำดูดออกจากฝั่ง","rip current","B2","Beach"],["ธงเตือนภัยชายหาด","warning flag","B2","Beach"],
 // Beauty & Hygiene (P-Z list)
 ["น้ำหอม","perfume","A2","Beauty & Hygiene"],["น้ำยาล้าง","remover","B1","Beauty & Hygiene"],["สเปรย์","spray","A2","Beauty & Hygiene"],
+["การผลัดเซลล์ผิว","exfoliation","B2","Beauty & Hygiene"],["ผลิตภัณฑ์ปราศจากน้ำหอม","fragrance-free","B2","Beauty & Hygiene"],
 // Bedroom (P-Z list)
 ["ผ้านวม","quilt","A2","Bedroom"],
+["ผ้าปูที่นอนรัดมุม","fitted sheet","B2","Bedroom"],["ม่านทึบแสง","blackout curtain","B2","Bedroom"],["งีบหลับสั้นๆ","to take a nap","B2","Bedroom"],
 // Birds (P-Z list)
 ["นกกระทา","quail","B1","Birds"],
 // Body (P-Z list)
 ["ซี่โครง","rib","A2","Body"],["เส้น / ปอย","strand","B1","Body"],["รอยสัก","tattoo","A2","Body"],
 ["ฟัน","tooth","A1","Body"],["เอว","waist","A2","Body"],
+["ระบบภูมิคุ้มกัน","immune system","B2","Body"],["ระบบไหลเวียนโลหิต","circulatory system","B2","Body"],["ระบบประสาท","nervous system","B2","Body"],
+["ต่อมน้ำเหลือง","lymph node","B2","Body"],["กระดูกอ่อน","cartilage","B2","Body"],["ไขสันหลัง","spinal cord","B2","Body"],
+["หลอดลม","windpipe","B2","Body"],["การเผาผลาญพลังงาน","metabolism","B2","Body"],["ท่วงท่าการทรงตัว","posture","B2","Body"],
+["รูขุมขน","pore","B2","Body"],["เอ็นร้อยหวาย","Achilles tendon","B2","Body"],["ต่อมไทรอยด์","thyroid","B2","Body"],["ม่านตา","iris","B2","Body"],
+["กล้ามเนื้อแกนกลางลำตัว","core muscles","B2","Body"],
 // Business (P-Z list)
 ["บรรจุภัณฑ์","packaging","A2","Business"],["แผงควบคุม / คณะผู้อภิปราย","panel","B1","Business"],["นโยบาย","policy","B1","Business"],
 ["อาคารสถานที่","premises","B2","Business"],["ขั้นตอนปฏิบัติ","procedure","B1","Business"],["กระบวนการ","process","A2","Business"],
@@ -4662,26 +4693,41 @@ const VOCAB = [
 ["โกดังสินค้า","warehouse","B1","Business"],
 // Camping (P-Z list)
 ["เชือก","rope","A2","Camping"],
+["กองไฟตั้งแคมป์","campfire","B2","Camping"],["ป่าธรรมชาติที่ยังไม่ถูกแตะต้อง","wilderness","B2","Camping"],
 // Celebrations (P-Z list)
 ["รางวัล","prize","A2","Celebrations"],["ธีม / หัวข้อหลัก","theme","A2","Celebrations"],
+["งานเลี้ยงเซอร์ไพรส์","surprise party","B2","Celebrations"],["ของชำร่วย","party favour","B2","Celebrations"],
+["การนับถอยหลัง","countdown","B2","Celebrations"],["รายชื่อแขกที่เชิญ","guest list","B2","Celebrations"],
 // Clothes (P-Z list)
 ["รอยปะ","patch","B1","Clothes"],["กระเป๋าเสื้อ","pocket","A1","Clothes"],["รองเท้า","shoe","A1","Clothes"],
 ["รองเท้าแตะในบ้าน","slipper","A2","Clothes"],["ถุงเท้า","sock","A1","Clothes"],["กางเกงขายาว","trouser","A1","Clothes"],
 ["เครื่องแบบ","uniform","A1","Clothes"],
+["ตะเข็บ","seam","B2","Clothes"],["ซิป","zip","B2","Clothes"],["ผ้าที่ระบายอากาศได้ดี","breathable fabric","B2","Clothes"],
+["ตัดเย็บพอดีตัว","tailored","B2","Clothes"],["ชายเสื้อชายกระโปรง","hem","B2","Clothes"],["ยับเป็นรอย","to crease","B2","Clothes"],
 // Combat Sports (P-Z list)
 ["ชก","punch","A2","Combat Sports"],
+["รุ่นน้ำหนัก","weight class","B2","Combat Sports"],["การยอมแพ้ด้วยการล็อก","submission","B2","Combat Sports"],
 // Communication & IT (P-Z list)
 ["แปะ / วาง","paste","A2","Communication & IT"],["ดูตัวอย่างก่อน","preview","B1","Communication & IT"],["ประวัติโดยย่อ","profile","A2","Communication & IT"],
 ["โปรแกรม / รายการ","program","A2","Communication & IT"],["คำถาม / ข้อสงสัย","query","B1","Communication & IT"],["หุ่นยนต์","robot","A2","Communication & IT"],
 ["ดาวเทียม","satellite","A2","Communication & IT"],["สถานที่ตั้ง / เว็บไซต์","site","A2","Communication & IT"],["โทรคมนาคม","telecommunication","B1","Communication & IT"],
 ["ข้อความ","text","A1","Communication & IT"],["รุ่น / ฉบับ","version","A2","Communication & IT"],["ปริมาณ / ระดับเสียง","volume","A2","Communication & IT"],
+["ความปลอดภัยทางไซเบอร์","cybersecurity","B2","Communication & IT"],["การเข้ารหัสข้อมูล","encryption","B2","Communication & IT"],
+["แบนด์วิดท์","bandwidth","B2","Communication & IT"],["พื้นที่เก็บข้อมูลบนคลาวด์","cloud storage","B2","Communication & IT"],
+["การยืนยันตัวตนสองขั้นตอน","two-factor authentication","B2","Communication & IT"],["ข่าวปลอม","fake news","B2","Communication & IT"],
 // Cycling (P-Z list)
 ["คันเหยียบ","pedal","A2","Cycling"],["แผ่นสะท้อนแสง","reflector","B1","Cycling"],
+["กลุ่มนักปั่นหลัก","peloton","B2","Cycling"],
 // Department Store (P-Z list)
 ["สไตล์ / รูปแบบ","style","A2","Department Store"],
+["เคาน์เตอร์ลูกค้าสัมพันธ์","customer service desk","B2","Department Store"],["บัตรของขวัญ","gift card","B2","Department Store"],
+["สินค้าตัวโชว์","display item","B2","Department Store"],["โปรแกรมสะสมแต้ม","loyalty scheme","B2","Department Store"],
+["สินค้าชำรุด","faulty goods","B2","Department Store"],["การลดราคาป้าย","markdown","B2","Department Store"],
 // Eating Out (P-Z list)
 ["ส่วน / ปริมาณหนึ่งจาน","portion","A2","Eating Out"],["จอง","reserve","A2","Eating Out"],["ช้อน","spoon","A1","Eating Out"],
 ["เคล็ดลับ / ทิป","tip","A2","Eating Out"],
+["ที่นั่งด้านนอก","outdoor seating","B2","Eating Out"],["รายการไวน์","wine list","B2","Eating Out"],["บริการตนเอง","self-service","B2","Eating Out"],
+["อาหารจานหลัก","main course","B2","Eating Out"],
 // Education (P-Z list)
 ["ย่อหน้า","paragraph","A2","Education"],["วงเล็บ","parenthesis","B2","Education"],["ปรัชญา","philosophy","B1","Education"],
 ["วลี","phrase","A2","Education"],["พหูพจน์","plural","A2","Education"],["คำนำหน้า","prefix","B1","Education"],
@@ -4692,52 +4738,86 @@ const VOCAB = [
 ["สถิติ","statistics","B1","Education"],["วิชา / หัวข้อ","subject","A1","Education"],["บทสรุป","summary","A2","Education"],
 ["ประมวลรายวิชา","syllabus","B1","Education"],["ภาคเรียน / เงื่อนไข","term","A2","Education"],["ทฤษฎี","theory","B1","Education"],
 ["วิทยานิพนธ์","thesis","B2","Education"],["หัวข้อ","topic","A2","Education"],["ค่าเล่าเรียน","tuition","A2","Education"],
+["ทุนการศึกษา","scholarship","B2","Education"],["การลอกผลงานผู้อื่น","plagiarism","B2","Education"],["ปริญญาเอก","doctorate","B2","Education"],
 // Evenings Out (P-Z list)
 ["การแสดง / ผลงาน","performance","A2","Evenings Out"],["คนบอกบท","prompter","B1","Evenings Out"],["เรื่องรักโรแมนติก","romance","A2","Evenings Out"],
 ["ฉาก","scene","A2","Evenings Out"],["บท / สคริปต์","script","B1","Evenings Out"],["ชุด / ซีรีส์","series","A2","Evenings Out"],
 ["เวที","stage","A2","Evenings Out"],["โรงละคร / โรงหนัง","theater","A2","Evenings Out"],
+["บัตรขายหมด","sold out","B2","Evenings Out"],["เสียงปรบมือ","applause","B2","Evenings Out"],["ค่าเข้าร้าน","cover charge","B2","Evenings Out"],
 // Everyday Life (P-Z list)
 ["วิทยุ","radio","A1","Everyday Life"],["กิจวัตรประจำวัน","routine","A2","Everyday Life"],
+["กิจวัตรซ้ำซากประจำวัน","daily grind","B2","Everyday Life"],["ภาระผูกพันที่ต้องทำ","commitment","B2","Everyday Life"],
+["ค่าครองชีพ","cost of living","B2","Everyday Life"],["ความสมดุลระหว่างงานกับชีวิต","work-life balance","B2","Everyday Life"],
+["ธุระเล็กๆ น้อยๆ ที่ต้องไปทำ","errand","B2","Everyday Life"],
 // Family (P-Z list)
 ["พ่อ","papa","A1","Family"],["พ่อแม่","parent","A1","Family"],["ผู้คน","people","A1","Family"],
 ["คน","person","A1","Family"],["แฝดห้า","quin","B2","Family"],["ญาติ / สัมพัทธ์","relative","A2","Family"],
 ["คู่สมรส","spouse","B1","Family"],
+["พ่อหรือแม่เลี้ยงลูกคนเดียว","single parent","B2","Family"],["พ่อแม่อุปถัมภ์","foster parents","B2","Family"],
+["ญาติสายเลือด","blood relative","B2","Family"],["ครอบครัวผสมจากสองบ้าน","blended family","B2","Family"],
+["ผู้ปกครองตามกฎหมาย","legal guardian","B2","Family"],["ลูกคนโต","eldest child","B2","Family"],["ลูกคนเล็ก","youngest child","B2","Family"],
+["ลูกคนเดียว","only child","B2","Family"],["ฝาแฝด","twins","B2","Family"],["ญาติห่างๆ","distant relative","B2","Family"],
+["แผนภูมิเครือญาติ","family tree","B2","Family"],["ญาติสนิทที่สุดตามกฎหมาย","next of kin","B2","Family"],
+["การเลี้ยงดูอบรม","upbringing","B2","Family"],
 // Farm Animals (P-Z list)
 ["นาข้าว","paddy","A2","Farm Animals"],["เสียงเป็ดร้อง / หมอเถื่อน","quack","B1","Farm Animals"],["สุกร","swine","B2","Farm Animals"],
 // Festivals (P-Z list)
 ["ขบวนแห่","parade","A2","Festivals"],["ประเพณี","tradition","A2","Festivals"],
+["ขบวนแห่ทางศาสนา","religious procession","B2","Festivals"],["มรดกทางวัฒนธรรม","heritage","B2","Festivals"],
+["วันหยุดยาวติดต่อกัน","long weekend","B2","Festivals"],
 // Food (P-Z list)
 ["พริกไทย","pepper","A1","Food"],["ของดอง","pickle","A2","Food"],["ดิบ","raw","A2","Food"],
 ["น้ำเชื่อม","sirup","A2","Food"],["ชิ้นบาง","slice","A2","Food"],["ของว่าง","snack","A1","Food"],
 ["เปรี้ยว","sour","A1","Food"],["เครื่องเทศ","spice","A2","Food"],["เผ็ด","spicy","A1","Food"],
 ["หวาน","sweet","A1","Food"],["ขนมปังปิ้ง","toast","A1","Food"],
+["เครื่องปรุงรส","seasoning","B2","Food"],["น้ำหมัก","marinade","B2","Food"],["อาหารเหลือ","leftovers","B2","Food"],
+["อาหารหลัก","staple food","B2","Food"],["อายุการเก็บรักษา","shelf life","B2","Food"],["รสที่ติดค้างในปาก","aftertaste","B2","Food"],
 // Fruit & Veg (P-Z list)
 ["ฟักทอง","pumpkin","A1","Fruit & Veg"],
+["สุกงอม","ripe","B2","Fruit & Veg"],["ไม่มีเมล็ด","seedless","B2","Fruit & Veg"],["ผิวส้มหรือมะนาวขูด","zest","B2","Fruit & Veg"],
 // Games (P-Z list)
 ["หุ่นกระบอก","puppet","A2","Games"],["ปริศนา","puzzle","A2","Games"],["ของเล่น","toy","A1","Games"],
+["โหมดผู้เล่นหลายคน","multiplayer","B2","Games"],["โกงเกม","to cheat","B2","Games"],
 // Garden (P-Z list)
 ["ราวลูกกรง","railing","B1","Garden"],
+["ปุ๋ยหมัก","compost","B2","Garden"],["วัชพืช","weed","B2","Garden"],["ระบบให้น้ำต้นไม้","irrigation","B2","Garden"],
+["เรือนกระจก","greenhouse","B2","Garden"],
 // Golf (P-Z list)
 ["ระดับมาตรฐาน","par","B1","Golf"],
+["การพัตต์ลูกกอล์ฟ","putt","B2","Golf"],
 // Gym & Wellbeing (P-Z list)
 ["การนอนหลับ","sleeping","A1","Gym & Wellbeing"],["อาหารเสริม / ส่วนเพิ่ม","supplement","B1","Gym & Wellbeing"],["เหงื่อ","sweat","A2","Gym & Wellbeing"],
+["การออกกำลังกายแบบคาร์ดิโอ","cardio workout","B2","Gym & Wellbeing"],["ความแข็งแรงของแกนกลางลำตัว","core strength","B2","Gym & Wellbeing"],
+["การยืดกล้ามเนื้อ","stretching","B2","Gym & Wellbeing"],
 // Health (P-Z list)
 ["คนสูบบุหรี่","smoker","A2","Health"],["ความเครียด","stress","A2","Health"],["ยาสูบ","tobacco","B1","Health"],
 ["วัคซีน","vaccine","A2","Health"],
+["การตรวจสุขภาพประจำปี","annual check-up","B2","Health"],["โรคเรื้อรัง","chronic illness","B2","Health"],
+["การส่งตัวไปพบแพทย์เฉพาะทาง","referral","B2","Health"],
 // Hospital (P-Z list)
 ["ชีพจร","pulse","A2","Hospital"],["ปราศจากเชื้อ","sterile","B1","Hospital"],["ปลูกถ่ายอวัยวะ","transplant","B1","Hospital"],
+["การให้เลือด","blood transfusion","B2","Hospital"],["ยาสลบ","anaesthetic","B2","Hospital"],
+["การดูแลหลังผ่าตัด","post-operative care","B2","Hospital"],
 // Hotel (P-Z list)
 ["สระว่ายน้ำ","pool","A1","Hotel"],["รีสอร์ต","resort","A2","Hotel"],
+["นโยบายการยกเลิกการจอง","cancellation policy","B2","Hotel"],["การเช็คอินล่าช้า","late check-in","B2","Hotel"],
+["ห้องพักปลอดบุหรี่","non-smoking room","B2","Hotel"],
 // House (P-Z list)
 ["ปลั๊กไฟ","plug","A2","House"],["ชั้นวางของ","shelf","A2","House"],["ชั้นวางของ","shelve","B1","House"],
 ["บันได","stair","A1","House"],["ที่เก็บของ","storage","A2","House"],["ชั้นของอาคาร","storey","A2","House"],
 ["สวิตช์","switch","A2","House"],["ระเบียง","terrace","A2","House"],["ชั้นบน","upstairs","A1","House"],
+["สัญญาเช่าบ้าน","tenancy agreement","B2","House"],["ผู้เช่า","tenant","B2","House"],["ค่าส่วนกลางนิติบุคคล","maintenance fee","B2","House"],
+["ฉนวนกันความร้อน","insulation","B2","House"],["ความชื้นในผนัง","damp","B2","House"],
 // Housework (P-Z list)
 ["ผ้าขี้ริ้ว","rag","A2","Housework"],["น้ำยาปรับผ้านุ่ม","softener","A2","Housework"],["คราบ","stain","A2","Housework"],
 ["สุญญากาศ / ดูดฝุ่น","vacuum","A2","Housework"],
+["งานบ้านประจำ","household chore","B2","Housework"],["สารฟอกขาว","bleach","B2","Housework"],["ทำความสะอาดครั้งใหญ่","deep clean","B2","Housework"],
+["คราบฝังแน่น","stubborn stain","B2","Housework"],
 // Illness (P-Z list)
 ["โรคระบาดใหญ่","pandemic","B1","Illness"],["ปรสิต","parasite","B1","Illness"],["ติดเชื้อ","septic","B1","Illness"],
 ["ป่วย","sick","A1","Illness"],["อาเจียน","vomit","A2","Illness"],
+["ภูมิแพ้ตามฤดูกาล","seasonal allergy","B2","Illness"],["โรคติดต่อ","contagious disease","B2","Illness"],
+["ระยะฟักตัวของโรค","incubation period","B2","Illness"],
 // Insects (P-Z list)
 ["สัตว์หรือแมลงรบกวน","pest","B1","Insects"],["แมงป่อง","scorpion","A2","Insects"],
 // Jobs (P-Z list)
@@ -4746,15 +4826,21 @@ const VOCAB = [
 ["นักบวช","priest","A2","Jobs"],["ศาสตราจารย์","professor","A2","Jobs"],["ผู้พิสูจน์อักษร","proofreader","B1","Jobs"],
 ["พนักงานรถไฟ","railman","B2","Jobs"],["ผู้สรรหาพนักงาน","recruiter","B1","Jobs"],["เลขานุการ","secretary","A2","Jobs"],
 ["นายอำเภอ","sheriff","B1","Jobs"],["ช่างตัดเสื้อ","tailor","A2","Jobs"],
+["นักคณิตศาสตร์ประกันภัย","actuary","B2","Jobs"],["ที่ปรึกษาด้านภาษี","tax adviser","B2","Jobs"],["นักแปลเอกสาร","translator","B2","Jobs"],
 // Kitchen (P-Z list)
 ["กระทะ","pan","A1","Kitchen"],["หม้อ","pot","A1","Kitchen"],["แช่เย็น","refrigerate","A2","Kitchen"],
 ["ตู้เย็น","refrigerator","A1","Kitchen"],["ไอน้ำ","steam","A2","Kitchen"],["เตา","stove","A1","Kitchen"],
 ["กระป๋อง / ดีบุก","tin","A2","Kitchen"],
+["เครื่องดูดควัน","extractor fan","B2","Kitchen"],["เขียง","chopping board","B2","Kitchen"],["เครื่องปั่น","blender","B2","Kitchen"],
+["กระชอน","colander","B2","Kitchen"],
 // Leisure (P-Z list)
 ["ปิกนิก","picnic","A2","Leisure"],["ลูกเสือ","scout","A2","Leisure"],["วันหยุดพักผ่อน","vacation","A1","Leisure"],
+["เวลาว่างจากงาน","downtime","B2","Leisure"],["เริ่มงานอดิเรกใหม่","to take up a hobby","B2","Leisure"],
+["หลงใหลจนเลิกไม่ได้","to get hooked on","B2","Leisure"],
 // Music (P-Z list)
 ["จังหวะ","rhythm","A2","Music"],["เดี่ยว / ลำพัง","solo","A2","Music"],["กลุ่มสามคน","trio","B1","Music"],
 ["ทำนองเพลง","tune","A2","Music"],
+["เนื้อเพลง","lyrics","B2","Music"],["ห้องอัดเสียง","recording studio","B2","Music"],["ค่ายเพลง","record label","B2","Music"],
 // Nature (P-Z list)
 ["ทางเดิน","path","A2","Nature"],["ยอดเขา / จุดสูงสุด","peak","A2","Nature"],["ปิโตรเลียม","petroleum","B1","Nature"],
 ["ดาวเคราะห์","planet","A2","Nature"],["ที่ราบสูง","plateau","B1","Nature"],["ขั้วโลก / เสา","pole","A2","Nature"],
@@ -4763,9 +4849,13 @@ const VOCAB = [
 ["รังสี / ลำแสง","ray","A2","Nature"],["ที่ร่ม / เฉดสี","shade","A2","Nature"],["ท้องฟ้า","sky","A1","Nature"],
 ["ทางลาด","slope","A2","Nature"],["ดาว","star","A1","Nature"],["ก้อนหิน","stone","A1","Nature"],
 ["กล้องโทรทรรศน์","telescope","A2","Nature"],["เขตร้อน","tropic","B1","Nature"],
+["การกัดเซาะพังทลาย","erosion","B2","Nature"],["ความหลากหลายทางชีวภาพ","biodiversity","B2","Nature"],
+["พลังงานหมุนเวียน","renewable energy","B2","Nature"],
 // Newsagent (P-Z list)
 ["หน้า","page","A1","Newsagent"],["โครงเรื่อง","plot","B1","Newsagent"],["คำนำ","preface","B2","Newsagent"],
 ["เรื่องราว","story","A1","Newsagent"],["นิทาน","tale","A2","Newsagent"],["ชื่อเรื่อง","title","A2","Newsagent"],
+["บทบรรณาธิการ","editorial","B2","Newsagent"],["พาดหัวข่าว","headline","B2","Newsagent"],["การสมัครสมาชิกรายเดือน","subscription","B2","Newsagent"],
+["ยอดพิมพ์จำหน่าย","circulation","B2","Newsagent"],["ฉบับพิมพ์ครั้งแรก","first edition","B2","Newsagent"],
 // Numbers (P-Z list)
 ["บวก","plus","A1","Numbers"],["สัดส่วน","proportion","B1","Numbers"],["ปริมาณ","quantity","A2","Numbers"],
 ["ควอร์ต","quart","B1","Numbers"],["หนึ่งในสี่","quarter","A2","Numbers"],["อัตราส่วน","ratio","B1","Numbers"],
@@ -4773,27 +4863,36 @@ const VOCAB = [
 ["สี่เหลี่ยมจัตุรัส","square","A1","Numbers"],["ผลรวม","sum","A2","Numbers"],["ที่สาม","third","A1","Numbers"],
 ["ยอดรวม","total","A2","Numbers"],["สามเหลี่ยม","triangle","A1","Numbers"],["ล้านล้าน","trillion","B1","Numbers"],
 ["สามเท่า","triple","A2","Numbers"],
+["ค่ามัธยฐาน","median","B2","Numbers"],["เลขยกกำลัง","exponent","B2","Numbers"],["ปัดเศษ","to round off","B2","Numbers"],
 // Office (P-Z list)
 ["แผ่นรอง","pad","A2","Office"],["เอกสาร","papers","A2","Office"],["พิมพ์","print","A2","Office"],
 ["เทปกาว","tape","A2","Office"],
+["ออฟฟิศแบบเปิดโล่ง","open-plan office","B2","Office"],["บันทึกการประชุม","minutes","B2","Office"],["การทำงานทางไกล","remote working","B2","Office"],
 // Optician (P-Z list)
 ["การมองเห็น","sight","A2","Optician"],
+["สายตาเอียง","astigmatism","B2","Optician"],["ต้อหิน","glaucoma","B2","Optician"],
 // Pets (P-Z list)
 ["เชื้อสาย / พันธุ์แท้","pedigree","B1","Pets"],
 // Pharmacy (P-Z list)
 ["สั่งจ่ายยา","prescribe","B1","Pharmacy"],["หลอด","tube","A2","Pharmacy"],
+["ยาที่ซื้อได้โดยไม่ต้องมีใบสั่งแพทย์","over-the-counter medicine","B2","Pharmacy"],["ผลข้างเคียงของยา","side effect","B2","Pharmacy"],
 // Photography (P-Z list)
 ["ภาพถ่าย","photograph","A1","Photography"],["ท่าโพส","pose","A2","Photography"],["แต่งภาพ","retouch","B1","Photography"],
+["การจัดองค์ประกอบภาพ","composition","B2","Photography"],["ระยะชัดลึก","depth of field","B2","Photography"],
+["แสงธรรมชาติ","natural light","B2","Photography"],
 // Places (P-Z list)
 ["สถานที่","place","A1","Places"],["จังหวัด","province","A2","Places"],["ภูมิภาค","region","A2","Places"],
 ["สาธารณรัฐ","republic","B1","Places"],["ทิศใต้","south","A1","Places"],["หมู่บ้าน","village","A1","Places"],
 ["ทิศตะวันตก","west","A1","Places"],
+["เขตชานเมืองรอบนอก","outskirts","B2","Places"],["จุดหมายปลายทาง","destination","B2","Places"],
 // Plants (P-Z list)
 ["ลำต้น","stem","A2","Plants"],
 // Post Office (P-Z list)
 ["พัสดุ","parcel","A2","Post Office"],["ผู้ส่ง","sender","A2","Post Office"],
+["ไปรษณีย์ลงทะเบียน","registered post","B2","Post Office"],["หมายเลขติดตามพัสดุ","tracking number","B2","Post Office"],
 // Pregnancy (P-Z list)
 ["การตั้งครรภ์","pregnancy","A2","Pregnancy"],["ตั้งครรภ์","pregnant","A2","Pregnancy"],["ก่อนกำหนด","premature","B1","Pregnancy"],
+["การฝากครรภ์","antenatal care","B2","Pregnancy"],["ภาวะซึมเศร้าหลังคลอด","postnatal depression","B2","Pregnancy"],
 // Prepositions (P-Z list)
 ["ต่อ","per","A2","Prepositions"],["ขวา / ถูกต้อง","right","A1","Prepositions"],["ด้านข้าง","side","A1","Prepositions"],
 ["ตั้งแต่","since","A2","Prepositions"],["ผ่าน / ทะลุ","through","A2","Prepositions"],["จนกระทั่ง","till","A2","Prepositions"],
@@ -4804,28 +4903,41 @@ const VOCAB = [
 ["หีบห่อ / ฝูง","pack","A2","Shopping"],["ราคา","price","A1","Shopping"],["ซื้อ","purchase","B1","Shopping"],
 ["คิว","queue","A2","Shopping"],["เงินคืน","rebate","B2","Shopping"],["การคืนเงิน","refund","A2","Shopping"],
 ["กระสอบ","sack","A2","Shopping"],
+["สินค้าหมดสต็อก","out of stock","B2","Shopping"],["นโยบายคืนสินค้า","returns policy","B2","Shopping"],
+["การรับประกันเพิ่มเติม","extended warranty","B2","Shopping"],["การผ่อนชำระเป็นงวด","instalment","B2","Shopping"],
+["สินค้าแบรนด์ของห้างเอง","own brand","B2","Shopping"],["การล้างสต็อกลดราคา","clearance","B2","Shopping"],
 // Shops & Places (P-Z list)
 ["ร้านค้า","store","A1","Shops & Places"],
+["ตลาดนัดของมือสอง","flea market","B2","Shops & Places"],
 // Sightseeing (P-Z list)
 ["เจดีย์","pagoda","A2","Sightseeing"],["ทัศนียภาพกว้างไกล","panorama","B1","Sightseeing"],["ศาลา","pavilion","B1","Sightseeing"],
 ["การท่องซาฟารี","safari","B1","Sightseeing"],["ของที่ระลึก","souvenir","A2","Sightseeing"],["รูปปั้น","statue","A2","Sightseeing"],
 ["ทัวร์ / การเที่ยวชม","tour","A2","Sightseeing"],["หอคอย","tower","A2","Sightseeing"],["ทิวทัศน์ / มุมมอง","view","A2","Sightseeing"],
+["มรดกโลก","World Heritage Site","B2","Sightseeing"],["ค่าเข้าชม","admission fee","B2","Sightseeing"],
+["ช่วงนอกฤดูท่องเที่ยว","off-season","B2","Sightseeing"],
 // Sport (P-Z list)
 ["รอบคัดเลือก","qualifier","B1","Sport"],["คะแนน","score","A2","Sport"],["การว่ายน้ำ","swimming","A1","Sport"],
 ["กีฬา","sport","A1","Sport"],["ชัยชนะ","victory","A2","Sport"],
+["ความอดทนของร่างกาย","endurance","B2","Sport"],["การใช้สารกระตุ้น","doping","B2","Sport"],["การเป็นผู้สนับสนุน","sponsorship","B2","Sport"],
+["ผู้เล่นตัวจริง","starting line-up","B2","Sport"],
 // Time (P-Z list)
 ["อดีต / ที่ผ่านมา","past","A2","Time"],["ช่วงเวลา / ประจำเดือน","period","A2","Time"],["เวลา","time","A1","Time"],
 ["คืนนี้","tonight","A1","Time"],
+["ช่วงเวลาเร่งด่วน","peak hours","B2","Time"],["พร้อมกัน","simultaneously","B2","Time"],["ล่วงหน้า","in advance","B2","Time"],
+["เขตเวลา","time zone","B2","Time"],
 // Tools & DIY (P-Z list)
 ["เสา","pillar","B1","Tools & DIY"],["ท่อ","pipe","A2","Tools & DIY"],["ลูกสูบ","piston","B2","Tools & DIY"],
 ["รอก","pulley","B1","Tools & DIY"],["สูบ / ปั๊ม","pump","A2","Tools & DIY"],["ยาง","rubber","A2","Tools & DIY"],
 ["สกรู","screw","A2","Tools & DIY"],["ด้าม / เพลา","shaft","B1","Tools & DIY"],["หินชนวน","slate","B1","Tools & DIY"],
 ["ขดลวดแม่เหล็กไฟฟ้า","solenoid","B2","Tools & DIY"],["เหล็กกล้า","steel","A2","Tools & DIY"],["ถัง / รถถัง","tank","A2","Tools & DIY"],
 ["กระเบื้อง","tile","A2","Tools & DIY"],["เครื่องมือ","tool","A1","Tools & DIY"],
+["ระดับน้ำ","spirit level","B2","Tools & DIY"],["กระดาษทราย","sandpaper","B2","Tools & DIY"],["ยาแนว","sealant","B2","Tools & DIY"],
+["สว่านไร้สาย","cordless drill","B2","Tools & DIY"],["แว่นตานิรภัย","safety goggles","B2","Tools & DIY"],
 // Town (P-Z list)
 ["ทางเท้า","pavement","A2","Town"],["ลานกว้าง","plaza","A2","Town"],["ตำรวจ","police","A1","Town"],
 ["คุก","prison","A2","Town"],["ที่พักอาศัย","residence","B1","Town"],["ป้าย / เครื่องหมาย","sign","A1","Town"],
 ["สลัม","slum","B1","Town"],["ชานเมือง","suburb","A2","Town"],["เมือง","town","A1","Town"],
+["เขตห้ามรถเข้า","pedestrian zone","B2","Town"],["การพัฒนาเมือง","urban development","B2","Town"],["การวางผังเมือง","town planning","B2","Town"],
 // Transport (P-Z list)
 ["เครื่องบิน","plane","A1","Transport"],["ชานชาลา / แท่น","platform","A2","Transport"],["ท่าเรือ","port","A2","Transport"],
 ["ท่าเทียบเรือ","quay","B1","Transport"],["ราวจับ / ราง","rail","A2","Transport"],["ทางรถไฟ","railway","A2","Transport"],
@@ -4834,6 +4946,8 @@ const VOCAB = [
 ["ยางรถยนต์","tire","A2","Transport"],["ค่าผ่านทาง","toll","B1","Transport"],["ลากจูง","tow","B1","Transport"],
 ["การผ่านทาง","transit","B1","Transport"],["การขนส่ง","transport","A2","Transport"],["รถบรรทุก","truck","A1","Transport"],
 ["อุโมงค์","tunnel","A2","Transport"],["การเดินทางไกลทางเรือ","voyage","B1","Transport"],["รถลาก / ตู้สินค้า","wagon","A2","Transport"],
+["ระบบขนส่งสาธารณะ","public transport","B2","Transport"],["ชั่วโมงเร่งด่วน","rush hour","B2","Transport"],
+["จุดจอดแล้วจร","park and ride","B2","Transport"],
 // Verbs (P-Z list)
 ["ทำให้เป็นอัมพาต","paralyze","B1","Verbs"],["เข้าร่วม","participate","A2","Verbs"],["หยุดชั่วคราว","pause","A2","Verbs"],
 ["ปูพื้น","pave","B1","Verbs"],["แทรกซึม / เจาะทะลุ","penetrate","B2","Verbs"],["รับรู้ / มองเห็นว่า","perceive","B1","Verbs"],
@@ -4917,6 +5031,8 @@ const VOCAB = [
 ["เงินบำนาญ","pension","B1","Work"],["ตำแหน่ง","position","A2","Work"],["ช่วงทดลองงาน","probation","B1","Work"],
 ["การเลื่อนตำแหน่ง","promotion","A2","Work"],["คุณสมบัติ / วุฒิการศึกษา","qualification","B1","Work"],["ลาออก","resign","B1","Work"],
 ["เงินเดือน","salary","A2","Work"],["ตารางเวลา","schedule","A2","Work"],["รุ่นพี่ / อาวุโสกว่า","senior","A2","Work"],
+["การประเมินผลการทำงาน","performance review","B2","Work"],["การลาออกโดยสมัครใจพร้อมค่าชดเชย","voluntary redundancy","B2","Work"],
+["ข้อตกลงไม่เปิดเผยข้อมูล","non-disclosure agreement","B2","Work"],
 ["กะทำงาน / เปลี่ยน","shift","B1","Work"],["ทักษะ","skill","A2","Work"],["ผู้ใต้บังคับบัญชา","subordinate","B2","Work"],
 ["ค่าจ้าง","wage","A2","Work"],["การเดินออกประท้วง","walkout","B1","Work"],
 ];
@@ -4967,6 +5083,21 @@ const IDIOMS = [
 ["ฝนตกหนักมาก","It's raining cats and dogs","B1","Idioms & Expressions","We can't go outside, it's raining cats and dogs."],
 ["รู้สึกตื่นเต้นกังวลในท้อง","I have butterflies in my stomach","B1","Idioms & Expressions","I have butterflies in my stomach before every job interview."],
 ["เต็มใจอยากทำ","I'm up for it","A2","Idioms & Expressions","\"Do you want to go hiking this weekend?\" \"Sure, I'm up for it.\""],
+["แกล้งเถียงในมุมตรงข้ามเพื่อให้เห็นครบทุกด้าน","To play devil's advocate","B2","Idioms & Expressions","Let me play devil's advocate for a moment: what if the price is simply too high?"],
+["ทำแบบลวกๆ เพื่อประหยัดเวลาหรือเงิน","To cut corners","B2","Idioms & Expressions","They cut corners on the building work, and now the roof leaks."],
+["ทุ่มเทมากกว่าที่จำเป็น","To go the extra mile","B2","Idioms & Expressions","She always goes the extra mile for her students."],
+["กัดฟันทำสิ่งที่ยากหรือไม่อยากทำ","To bite the bullet","B2","Idioms & Expressions","I hate the dentist, but I will bite the bullet and book an appointment."],
+["ยังลังเล ตัดสินใจไม่ได้","To be on the fence","B2","Idioms & Expressions","I am still on the fence about moving to Bangkok."],
+["อย่าเพิ่งเชื่อทั้งหมด ฟังหูไว้หู","To take something with a pinch of salt","B2","Idioms & Expressions","He always exaggerates, so take his story with a pinch of salt."],
+["ด่วนสรุปเร็วเกินไป","To jump to conclusions","B2","Idioms & Expressions","Do not jump to conclusions before you hear her side of it."],
+["โชคดีที่แฝงมาในคราบโชคร้าย","A blessing in disguise","B2","Idioms & Expressions","Losing that job was a blessing in disguise, I found a better one."],
+["อยู่เฉยๆ ไม่ยอมลงมือทำอะไร","To sit on your hands","B2","Idioms & Expressions","The company sat on its hands while its rivals grew."],
+["อ่านความนัยระหว่างบรรทัด","To read between the lines","B2","Idioms & Expressions","Read between the lines and you will see she is not happy there."],
+["ตัดสัมพันธ์จนกลับไปไม่ได้อีก","To burn bridges","B2","Idioms & Expressions","Leave the job politely, there is no need to burn bridges."],
+["ตกอยู่ในสถานการณ์เดียวกัน","To be in the same boat","B2","Idioms & Expressions","We are all in the same boat, so let us help each other."],
+["ติดต่อกันสั้นๆ เพื่ออัปเดตความคืบหน้า","To touch base","B2","Idioms & Expressions","I will touch base with you on Friday about the report."],
+["คิดนอกกรอบ","To think outside the box","B2","Idioms & Expressions","We need to think outside the box to solve this one."],
+["มีเรื่องต้องรับผิดชอบเยอะมาก","To have a lot on your plate","B2","Idioms & Expressions","I would love to help, but I have a lot on my plate this week."],
 ];
 
 /* =========================================================
