@@ -1639,7 +1639,7 @@ if("serviceWorker" in navigator){
         </div>
       </div>
       <div style="display:flex;gap:clamp(6px, 0.67cqh + 1.67px, 8px);justify-content:center;flex-wrap:wrap;margin:2px 0 4px;">
-        <span style="font-size:clamp(10px, 0.5cqh + 6.75px, 11.5px);color:var(--muted);background:var(--inset);border-radius:20px;padding:clamp(5px, 0.33cqh + 2.83px, 6px) clamp(9px, 1cqh + 2.5px, 12px);white-space:nowrap;">คำศัพท์ <span data-stat="vocab">6,103</span> คำ</span>
+        <span style="font-size:clamp(10px, 0.5cqh + 6.75px, 11.5px);color:var(--muted);background:var(--inset);border-radius:20px;padding:clamp(5px, 0.33cqh + 2.83px, 6px) clamp(9px, 1cqh + 2.5px, 12px);white-space:nowrap;">คำศัพท์ <span data-stat="vocab">6,148</span> คำ</span>
         <span style="font-size:clamp(10px, 0.5cqh + 6.75px, 11.5px);color:var(--muted);background:var(--inset);border-radius:20px;padding:clamp(5px, 0.33cqh + 2.83px, 6px) clamp(9px, 1cqh + 2.5px, 12px);white-space:nowrap;">ไวยากรณ์ <span data-stat="lessons">249</span> บทเรียน</span>
         <span style="font-size:clamp(10px, 0.5cqh + 6.75px, 11.5px);color:var(--muted);background:var(--inset);border-radius:20px;padding:clamp(5px, 0.33cqh + 2.83px, 6px) clamp(9px, 1cqh + 2.5px, 12px);white-space:nowrap;">กริยา <span data-stat="verbs">233</span> คำ ผัน 7 tense</span>
         <span style="font-size:clamp(10px, 0.5cqh + 6.75px, 11.5px);color:var(--muted);background:var(--inset);border-radius:20px;padding:clamp(5px, 0.33cqh + 2.83px, 6px) clamp(9px, 1cqh + 2.5px, 12px);white-space:nowrap;">เสียงยาก <span data-stat="sounds">47</span> เสียง</span>
@@ -3127,6 +3127,8 @@ const VOCAB = [
 ["เห่า","to bark","A2","Animals"],
 ["ครางอย่างแมว","to purr","B1","Animals"],
 ["คำราม","to growl","A2","Animals"],
+["สัตว์เลี้ยงลูกด้วยนม","mammal","B2","Animals"],["สัตว์กินเนื้อ","carnivore","B2","Animals"],["สัตว์กินพืช","herbivore","B2","Animals"],
+["การอนุรักษ์สัตว์ป่า","wildlife conservation","B2","Animals"],["การจำศีล","hibernation","B2","Animals"],
 ["ฟาร์ม","farm","A1","Farm Animals"],
 ["พื้นที่การเกษตร","farmland","B1","Farm Animals"],
 ["ลูกม้า (โพนี่)","pony","A2","Farm Animals"],
@@ -4034,6 +4036,8 @@ const VOCAB = [
 ["หลุมศพ","grave","B1","Town"],
 // Marine Life (E-H list)
 ["ครีบปลา","fin","A2","Marine Life"],
+["แพลงก์ตอน","plankton","B2","Marine Life"],["การฟอกขาวของปะการัง","coral bleaching","B2","Marine Life"],
+["สัตว์ทะเลเปลือกแข็ง","crustacean","B2","Marine Life"],["การประมงเกินขนาด","overfishing","B2","Marine Life"],
 // Nature (E-H list)
 ["โลก","earth","A1","Nature"],["เสียงสะท้อน","echo","A2","Abstract"],["สุริยุปราคา / จันทรุปราคา","eclipse","B1","Abstract"],
 ["ระบบนิเวศ","ecology","B1","Abstract"],["พลังงาน","energy","A2","Nature"],["ทุ่งนา / สนาม","field","A2","Nature"],
@@ -4676,6 +4680,8 @@ const VOCAB = [
 ["สวิตช์หรี่ไฟ","dimmer switch","B1","Bedroom"],
 // Birds (P-Z list)
 ["นกกระทา","quail","B1","Birds"],
+["การอพยพย้ายถิ่น","migration","B2","Birds"],["นกล่าเหยื่อ","bird of prey","B2","Birds"],["ขนนกทั้งตัว","plumage","B2","Birds"],
+["ฟักออกจากไข่","to hatch","B2","Birds"],["การส่องดูนก","birdwatching","B2","Birds"],
 // Body (P-Z list)
 ["ซี่โครง","rib","A2","Body"],["เส้น / ปอย","strand","B1","Body"],["รอยสัก","tattoo","A2","Body"],
 ["ฟัน","tooth","A1","Body"],["เอว","waist","A2","Body"],
@@ -4771,6 +4777,8 @@ const VOCAB = [
 ["การเลี้ยงดูอบรม","upbringing","B2","Family"],
 // Farm Animals (P-Z list)
 ["นาข้าว","paddy","A2","Farm Animals"],["เสียงเป็ดร้อง / หมอเถื่อน","quack","B1","Farm Animals"],["สุกร","swine","B2","Farm Animals"],
+["ปศุสัตว์","livestock","B2","Farm Animals"],["การเลี้ยงแบบปล่อยอิสระ","free-range","B2","Farm Animals"],
+["การเล็มหญ้ากิน","to graze","B2","Farm Animals"],
 // Festivals (P-Z list)
 ["ขบวนแห่","parade","A2","Festivals"],["ประเพณี","tradition","A2","Festivals"],
 ["ขบวนแห่ทางศาสนา","religious procession","B2","Festivals"],["มรดกทางวัฒนธรรม","heritage","B2","Festivals"],
@@ -4832,6 +4840,8 @@ const VOCAB = [
 ["ระยะฟักตัวของโรค","incubation period","B2","Illness"],
 // Insects (P-Z list)
 ["สัตว์หรือแมลงรบกวน","pest","B1","Insects"],["แมงป่อง","scorpion","A2","Insects"],
+["แมลงผสมเกสร","pollinator","B2","Insects"],["ตัวอ่อนของแมลง","larva","B2","Insects"],["ดักแด้","pupa","B2","Insects"],
+["การระบาดของแมลง","infestation","B2","Insects"],["ยาฆ่าแมลง","insecticide","B2","Insects"],
 // Jobs (P-Z list)
 ["ชาวนา","peasant","B1","Jobs"],["นักบิน","pilot","A2","Jobs"],["กวี","poet","B1","Jobs"],
 ["ตำรวจ","policeman","A1","Jobs"],["นายกรัฐมนตรี","premier","B2","Jobs"],["ประธานาธิบดี / ประธาน","president","A2","Jobs"],
@@ -4887,6 +4897,9 @@ const VOCAB = [
 ["สายตาเอียง","astigmatism","B2","Optician"],["ต้อหิน","glaucoma","B2","Optician"],
 // Pets (P-Z list)
 ["เชื้อสาย / พันธุ์แท้","pedigree","B1","Pets"],
+["การฝึกให้ขับถ่ายเป็นที่","house-training","B2","Pets"],["สถานรับฝากเลี้ยงสัตว์","boarding kennel","B2","Pets"],
+["การรับสัตว์จากศูนย์พักพิงมาเลี้ยง","to adopt from a shelter","B2","Pets"],["ปัญหาพฤติกรรมของสัตว์เลี้ยง","behavioural problem","B2","Pets"],
+["ประกันสุขภาพสัตว์เลี้ยง","pet insurance","B2","Pets"],["การอาบน้ำตัดขนแต่งตัวสัตว์","grooming","B2","Pets"],
 // Pharmacy (P-Z list)
 ["สั่งจ่ายยา","prescribe","B1","Pharmacy"],["หลอด","tube","A2","Pharmacy"],
 ["ยาที่ซื้อได้โดยไม่ต้องมีใบสั่งแพทย์","over-the-counter medicine","B2","Pharmacy"],["ผลข้างเคียงของยา","side effect","B2","Pharmacy"],
@@ -4901,6 +4914,9 @@ const VOCAB = [
 ["เขตชานเมืองรอบนอก","outskirts","B2","Places"],["จุดหมายปลายทาง","destination","B2","Places"],
 // Plants (P-Z list)
 ["ลำต้น","stem","A2","Plants"],
+["การสังเคราะห์แสง","photosynthesis","B2","Plants"],["ไม้ยืนต้นที่อยู่ได้หลายปี","perennial","B2","Plants"],
+["พืชล้มลุกอายุปีเดียว","annual plant","B2","Plants"],["ตัดแต่งกิ่ง","to prune","B2","Plants"],["พืชอวบน้ำ","succulent","B2","Plants"],
+["พืชพื้นถิ่น","native species","B2","Plants"],["พืชต่างถิ่นรุกราน","invasive species","B2","Plants"],["กิ่งปักชำ","stem cutting","B2","Plants"],
 // Post Office (P-Z list)
 ["พัสดุ","parcel","A2","Post Office"],["ผู้ส่ง","sender","A2","Post Office"],
 ["ไปรษณีย์ลงทะเบียน","registered post","B2","Post Office"],["หมายเลขติดตามพัสดุ","tracking number","B2","Post Office"],
@@ -4913,6 +4929,8 @@ const VOCAB = [
 ["ด้านบน / ยอด","top","A1","Prepositions"],
 // Reptiles & Amphibians (P-Z list)
 ["สัตว์เลื้อยคลาน","reptile","A2","Reptiles & Amphibians"],
+["สัตว์สะเทินน้ำสะเทินบก","amphibian","B2","Reptiles & Amphibians"],["ลอกคราบ","to shed its skin","B2","Reptiles & Amphibians"],
+["พิษจากงูหรือแมงป่อง","venom","B2","Reptiles & Amphibians"],["การเปลี่ยนรูปร่างตามวัย","metamorphosis","B2","Reptiles & Amphibians"],
 // Shopping (P-Z list)
 ["หีบห่อ / ฝูง","pack","A2","Shopping"],["ราคา","price","A1","Shopping"],["ซื้อ","purchase","B1","Shopping"],
 ["คิว","queue","A2","Shopping"],["เงินคืน","rebate","B2","Shopping"],["การคืนเงิน","refund","A2","Shopping"],
@@ -5041,6 +5059,9 @@ const VOCAB = [
 ["มีฝนตก","rainy","A1","Weather"],["ฤดูกาล","season","A1","Weather"],["อุณหภูมิ","temperature","A1","Weather"],
 // Wild Animals (P-Z list)
 ["เหยื่อ","prey","B1","Wild Animals"],
+["สัตว์นักล่า","predator","B2","Wild Animals"],["ใกล้สูญพันธุ์","endangered","B2","Wild Animals"],
+["สัตว์ที่หากินกลางคืน","nocturnal","B2","Wild Animals"],["สัตว์กินซาก","scavenger","B2","Wild Animals"],
+["การลักลอบล่าสัตว์","poaching","B2","Wild Animals"],
 // Work (P-Z list)
 ["เงินบำนาญ","pension","B1","Work"],["ตำแหน่ง","position","A2","Work"],["ช่วงทดลองงาน","probation","B1","Work"],
 ["การเลื่อนตำแหน่ง","promotion","A2","Work"],["คุณสมบัติ / วุฒิการศึกษา","qualification","B1","Work"],["ลาออก","resign","B1","Work"],
