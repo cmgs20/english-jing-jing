@@ -1639,7 +1639,7 @@ if("serviceWorker" in navigator){
         </div>
       </div>
       <div style="display:flex;gap:clamp(6px, 0.67cqh + 1.67px, 8px);justify-content:center;flex-wrap:wrap;margin:2px 0 4px;">
-        <span style="font-size:clamp(10px, 0.5cqh + 6.75px, 11.5px);color:var(--muted);background:var(--inset);border-radius:20px;padding:clamp(5px, 0.33cqh + 2.83px, 6px) clamp(9px, 1cqh + 2.5px, 12px);white-space:nowrap;">คำศัพท์ <span data-stat="vocab">6,073</span> คำ</span>
+        <span style="font-size:clamp(10px, 0.5cqh + 6.75px, 11.5px);color:var(--muted);background:var(--inset);border-radius:20px;padding:clamp(5px, 0.33cqh + 2.83px, 6px) clamp(9px, 1cqh + 2.5px, 12px);white-space:nowrap;">คำศัพท์ <span data-stat="vocab">6,103</span> คำ</span>
         <span style="font-size:clamp(10px, 0.5cqh + 6.75px, 11.5px);color:var(--muted);background:var(--inset);border-radius:20px;padding:clamp(5px, 0.33cqh + 2.83px, 6px) clamp(9px, 1cqh + 2.5px, 12px);white-space:nowrap;">ไวยากรณ์ <span data-stat="lessons">249</span> บทเรียน</span>
         <span style="font-size:clamp(10px, 0.5cqh + 6.75px, 11.5px);color:var(--muted);background:var(--inset);border-radius:20px;padding:clamp(5px, 0.33cqh + 2.83px, 6px) clamp(9px, 1cqh + 2.5px, 12px);white-space:nowrap;">กริยา <span data-stat="verbs">233</span> คำ ผัน 7 tense</span>
         <span style="font-size:clamp(10px, 0.5cqh + 6.75px, 11.5px);color:var(--muted);background:var(--inset);border-radius:20px;padding:clamp(5px, 0.33cqh + 2.83px, 6px) clamp(9px, 1cqh + 2.5px, 12px);white-space:nowrap;">เสียงยาก <span data-stat="sounds">47</span> เสียง</span>
@@ -2051,6 +2051,7 @@ const VOCAB = [
 ["กรกฎาคม","July","A2","Months"],["สิงหาคม","August","A2","Months"],["กันยายน","September","A2","Months"],
 ["ตุลาคม","October","A2","Months"],["พฤศจิกายน","November","A2","Months"],["ธันวาคม","December","A2","Months"],
 ["ทุกๆ สองเดือน","bimonthly","B2","Months"],["ปีอธิกสุรทิน","leap year","B2","Months"],
+["รายไตรมาส","quarterly","B1","Months"],["ครึ่งปี","half-year","B1","Months"],["ทุกๆ สองสัปดาห์","fortnightly","B1","Months"],
 // Seasons
 ["ฤดูใบไม้ผลิ","spring","A2","Weather"],["ฤดูร้อน","summer","A2","Weather"],
 ["ฤดูใบไม้ร่วง","autumn","A2","Weather"],["ฤดูหนาว","winter","A2","Weather"],
@@ -2128,6 +2129,8 @@ const VOCAB = [
 ["เนื้อหมู","pork","A1","Meat & Fish"],["เนื้อวัว","beef","A1","Meat & Fish"],["กุ้ง","shrimp / prawn","A2","Meat & Fish"],["ปู","crab","A2","Meat & Fish"],
 ["สัตว์ปีก","poultry","B2","Meat & Fish"],["เนื้อแล่ไม่มีก้าง","fillet","B2","Meat & Fish"],["เครื่องใน","offal","B2","Meat & Fish"],
 ["สัตว์น้ำมีเปลือก","shellfish","B2","Meat & Fish"],
+["เนื้อแกะสด","mutton","B1","Meat & Fish"],["เนื้อสับ","minced meat","B1","Meat & Fish"],["ปลาหมึก","squid","B1","Meat & Fish"],
+["หอยแมลงภู่","mussels","B1","Meat & Fish"],
 // Bakery & dairy
 ["เนย","butter","A1","Bakery & Dairy"],["ชีส","cheese","A1","Bakery & Dairy"],["โยเกิร์ต","yoghurt","A2","Bakery & Dairy"],["แป้ง","flour","A2","Bakery & Dairy"],
 // Nutrition Labels
@@ -3960,6 +3963,8 @@ const VOCAB = [
 // Bathroom (E-H list)
 ["กดชักโครก / หน้าแดง","flush","A2","Bathroom"],
 ["ท่อระบายน้ำ","drain","B2","Bathroom"],["ราวแขวนผ้าเช็ดตัว","towel rail","B2","Bathroom"],["พัดลมระบายอากาศ","ventilation","B2","Bathroom"],
+["ตู้เก็บของในห้องน้ำ","bathroom cabinet","B1","Bathroom"],["ผ้าเช็ดเท้า","bath mat","B1","Bathroom"],["ม่านอาบน้ำ","shower curtain","B1","Bathroom"],
+["ก๊อกน้ำ","tap","B1","Bathroom"],
 // Beauty & Hygiene (E-H list)
 ["สุขอนามัย","hygiene","B1","Abstract"],
 // Body (E-H list)
@@ -4667,6 +4672,8 @@ const VOCAB = [
 // Bedroom (P-Z list)
 ["ผ้านวม","quilt","A2","Bedroom"],
 ["ผ้าปูที่นอนรัดมุม","fitted sheet","B2","Bedroom"],["ม่านทึบแสง","blackout curtain","B2","Bedroom"],["งีบหลับสั้นๆ","to take a nap","B2","Bedroom"],
+["ปลอกหมอน","pillowcase","B1","Bedroom"],["ผ้าห่มนวม","duvet","B1","Bedroom"],["โต๊ะเครื่องแป้ง","dressing table","B1","Bedroom"],
+["สวิตช์หรี่ไฟ","dimmer switch","B1","Bedroom"],
 // Birds (P-Z list)
 ["นกกระทา","quail","B1","Birds"],
 // Body (P-Z list)
@@ -4749,6 +4756,9 @@ const VOCAB = [
 ["กิจวัตรซ้ำซากประจำวัน","daily grind","B2","Everyday Life"],["ภาระผูกพันที่ต้องทำ","commitment","B2","Everyday Life"],
 ["ค่าครองชีพ","cost of living","B2","Everyday Life"],["ความสมดุลระหว่างงานกับชีวิต","work-life balance","B2","Everyday Life"],
 ["ธุระเล็กๆ น้อยๆ ที่ต้องไปทำ","errand","B2","Everyday Life"],
+["ตารางเวลาประจำวัน","daily schedule","B1","Everyday Life"],["งานบ้านที่ต้องทำประจำ","daily task","B1","Everyday Life"],
+["การนัดหมายล่วงหน้า","appointment","B1","Everyday Life"],["รายการสิ่งที่ต้องทำ","to-do list","B1","Everyday Life"],
+["ตารางงานที่แน่น","busy schedule","B1","Everyday Life"],["การเดินทางไปกลับที่ทำงาน","commute","B1","Everyday Life"],
 // Family (P-Z list)
 ["พ่อ","papa","A1","Family"],["พ่อแม่","parent","A1","Family"],["ผู้คน","people","A1","Family"],
 ["คน","person","A1","Family"],["แฝดห้า","quin","B2","Family"],["ญาติ / สัมพัทธ์","relative","A2","Family"],
@@ -4775,6 +4785,8 @@ const VOCAB = [
 // Fruit & Veg (P-Z list)
 ["ฟักทอง","pumpkin","A1","Fruit & Veg"],
 ["สุกงอม","ripe","B2","Fruit & Veg"],["ไม่มีเมล็ด","seedless","B2","Fruit & Veg"],["ผิวส้มหรือมะนาวขูด","zest","B2","Fruit & Veg"],
+["ผักโขม","spinach","B1","Fruit & Veg"],["หน่อไม้ฝรั่ง","asparagus","B1","Fruit & Veg"],["ถั่วลันเตา","peas","B1","Fruit & Veg"],
+["บวบซูกินี","courgette","B1","Fruit & Veg"],
 // Games (P-Z list)
 ["หุ่นกระบอก","puppet","A2","Games"],["ปริศนา","puzzle","A2","Games"],["ของเล่น","toy","A1","Games"],
 ["โหมดผู้เล่นหลายคน","multiplayer","B2","Games"],["โกงเกม","to cheat","B2","Games"],
@@ -4833,6 +4845,8 @@ const VOCAB = [
 ["กระป๋อง / ดีบุก","tin","A2","Kitchen"],
 ["เครื่องดูดควัน","extractor fan","B2","Kitchen"],["เขียง","chopping board","B2","Kitchen"],["เครื่องปั่น","blender","B2","Kitchen"],
 ["กระชอน","colander","B2","Kitchen"],
+["กาต้มน้ำ","kettle","B1","Kitchen"],["เตาไมโครเวฟ","microwave","B1","Kitchen"],["ทัพพี","ladle","B1","Kitchen"],
+["ที่เปิดกระป๋อง","tin opener","B1","Kitchen"],["ผ้ากันเปื้อน","apron","B1","Kitchen"],
 // Leisure (P-Z list)
 ["ปิกนิก","picnic","A2","Leisure"],["ลูกเสือ","scout","A2","Leisure"],["วันหยุดพักผ่อน","vacation","A1","Leisure"],
 ["เวลาว่างจากงาน","downtime","B2","Leisure"],["เริ่มงานอดิเรกใหม่","to take up a hobby","B2","Leisure"],
