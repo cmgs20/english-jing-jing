@@ -1929,9 +1929,9 @@ const VOCAB = [
 // Places
 ["โรงเรียน","school","A1","Places"],["โรงพยาบาล","hospital","A1","Places"],["ตลาด","market","A1","Places"],
 ["ร้านค้า","shop","A1","Places"],["ร้านอาหาร","restaurant","A1","Places"],["สวนสาธารณะ","park","A1","Places"],
-["สถานี","station","A2","Places"],["สนามบิน","airport","A2","Places"],["ธนาคาร","bank","A2","Places"],
+["สถานี","station","A2","Places"],["สนามบิน","airport","A1","Places"],["ธนาคาร","bank","A2","Places"],
 ["โรงแรม","hotel","A2","Places"],["สำนักงาน","office","A2","Places"],["เมือง","city","A2","Places"],
-["ประเทศ","country","A2","Places"],["ถนน","street","A2","Places"],["ชายหาด","beach","A2","Places"],
+["ประเทศ","country","A2","Places"],["ถนน","street","A1","Places"],["ชายหาด","beach","A2","Places"],
 // Adjectives A1/A2
 ["ใหญ่","big","A1","Adjectives"],["เล็ก","small","A1","Adjectives"],["มีความสุข","happy","A1","Adjectives"],
 ["เศร้า","sad","A1","Adjectives"],["โกรธ","angry","A1","Adjectives"],["เหนื่อย","tired","A1","Adjectives"],
@@ -1979,7 +1979,7 @@ const VOCAB = [
 ["โทรทัศน์","television","A1","Everyday Life"],["เพลง","music","A1","Everyday Life"],["หนัง","movie","A1","Everyday Life"],
 ["รูปภาพ","picture","A1","Everyday Life"],["ภาษา","language","A1","Everyday Life"],["คำถาม","question","A1","Everyday Life"],
 ["คำตอบ","answer","A1","Everyday Life"],["ปัญหา","problem","A2","Everyday Life"],["ความคิด","idea","A2","Everyday Life"],
-["แผน","plan","A2","Everyday Life"],["การตัดสินใจ","decision","B1","Everyday Life"],
+["แผน","plan","A2","Everyday Life"],["การตัดสินใจ","decision","A2","Everyday Life"],
 // B1 abstract
 ["โอกาส","opportunity","B1","Abstract"],["ประสบการณ์","experience","B1","Abstract"],["สิ่งแวดล้อม","environment","B1","Abstract"],
 ["ความสัมพันธ์","relationship","B1","Abstract"],["ความรับผิดชอบ","responsibility","B1","Abstract"],
@@ -2367,7 +2367,7 @@ const VOCAB = [
 // Work
 ["พนักงาน","staff","A2","Work"],["เพื่อนร่วมงาน","colleague","A2","Work"],
 ["ลูกค้า","client","A2","Work"],["ทรัพยากรบุคคล","human resources","B2","Work"],
-["โปรแกรมสเปรดชีต","spreadsheet","B1","Work"],["การนำเสนอ","presentation","B1","Work"],
+["โปรแกรมสเปรดชีต","spreadsheet","B1","Work"],["การนำเสนอ","presentation","A2","Work"],
 ["รายงาน","report","A2","Work"],["ประชุมทางโทรศัพท์","conference call","B1","Work"],
 ["ประชุมทางวิดีโอ","video conference","B1","Work"],["อินบ็อกซ์","inbox","A2","Work"],
 ["เอกสารแนบท้าย","attachment","B1","Work"],["ชื่อผู้ใช้","username","A2","Work"],
@@ -2393,7 +2393,7 @@ const VOCAB = [
 ["กำไร","profit","A2","Business"],["ขาดทุน","loss","A2","Business"],
 ["งบประมาณ","budget","A2","Business"],["การลงทุน","investment","B1","Business"],
 ["ทรัพย์สิน","asset","B2","Business"],["หนี้สิน","liability","B2","Business"],
-["กระแสเงินสด","cash flow","B2","Business"],["เงินสด","cash","A2","Business"],
+["กระแสเงินสด","cash flow","B2","Business"],["เงินสด","cash","A1","Business"],
 ["งบกำไรขาดทุน","income statement","B2","Business"],["การตรวจสอบบัญชี","audit","B2","Business"],
 ["ภาษี","tax","A2","Business"],["กำไรขั้นต้น","gross profit","B2","Business"],
 ["กำไรสุทธิ","net profit","B2","Business"],["ส่วนแบ่งการตลาด","market share","B2","Business"],
@@ -5163,19 +5163,37 @@ VERBS.forEach(v=>{
 // and a VERBS base form sharing the same th/en pair). Since cardState is
 // keyed by "th|en", an un-deduped list would let that one word show up
 // twice in the same flashcard session and get double-counted in "due" totals.
+const LEVEL_RANK = { A1:0, A2:1, B1:2, B2:3 };
 const ALL_CARDS = dedupeCards([
   ...VOCAB.map(([th,en,lvl,cat])=>({th,en,lvl,cat,ex:null})),
   ...IDIOMS.map(([th,en,lvl,cat,ex])=>({th,en,lvl,cat,ex})),
   ...VERBS.map(v=>({th:v.th, en:v.b, lvl:v.lvl, cat:"Verbs", ex:null})),
 ]);
 function dedupeCards(cards){
-  const seen = new Set();
-  return cards.filter(c=>{
+  const seen = new Map();
+  const out = [];
+  for(const c of cards){
     const key = c.th+"|"+c.en;
-    if(seen.has(key)) return false;
-    seen.add(key);
-    return true;
-  });
+    const kept = seen.get(key);
+    if(kept){
+      // Same word filed under two categories (e.g. "driver" under Jobs and
+      // under Transport). Keep a single card, but remember every category it
+      // came from so the group filter still finds it from either side, and
+      // keep the easiest level any list gave it.
+      if(!kept.cats.includes(c.cat)) kept.cats.push(c.cat);
+      if(LEVEL_RANK[c.lvl] < LEVEL_RANK[kept.lvl]) kept.lvl = c.lvl;
+      if(!kept.ex && c.ex) kept.ex = c.ex;
+      continue;
+    }
+    const card = Object.assign({}, c, { cats:[c.cat] });
+    seen.set(key, card);
+    out.push(card);
+  }
+  return out;
+}
+// True when any of the card's categories belongs to the picked group.
+function cardInGroup(c, group){
+  return (c.cats || [c.cat]).some(cat => CAT_TO_GROUP[cat] === group);
 }
 Object.assign(DICT, {
   "coming":"มาจาก (ที่มาของความคิด)", "took":"เอาไป (อดีตของ take)", "words":"คำพูด", "mouth":"ปาก",
@@ -13511,14 +13529,14 @@ function setFlashSessionCustom(v){
 function dueVocabCount(){
   return ALL_CARDS.filter(c=>{
     if(flashState.level!=="all" && c.lvl!==flashState.level) return false;
-    if(flashState.cat!=="all" && CAT_TO_GROUP[c.cat]!==flashState.cat) return false;
+    if(flashState.cat!=="all" && !cardInGroup(c, flashState.cat)) return false;
     return isDueForReview(c.th+"|"+c.en);
   }).length;
 }
 function filteredVocab(){
   return ALL_CARDS.filter(c=>{
     if(flashState.level!=="all" && c.lvl!==flashState.level) return false;
-    if(flashState.cat!=="all" && CAT_TO_GROUP[c.cat]!==flashState.cat) return false;
+    if(flashState.cat!=="all" && !cardInGroup(c, flashState.cat)) return false;
     if(flashState.mode==="unknown" && !isDueForReview(c.th+"|"+c.en)) return false;
     return true;
   });
